@@ -1,10 +1,21 @@
 {
-  "name": "thailand-election-2026",
-  "version": "1.0.0",
-  "description": "Monorepo for Thailand Election 2026 projects",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "WeVis",
-  "packageManager": "pnpm@10.15.1"
+	"name": "thailand-election-2026",
+	"version": "1.0.0",
+	"description": "Monorepo for Thailand Election 2026 projects",
+	"author": "WeVis",
+	"type": "module",
+	"packageManager": "pnpm@10.15.1",
+	"scripts": {
+		"prepare": "husky"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^20.1.0",
+		"@commitlint/config-conventional": "^20.0.0",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
+		"prettier": "^3.7.3"
+	},
+	"lint-staged": {
+		"*": "prettier --write --ignore-unknown"
+	}
 }
