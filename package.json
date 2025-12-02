@@ -1,0 +1,10 @@
+{
+  "name": "thailand-election-2026",
+  "version": "1.0.0",
+  "description": "Monorepo for Thailand Election 2026 projects",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "WeVis",
+  "packageManager": "pnpm@10.15.1"
+}
