@@ -1,0 +1,17 @@
+{
+	"extends": "./tsconfig.json",
+	"include": [".tmp/vue/**.ts"],
+	"compilerOptions": {
+		"outDir": "dist/vue",
+		"module": "es2015",
+		"moduleResolution": "node",
+		"target": "es2017",
+		"skipLibCheck": true,
+		"declaration": true,
+		"noImplicitAny": false,
+		"removeComments": true,
+		"noLib": false,
+		"emitDecoratorMetadata": true,
+		"sourceMap": true
+	}
+}

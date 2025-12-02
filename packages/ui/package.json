@@ -1,0 +1,37 @@
+{
+	"name": "@election/ui",
+	"version": "1.0.0",
+	"description": "Stencil Component Starter",
+	"main": "dist/index.cjs.js",
+	"module": "dist/index.js",
+	"scripts": {
+		"dev": "stencil build --dev --watch --serve --no-open",
+		"build": "pnpm build:stencil && pnpm build:vue",
+		"build:stencil": "stencil build",
+		"build:vue": "tsc -p tsconfig.vue.json",
+		"generate": "stencil generate"
+	},
+	"types": "dist/types/index.d.ts",
+	"collection": "dist/collection/collection-manifest.json",
+	"exports": {
+		".": {
+			"import": "./dist/election/election.esm.js",
+			"require": "./dist/election/election.cjs.js"
+		},
+		"./loader": {
+			"import": "./loader/index.js",
+			"require": "./loader/index.cjs",
+			"types": "./loader/index.d.ts"
+		},
+		"./vue": {
+			"import": "./dist/vue/components.js",
+			"types": "./dist/vue/components.d.ts"
+		}
+	},
+	"devDependencies": {
+		"@stencil/core": "^4.27.1",
+		"@stencil/vue-output-target": "^0.11.8",
+		"@types/node": "^22.13.5",
+		"typescript": "^5.9.3"
+	}
+}
