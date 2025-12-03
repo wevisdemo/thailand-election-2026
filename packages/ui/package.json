@@ -7,7 +7,7 @@
 	"scripts": {
 		"dev": "stencil build --dev --watch --serve --no-open",
 		"build": "pnpm build:stencil && pnpm build:vue",
-		"build:stencil": "stencil build",
+		"build:stencil": "mkdir -p .tmp && stencil build",
 		"build:vue": "tsc -p tsconfig.vue.json",
 		"generate": "stencil generate"
 	},

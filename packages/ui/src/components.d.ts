@@ -6,20 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 export namespace Components {
-	interface ElectionNavbar {
-		/**
-		 * The first name
-		 */
-		first: string;
-		/**
-		 * The last name
-		 */
-		last: string;
-		/**
-		 * The middle name
-		 */
-		middle: string;
-	}
+	interface ElectionNavbar {}
 }
 declare global {
 	interface HTMLElectionNavbarElement
@@ -33,20 +20,7 @@ declare global {
 	}
 }
 declare namespace LocalJSX {
-	interface ElectionNavbar {
-		/**
-		 * The first name
-		 */
-		first?: string;
-		/**
-		 * The last name
-		 */
-		last?: string;
-		/**
-		 * The middle name
-		 */
-		middle?: string;
-	}
+	interface ElectionNavbar {}
 	interface IntrinsicElements {
 		'election-navbar': ElectionNavbar;
 	}
