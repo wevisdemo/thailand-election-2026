@@ -6,9 +6,21 @@
  */
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 export namespace Components {
+	interface ElectionButton {
+		/**
+		 * Disable button
+		 */
+		disabled: boolean;
+	}
 	interface ElectionNavbar {}
 }
 declare global {
+	interface HTMLElectionButtonElement
+		extends Components.ElectionButton, HTMLStencilElement {}
+	var HTMLElectionButtonElement: {
+		prototype: HTMLElectionButtonElement;
+		new (): HTMLElectionButtonElement;
+	};
 	interface HTMLElectionNavbarElement
 		extends Components.ElectionNavbar, HTMLStencilElement {}
 	var HTMLElectionNavbarElement: {
@@ -16,12 +28,20 @@ declare global {
 		new (): HTMLElectionNavbarElement;
 	};
 	interface HTMLElementTagNameMap {
+		'election-button': HTMLElectionButtonElement;
 		'election-navbar': HTMLElectionNavbarElement;
 	}
 }
 declare namespace LocalJSX {
+	interface ElectionButton {
+		/**
+		 * Disable button
+		 */
+		disabled?: boolean;
+	}
 	interface ElectionNavbar {}
 	interface IntrinsicElements {
+		'election-button': ElectionButton;
 		'election-navbar': ElectionNavbar;
 	}
 }
@@ -29,6 +49,8 @@ export { LocalJSX as JSX };
 declare module '@stencil/core' {
 	export namespace JSX {
 		interface IntrinsicElements {
+			'election-button': LocalJSX.ElectionButton &
+				JSXBase.HTMLAttributes<HTMLElectionButtonElement>;
 			'election-navbar': LocalJSX.ElectionNavbar &
 				JSXBase.HTMLAttributes<HTMLElectionNavbarElement>;
 		}
