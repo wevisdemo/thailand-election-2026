@@ -28,10 +28,16 @@
 			"types": "./dist/vue/components.d.ts"
 		}
 	},
-	"devDependencies": {
+	"dependencies": {
+		"@election/tailwind": "workspace:*",
 		"@stencil/core": "^4.27.1",
 		"@stencil/vue-output-target": "^0.11.8",
-		"@types/node": "^22.13.5",
+		"@tailwindcss/postcss": "^4.1.17",
+		"stencil-tailwind-plugin": "^2.0.5",
+		"tailwindcss": "^4.1.17",
 		"typescript": "^5.9.3"
+	},
+	"devDependencies": {
+		"@types/node": "^22.13.5"
 	}
 }

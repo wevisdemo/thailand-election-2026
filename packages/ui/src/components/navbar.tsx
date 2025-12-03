@@ -1,7 +1,9 @@
-import { Component, Prop, h } from '@stencil/core';
+import { Component, Host, Prop, h } from '@stencil/core';
 
 @Component({
 	tag: 'election-navbar',
+	styleUrl: '../styles/host.css',
+	shadow: true,
 })
 export class MyComponent {
 	/**
@@ -24,6 +26,14 @@ export class MyComponent {
 	}
 
 	render() {
-		return <div>Hello, World! I'm {this.getText()}</div>;
+		return (
+			<Host>
+				<div class="bg-purple-2 flex justify-center rounded-md p-6">
+					<h1 class="font-sriracha text-h5 font-bold text-white">
+						{this.getText()}
+					</h1>
+				</div>
+			</Host>
+		);
 	}
 }
