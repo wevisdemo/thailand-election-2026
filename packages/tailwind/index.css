@@ -1,0 +1,81 @@
+@theme {
+	--font-kondora: 'Kondolar Thai', serif;
+	--font-sriracha: 'Sriracha', serif;
+	--font-ibmplex: 'IBM Plex Sans Thai Looped', sans-serif;
+
+	--text-*: initial;
+	--leading-*: initial;
+
+	--color-*: initial;
+	--color-black: #000000;
+	--color-white: #ffffff;
+	--color-bg: #fbf8f4;
+	--color-gray-1: #757575;
+	--color-gray-2: #9a9a9a;
+	--color-gray-3: #bfbfbf;
+	--color-purple-1: #6140d2;
+	--color-purple-2: #9c81f6;
+	--color-purple-3: #cec2f5;
+	--color-green-1: #0ea177;
+	--color-green-2: #1ad39e;
+	--color-green-3: #76eecc;
+}
+
+@layer base {
+	body {
+		@apply font-ibmplex;
+	}
+}
+
+@layer components {
+	/* Heading typo sizes */
+	.text-h1 {
+		@apply text-[60px] leading-[1.25] md:text-[100px];
+	}
+	.text-h2 {
+		@apply text-[48px] leading-[1.25] md:text-[72px];
+	}
+	.text-h3 {
+		@apply text-[36px] leading-[1.25] md:text-[60px];
+	}
+	.text-h4 {
+		@apply text-[32px] leading-[1.4] md:text-[48px];
+	}
+	.text-h5 {
+		@apply text-[28px] leading-[1.4] md:text-[36px];
+	}
+	.text-h6 {
+		@apply text-[24px] leading-[1.4] md:text-[32px];
+	}
+	.text-h7 {
+		@apply text-[21px] leading-[1.4] md:text-[28px];
+	}
+	.text-h8 {
+		@apply text-[18px] leading-[1.4] md:text-[24px];
+	}
+	.text-h9 {
+		@apply text-[16px] leading-[1.4] md:text-[21px];
+	}
+	/* Body typo sizes */
+	.text-b1 {
+		@apply text-[24px] leading-[1.5] md:text-[32px];
+	}
+	.text-b2 {
+		@apply text-[21px] leading-[1.5] md:text-[24px];
+	}
+	.text-b3 {
+		@apply text-[18px] leading-[1.5] md:text-[21px];
+	}
+	.text-b4 {
+		@apply text-[16px] leading-[1.5] md:text-[18px];
+	}
+	.text-b5 {
+		@apply text-[14px] leading-[1.5] md:text-[16px];
+	}
+	.text-b6 {
+		@apply text-[12px] leading-[1.5] md:text-[14px];
+	}
+	.text-b7 {
+		@apply text-[10px] leading-[1.5] md:text-[12px];
+	}
+}
