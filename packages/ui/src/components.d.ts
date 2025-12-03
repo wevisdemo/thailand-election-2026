@@ -14,6 +14,13 @@ export namespace Components {
 	}
 	interface ElectionFooter {}
 	interface ElectionNavbar {}
+	interface ElectionSharer {
+		/**
+		 * URL to be shared
+		 * @default location.href
+		 */
+		url: string;
+	}
 }
 declare global {
 	interface HTMLElectionButtonElement
@@ -34,10 +41,17 @@ declare global {
 		prototype: HTMLElectionNavbarElement;
 		new (): HTMLElectionNavbarElement;
 	};
+	interface HTMLElectionSharerElement
+		extends Components.ElectionSharer, HTMLStencilElement {}
+	var HTMLElectionSharerElement: {
+		prototype: HTMLElectionSharerElement;
+		new (): HTMLElectionSharerElement;
+	};
 	interface HTMLElementTagNameMap {
 		'election-button': HTMLElectionButtonElement;
 		'election-footer': HTMLElectionFooterElement;
 		'election-navbar': HTMLElectionNavbarElement;
+		'election-sharer': HTMLElectionSharerElement;
 	}
 }
 declare namespace LocalJSX {
@@ -49,10 +63,18 @@ declare namespace LocalJSX {
 	}
 	interface ElectionFooter {}
 	interface ElectionNavbar {}
+	interface ElectionSharer {
+		/**
+		 * URL to be shared
+		 * @default location.href
+		 */
+		url?: string;
+	}
 	interface IntrinsicElements {
 		'election-button': ElectionButton;
 		'election-footer': ElectionFooter;
 		'election-navbar': ElectionNavbar;
+		'election-sharer': ElectionSharer;
 	}
 }
 export { LocalJSX as JSX };
@@ -65,6 +87,8 @@ declare module '@stencil/core' {
 				JSXBase.HTMLAttributes<HTMLElectionFooterElement>;
 			'election-navbar': LocalJSX.ElectionNavbar &
 				JSXBase.HTMLAttributes<HTMLElectionNavbarElement>;
+			'election-sharer': LocalJSX.ElectionSharer &
+				JSXBase.HTMLAttributes<HTMLElectionSharerElement>;
 		}
 	}
 }
