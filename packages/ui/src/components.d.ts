@@ -8,7 +8,12 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 export namespace Components {
 	interface ElectionButton {
 		/**
+		 * Additional overwriting tailwind classes
+		 */
+		class: string;
+		/**
 		 * Disable button
+		 * @default false
 		 */
 		disabled: boolean;
 	}
@@ -57,7 +62,12 @@ declare global {
 declare namespace LocalJSX {
 	interface ElectionButton {
 		/**
+		 * Additional overwriting tailwind classes
+		 */
+		class?: string;
+		/**
 		 * Disable button
+		 * @default false
 		 */
 		disabled?: boolean;
 	}

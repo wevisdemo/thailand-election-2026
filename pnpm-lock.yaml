@@ -45,6 +45,9 @@ importers:
       stencil-tailwind-plugin:
         specifier: ^2.0.5
         version: 2.0.5(@tailwindcss/postcss@4.1.17)(jiti@2.6.1)(tailwindcss@4.1.17)(typescript@5.9.3)(yaml@2.8.2)
+      tailwind-merge:
+        specifier: ^3.4.0
+        version: 3.4.0
       tailwindcss:
         specifier: ^4.1.17
         version: 4.1.17
@@ -2088,6 +2091,12 @@ packages:
     engines: { node: '>=16' }
     hasBin: true
 
+  tailwind-merge@3.4.0:
+    resolution:
+      {
+        integrity: sha512-uSaO4gnW+b3Y2aWoWfFpX62vn2sR3skfhbjsEnaBI81WD1wBLlHZe5sWf0AqjksNdYTbGBEd0UasQMT3SNV15g==,
+      }
+
   tailwindcss@4.1.17:
     resolution:
       {
@@ -3386,6 +3395,8 @@ snapshots:
       csso: 5.0.5
       picocolors: 1.1.1
       sax: 1.4.3
+
+  tailwind-merge@3.4.0: {}
 
   tailwindcss@4.1.17: {}
 
