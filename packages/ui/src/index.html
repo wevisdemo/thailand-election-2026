@@ -6,7 +6,7 @@
 			name="viewport"
 			content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
 		/>
-		<title>Stencil Component Starter</title>
+		<title>WeVis Election 2026 Components Library</title>
 
 		<script type="module" src="/build/election.esm.js"></script>
 		<script nomodule src="/build/election.js"></script>
@@ -21,20 +21,32 @@
 		/>
 
 		<style>
-			html,
 			body {
-				margin: 0;
-				padding: 0;
+				font-family: 'IBM Plex Sans Thai Looped';
 			}
-
-			.font-bold {
-				font-weight: bold;
+			h1 {
+				font-family: 'Sriracha';
+			}
+			h2 {
+				font-family: 'Kondolar Thai';
+			}
+			hr {
+				margin: 24px 0;
 			}
 		</style>
 	</head>
 	<body>
+		<h1>[WeVis Election 2026 Components Library]</h1>
+		<p>Written with Stencil.js, exported into Web Component, Vue, and React</p>
+		<hr />
+
+		<h2>election-navbar</h2>
 		<election-navbar></election-navbar>
-		<election-button class="font-bold" onclick="alert('hi')"
+		<hr />
+
+		<h2>election-button</h2>
+		<p>Normal</p>
+		<election-button onclick="alert('clicked')"
 			>เตรียมตัวเลือกตั้ง
 			<svg width="33" height="26" viewBox="0 0 33 26" fill="none">
 				<path
@@ -82,8 +94,15 @@
 				/>
 			</svg>
 		</election-button>
+		<p>Disabled</p>
 		<election-button disabled>เตรียมตัวเลือกตั้ง</election-button>
+		<hr />
+
+		<h2>election-sharer</h2>
 		<election-sharer url="https://wevis.info"></election-sharer>
+		<hr />
+
+		<h2>election-footer</h2>
 		<election-footer></election-footer>
 	</body>
 </html>
