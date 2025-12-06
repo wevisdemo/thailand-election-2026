@@ -25,7 +25,9 @@ Shared tailwind theme and utilities
 }
 ```
 
-3.  Import the CSS file in your project following `tailwindcss`
+3. Run `pnpm i`
+
+4. Import the CSS file in your project following `tailwindcss`
 
 ```postcss
 @import 'tailwindcss';

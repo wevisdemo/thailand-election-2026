@@ -1,6 +1,6 @@
 # @election/ui
 
-Election shared UI components
+Election's cross framework UI components library
 
 ## Usage
 
@@ -18,7 +18,7 @@ Election shared UI components
 
 ### Nuxt
 
-Add `apps/landing/app/plugins/ui.ts` to register custom elements.
+1. Add `src/app/plugins/ui.ts` to register custom elements.
 
 ```js
 import { defineCustomElements } from '@election/ui/loader';
@@ -30,7 +30,24 @@ export default defineNuxtPlugin((nuxtApp) => {
 });
 ```
 
-Then import and use component just like normal Vue component.
+2.  Config compiler in `nuxt.config.ts` to recognize custom element
+
+```ts
+export default defineNuxtConfig({
+	// ...
+	vite: {
+		vue: {
+			template: {
+				compilerOptions: {
+					isCustomElement: (tag) => tag.startsWith('election-'),
+				},
+			},
+		},
+	},
+});
+```
+
+3. Import and use component just like normal Vue component.
 
 ```vue
 <script setup>
@@ -38,6 +55,6 @@ import { ElectionNavbar } from '@election/ui/vue';
 </script>
 
 <template>
-	<ElectionNavbar first="We" last="Vis" />
+	<ElectionNavbar />
 </template>
 ```
