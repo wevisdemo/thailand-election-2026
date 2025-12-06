@@ -4,9 +4,10 @@
 	"description": "Monorepo for Thailand Election 2026 projects",
 	"author": "WeVis",
 	"type": "module",
-	"packageManager": "pnpm@10.15.1",
+	"packageManager": "pnpm@10.24.0",
 	"scripts": {
-		"prepare": "husky"
+		"prepare": "husky",
+		"dev:landing": "turbo run dev --filter=@election/landing"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^20.1.0",
@@ -14,7 +15,8 @@
 		"husky": "^9.1.7",
 		"lint-staged": "^16.2.7",
 		"prettier": "^3.7.3",
-		"prettier-plugin-tailwindcss": "^0.7.2"
+		"prettier-plugin-tailwindcss": "^0.7.2",
+		"turbo": "^2.6.3"
 	},
 	"lint-staged": {
 		"*": "prettier --write --ignore-unknown"
