@@ -6,7 +6,7 @@
 	"module": "dist/index.js",
 	"scripts": {
 		"dev": "stencil build --dev --watch --serve --no-open",
-		"build": "pnpm build:stencil && pnpm build:vue",
+		"build": "pnpm run build:stencil && pnpm run build:vue",
 		"build:stencil": "mkdir -p .tmp && stencil build",
 		"build:vue": "tsc -p tsconfig.vue.json",
 		"generate": "stencil generate"
@@ -19,9 +19,9 @@
 			"require": "./dist/election/election.cjs.js"
 		},
 		"./loader": {
-			"import": "./loader/index.js",
-			"require": "./loader/index.cjs",
-			"types": "./loader/index.d.ts"
+			"import": "./dist/loader/index.js",
+			"require": "./dist/loader/index.cjs",
+			"types": "./dist/loader/index.d.ts"
 		},
 		"./vue": {
 			"import": "./dist/vue/components.js",
