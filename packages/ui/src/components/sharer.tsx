@@ -15,7 +15,7 @@ export class ElectionSharer {
 	render() {
 		return (
 			<Host>
-				<div class="flex flex-col items-center justify-center gap-3 px-3 pt-10 pb-16">
+				<div class="flex flex-col items-center justify-center gap-3">
 					<div class="flex flex-row items-center gap-2">
 						<span class="text-b5">Share</span>
 						<a
