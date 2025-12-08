@@ -56,6 +56,12 @@
 	.text-h9 {
 		@apply text-[16px] leading-[1.4] md:text-[21px];
 	}
+	.text-h10 {
+		@apply text-[15px] leading-[1.4] md:text-[18px];
+	}
+	.text-h11 {
+		@apply text-[14px] leading-[1.4] md:text-[16px];
+	}
 	/* Body typo sizes */
 	.text-b1 {
 		@apply text-[24px] leading-[1.5] md:text-[32px];
