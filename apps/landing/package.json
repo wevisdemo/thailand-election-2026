@@ -10,6 +10,7 @@
 		"postinstall": "nuxt prepare"
 	},
 	"dependencies": {
+		"@election/constants": "workspace:*",
 		"@election/tailwind": "workspace:*",
 		"@election/ui": "workspace:*",
 		"@tailwindcss/vite": "^4.1.17",
