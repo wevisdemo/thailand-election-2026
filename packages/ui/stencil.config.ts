@@ -12,6 +12,9 @@ export const config: Config = {
 	devServer: {
 		reloadStrategy: 'pageReload',
 	},
+	extras: {
+		enableImportInjection: true,
+	},
 	outputTargets: [
 		{
 			type: 'dist',
