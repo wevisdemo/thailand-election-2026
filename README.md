@@ -35,3 +35,12 @@ pnpm run dev:landing
 ```
 
 We use [turborepo](https://turborepo.com/) to manage build dependencies, to make sure that app has dependencies built before starting dev server.
+
+## Working With the Code
+
+- We do Trunk-based development: everyone work on the same main branch on git.
+- Pull code often, at least once before you start working, and once before you push the code.
+- Also push code often, at least once before you finish the day.
+- Make a small commit of working code. Don't push broken code to the remote. It will break the deployment pipeline.
+- Use [Conventional Commit](https://www.conventionalcommits.org/) standard for a commit message. Include your package name to the scope e.g. `feat(partymatch): add result page`
+- We have pre-commit hooks. Your staged code will be formatted with prettier and commit message will be validated when committing code.
