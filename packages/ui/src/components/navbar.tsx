@@ -169,7 +169,7 @@ export class ElectionNavbar {
 										<span class="font-kondolar text-h9 font-bold">
 											{group.title}
 										</span>
-										<span class="text-b6 transition-colors">
+										<span class="text-b6 text-gray-1 transition-colors">
 											{group.subtitle}
 										</span>
 									</a>
@@ -179,7 +179,7 @@ export class ElectionNavbar {
 										return (
 											<a
 												href={isLaunched ? project.url : undefined}
-												class={`group flex flex-row justify-between px-3 py-2 transition-colors ${isLaunched ? 'hover:text-bg hover:bg-purple-2 cursor-pointer' : 'text-gray-3'}`}
+												class={`group flex flex-row justify-between px-3 py-2 transition-colors ${isLaunched ? 'hover:text-bg hover:bg-purple-2 cursor-pointer' : 'text-gray-2'}`}
 												aria-disabled={!isLaunched}
 												target={isExternal ? '_blank' : undefined}
 											>
