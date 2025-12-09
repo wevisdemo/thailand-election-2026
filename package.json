@@ -4,10 +4,11 @@
 	"description": "Monorepo for Thailand Election 2026 projects",
 	"author": "WeVis",
 	"type": "module",
-	"packageManager": "pnpm@10.24.0",
+	"packageManager": "pnpm@10.25.0",
 	"scripts": {
 		"prepare": "husky",
-		"dev:landing": "turbo run dev --filter=@election/landing"
+		"dev:landing": "turbo run dev --filter=@election/landing",
+		"dev:partymatch": "turbo run dev --filter=@election/partymatch"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^20.1.0",
