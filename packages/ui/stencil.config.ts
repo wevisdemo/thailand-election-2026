@@ -1,4 +1,5 @@
 import { Config } from '@stencil/core';
+import { reactOutputTarget } from '@stencil/react-output-target';
 import { vueOutputTarget } from '@stencil/vue-output-target';
 import tailwind, { tailwindHMR } from 'stencil-tailwind-plugin';
 
@@ -28,8 +29,12 @@ export const config: Config = {
 			type: 'www',
 			serviceWorker: null,
 		},
+		reactOutputTarget({
+			outDir: '.tmp/react',
+			stencilPackageName: '../..',
+		}),
 		vueOutputTarget({
-			componentCorePackage: '../../',
+			componentCorePackage: '../..',
 			proxiesFile: '.tmp/vue/components.ts',
 		}),
 	],

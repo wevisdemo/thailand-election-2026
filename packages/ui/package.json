@@ -6,10 +6,10 @@
 	"module": "dist/index.js",
 	"scripts": {
 		"dev": "stencil build --dev --watch --serve --no-open",
-		"build": "pnpm run build:stencil && pnpm run build:vue",
-		"build:stencil": "mkdir -p .tmp && stencil build",
+		"build": "mkdir -p .tmp && stencil build && pnpm run \"/^build:.*/\"",
+		"build:react": "tsc -p tsconfig.react.json",
 		"build:vue": "tsc -p tsconfig.vue.json",
-		"generate": "stencil generate"
+		"stencil": "stencil"
 	},
 	"types": "dist/types/index.d.ts",
 	"collection": "dist/collection/collection-manifest.json",
@@ -26,14 +26,20 @@
 		"./vue": {
 			"import": "./dist/vue/components.js",
 			"types": "./dist/vue/components.d.ts"
+		},
+		"./react": {
+			"import": "./dist/react/components.js",
+			"types": "./dist/react/components.d.ts"
 		}
 	},
 	"dependencies": {
 		"@election/constants": "workspace:*",
 		"@election/tailwind": "workspace:*",
 		"@stencil/core": "^4.27.1",
+		"@stencil/react-output-target": "^1.2.0",
 		"@stencil/vue-output-target": "^0.11.8",
 		"@tailwindcss/postcss": "^4.1.17",
+		"react": "^19.2.0",
 		"stencil-tailwind-plugin": "^2.0.5",
 		"tailwind-merge": "^3.4.0",
 		"tailwindcss": "^4.1.17",
