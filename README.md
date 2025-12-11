@@ -7,6 +7,7 @@ Monorepos of WeVis's Thailand National Election 2026
 - `/apps` Frontend web application for each sub projects
   - `/landing` Landing page
   - `/partymatch` Party match or red flag alert?
+  - `/politicalflashback` A Political Flashback
 - `/packages` Shared packages in the project
   - `/tailwind` Tailwind theme and utilities configuration
   - `/ui` Cross framework UI components library

@@ -8,7 +8,8 @@
 	"scripts": {
 		"prepare": "husky",
 		"dev:landing": "turbo run dev --filter=@election/landing",
-		"dev:partymatch": "turbo run dev --filter=@election/partymatch"
+		"dev:partymatch": "turbo run dev --filter=@election/partymatch",
+		"dev:politicalflashback": "turbo run dev --filter=@election/politicalflashback"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^20.1.0",
