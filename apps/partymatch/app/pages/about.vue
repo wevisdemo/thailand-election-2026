@@ -9,13 +9,13 @@ import {
 </script>
 
 <template>
-	<div class="flex flex-col gap-6">
+	<div class="flex flex-col gap-8">
 		<ElectionNavbar />
 		<h1 class="text-h3 font-kondolar text-center font-bold">
 			เกี่ยวกับโครงการ
 		</h1>
 
-		<div class="section-about">
+		<div class="section-about gap-2">
 			<h2 class="text-h5 font-kondolar font-bold">เป้าหมาย</h2>
 			<p>
 				ตลอดระยะเวลา 3 ปี นับแต่การเลือกตั้งในปี 2566 สมาชิกสภาผู้แทนราษฎร (สส.)
@@ -35,7 +35,7 @@ import {
 				ได้ทำหน้าที่อย่างที่เราคาดหวังไว้หรือไม่ และการเลือกตั้งครั้งหน้า
 				เราควรเลือก ‘ใคร’ หรือ ‘พรรคไหน’ ทำหน้าที่นี้
 			</p>
-
+			<br /><br />
 			<h2 class="text-h5 font-kondolar font-bold">ที่มาของข้อมูล</h2>
 			<ul class="source-list">
 				<li>
@@ -68,7 +68,6 @@ import {
 				ร่างกฎหมายที่อยู่ในความสนใจของสาธารณชนและประเด็นที่มีการถกเถียงในเวทีสาธารณะในช่วง
 				3 ปีที่ผ่านมา โดยคัดมาจากข่าวสื่อกระแสหลักและรายงานจากภาคประชาสังคม
 			</p>
-
 			<br />
 			<h3 class="text-b4 font-bold">ข้อจำกัดของกระบวนการ</h3>
 			<p>
@@ -76,7 +75,7 @@ import {
 				ฉบับนี้ไม่สามารถแทนวิสัยทัศน์เชิงนโยบายทั้งหมดของพรรคการเมืองได้
 				และข้อมูลท่าทีพรรคอาจเปลี่ยนแปลงตามสถานการณ์ทางการเมืองในอนาคต
 			</p>
-
+			<br /><br />
 			<h2 class="text-h5 font-kondolar font-bold">นโยบายการนำข้อมูลไปใช้ต่อ</h2>
 			<p>
 				ทางทีมมีความตั้งใจที่พัฒนาทุกโปรเจกต์ให้เป็น Open Source
@@ -93,17 +92,19 @@ import {
 				ประสงค์แจ้งเปลี่ยนแปลงหรือเพิ่มเติมข้อมูลเพื่อความถูกต้อง
 				หรือมีข้อเสนอแนะใดๆ สามารถติดต่อได้ที่ team@wevis.info
 			</p>
-
+			<br /><br />
 			<h2 class="text-h5 font-kondolar font-bold">ทีมงานร่วมพัฒนา</h2>
 			<div v-for="person in team" :key="person.role">
-				<h3 class="text-b4 font-bold">{{ person.role }}</h3>
+				<h3 class="text-b4 font-bold" style="margin-top: 1rem">
+					{{ person.role }}
+				</h3>
 				<p>
 					<a :href="person.link" target="_blank" rel="noopener noreferrer">
 						{{ person.name }}
 					</a>
 				</p>
 			</div>
-
+			<br /><br />
 			<h2 class="text-h5 font-kondolar font-bold">หมายเหตุ</h2>
 			<p>
 				<a
