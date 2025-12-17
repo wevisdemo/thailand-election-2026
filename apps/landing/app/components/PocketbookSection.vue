@@ -83,7 +83,10 @@ const formatDate = (dateString: string) => {
 		</div>
 
 		<Transition name="fade" mode="out-in">
-			<div :key="activeTab" class="flex flex-wrap justify-center gap-2">
+			<div
+				:key="activeTab"
+				class="flex max-w-7xl flex-wrap justify-center gap-2"
+			>
 				<div
 					v-for="project in filteredProjects"
 					:key="project.url"
