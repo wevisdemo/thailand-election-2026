@@ -6,6 +6,10 @@ settings:
 
 importers:
   .:
+    dependencies:
+      turbo:
+        specifier: ^2.6.1
+        version: 2.6.1
     devDependencies:
       '@commitlint/cli':
         specifier: ^20.1.0
@@ -28,9 +32,6 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: ^0.7.2
         version: 0.7.2(prettier@3.7.3)
-      turbo:
-        specifier: ^2.6.1
-        version: 2.6.1
 
   apps/landing:
     dependencies:
@@ -94,6 +95,15 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.1.17
+      '@types/node':
+        specifier: ^20
+        version: 20.19.25
+      '@types/react':
+        specifier: ^19
+        version: 19.2.7
+      '@types/react-dom':
+        specifier: ^19
+        version: 19.2.3(@types/react@19.2.7)
       next:
         specifier: 16.0.7
         version: 16.0.7(@babel/core@7.28.5)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
@@ -113,15 +123,6 @@ importers:
         specifier: ^5
         version: 5.9.3
     devDependencies:
-      '@types/node':
-        specifier: ^20
-        version: 20.19.25
-      '@types/react':
-        specifier: ^19
-        version: 19.2.7
-      '@types/react-dom':
-        specifier: ^19
-        version: 19.2.3(@types/react@19.2.7)
       eslint:
         specifier: ^9
         version: 9.39.1(jiti@2.6.1)

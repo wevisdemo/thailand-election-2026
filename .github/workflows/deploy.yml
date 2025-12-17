@@ -1,0 +1,37 @@
+name: Build and deploy apps
+
+on:
+  push:
+    branches: ['main']
+    paths-ignore:
+      - '**/*.md'
+      - 'LICENSE'
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          cache: true
+      - name: Install dependencies
+        run: pnpm i --prod --frozen-lockfile --ignore-scripts
+      - name: Build packages and apps
+        run: pnpm run build
+      - name: Bundle build assets
+        run: sh bundle.sh
+      - name: Upload image and configs to server
+        uses: burnett01/rsync-deployments@v8
+        with:
+          switches: -azvP --chown=bot:deployer --chmod=g+w
+          path: out/*
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: bot
+          remote_key: ${{ secrets.SSH_KEY }}
+          remote_path: ${{ secrets.SSH_APP_DIR }}
