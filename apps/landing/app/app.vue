@@ -5,6 +5,13 @@ import {
 	ElectionFooter,
 } from '@election/ui/vue';
 import PocketbookSection from './components/PocketbookSection.vue';
+import { fetchWeVisElectionPosts } from './wordpress/src';
+
+const articleList = ref([]);
+
+onMounted(async () => {
+	articleList.value = await fetchWeVisElectionPosts({ limit: 10 });
+});
 </script>
 
 <template>
@@ -74,9 +81,64 @@ import PocketbookSection from './components/PocketbookSection.vue';
 			</p>
 		</div>
 		<PocketbookSection />
+
+		<div
+			class="bg-green-3 flex flex-col items-center py-8 text-center md:py-16"
+		>
+			<HeadingGroup
+				title="Extended Piece"
+				:subtitle="{
+					before: 'ชิ้นงานเสริม เติมความฟิตก่อนไปเลือก',
+				}"
+			/>
+			<p class="text-b6 mb-4 md:mb-6">{{ articleList.length }} บทความ</p>
+			<div class="no-scrollbar w-full overflow-x-scroll">
+				<div class="mx-auto flex w-max gap-2 px-4 py-2.5">
+					<Card
+						v-for="article in articleList"
+						:data="article"
+						:key="article.id"
+					/>
+				</div>
+			</div>
+		</div>
+
+		<div
+			class="bg-purple-3 flex flex-col items-center py-8 text-center md:py-16"
+		>
+			<HeadingGroup
+				title="ECT Side Story"
+				:subtitle="{
+					before: 'เรื่องราวดี ๆ ที่อยาก',
+					strike: 'ตะโกนนน',
+					after: 'เล่าให้ กกต. ฟัง',
+				}"
+			/>
+			<p class="text-b6 mb-4 md:mb-6">{{ articleList.length }} บทความ</p>
+			<div class="no-scrollbar w-full overflow-x-scroll">
+				<div class="mx-auto flex w-max gap-2 px-4 py-2.5">
+					<Card
+						v-for="article in articleList"
+						:data="article"
+						:key="article.id"
+					/>
+				</div>
+			</div>
+		</div>
+
 		<div class="pt-10 pb-[60px]">
 			<ElectionSharer />
 		</div>
 		<ElectionFooter />
 	</div>
 </template>
+
+<style scoped>
+.no-scrollbar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+</style>
