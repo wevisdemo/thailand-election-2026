@@ -4,7 +4,7 @@ import {
 	ElectionSharer,
 	ElectionFooter,
 } from '@election/ui/vue';
-import projects from '@election/constants/projects.json';
+import PocketbookSection from './components/PocketbookSection.vue';
 </script>
 
 <template>
@@ -73,6 +73,7 @@ import projects from '@election/constants/projects.json';
 				ดู Timeline การเลือกตั้งทั้งหมดที่นี่
 			</p>
 		</div>
+		<PocketbookSection />
 		<div class="pt-10 pb-[60px]">
 			<ElectionSharer />
 		</div>
