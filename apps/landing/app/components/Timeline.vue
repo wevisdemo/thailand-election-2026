@@ -156,7 +156,10 @@ const isExpired = (endDateString: string) => {
 						>
 							<div class="mt-2 flex items-center gap-1 md:mt-3">
 								<p class="text-gray-2 text-b6">ลงทะเบียนใช้สิทธิที่นี่</p>
-								<img src="/assets/images/external-icon.svg" alt="" />
+								<img
+									src="/assets/images/external-icon.svg"
+									alt="External Link Icon"
+								/>
 							</div>
 						</a>
 					</div>

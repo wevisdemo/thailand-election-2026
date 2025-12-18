@@ -18,6 +18,7 @@ interface FeatureCard {
 	url: string;
 	willLaunchedOn?: string;
 	isLaunched?: boolean;
+	isExternal?: boolean;
 }
 
 const projects = projectsData as FeatureCard[];
@@ -47,6 +48,7 @@ const filteredProjects = computed(() => {
 	return result.map((p) => ({
 		...p,
 		isLaunched: !p.willLaunchedOn,
+		isExternal: p.url.startsWith('http'),
 	}));
 });
 
@@ -115,9 +117,17 @@ const formatDate = (dateString: string) => {
 								class="flex flex-1 flex-col justify-between"
 							>
 								<div>
-									<p class="text-h10 text-green-1 font-kondolar mb-2 font-bold">
-										{{ project.name.en }}
-									</p>
+									<div class="mb-2 flex items-center gap-1">
+										<p class="text-h10 text-green-1 font-kondolar font-bold">
+											{{ project.name.en }}
+										</p>
+										<img
+											v-if="project.isExternal"
+											class="w-5 -translate-y-0.5 md:w-6"
+											src="/assets/images/external-icon.svg"
+											alt="External Link Icon"
+										/>
+									</div>
 									<p class="text-b7 mb-2 flex-1">
 										{{ project.description }}
 									</p>
