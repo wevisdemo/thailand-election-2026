@@ -6,12 +6,12 @@ import {
 	ElectionFooter,
 } from '@election/ui/react';
 
-export default function Home() {
+export default function Intro() {
 	return (
 		<div className="flex flex-col gap-6">
 			<ElectionNavbar />
 			<h1 className="text-h1 font-sriracha text-center font-bold underline">
-				Political Flashback!
+				Ballot Ready!
 			</h1>
 
 			<ElectionButton className="typo-h9 font-kondolar self-center font-bold">

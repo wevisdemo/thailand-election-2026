@@ -1,5 +1,5 @@
 {
-	"name": "@election/politicalflashback",
+	"name": "@election/ballotready",
 	"version": "1.0.0",
 	"private": true,
 	"scripts": {
@@ -18,7 +18,6 @@
 		"next": "16.0.7",
 		"react": "19.2.1",
 		"react-dom": "19.2.1",
-		"tailwind-merge": "^3.4.0",
 		"tailwindcss": "^4",
 		"typescript": "^5"
 	},

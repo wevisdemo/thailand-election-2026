@@ -2,9 +2,12 @@
 
 Monorepos of WeVis's Thailand National Election 2026
 
+https://election69.wevis.info
+
 ## Directory Structure
 
 - `/apps` Frontend web application for each sub projects
+  - `/ballotready` Ballot ready
   - `/landing` Landing page
   - `/partymatch` Party match or red flag alert?
   - `/politicalflashback` A Political Flashback
@@ -45,3 +48,4 @@ We use [turborepo](https://turborepo.com/) to manage build dependencies, to make
 - Make a small commit of working code. Don't push broken code to the remote. It will break the deployment pipeline.
 - Use [Conventional Commit](https://www.conventionalcommits.org/) standard for a commit message. Include your package name to the scope e.g. `feat(partymatch): add result page`
 - We have pre-commit hooks. Your staged code will be formatted with prettier and commit message will be validated when committing code.
+- Every time main branch is updated, the project will be built and deployed to production with [Github Actions](https://github.com/wevisdemo/thailand-election-2026/actions).
