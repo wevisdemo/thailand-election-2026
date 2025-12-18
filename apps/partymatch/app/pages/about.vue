@@ -15,7 +15,7 @@ import {
 			เกี่ยวกับโครงการ
 		</h1>
 
-		<div class="section-about gap-2">
+		<div class="section gap-2">
 			<h2 class="text-h5 font-kondolar font-bold">เป้าหมาย</h2>
 			<p>
 				ตลอดระยะเวลา 3 ปี นับแต่การเลือกตั้งในปี 2566 สมาชิกสภาผู้แทนราษฎร (สส.)
@@ -126,7 +126,7 @@ import {
 			</p>
 		</div>
 		<ElectionAboutActions
-			dataUrl="https://docs.google.com/spreadsheets/d/1cg85RsWVrSTDgRsVMTsmbkABbDk8Y84kIU_SsRl_smQ/edit?usp=sharing "
+			dataUrl="https://docs.google.com/spreadsheets/d/1cg85RsWVrSTDgRsVMTsmbkABbDk8Y84kIU_SsRl_smQ/edit?usp=sharing"
 		/>
 		<ElectionSharer />
 		<ElectionFooter />
