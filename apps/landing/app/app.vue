@@ -109,6 +109,7 @@ const showTimeline = ref(false);
 			class="bg-green-3 flex flex-col items-center py-8 text-center md:py-16"
 		>
 			<HeadingGroup
+				part="extended"
 				title="Extended Piece"
 				:subtitle="{
 					before: 'ชิ้นงานเสริม เติมความฟิตก่อนไปเลือก',
@@ -130,6 +131,7 @@ const showTimeline = ref(false);
 			class="bg-purple-3 flex flex-col items-center py-8 text-center md:py-16"
 		>
 			<HeadingGroup
+				part="ect"
 				title="ECT Side Story"
 				:subtitle="{
 					before: 'เรื่องราวดี ๆ ที่อยาก',
@@ -146,6 +148,29 @@ const showTimeline = ref(false);
 						:key="article.id"
 					/>
 				</div>
+			</div>
+		</div>
+
+		<div
+			class="flex flex-col items-center bg-[#D9D9D9] pt-[60px] pb-20 text-center md:pt-20 md:pb-[100px]"
+		>
+			<HeadingGroup
+				part="team"
+				title="ผู้ผลักดันเบื้องหลังทุกไอเดีย"
+				:subtitle="{
+					before: 'โปรเจกต์เหล่านี้จะเกิดขึ้นไม่ได้ หากขาดกลุ่มคนเหล่านี้',
+				}"
+			/>
+			<div
+				class="mt-[50px] flex w-60 flex-wrap justify-center gap-2.5 md:mt-[65px] md:w-[640px]"
+			>
+				<img
+					v-for="i in 7"
+					:key="i"
+					class="w-[60px] md:w-20"
+					src="/assets/images/con-for-all-logo.png"
+					alt=""
+				/>
 			</div>
 		</div>
 
