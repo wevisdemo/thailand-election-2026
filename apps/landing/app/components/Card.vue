@@ -22,12 +22,12 @@ const props = defineProps<{
 				class="w-full py-4"
 				alt="Rough Line"
 			/>
-			<p class="font-kondolar mb-2 text-left text-[21px] font-bold text-pretty">
+			<p class="font-kondolar text-h9 mb-2 text-left font-bold text-pretty">
 				{{ data.title }}
 			</p>
-			<!-- <p class="text-[14px]">
+			<p class="text-b6">
 				{{ data.description }}
-			</p> -->
+			</p>
 		</div>
 	</a>
 </template>
