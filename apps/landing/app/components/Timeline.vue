@@ -109,7 +109,9 @@ const isExpired = (endDateString: string) => {
 </script>
 
 <template>
-	<div class="mx-auto w-full overflow-hidden bg-[#333333] pt-4 pb-10">
+	<div
+		class="mx-auto w-full overflow-hidden bg-[#333333] pt-1 pb-4 md:pt-4 md:pb-10"
+	>
 		<div
 			class="mx-auto mb-2.5 flex w-full items-center justify-center md:w-[730px]"
 		>
@@ -152,8 +154,8 @@ const isExpired = (endDateString: string) => {
 							target="_blank"
 							rel="noopener noreferrer"
 						>
-							<div class="mt-3 flex items-center gap-1">
-								<p class="text-gray-2 text-sm">ลงทะเบียนใช้สิทธิที่นี่</p>
+							<div class="mt-2 flex items-center gap-1 md:mt-3">
+								<p class="text-gray-2 text-b6">ลงทะเบียนใช้สิทธิที่นี่</p>
 								<img src="/assets/images/external-icon.svg" alt="" />
 							</div>
 						</a>
