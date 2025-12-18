@@ -24,9 +24,7 @@ jobs:
         run: pnpm i --prod --frozen-lockfile --ignore-scripts
       - name: Build packages and apps
         run: pnpm run build
-      - name: Bundle build assets
-        run: sh bundle.sh
-      - name: Upload image and configs to server
+      - name: Upload to server
         uses: burnett01/rsync-deployments@v8
         with:
           switches: -azvP --chown=bot:deployer --chmod=g+w

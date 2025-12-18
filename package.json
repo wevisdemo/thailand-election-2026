@@ -7,7 +7,7 @@
 	"packageManager": "pnpm@10.25.0",
 	"scripts": {
 		"prepare": "husky",
-		"build": "turbo run build",
+		"build": "turbo run build && sh bundle.sh",
 		"dev:ballotready": "turbo run dev --filter=@election/ballotready",
 		"dev:landing": "turbo run dev --filter=@election/landing",
 		"dev:partymatch": "turbo run dev --filter=@election/partymatch",
