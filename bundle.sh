@@ -2,6 +2,9 @@
 mkdir -p out
 cp -r apps/landing/.output/public/* out
 
+mkdir -p out/ballotready
+cp -r apps/ballotready/out/* out/ballotready
+
 mkdir -p out/partymatch
 cp -r apps/partymatch/.output/public/* out/partymatch
 

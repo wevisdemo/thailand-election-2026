@@ -7,6 +7,7 @@ https://election69.wevis.info
 ## Directory Structure
 
 - `/apps` Frontend web application for each sub projects
+  - `/ballotready` Ballot ready
   - `/landing` Landing page
   - `/partymatch` Party match or red flag alert?
   - `/politicalflashback` A Political Flashback
