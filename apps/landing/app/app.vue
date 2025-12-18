@@ -5,6 +5,7 @@ import {
 	ElectionFooter,
 } from '@election/ui/vue';
 import PocketbookSection from './components/PocketbookSection.vue';
+import Timeline from './components/Timeline.vue';
 import { fetchWeVisElectionPosts } from './wordpress/src';
 
 const articleList = ref([]);
@@ -12,6 +13,8 @@ const articleList = ref([]);
 onMounted(async () => {
 	articleList.value = await fetchWeVisElectionPosts({ limit: 10 });
 });
+
+const showTimeline = ref(false);
 </script>
 
 <template>
@@ -80,6 +83,26 @@ onMounted(async () => {
 				ดู Timeline การเลือกตั้งทั้งหมดที่นี่
 			</p>
 		</div>
+		<div
+			class="overflow-hidden transition-[max-height] duration-800 ease-in-out"
+			:class="showTimeline ? 'max-h-[1000px]' : 'max-h-0'"
+		>
+			<Timeline />
+		</div>
+		<div class="bg-bg flex w-full justify-center">
+			<div
+				@click="showTimeline = !showTimeline"
+				class="flex h-[21px] w-[60px] cursor-pointer justify-center bg-[#333333]"
+			>
+				<img
+					src="/assets/images/chevron-down.svg"
+					alt="Chevron Down"
+					class="-translate-y-0.5 transition-transform delay-300 duration-500 ease-in-out"
+					:class="{ 'rotate-180': showTimeline }"
+				/>
+			</div>
+		</div>
+
 		<PocketbookSection />
 
 		<div
