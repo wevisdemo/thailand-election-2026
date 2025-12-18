@@ -9,6 +9,8 @@ import PocketbookSection from './components/PocketbookSection.vue';
 import Timeline from './components/Timeline.vue';
 import { fetchWeVisElectionPosts } from './wordpress/src';
 
+const isLoading = ref(true);
+
 const articleList = ref([]);
 const showTimeline = ref(false);
 
@@ -41,6 +43,10 @@ const remainingWidth = computed(() => 100 - progressPercentage.value);
 const isTimeUp = computed(() => daysLeft.value <= 0);
 
 onMounted(async () => {
+	setTimeout(() => {
+		isLoading.value = false;
+	}, 300);
+
 	articleList.value = await fetchWeVisElectionPosts({ limit: 10 });
 	calculateDaysLeft();
 });
@@ -48,6 +54,13 @@ onMounted(async () => {
 
 <template>
 	<div class="flex flex-col">
+		<Transition name="fade">
+			<div
+				v-if="isLoading"
+				class="bg-bg fixed inset-0 z-50 flex flex-col items-center justify-center"
+			/>
+		</Transition>
+
 		<ElectionNavbar />
 		<div
 			class="font-kondolar flex flex-col items-center bg-[#333333] pt-8 pb-3 text-center md:pt-16 md:pb-6"
@@ -114,7 +127,7 @@ onMounted(async () => {
 					/>
 
 					<img
-						class="absolute top-1/2 right-0 translate-x-full -translate-y-1/2"
+						class="absolute top-1/2 right-0 translate-x-[90%] -translate-y-1/2"
 						src="/assets/images/score-box.svg"
 						alt="Target"
 					/>
@@ -291,5 +304,12 @@ onMounted(async () => {
 }
 .no-scrollbar::-webkit-scrollbar {
 	display: none;
+}
+
+.fade-leave-active {
+	transition: opacity 1s ease;
+}
+.fade-leave-to {
+	opacity: 0;
 }
 </style>
