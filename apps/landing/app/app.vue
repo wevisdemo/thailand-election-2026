@@ -10,12 +10,40 @@ import Timeline from './components/Timeline.vue';
 import { fetchWeVisElectionPosts } from './wordpress/src';
 
 const articleList = ref([]);
+const showTimeline = ref(false);
+
+const startDate = new Date('2025-12-15T00:00:00'); // 15 ธ.ค. 2568
+const targetDate = new Date('2026-02-08T00:00:00'); // 8 ก.พ. 2569
+const daysLeft = ref(0);
+
+const calculateDaysLeft = () => {
+	const now = new Date();
+	const diffTime = targetDate.getTime() - now.getTime();
+	const diffDays = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+	daysLeft.value = diffDays;
+};
+
+const tensDigit = computed(() => Math.floor(daysLeft.value / 10).toString());
+const unitsDigit = computed(() => (daysLeft.value % 10).toString());
+
+const progressPercentage = computed(() => {
+	const now = new Date();
+
+	const totalDuration = targetDate.getTime() - startDate.getTime();
+	const elapsed = now.getTime() - startDate.getTime();
+
+	const percent = (elapsed / totalDuration) * 100;
+	return Math.min(Math.max(percent, 0), 100);
+});
+
+const remainingWidth = computed(() => 100 - progressPercentage.value);
+
+const isTimeUp = computed(() => daysLeft.value <= 0);
 
 onMounted(async () => {
 	articleList.value = await fetchWeVisElectionPosts({ limit: 10 });
+	calculateDaysLeft();
 });
-
-const showTimeline = ref(false);
 </script>
 
 <template>
@@ -32,52 +60,78 @@ const showTimeline = ref(false);
 				<br class="md:hidden" />
 				สำหรับทวนความจำและเตรียมตัวเลือกตั้งพร้อมประชามติ 2569
 			</p>
-			<div class="flex flex-col items-center md:flex-row md:gap-0">
-				<p class="text-h8 text-bg font-bold">นับถอยหลัง</p>
-				<div class="flex flex-row-reverse py-2 md:py-0">
-					<div class="relative -translate-x-2.5 translate-y-1">
-						<p
-							class="font-ibmplex absolute left-1/2 -translate-x-1/3 translate-y-[-2%] text-[40px] font-bold"
-						>
-							8
-						</p>
-						<img src="/assets/images/green-paper.svg" alt="" />
+			<div v-if="!isTimeUp" class="flex w-full flex-col items-center">
+				<div class="flex flex-col items-center md:flex-row md:gap-0">
+					<p class="text-h8 text-bg font-bold">นับถอยหลัง</p>
+					<div class="flex flex-row-reverse py-2 md:py-0">
+						<div class="relative -translate-x-2.5 translate-y-1">
+							<p
+								class="font-ibmplex absolute left-1/2 -translate-x-1/3 translate-y-[-2%] text-[40px] font-bold"
+							>
+								{{ unitsDigit }}
+							</p>
+							<img src="/assets/images/green-paper.svg" alt="Green Paper" />
+						</div>
+						<div class="relative translate-x-2.5 -translate-y-1">
+							<p
+								class="font-ibmplex absolute left-[55%] -translate-x-1/2 translate-y-[-4%] text-[40px] font-bold"
+							>
+								{{ tensDigit }}
+							</p>
+							<img src="/assets/images/purple-paper.svg" alt="Purple Paper" />
+						</div>
 					</div>
-					<div class="relative translate-x-2.5 -translate-y-1">
-						<p
-							class="font-ibmplex absolute left-[55%] -translate-x-1/2 translate-y-[-4%] text-[40px] font-bold"
-						>
-							6
-						</p>
-						<img src="/assets/images/purple-paper.svg" alt="" />
-					</div>
+					<p class="text-h8 text-bg mr-2 font-bold">วัน</p>
+					<p class="text-green-3 text-h6 font-bold">สู่วันเลือกตั้ง</p>
 				</div>
-				<p class="text-h8 text-bg mr-2 font-bold">วัน</p>
-				<p class="text-green-3 text-h6 font-bold">สู่วันเลือกตั้ง</p>
-			</div>
-			<div
-				class="relative hidden w-full max-w-[600px] pt-9 pb-11 md:block lg:max-w-[1050px]"
-			>
-				<div class="bg-bg relative flex h-0.5 w-full">
-					<div
-						class="bg-green-3 absolute top-1/2 left-[30%] h-1 w-[calc(100%-30%)] -translate-y-1/2"
+				<div
+					class="relative hidden w-full max-w-[600px] pt-9 pb-11 md:block lg:max-w-[950px]"
+				>
+					<div class="bg-bg relative flex h-0.5 w-full">
+						<div
+							class="bg-green-3 absolute top-1/2 right-0 h-1 -translate-y-1/2 transition-all duration-500"
+							:style="{ width: `${remainingWidth}%` }"
+						/>
+					</div>
+
+					<p
+						class="font-kondolar text-h11 absolute bottom-0 left-0 -translate-x-[70%] translate-y-3 font-bold text-white"
+					>
+						ประกาศวันเลือกตั้ง
+					</p>
+
+					<img
+						class="absolute top-1/2 left-0 w-[50px] -translate-x-full -translate-y-1/2"
+						src="/assets/images/ect-icon.png"
+						alt="Start"
+					/>
+
+					<img
+						class="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500"
+						:style="{ left: `${progressPercentage}%` }"
+						src="/assets/images/calendar.svg"
+						alt="Current"
+					/>
+
+					<img
+						class="absolute top-1/2 right-0 translate-x-full -translate-y-1/2"
+						src="/assets/images/score-box.svg"
+						alt="Target"
 					/>
 				</div>
-				<img
-					class="absolute top-1/2 left-0 w-[50px] -translate-x-1/2 -translate-y-1/2"
-					src="/assets/images/ect-icon.png"
-					alt=""
-				/>
-				<img
-					class="absolute top-1/2 left-[30%] -translate-x-1/2 -translate-y-1/2"
-					src="/assets/images/calendar.svg"
-					alt=""
-				/>
-				<img
-					class="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2"
-					src="/assets/images/score-box.svg"
-					alt=""
-				/>
+			</div>
+			<div
+				v-else
+				class="flex flex-col items-center md:flex-row md:gap-3 md:py-8"
+			>
+				<p class="text-h8 text-bg font-bold">ออกไปกา</p>
+				<div class="py-2 md:py-0">
+					<img
+						src="/assets/images/calendar-stacked.svg"
+						alt="Calendar Stacked"
+					/>
+				</div>
+				<p class="text-green-3 text-h6 font-bold">สู่อนาคตที่ดีกว่า</p>
 			</div>
 
 			<p class="text-bg mt-2 text-[15px]">
@@ -173,7 +227,7 @@ const showTimeline = ref(false);
 					:key="i"
 					class="w-[60px] md:w-20"
 					src="/assets/images/con-for-all-logo.png"
-					alt=""
+					alt="Logo"
 				/>
 			</div>
 		</div>
