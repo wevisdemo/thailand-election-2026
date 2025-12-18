@@ -3,6 +3,7 @@ import {
 	ElectionNavbar,
 	ElectionSharer,
 	ElectionFooter,
+	ElectionAboutActions,
 } from '@election/ui/vue';
 import PocketbookSection from './components/PocketbookSection.vue';
 import Timeline from './components/Timeline.vue';
@@ -105,6 +106,7 @@ const showTimeline = ref(false);
 
 		<PocketbookSection />
 
+		<!-- Extended Piece -->
 		<div
 			class="bg-green-3 flex flex-col items-center py-8 text-center md:py-16"
 		>
@@ -127,6 +129,7 @@ const showTimeline = ref(false);
 			</div>
 		</div>
 
+		<!-- ECT Side Story -->
 		<div
 			class="bg-purple-3 flex flex-col items-center py-8 text-center md:py-16"
 		>
@@ -151,6 +154,7 @@ const showTimeline = ref(false);
 			</div>
 		</div>
 
+		<!-- ผู้ผลักดันเบื้องหลังทุกไอเดีย -->
 		<div
 			class="flex flex-col items-center bg-[#D9D9D9] pt-[60px] pb-20 text-center md:pt-20 md:pb-[100px]"
 		>
@@ -172,6 +176,51 @@ const showTimeline = ref(false);
 					alt=""
 				/>
 			</div>
+		</div>
+
+		<!-- เกี่ยวกับ WeVis -->
+		<div
+			class="flex flex-col items-center bg-white px-4 pt-[60px] text-center md:pt-20"
+		>
+			<h3 class="text-h3 mb-10 font-bold md:mb-[65px]">เกี่ยวกับ WeVis</h3>
+			<div class="b4 w-full md:w-[650px]">
+				<p class="mb-5 md:mb-[30px]">
+					WeVis เป็นกลุ่มเทคโนโลยีภาคประชาชนที่เชื่อว่าข้อมูลเปิดและเทคโนโลยี<br
+						class="hidden md:block"
+					/>
+					สามารถทำให้พวกเรามีส่วนร่วมในการเมือง
+					<span class="whitespace-nowrap">การเลือกตั้ง</span>
+					และประชาธิปไตยได้<br class="hidden md:block" />
+					พวกเราจึงรวมตัวกันขึ้นมาเพื่อทำโปรเจกต์เหล่านี้<br
+						class="hidden md:block"
+					/>
+					หวังให้ผู้มีสิทธิเลือกตั้ง<span class="whitespace-nowrap">ทุกคน</span
+					>และสื่อมวลชน สามารถค้นหาข้อมูล<span class="whitespace-nowrap"
+						>ได้สะดวกขึ้น</span
+					>
+				</p>
+				<p class="mb-3">
+					ทางทีมมีความตั้งใจที่พัฒนาทุกโปรเจกต์ให้เป็น Open Source
+					และเปิดข้อมูลเป็น Open Data ภายใต้ข้อตกลงในการใช้งาน
+					<a
+						href="https://wevis.info/terms-of-use/"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="underline"
+						>(Terms of Use)</a
+					>
+					<br />
+					หากมีข้อสงสัยต้องการสอบถามเพิ่มเติมประสงค์แจ้งเปลี่ยนแปลงหรือเพิ่มเติมข้อมูล<span
+						class="whitespace-nowrap"
+						>เพื่อความถูกต้อง</span
+					>
+					หรือมีข้อเสนอแนะใด ๆ สามารถติดต่อได้ที่ team@wevis.info
+				</p>
+			</div>
+		</div>
+
+		<div class="py-5 md:py-[50px]">
+			<ElectionAboutActions />
 		</div>
 
 		<div class="pt-10 pb-[60px]">
