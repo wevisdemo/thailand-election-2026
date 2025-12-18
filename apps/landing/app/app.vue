@@ -34,15 +34,7 @@ const showTimeline = ref(false);
 			</p>
 			<div class="flex flex-col items-center md:flex-row md:gap-0">
 				<p class="text-h8 text-bg font-bold">นับถอยหลัง</p>
-				<div class="flex py-2 md:py-0">
-					<div class="relative z-10 translate-x-2.5 -translate-y-1">
-						<p
-							class="font-ibmplex absolute left-[55%] -translate-x-1/2 translate-y-[-4%] text-[40px] font-bold"
-						>
-							6
-						</p>
-						<img src="/assets/images/purple-paper.svg" alt="" />
-					</div>
+				<div class="flex flex-row-reverse py-2 md:py-0">
 					<div class="relative -translate-x-2.5 translate-y-1">
 						<p
 							class="font-ibmplex absolute left-1/2 -translate-x-1/3 translate-y-[-2%] text-[40px] font-bold"
@@ -50,6 +42,14 @@ const showTimeline = ref(false);
 							8
 						</p>
 						<img src="/assets/images/green-paper.svg" alt="" />
+					</div>
+					<div class="relative translate-x-2.5 -translate-y-1">
+						<p
+							class="font-ibmplex absolute left-[55%] -translate-x-1/2 translate-y-[-4%] text-[40px] font-bold"
+						>
+							6
+						</p>
+						<img src="/assets/images/purple-paper.svg" alt="" />
 					</div>
 				</div>
 				<p class="text-h8 text-bg mr-2 font-bold">วัน</p>
