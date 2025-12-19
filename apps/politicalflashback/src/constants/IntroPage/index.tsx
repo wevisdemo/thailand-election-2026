@@ -1,17 +1,18 @@
 'use client';
 
 import Footer from '@/src/components/Footer';
-import { ElectionButton, ElectionNavbar } from '@election/ui/react';
+import { ElectionNavbar } from '@election/ui/react';
 import Image from 'next/image';
 import { useState } from 'react';
 import StepContainer from './components/StepContainer';
 import Button from '@/src/components/Button';
+import { useRouter } from 'next/navigation';
 
 const TOTAL_STEPS = 3;
 
 const IntroPage = () => {
 	const [currentStep, setCurrentStep] = useState(0); // 0 = intro, 1-3 = steps
-
+	const router = useRouter();
 	const handleStart = () => {
 		setCurrentStep(1);
 	};
@@ -19,6 +20,9 @@ const IntroPage = () => {
 	const handleNext = () => {
 		if (currentStep < TOTAL_STEPS) {
 			setCurrentStep(currentStep + 1);
+		}
+		if (currentStep === TOTAL_STEPS) {
+			router.push('/home');
 		}
 	};
 

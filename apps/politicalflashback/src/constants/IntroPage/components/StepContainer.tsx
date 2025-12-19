@@ -86,18 +86,17 @@ const StepContainer = ({ currentStep, onNext, onBack }: StepContainerProps) => {
 				<div className="flex w-full gap-3">
 					<Button
 						onClick={onBack}
-						className="typo-h9 font-kondolar border-purple-1 border-gray-2 w-full rounded-full bg-transparent font-bold text-black"
+						className="typo-h9 font-kondolar border-purple-1 w-full rounded-full bg-transparent font-bold text-black"
 					>
 						ย้อนกลับ
 					</Button>
-					{currentStep < TOTAL_STEPS && (
-						<Button
-							onClick={onNext}
-							className="typo-h9 font-kondolar bg-purple-1 border-purple-1 w-full rounded-full font-bold text-white"
-						>
-							ต่อไป
-						</Button>
-					)}
+
+					<Button
+						onClick={onNext}
+						className="typo-h9 font-kondolar bg-purple-1 border-purple-1 w-full rounded-full font-bold text-white"
+					>
+						ต่อไป
+					</Button>
 				</div>
 			</div>
 

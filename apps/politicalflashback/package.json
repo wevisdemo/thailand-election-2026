@@ -11,16 +11,16 @@
 	"dependencies": {
 		"@election/tailwind": "workspace:*",
 		"@election/ui": "workspace:*",
+		"@stencil/react-output-target": "^1.2.0",
 		"@tailwindcss/postcss": "^4",
-		"@types/node": "^20",
-		"@types/react": "^19",
-		"@types/react-dom": "^19",
 		"next": "16.0.7",
 		"react": "19.2.1",
 		"react-dom": "19.2.1",
+		"react-konva": "^19.2.1",
 		"tailwind-merge": "^3.4.0",
 		"tailwindcss": "^4",
-		"typescript": "^5"
+		"typescript": "^5",
+		"zustand": "^5.0.9"
 	},
 	"devDependencies": {
 		"eslint": "^9",

@@ -1,2 +1,23 @@
 @import 'tailwindcss';
 @import '@election/tailwind/index.css';
+
+/* Dotted pattern background */
+.bg-pattern {
+	background-color: #fbf8f4;
+	background-image: radial-gradient(circle, #bfbfbf 2px, transparent 2px);
+	background-size: 16px 16px;
+}
+/* --color-gray-2: #9a9a9a;
+--color-gray-3: #bfbfbf; */
+/* Bubble chart custom styles */
+.bubble-chart-container {
+	touch-action: none;
+}
+
+.bubble-circle {
+	transition: filter 0.2s ease;
+}
+
+.bubble-group:hover .bubble-circle {
+	filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+}
