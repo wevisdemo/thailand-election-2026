@@ -54,13 +54,8 @@ import {
 				</p>
 			</div>
 			<div class="flex flex-row gap-2">
-				<button
-					@click="toggleDropdown"
-					class="button-dropdown typo-h9 font-kondolar flex w-full flex-row font-bold"
-				>
-					เลือกพรรค
-					<img src="/assets/images/icon-chevron-down.svg" />
-				</button>
+				<Dropdown />
+				<!-- <DropdownTest /> -->
 				<ElectionButton
 					class="typo-h9 font-kondolar self-center font-bold whitespace-nowrap"
 					>ยังไม่แน่ใจ</ElectionButton
@@ -86,15 +81,3 @@ import {
 		</div>
 	</div>
 </template>
-
-<style scoped>
-.button-dropdown {
-	max-height: 48px;
-	border: black 2px solid;
-	border-radius: 100px;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0 0.8rem 0 1.5rem;
-	background-color: var(--color-white);
-}
-</style>
