@@ -1,6 +1,6 @@
 export default function IntroSection() {
 	return (
-		<div className="flex flex-col items-center">
+		<div className="flex flex-col items-center px-[16px]">
 			<div className="py-[24px] text-center">
 				<h6 className="text-h6 font-sriracha text-[#6140D2]">Ballot Ready</h6>
 				<h4 className="text-h4 font-kondolar font-bold">
