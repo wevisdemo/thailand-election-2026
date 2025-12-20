@@ -35,9 +35,12 @@ const toggleDropdown = () => {
 	isOpen.value = !isOpen.value;
 };
 
+const emit = defineEmits(['update:selected']);
+
 const selectOption = (option) => {
 	selected.value = option.id;
 	isOpen.value = false;
+	emit('update:selected', option);
 };
 </script>
 

@@ -6,6 +6,12 @@ import {
 	ElectionAboutActions,
 	ElectionFooter,
 } from '@election/ui/vue';
+
+const selectedParty = ref(null);
+
+const handlePartySelected = (party) => {
+	selectedParty.value = party;
+};
 </script>
 
 <template>
@@ -54,15 +60,20 @@ import {
 				</p>
 			</div>
 			<div class="flex flex-row gap-2">
-				<Dropdown />
-				<!-- <DropdownTest /> -->
+				<PartyDropdown @update:selected="handlePartySelected" />
+
 				<ElectionButton
 					class="typo-h9 font-kondolar self-center font-bold whitespace-nowrap"
 					>ยังไม่แน่ใจ</ElectionButton
 				>
 			</div>
-			<div class="flex flex-row self-center">
-				<img src="/assets/images/hero-img.svg" />
+			<PartyCard
+				v-if="selectedParty"
+				:selected-party="selectedParty"
+				class="self-center"
+			/>
+			<div v-else class="flex flex-row self-center">
+				<!-- assets/lotties/loading.json"/> -->
 			</div>
 		</section>
 
