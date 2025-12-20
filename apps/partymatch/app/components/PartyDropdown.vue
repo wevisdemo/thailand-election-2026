@@ -1,11 +1,21 @@
 <script setup>
+const props = defineProps({
+	isUnselected: {
+		type: Boolean,
+		default: false,
+	},
+});
+
 const selected = ref('');
 const options = ref([]);
 const isOpen = ref(false);
 
-const selectedOption = computed(() =>
-	options.value.find((opt) => opt.id === selected.value),
-);
+const selectedOption = computed(() => {
+	if (props.isUnselected && !isOpen.value) {
+		return null;
+	}
+	return options.value.find((opt) => opt.id === selected.value);
+});
 
 onMounted(async () => {
 	const { Column, asString, Spreadsheet, Object } = await import('sheethuahua');
@@ -41,6 +51,7 @@ const selectOption = (option) => {
 	selected.value = option.id;
 	isOpen.value = false;
 	emit('update:selected', option);
+	emit('update:isUnselected', false);
 };
 </script>
 

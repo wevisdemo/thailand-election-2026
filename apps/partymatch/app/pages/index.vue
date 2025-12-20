@@ -14,11 +14,21 @@ const lottieContainer = ref(null);
 const isUnselected = ref(false);
 
 const toggleState = () => {
-	isUnselected.value = !isUnselected.value;
+	if (!isUnselected.value) {
+		isUnselected.value = true;
+
+		const dropdown = document.querySelector('.dropdown-container');
+		if (dropdown && dropdown.__vueParentComponent?.ctx?.resetDropdown) {
+			dropdown.__vueParentComponent.ctx.resetDropdown();
+		}
+
+		selectedParty.value = null;
+	}
 };
 
 const handlePartySelected = (party) => {
 	selectedParty.value = party;
+	isUnselected.value = false;
 };
 onMounted(() => {
 	lottie.loadAnimation({
@@ -77,13 +87,17 @@ onMounted(() => {
 				</p>
 			</div>
 			<div class="flex flex-row gap-2">
-				<PartyDropdown @update:selected="handlePartySelected" />
+				<PartyDropdown
+					@update:selected="handlePartySelected"
+					:is-unselected="isUnselected"
+				/>
 
 				<ElectionButton
 					class="typo-h9 font-kondolar self-center font-bold whitespace-nowrap"
+					:disabled="isUnselected"
 					@click="toggleState"
 				>
-					{{ isUnselected ? 'เลือกพรรคใหม่' : 'ยังไม่แน่ใจ' }}
+					ยังไม่แน่ใจ
 				</ElectionButton>
 			</div>
 			<PartyCard
