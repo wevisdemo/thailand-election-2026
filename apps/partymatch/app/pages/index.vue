@@ -11,6 +11,12 @@ import lottie from 'lottie-web';
 const selectedParty = ref(null);
 const lottieContainer = ref(null);
 
+const isUnselected = ref(false);
+
+const toggleState = () => {
+	isUnselected.value = !isUnselected.value;
+};
+
 const handlePartySelected = (party) => {
 	selectedParty.value = party;
 };
@@ -75,14 +81,18 @@ onMounted(() => {
 
 				<ElectionButton
 					class="typo-h9 font-kondolar self-center font-bold whitespace-nowrap"
-					>ยังไม่แน่ใจ</ElectionButton
+					@click="toggleState"
 				>
+					{{ isUnselected ? 'เลือกพรรคใหม่' : 'ยังไม่แน่ใจ' }}
+				</ElectionButton>
 			</div>
 			<PartyCard
-				v-if="selectedParty"
+				v-if="isUnselected || selectedParty"
 				:selected-party="selectedParty"
+				:is-unselected="isUnselected"
 				class="self-center"
 			/>
+
 			<div
 				v-else
 				class="flex w-full flex-row justify-center rounded-2xl bg-white p-10 shadow-md"
