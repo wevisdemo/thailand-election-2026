@@ -5,11 +5,13 @@ import {
 	ElectionAboutActions,
 	ElectionFooter,
 } from '@election/ui/react';
+import IntroSection from './component/home/IntroSection';
 
 export default function Intro() {
 	return (
 		<div className="flex flex-col gap-6">
 			<ElectionNavbar />
+			<IntroSection />
 			<h1 className="text-h1 font-sriracha text-center font-bold underline">
 				Ballot Ready!
 			</h1>

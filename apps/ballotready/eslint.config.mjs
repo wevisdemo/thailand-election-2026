@@ -13,6 +13,12 @@ const eslintConfig = defineConfig([
 		'build/**',
 		'next-env.d.ts',
 	]),
+	// Disable Next.js rule that enforces using next/image
+	{
+		rules: {
+			'@next/next/no-img-element': 'off',
+		},
+	},
 ]);
 
 export default eslintConfig;
