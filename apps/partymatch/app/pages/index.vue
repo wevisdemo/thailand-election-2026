@@ -6,12 +6,23 @@ import {
 	ElectionAboutActions,
 	ElectionFooter,
 } from '@election/ui/vue';
+import lottie from 'lottie-web';
 
 const selectedParty = ref(null);
+const lottieContainer = ref(null);
 
 const handlePartySelected = (party) => {
 	selectedParty.value = party;
 };
+onMounted(() => {
+	lottie.loadAnimation({
+		container: lottieContainer.value,
+		renderer: 'svg',
+		loop: true,
+		autoplay: true,
+		path: '/assets/lotties/loading.json',
+	});
+});
 </script>
 
 <template>
@@ -72,8 +83,11 @@ const handlePartySelected = (party) => {
 				:selected-party="selectedParty"
 				class="self-center"
 			/>
-			<div v-else class="flex flex-row self-center">
-				<!-- assets/lotties/loading.json"/> -->
+			<div
+				v-else
+				class="flex w-full flex-row justify-center rounded-2xl bg-white p-10 shadow-md"
+			>
+				<div ref="lottieContainer" style="width: 400px; height: 400px"></div>
 			</div>
 		</section>
 
