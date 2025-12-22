@@ -4,6 +4,7 @@ import Button from '@/src/components/Button';
 import { useTopicStore } from '@/src/stores/topicStore';
 import Image from 'next/image';
 import { useCallback, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 // Delete confirmation button component with hover/click expand
 function DeleteButton({
@@ -88,7 +89,7 @@ export default function DropZone({
 		setDraggedTopic,
 		reorderSelectedTopics,
 	} = useTopicStore();
-
+	const router = useRouter();
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 	const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
@@ -371,7 +372,7 @@ export default function DropZone({
 						{/* Compare Button */}
 						<div className="fixed right-0 bottom-3 left-0 mx-12">
 							<Button
-								// onClick={handleStart}
+								onClick={() => router.push('/results')}
 								className={`typo-h9 font-kondolar bg-purple-1 border-purple-1 flex w-full items-center justify-between gap-2 rounded-full font-bold text-white ${isEmpty ? 'cursor-not-allowed opacity-50' : ''}`}
 								disabled={isEmpty}
 							>
