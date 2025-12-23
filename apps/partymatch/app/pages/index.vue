@@ -7,6 +7,7 @@ import {
 	ElectionFooter,
 } from '@election/ui/vue';
 import lottie from 'lottie-web';
+import loadingAnimation from '~/assets/lotties/loading.json';
 
 const selectedParty = ref(null);
 const lottieContainer = ref(null);
@@ -36,7 +37,7 @@ onMounted(() => {
 		renderer: 'svg',
 		loop: true,
 		autoplay: true,
-		path: '/assets/lotties/loading.json',
+		animationData: loadingAnimation,
 	});
 });
 </script>
