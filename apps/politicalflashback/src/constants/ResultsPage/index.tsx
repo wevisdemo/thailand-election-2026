@@ -5,13 +5,13 @@ import dayjs from 'dayjs';
 import th from 'dayjs/locale/th';
 import Image from 'next/image';
 import Button from '@/src/components/Button';
-
+import { useRouter } from 'next/navigation';
 import { toPng } from 'html-to-image';
 dayjs.locale(th);
 
 const ResultsPage = () => {
 	const { selectedTopics } = useTopicStore();
-
+	const router = useRouter();
 	const visibleCardRef = useRef<HTMLDivElement>(null);
 
 	const handleExport = async (
@@ -82,6 +82,21 @@ const ResultsPage = () => {
 
 	return (
 		<div className="bg-green-3 flex h-full min-h-screen flex-col justify-between">
+			<div className="flex items-center justify-start gap-4 px-4 pt-4">
+				<button
+					onClick={() => router.back()}
+					className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-white text-black transition-all hover:border-black hover:bg-white/30"
+				>
+					<Image
+						src="/politicalflashback/icon/chevron-left.svg"
+						alt="Remove"
+						width={28}
+						height={28}
+						className="h-auto w-12"
+					/>
+				</button>
+			</div>
+
 			<div className="mx-auto flex w-full max-w-[600px] flex-col items-center justify-center gap-6 px-4 py-10">
 				<div className="flex flex-col items-center justify-center text-center">
 					<p className="text-b4 font-ibmplex">สรุปผล</p>
@@ -159,10 +174,10 @@ const ResultsPage = () => {
 
 				<Button
 					onClick={() => handleExport(visibleCardRef)}
-					className="typo-h9 font-kondolar bg-purple-1 border-purple-1 flex items-center justify-between gap-2 rounded-full font-bold text-white"
+					className="typo-h9 font-kondolar bg-purple-1 border-purple-1 flex items-center justify-between gap-4 rounded-full font-bold text-white"
 				>
 					<Image
-						src="/politicalflashback/icon/arrow-right.svg"
+						src="/politicalflashback/icon/download.svg"
 						alt="arrow-right"
 						width={31}
 						height={20}
@@ -170,6 +185,48 @@ const ResultsPage = () => {
 					/>
 					<p className="">บันทึกรูป</p>
 				</Button>
+
+				<div className="flex flex-col items-center justify-center gap-3">
+					<p className="text-h9 font-sriracha text-black">แชร์รูปนี้</p>
+					<div className="flex items-center justify-center gap-4">
+						<button
+							// onClick={() => router.back()}
+							className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-black text-black transition-all hover:border-black hover:bg-white/30"
+						>
+							<Image
+								src="/politicalflashback/icon/facebook-icon.svg"
+								alt="Remove"
+								width={28}
+								height={28}
+								className="h-auto w-12"
+							/>
+						</button>
+						<button
+							// onClick={() => router.back()}
+							className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-black text-black transition-all hover:border-black hover:bg-white/30"
+						>
+							<Image
+								src="/politicalflashback/icon/x-icon.svg"
+								alt="Remove"
+								width={28}
+								height={28}
+								className="h-auto w-12"
+							/>
+						</button>
+						<button
+							// onClick={() => router.back()}
+							className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-black text-black transition-all hover:border-black hover:bg-white/30"
+						>
+							<Image
+								src="/politicalflashback/icon/line-icon.svg"
+								alt="Remove"
+								width={28}
+								height={28}
+								className="h-auto w-12"
+							/>
+						</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

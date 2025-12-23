@@ -1,3 +1,4 @@
+import { svelteOutputTarget } from '@revolist/svelte-output-target';
 import { Config } from '@stencil/core';
 import { reactOutputTarget } from '@stencil/react-output-target';
 import { vueOutputTarget } from '@stencil/vue-output-target';
@@ -32,6 +33,11 @@ export const config: Config = {
 		reactOutputTarget({
 			outDir: '.tmp/react',
 			stencilPackageName: '../..',
+		}),
+		// @ts-expect-error non-official plugin
+		svelteOutputTarget({
+			componentCorePackage: '../..',
+			proxiesFile: '.tmp/svelte/components.ts',
 		}),
 		vueOutputTarget({
 			componentCorePackage: '../..',

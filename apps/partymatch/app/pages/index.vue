@@ -123,7 +123,7 @@ onMounted(() => {
 			/>
 			<ElectionSharer />
 			<ElectionButton
-				class="typo-h9 font-kondolar self-center font-bold"
+				twClass="typo-h9 font-kondolar self-center font-bold"
 				href="/partymatch/about"
 				>เกี่ยวกับโครงการ</ElectionButton
 			>
