@@ -7,6 +7,7 @@ import {
 } from '@election/ui/react';
 import IntroSection from './component/home/IntroSection';
 import SearchSection from './component/home/SearchSection';
+import HowToVoteSection from './component/home/HowToVoteSection';
 
 export default function Intro() {
 	return (
@@ -14,6 +15,7 @@ export default function Intro() {
 			<ElectionNavbar />
 			<IntroSection />
 			<SearchSection />
+			<HowToVoteSection />
 			<h1 className="text-h1 font-sriracha text-center font-bold underline">
 				Ballot Ready!
 			</h1>
