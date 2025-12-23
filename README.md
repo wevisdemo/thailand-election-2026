@@ -12,8 +12,10 @@ https://election69.wevis.info
   - `/partymatch` Party match or red flag alert?
   - `/politicalflashback` A Political Flashback
 - `/packages` Shared packages in the project
+  - `/constants` Shared constants
+  - `/svelte-output-target` Plugin to build Svelte output from Stencil (No official support from Stencil, clone from a fork maintained by [Revolist](https://github.com/revolist/svelte-output-target))
   - `/tailwind` Tailwind theme and utilities configuration
-  - `/ui` Cross framework UI components library
+  - `/ui` Cross framework UI components library based on Stencil
 
 ## Getting Started
 
