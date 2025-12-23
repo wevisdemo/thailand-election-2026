@@ -20,7 +20,7 @@ export default function Intro() {
 				Ballot Ready!
 			</h1>
 
-			<ElectionButton className="typo-h9 font-kondolar self-center font-bold">
+			<ElectionButton twClass="typo-h9 font-kondolar self-center font-bold">
 				เริ่มเลอ
 			</ElectionButton>
 			<ElectionAboutActions dataUrl="#" />

@@ -33,7 +33,7 @@ defineProps({
 				class="absolute top-2/3 left-1/2 w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-white p-1"
 			/>
 		</div>
-		<ElectionButton class="typo-h8 font-kondolar w-full font-bold">
+		<ElectionButton twClass="typo-h8 font-kondolar w-full font-bold">
 			เริ่มเล่น
 		</ElectionButton>
 	</div>
