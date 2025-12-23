@@ -11,7 +11,8 @@
 		"dev:ballotready": "turbo run dev --filter=@election/ballotready",
 		"dev:landing": "turbo run dev --filter=@election/landing",
 		"dev:partymatch": "turbo run dev --filter=@election/partymatch",
-		"dev:politicalflashback": "turbo run dev --filter=@election/politicalflashback"
+		"dev:politicalflashback": "turbo run dev --filter=@election/politicalflashback",
+		"dev:promisedeconstructed": "turbo run dev --filter=@election/promisedeconstructed"
 	},
 	"dependencies": {
 		"turbo": "^2.6.1"
@@ -23,6 +24,7 @@
 		"husky": "^9.1.7",
 		"lint-staged": "^16.2.7",
 		"prettier": "^3.7.3",
+		"prettier-plugin-svelte": "^3.4.1",
 		"prettier-plugin-tailwindcss": "^0.7.2"
 	},
 	"lint-staged": {
