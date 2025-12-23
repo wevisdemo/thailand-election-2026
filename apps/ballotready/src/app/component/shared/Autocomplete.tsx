@@ -70,7 +70,7 @@ export default function AutoComplete({
 	};
 
 	return (
-		<div ref={componentRef} className="relative z-30">
+		<div ref={componentRef} className="relative z-30 flex justify-center">
 			<div className="relative flex w-full max-w-[720px]">
 				<input
 					className="w-full rounded-[100px] bg-white px-[24px] py-[17px] text-[16px] outline-[1px] focus:outline-[#0EA177]"

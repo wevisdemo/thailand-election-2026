@@ -4,7 +4,7 @@ import AutoComplete from '../shared/Autocomplete';
 
 export default function SearchSection() {
 	return (
-		<div className="grid gap-[16px] bg-[#76EECC] px-[16px] py-[24px] text-center">
+		<div className="grid items-center gap-[16px] bg-[#76EECC] px-[16px] py-[24px] text-center">
 			<p className="font-kondolar text-h5 font-bold">รู้จักผู้สมัคร</p>
 			<p className="font-kondolar text-h8 font-bold">
 				ค้นหารายชื่อผู้สมัคร ส.ส. ในเขตเลือกตั้งของคุณ
