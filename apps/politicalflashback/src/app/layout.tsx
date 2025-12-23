@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { ElectionNavbar } from '@election/ui/react';
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -23,7 +24,11 @@ export default function RootLayout({
 					rel="stylesheet"
 				/>
 			</head>
-			<body>{children}</body>
+
+			<body>
+				<ElectionNavbar className="sticky top-0 z-50" />
+				{children}
+			</body>
 		</html>
 	);
 }

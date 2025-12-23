@@ -1,6 +1,7 @@
 <script setup>
 import { ElectionButton } from '@election/ui/vue';
-
+import neoUnselected from '~/assets/images/neo-unselected.svg';
+import neoSelected from '~/assets/images/neo-selected.svg';
 defineProps({
 	selectedParty: {
 		type: Object,
@@ -24,14 +25,7 @@ defineProps({
 			<span v-else> มาดูกันว่าพรรคไหน ใจตรงกับคุณมากที่สุด </span>
 		</p>
 		<div class="relative">
-			<img
-				:src="
-					isUnselected
-						? '/assets/images/neo-unselected.svg'
-						: '/assets/images/neo-selected.svg'
-				"
-				class="w-100"
-			/>
+			<img :src="isUnselected ? neoUnselected : neoSelected" class="w-100" />
 			<img
 				v-if="!isUnselected"
 				:src="selectedParty.logo"

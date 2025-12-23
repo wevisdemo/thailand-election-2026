@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import DragDropBubbles from './components/DragDropBubbles';
 import DropZone from './components/DropZone';
-import { ElectionNavbar } from '@election/ui/react';
 import { useTopicStore, Topic } from '@/src/stores/topicStore';
 
 interface RawBubbleData {
@@ -65,9 +64,8 @@ const HomePage = () => {
 
 	return (
 		<div className="bg-pattern relative max-h-screen w-full overflow-hidden">
-			<ElectionNavbar className="z-50" />
 			{/* Gradient overlay from top */}
-			<div className="pointer-events-none absolute top-10 right-0 left-0 z-20 h-[80px] w-full bg-linear-to-b from-[#FBF8F4] to-transparent md:top-14" />
+			<div className="pointer-events-none absolute top-0 right-0 left-0 z-20 h-[80px] w-full bg-linear-to-b from-[#FBF8F4] to-transparent md:top-14" />
 
 			{/* Main Chart Area */}
 			<main className="relative z-10 flex-1" style={{ height: '100vh' }}>
