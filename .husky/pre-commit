@@ -1,1 +1,3 @@
+PATH="~/.volta/bin:$PATH"
+
 pnpx lint-staged
