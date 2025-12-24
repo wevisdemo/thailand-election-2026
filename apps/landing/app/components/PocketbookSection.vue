@@ -90,7 +90,7 @@ const formatDate = (dateString: string) => {
 				class="flex max-w-7xl flex-wrap justify-center gap-2"
 			>
 				<div
-					v-for="project in filteredProjects"
+					v-for="(project, index) in filteredProjects"
 					:key="project.url"
 					:class="`rounded-2xl bg-black px-3 pt-5 pb-[50px] transition-all duration-300 ease-in-out ${!project.willLaunchedOn ? 'cursor-pointer hover:shadow-[6px_6px_4px_0px_rgba(0,0,0,0.4)]' : 'cursor-not-allowed'}`"
 				>
@@ -103,7 +103,7 @@ const formatDate = (dateString: string) => {
 							:class="`flex h-full w-[265px] flex-col ${project.isLaunched ? 'bg-white text-black' : 'bg-gray-1 text-white'} p-2 text-left`"
 						>
 							<img
-								:src="`${project.isLaunched ? '/images/project-cover-mock-1.png' : '/images/project-cover-mock-2.png'}`"
+								:src="`${project.isLaunched ? `/images/project-cover-${index + 1}.png` : '/images/project-cover.png'}`"
 								alt=""
 							/>
 							<img src="/assets/images/rough-line.svg" class="py-4" alt="" />
