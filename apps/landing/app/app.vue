@@ -238,27 +238,27 @@ onMounted(async () => {
 				<img
 					class="w-[60px] md:w-20"
 					src="/assets/images/partner-logo-conforall.png"
-					alt="Logo"
+					alt="ConForAll Logo"
 				/>
 				<img
 					class="w-[60px] md:w-20"
 					src="/assets/images/partner-logo-wewatch.png"
-					alt="Logo"
+					alt="We Watch Logo"
 				/>
 				<img
 					class="w-[60px] md:w-20"
 					src="/assets/images/partner-logo-ilaw.png"
-					alt="Logo"
+					alt="iLaw Logo"
 				/>
 				<img
 					class="w-[60px] md:w-20"
 					src="/assets/images/partner-logo-theactive.png"
-					alt="Logo"
+					alt="The Active Logo"
 				/>
 				<img
 					class="w-[60px] md:w-20"
 					src="/assets/images/partner-logo-commonmuze.png"
-					alt="Logo"
+					alt="Commonmuze Logo"
 				/>
 			</div>
 		</div>
