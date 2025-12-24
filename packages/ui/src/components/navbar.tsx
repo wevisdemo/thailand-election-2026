@@ -184,7 +184,7 @@ export class ElectionNavbar {
 												aria-disabled={!isLaunched}
 												target={isExternal ? '_blank' : undefined}
 											>
-												<div class="flex flex-col">
+												<div class="flex flex-col pr-1">
 													<span class="font-kondolar text-h10 font-bold">
 														{project.name.th}
 													</span>
@@ -198,7 +198,7 @@ export class ElectionNavbar {
 												</div>
 												{isExternal ? (
 													<svg
-														class="size-4 fill-current"
+														class="size-4 flex-none fill-current"
 														aria-hidden="true"
 														viewBox="0 0 17 17"
 													>
