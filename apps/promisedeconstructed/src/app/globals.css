@@ -13,3 +13,21 @@
 	--color-topic-budget-src: #ffd4ad;
 	--color-topic-not-indicate: #b70425;
 }
+
+@layer base {
+	html {
+		@apply scroll-smooth text-pretty antialiased;
+		color-scheme: light;
+		/* https://kilianvalkhof.com/2022/css-html/your-css-reset-needs-text-size-adjust-probably/ */
+		-moz-text-size-adjust: none;
+		-webkit-text-size-adjust: none;
+		text-size-adjust: none;
+	}
+
+	body {
+		/* https://base-ui.com/react/overview/quick-start#ios-26-safari */
+		@apply relative;
+		overflow-x: hidden;
+		overflow-x: clip;
+	}
+}
