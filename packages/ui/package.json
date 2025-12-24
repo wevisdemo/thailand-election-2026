@@ -30,7 +30,7 @@
 		},
 		"./svelte": {
 			"types": "./dist/svelte/components.d.ts",
-			"svelte": "./dist/svelte/svelte/index.js"
+			"svelte": "./dist/svelte/index.js"
 		},
 		"./react": {
 			"import": "./dist/react/components.js",
