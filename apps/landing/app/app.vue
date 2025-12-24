@@ -15,18 +15,6 @@ const title = 'ทบทวน เตรียมพร้อม ซ้อมใ
 const description =
 	'#WeVisElection69 เว็บไซต์ที่รวมข้อมูลเปิดสำหรับทวนความจำและเตรียมตัวเลือกตั้งพร้อมประชามติ 2569 ชวนคุณย้อนสำรวจเรื่องราวทางการเมืองในช่วง 3 ปี และเตรียมตัวเลือกตั้งพร้อมประชามติผ่านชุดข้อมูลด้วยการ ‘ทบทวน เตรียมพร้อม ซ้อมใช้สิทธิ’';
 
-useHead({
-	htmlAttrs: { lang: 'th' },
-	meta: [
-		{ charset: 'utf-8' },
-		{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
-	],
-	link: [
-		{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-		{ rel: 'canonical', href: baseUrl },
-	],
-});
-
 useSeoMeta({
 	title: title,
 	ogTitle: title,
