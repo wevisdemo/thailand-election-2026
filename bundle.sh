@@ -13,6 +13,6 @@ mkdir -p out/politicalflashback
 cp -r apps/politicalflashback/out/* out/politicalflashback
 
 mkdir -p out/promisedeconstructed
-cp -r apps/promisedeconstructed/build/* out/promisedeconstructed
+cp -r apps/promisedeconstructed/out/* out/promisedeconstructed
 
 echo "Successfully bundle all apps built output to ./out folder"
