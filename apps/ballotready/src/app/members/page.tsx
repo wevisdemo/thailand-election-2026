@@ -1,6 +1,7 @@
 import { ElectoralDistrict } from '@/src/type/electoral_district';
 import { ElectionNavbar } from '@election/ui/react';
 import ElectorateCard from '../component/shared/ElectorateCard';
+import BallotRemind from '../component/Electorate/BallotRemind';
 
 const mockData: ElectoralDistrict = {
 	province: 'กระบี่',
@@ -51,6 +52,7 @@ export default function MembersPage() {
 				</button>
 				<div className="m-auto grid max-w-[600px] justify-center gap-[16px]">
 					<ElectorateCard electoralDistrict={mockData} />
+					<BallotRemind />
 				</div>
 			</div>
 		</div>
