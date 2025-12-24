@@ -11,7 +11,9 @@ import { fetchWeVisPosts } from './wordpress/src';
 
 const isLoading = ref(true);
 
-const articleList = ref([]);
+const articleExtendedPieceList = ref([]);
+const articleEtcSideStoryList = ref([]);
+
 const showTimeline = ref(false);
 
 const startDate = new Date('2025-12-15T00:00:00'); // 15 ธ.ค. 2568
@@ -47,8 +49,13 @@ onMounted(async () => {
 		isLoading.value = false;
 	}, 300);
 
-	articleList.value = await fetchWeVisPosts({
+	articleExtendedPieceList.value = await fetchWeVisPosts({
 		tagId: 147,
+		categoryId: 7,
+		limit: 10,
+	});
+	articleEtcSideStoryList.value = await fetchWeVisPosts({
+		tagId: 149,
 		categoryId: 7,
 		limit: 10,
 	});
@@ -188,11 +195,13 @@ onMounted(async () => {
 					before: 'ชิ้นงานเสริม เติมความฟิตก่อนไปเลือก',
 				}"
 			/>
-			<p class="text-b6 mb-4 md:mb-6">{{ articleList.length }} บทความ</p>
+			<p class="text-b6 mb-4 md:mb-6">
+				{{ articleExtendedPieceList.length }} บทความ
+			</p>
 			<div class="no-scrollbar w-full overflow-x-scroll">
 				<div class="mx-auto flex w-max gap-2 px-4 py-2.5">
 					<Card
-						v-for="article in articleList"
+						v-for="article in articleExtendedPieceList"
 						:data="article"
 						:key="article.id"
 					/>
@@ -213,11 +222,13 @@ onMounted(async () => {
 					after: 'เล่าให้ กกต. ฟัง',
 				}"
 			/>
-			<p class="text-b6 mb-4 md:mb-6">{{ articleList.length }} บทความ</p>
+			<p class="text-b6 mb-4 md:mb-6">
+				{{ articleEtcSideStoryList.length }} บทความ
+			</p>
 			<div class="no-scrollbar w-full overflow-x-scroll">
 				<div class="mx-auto flex w-max gap-2 px-4 py-2.5">
 					<Card
-						v-for="article in articleList"
+						v-for="article in articleEtcSideStoryList"
 						:data="article"
 						:key="article.id"
 					/>
