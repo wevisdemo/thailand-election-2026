@@ -9,6 +9,34 @@ import PocketbookSection from './components/PocketbookSection.vue';
 import Timeline from './components/Timeline.vue';
 import { fetchWeVisPosts } from './wordpress/src';
 
+const baseUrl = 'https://election69.wevis.info';
+const imageUrl = `${baseUrl}/main-og.png`;
+const title = 'ทบทวน เตรียมพร้อม ซ้อมใช้สิทธิ';
+const description =
+	'#WeVisElection69 เว็บไซต์ที่รวมข้อมูลเปิดสำหรับทวนความจำและเตรียมตัวเลือกตั้งพร้อมประชามติ 2569 ชวนคุณย้อนสำรวจเรื่องราวทางการเมืองในช่วง 3 ปี และเตรียมตัวเลือกตั้งพร้อมประชามติผ่านชุดข้อมูลด้วยการ ‘ทบทวน เตรียมพร้อม ซ้อมใช้สิทธิ’';
+
+useHead({
+	htmlAttrs: { lang: 'th' },
+	meta: [
+		{ charset: 'utf-8' },
+		{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
+	],
+	link: [{ rel: 'canonical', href: baseUrl }],
+});
+
+useSeoMeta({
+	title: title,
+	ogTitle: title,
+	description: description,
+	ogDescription: description,
+	ogType: 'website',
+	ogLocale: 'th_TH',
+	ogUrl: baseUrl,
+	ogImage: imageUrl,
+	twitterImage: imageUrl,
+	twitterCard: 'summary_large_image',
+});
+
 const isLoading = ref(true);
 
 const articleExtendedPieceList = ref([]);
