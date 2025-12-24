@@ -5,10 +5,12 @@ import {
 	ElectionFooter,
 	ElectionSharer,
 } from '@election/ui/react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 export const Footer = () => {
 	const pathname = usePathname();
+	const router = useRouter();
+
 	return (
 		<>
 			<div className="flex flex-col items-center gap-2.5 pt-10 pb-15">
@@ -18,7 +20,7 @@ export const Footer = () => {
 					<ElectionButton
 						twClass="typo-h10 font-kondolar font-bold"
 						onClick={() => {
-							alert('LOL');
+							router.push('/about');
 						}}
 					>
 						เกี่ยวกับโครงการ
