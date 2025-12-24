@@ -27,61 +27,95 @@
 	}
 }
 
-@layer components {
-	/* Heading typo sizes */
-	.text-h1 {
+/* Heading typo sizes */
+@utility text-h1 {
+	@layer components {
 		@apply text-[60px] leading-[1.25] md:text-[100px];
 	}
-	.text-h2 {
+}
+@utility text-h2 {
+	@layer components {
 		@apply text-[48px] leading-[1.25] md:text-[72px];
 	}
-	.text-h3 {
+}
+@utility text-h3 {
+	@layer components {
 		@apply text-[36px] leading-[1.25] md:text-[60px];
 	}
-	.text-h4 {
+}
+@utility text-h4 {
+	@layer components {
 		@apply text-[32px] leading-[1.4] md:text-[48px];
 	}
-	.text-h5 {
+}
+@utility text-h5 {
+	@layer components {
 		@apply text-[28px] leading-[1.4] md:text-[36px];
 	}
-	.text-h6 {
+}
+@utility text-h6 {
+	@layer components {
 		@apply text-[24px] leading-[1.4] md:text-[32px];
 	}
-	.text-h7 {
+}
+@utility text-h7 {
+	@layer components {
 		@apply text-[21px] leading-[1.4] md:text-[28px];
 	}
-	.text-h8 {
+}
+@utility text-h8 {
+	@layer components {
 		@apply text-[18px] leading-[1.4] md:text-[24px];
 	}
-	.text-h9 {
+}
+@utility text-h9 {
+	@layer components {
 		@apply text-[16px] leading-[1.4] md:text-[21px];
 	}
-	.text-h10 {
+}
+@utility text-h10 {
+	@layer components {
 		@apply text-[15px] leading-[1.4] md:text-[18px];
 	}
-	.text-h11 {
+}
+@utility text-h11 {
+	@layer components {
 		@apply text-[14px] leading-[1.4] md:text-[16px];
 	}
-	/* Body typo sizes */
-	.text-b1 {
+}
+/* Body typo sizes */
+@utility text-b1 {
+	@layer components {
 		@apply text-[24px] leading-[1.5] md:text-[32px];
 	}
-	.text-b2 {
+}
+@utility text-b2 {
+	@layer components {
 		@apply text-[21px] leading-[1.5] md:text-[24px];
 	}
-	.text-b3 {
+}
+@utility text-b3 {
+	@layer components {
 		@apply text-[18px] leading-[1.5] md:text-[21px];
 	}
-	.text-b4 {
+}
+@utility text-b4 {
+	@layer components {
 		@apply text-[16px] leading-[1.5] md:text-[18px];
 	}
-	.text-b5 {
+}
+@utility text-b5 {
+	@layer components {
 		@apply text-[14px] leading-[1.5] md:text-[16px];
 	}
-	.text-b6 {
+}
+@utility text-b6 {
+	@layer components {
 		@apply text-[12px] leading-[1.5] md:text-[14px];
 	}
-	.text-b7 {
+}
+@utility text-b7 {
+	@layer components {
 		@apply text-[10px] leading-[1.5] md:text-[12px];
 	}
 }
