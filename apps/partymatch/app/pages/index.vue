@@ -13,6 +13,7 @@ const selectedParty = ref(null);
 const lottieContainer = ref(null);
 
 const isUnselected = ref(false);
+const showQuiz = ref(false);
 
 const toggleState = () => {
 	if (!isUnselected.value) {
@@ -31,6 +32,11 @@ const handlePartySelected = (party) => {
 	selectedParty.value = party;
 	isUnselected.value = false;
 };
+
+const startQuiz = () => {
+	showQuiz.value = true;
+};
+
 onMounted(() => {
 	lottie.loadAnimation({
 		container: lottieContainer.value,
@@ -43,8 +49,15 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="bg-bg flex flex-col gap-10">
+	<div class="bg-bg flex flex-col">
 		<ElectionNavbar />
+
+		<section
+			id="landing"
+			v-if="!showQuiz"
+			class="flex flex-col gap-30 pt-10 pb-20"
+		>
+		<!-- Title -->
 		<div class="section flex flex-col gap-8">
 			<h1 class="text-h4 font-kondolar text-center font-bold">
 				Party <span class="font-sriracha text-green-1">Match</span> or Red Flag
@@ -77,7 +90,7 @@ onMounted(() => {
 		</div>
 
 		<!-- Selection -->
-		<section class="section flex flex-col gap-8 text-center">
+		<div class="section flex flex-col gap-8 text-center">
 			<div>
 				<h2 class="text-h8 font-kondolar font-bold">
 					เลือกตั้งรอบนี้ คุณจะเลือกพรรคไหน
@@ -106,6 +119,7 @@ onMounted(() => {
 				:selected-party="selectedParty"
 				:is-unselected="isUnselected"
 				class="self-center"
+				@start-quiz="startQuiz"
 			/>
 
 			<div
@@ -114,10 +128,11 @@ onMounted(() => {
 			>
 				<div ref="lottieContainer" style="width: 400px; height: 400px"></div>
 			</div>
+		</div>
 		</section>
-
-		<!-- Footer -->
-		<div class="flex flex-col gap-6">
+		
+		<!-- Info -->
+		<section id="info" v-if="!showQuiz" class="flex flex-col gap-6 py-12">
 			<ElectionAboutActions
 				dataUrl="https://docs.google.com/spreadsheets/d/1cg85RsWVrSTDgRsVMTsmbkABbDk8Y84kIU_SsRl_smQ/edit?usp=sharing"
 			/>
@@ -127,7 +142,13 @@ onMounted(() => {
 				href="/partymatch/about"
 				>เกี่ยวกับโครงการ</ElectionButton
 			>
-			<ElectionFooter />
-		</div>
+			
+		</section>
+
+		<section id="quiz" v-if="showQuiz">
+			<QuizMain />
+		</section>
+
+		<ElectionFooter />
 	</div>
 </template>

@@ -12,6 +12,7 @@ defineProps({
 		default: false,
 	},
 });
+const emit = defineEmits(['start-quiz']);
 </script>
 
 <template>
@@ -33,7 +34,11 @@ defineProps({
 				class="absolute top-2/3 left-1/2 w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-white p-1"
 			/>
 		</div>
-		<ElectionButton twClass="typo-h8 font-kondolar w-full font-bold">
+		<ElectionButton
+			id="start-quiz"
+			class="typo-h8 font-kondolar w-full font-bold"
+			@click="emit('start-quiz')"
+		>
 			เริ่มเล่น
 		</ElectionButton>
 	</div>
