@@ -181,10 +181,11 @@ onMounted(async () => {
 			</div>
 		</div>
 
-		<PocketbookSection />
+		<PocketbookSection id="section-pocketbook" />
 
 		<!-- Extended Piece -->
 		<div
+			id="section-extended-piece"
 			class="bg-green-3 flex flex-col items-center py-8 text-center md:py-16"
 		>
 			<HeadingGroup
@@ -210,6 +211,7 @@ onMounted(async () => {
 
 		<!-- ECT Side Story -->
 		<div
+			id="section-ect"
 			class="bg-purple-3 flex flex-col items-center py-8 text-center md:py-16"
 		>
 			<HeadingGroup

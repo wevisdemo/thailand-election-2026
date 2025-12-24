@@ -5,19 +5,19 @@ const menuItems = [
 	{
 		title: 'Election Pocketbook',
 		subtitle: 'สมุดพกการเมืองไทย ตัวช่วยตัดสินใจก่อนเข้าคูหา',
-		url: '/',
+		url: '/#section-pocketbook',
 		children: projects,
 	},
 	{
 		title: 'Extended Piece',
 		subtitle: 'ชิ้นงานเสริม เติมความฟิตก่อนไปเลือก',
-		url: '/',
+		url: '/#section-extended-piece',
 		children: [],
 	},
 	{
 		title: 'ECT Side Story',
 		subtitle: 'เรื่องราวดี ๆ ที่อยากตะโกนนนเล่าให้ กกต. ฟัง',
-		url: '/',
+		url: '/#section-ect',
 		children: [],
 	},
 ];
@@ -164,6 +164,7 @@ export class ElectionNavbar {
 								<li>
 									<a
 										href={group.url}
+										onClick={() => (this.isMenuOpened = false)}
 										class="bg-green-3 hover:bg-green-2 flex cursor-pointer flex-col px-3 py-2 transition-colors"
 									>
 										<span class="font-kondolar text-h9 font-bold">
