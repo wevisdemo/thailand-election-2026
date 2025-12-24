@@ -7,7 +7,7 @@ import {
 } from '@election/ui/vue';
 import PocketbookSection from './components/PocketbookSection.vue';
 import Timeline from './components/Timeline.vue';
-import { fetchWeVisElectionPosts } from './wordpress/src';
+import { fetchWeVisPosts } from './wordpress/src';
 
 const isLoading = ref(true);
 
@@ -47,7 +47,11 @@ onMounted(async () => {
 		isLoading.value = false;
 	}, 300);
 
-	articleList.value = await fetchWeVisElectionPosts({ limit: 10 });
+	articleList.value = await fetchWeVisPosts({
+		tagId: 147,
+		categoryId: 7,
+		limit: 10,
+	});
 	calculateDaysLeft();
 });
 </script>
