@@ -9,6 +9,7 @@
 		"lint": "eslint"
 	},
 	"dependencies": {
+		"@base-ui/react": "^1.0.0",
 		"@election/tailwind": "workspace:*",
 		"@election/ui": "workspace:*",
 		"@tailwindcss/postcss": "^4",

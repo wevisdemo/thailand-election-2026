@@ -1,5 +1,4 @@
-import { Footer } from '@/components/Footer';
-import { ElectionNavbar } from '@election/ui/react';
+import { ElectionFooter, ElectionNavbar } from '@election/ui/react';
 import type { Metadata } from 'next';
 import './globals.css';
 
@@ -28,7 +27,7 @@ export default function RootLayout({
 			<body>
 				<ElectionNavbar />
 				{children}
-				<Footer />
+				<ElectionFooter />
 			</body>
 		</html>
 	);

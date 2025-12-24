@@ -1,2 +1,15 @@
 @import 'tailwindcss';
 @import '@election/tailwind/index.css';
+
+@theme {
+	--color-bg-2: #f5f4ee;
+
+	--color-topic-problem: #fffda0;
+	--color-topic-action: #adf3eb;
+	--color-topic-outcome: #1ac5ff;
+	--color-topic-target: #05d6ba;
+	--color-topic-timeframe: #ff91e5;
+	--color-topic-budget: #ff8c4a;
+	--color-topic-budget-src: #ffd4ad;
+	--color-topic-not-indicate: #b70425;
+}

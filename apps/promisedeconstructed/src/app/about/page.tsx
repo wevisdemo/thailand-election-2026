@@ -1,3 +1,4 @@
+import { ShareBlock } from '@/components/ShareBlock';
 import { ElectionAboutActions } from '@election/ui/react';
 
 export default function AboutPage() {
@@ -86,6 +87,7 @@ export default function AboutPage() {
 			<div className="py-5 md:py-12.5">
 				<ElectionAboutActions dataUrl="#" />
 			</div>
+			<ShareBlock showAboutButton={false} />
 		</main>
 	);
 }
