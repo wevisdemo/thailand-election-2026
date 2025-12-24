@@ -1,6 +1,22 @@
 <script setup lang="ts">
 import useEmblaCarousel from 'embla-carousel-vue';
 import WheelGestures from 'embla-carousel-wheel-gestures';
+import {
+	Column,
+	Object as SheetObject,
+	Spreadsheet,
+	asBoolean,
+	asString,
+	type StaticDecode,
+} from 'sheethuahua';
+
+const schema = SheetObject({
+	date: Column('date', asString()),
+	event: Column('event', asString()),
+	urlText: Column('urlText', asString().optional()),
+	url: Column('url', asString().optional()),
+	hasUrl: Column('url_embedded', asBoolean()),
+});
 
 interface Card {
 	id: number;
@@ -9,55 +25,128 @@ interface Card {
 	endDate: string;
 	title: string;
 	url?: string;
+	urlText?: string;
+	hasUrl: boolean;
 }
 
-const cards = ref<Card[]>([
-	{
-		id: 0,
-		date: '17 ธันวาคม 2568',
-		month: 'ธันวาคม 2568',
-		endDate: '2025-12-17',
-		title: 'xxxxxxx xxxxxxx xxxxxxx xxxxxxx xxxxxxx',
-	},
-	{
-		id: 1,
-		date: '20 ธันวาคม 2568 - 5 มกราคม 2569',
-		month: 'ธันวาคม 2568 - มกราคม 2569',
-		endDate: '2026-01-05',
-		title: 'ลงทะเบียนใช้สิทธิเลือกตั้งล่วงหน้าในเขต-นอกเขต-นอกราชอาณาจักร',
-		url: '/',
-	},
-	{
-		id: 2,
-		date: 'TBA',
-		month: 'TBA',
-		endDate: '',
-		title: 'ลงทะเบียนใช้สิทธิลงเสียงประชามตินอกเขต-นอกราชอาณาจักร',
-		url: '/',
-	},
-	{
-		id: 3,
-		date: '1 กุมภาพันธ์ 2569',
-		month: 'กุมภาพันธ์ 2569',
-		endDate: '2026-02-01',
-		title: 'วันเลือกตั้งล่วงหน้า ในเขตและนอกเขต',
-	},
-	{
-		id: 4,
-		date: '1-15 กุมภาพันธ์ 2569',
-		month: 'กุมภาพันธ์ 2569',
-		endDate: '2026-02-01',
-		title: 'แจ้งเหตุไม่อาจใช้สิทธิเลือกตั้ง',
-		url: '/',
-	},
-	{
-		id: 5,
-		date: '8 กุมภาพันธ์ 2569',
-		month: 'กุมภาพันธ์ 2569',
-		endDate: '2026-02-08',
-		title: 'วันเลือกตั้งทั่วไป',
-	},
-]);
+const thai_months = [
+	'มกราคม',
+	'กุมภาพันธ์',
+	'มีนาคม',
+	'เมษายน',
+	'พฤษภาคม',
+	'มิถุนายน',
+	'กรกฎาคม',
+	'สิงหาคม',
+	'กันยายน',
+	'ตุลาคม',
+	'พฤศจิกายน',
+	'ธันวาคม',
+];
+
+const getMonthIndex = (monthName: string): string => {
+	const index = thai_months.indexOf(monthName);
+	if (index === -1) return '01';
+	return String(index + 1).padStart(2, '0');
+};
+
+const convertYearToAD = (beYear: string): number => {
+	return parseInt(beYear) - 543;
+};
+
+const padDay = (day: string): string => {
+	return day.padStart(2, '0');
+};
+
+const getEndDateAndMonth = (input: string) => {
+	if (!input) return null;
+
+	const text = input.trim();
+	if (text.includes(' - ')) {
+		const parts = text.split(' - ');
+
+		const startPart = parts[0];
+		const endPart = parts[1];
+
+		if (!startPart || !endPart) {
+			return null;
+		}
+
+		const startTokens = startPart.split(' ').filter(Boolean);
+		const endTokens = endPart.split(' ').filter(Boolean);
+
+		const day = endTokens[0];
+		const monthStr = endTokens[1];
+		const yearBe = endTokens[2];
+
+		const startMonthStr = startTokens[1];
+		const startYearBe = startTokens[2];
+
+		if (!day || !monthStr || !yearBe || !startMonthStr || !startYearBe) {
+			return null;
+		}
+
+		return {
+			endDate: `${convertYearToAD(yearBe)}-${getMonthIndex(monthStr)}-${padDay(day)}`,
+			month: `${startMonthStr} ${startYearBe} - ${monthStr} ${yearBe}`,
+		};
+	}
+
+	const tokens = text.split(' ').filter(Boolean);
+
+	const dateSegment = tokens[0];
+	const monthStr = tokens[1];
+	const yearBe = tokens[2];
+
+	if (!dateSegment || !monthStr || !yearBe) {
+		return null;
+	}
+
+	if (dateSegment.includes('-')) {
+		const days = dateSegment.split('-');
+		const endDay = days[1];
+
+		if (!endDay) return null;
+
+		return {
+			endDate: `${convertYearToAD(yearBe)}-${getMonthIndex(monthStr)}-${padDay(endDay)}`,
+			month: `${monthStr} ${yearBe}`,
+		};
+	}
+
+	return {
+		endDate: `${convertYearToAD(yearBe)}-${getMonthIndex(monthStr)}-${padDay(dateSegment)}`,
+		month: `${monthStr} ${yearBe}`,
+	};
+};
+
+const cards = ref<Card[]>([]);
+
+const transformSheetData = (rawData: StaticDecode<typeof schema>[]) => {
+	return rawData.map((row, index) => {
+		const obj = getEndDateAndMonth(row.date);
+
+		return {
+			id: index + 1,
+			date: row.date,
+			month: obj?.month ?? 'รอประกาศ',
+			endDate: obj?.endDate ?? '',
+			title: row.event,
+			url: row.url,
+			urlText: row.urlText,
+			hasUrl: row.hasUrl,
+		};
+	});
+};
+
+onMounted(async () => {
+	const output = await Spreadsheet(
+		'1RCSn6V-TsfYKAsU84lCKeETUMJ3Kj3HFqPQbROVPMmw',
+	).get('Voter timeline', schema);
+	const data = transformSheetData(output);
+
+	cards.value = data;
+});
 
 const selectedIndex = ref(0);
 
@@ -135,7 +224,7 @@ const isExpired = (endDateString: string) => {
 								<img src="/assets/images/calendar-icon.svg" alt="" />
 							</div>
 							<p
-								:class="`${card.id === 1 ? 'w-[125px] md:w-40' : 'w-fit'} text-h9 font-kondolar inline-block leading-[1.2] font-bold`"
+								:class="`${[1, 2].includes(card.id) ? 'w-[125px] md:w-40' : 'w-fit'} text-h9 font-kondolar inline-block leading-[1.2] font-bold`"
 							>
 								{{ card.date }}
 							</p>
@@ -145,17 +234,22 @@ const isExpired = (endDateString: string) => {
 							class="w-full py-3 md:py-4"
 							alt="Rough Line"
 						/>
-						<p class="text-h9 font-kondolar font-bold">
+						<p
+							:class="`text-h9 font-kondolar font-bold ${[1, 2].includes(card.id) ? 'w-[180px] md:w-60' : ''}`"
+						>
 							{{ card.title }}
 						</p>
 						<a
-							v-if="card.url"
+							v-if="card.hasUrl"
 							:href="card.url"
 							target="_blank"
 							rel="noopener noreferrer"
+							:class="card.urlText === 'รอประกาศ' && 'pointer-events-none'"
 						>
 							<div class="mt-2 flex items-center gap-1 md:mt-3">
-								<p class="text-gray-2 text-b6">ลงทะเบียนใช้สิทธิที่นี่</p>
+								<p class="text-gray-2 text-b6 hover:text-gray-1">
+									{{ card.urlText }}
+								</p>
 								<img
 									src="/assets/images/external-icon.svg"
 									alt="External Link Icon"
