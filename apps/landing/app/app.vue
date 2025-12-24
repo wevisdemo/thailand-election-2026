@@ -267,7 +267,9 @@ onMounted(async () => {
 		<div
 			class="flex flex-col items-center bg-white px-4 pt-[60px] text-center md:pt-20"
 		>
-			<h3 class="text-h3 mb-10 font-bold md:mb-[65px]">เกี่ยวกับ WeVis</h3>
+			<h3 class="text-h3 font-kondolar mb-10 font-bold md:mb-[60px]">
+				เกี่ยวกับ WeVis
+			</h3>
 			<div class="b4 w-full md:w-[650px]">
 				<p class="mb-5 md:mb-[30px]">
 					WeVis เป็นกลุ่มเทคโนโลยีภาคประชาชนที่เชื่อว่าข้อมูลเปิดและเทคโนโลยี<br
