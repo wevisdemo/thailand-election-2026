@@ -79,10 +79,9 @@ onMounted(async () => {
 			<h4 class="text-h4 text-green-3 w-[280px] font-bold md:w-full">
 				ทบทวน เตรียมพร้อม ซ้อมใช้สิทธิ 
 			</h4>
-			<p class="text-h8 mb-4 w-[280px] text-white md:w-[400px] lg:w-full">
-				รวม ‘ข้อมูลเปิด’
-				<br class="md:hidden" />
-				สำหรับทวนความจำและเตรียมตัวเลือกตั้งพร้อมประชามติ 2569
+			<p class="text-h8 mb-4 w-[320px] text-white md:w-[400px] lg:w-full">
+				รวม ‘ข้อมูลเปิด’ สำหรับทวนความจำ <br />
+				และเตรียมตัวเลือกตั้งพร้อมประชามติ 2569
 			</p>
 			<div v-if="!isTimeUp" class="flex w-full flex-col items-center">
 				<div class="flex flex-col items-center md:flex-row md:gap-0">
@@ -290,12 +289,13 @@ onMounted(async () => {
 					WeVis เป็นกลุ่มเทคโนโลยีภาคประชาชนที่เชื่อว่าข้อมูลเปิดและเทคโนโลยี<br
 						class="hidden md:block"
 					/>
-					สามารถทำให้พวกเรามีส่วนร่วมในการเมือง
+					สามารถทำให้พวกเรา<span class="whitespace-nowrap">มีส่วนร่วม</span
+					>ในการเมือง
 					<span class="whitespace-nowrap">การเลือกตั้ง</span>
 					และประชาธิปไตยได้<br class="hidden md:block" />
-					พวกเราจึงรวมตัวกันขึ้นมาเพื่อทำโปรเจกต์เหล่านี้<br
-						class="hidden md:block"
-					/>
+					พวกเราจึงรวมตัวกันขึ้นมา<span class="whitespace-nowrap"
+						>เพื่อทำโปรเจกต์</span
+					>เหล่านี้<br class="hidden md:block" />
 					หวังให้ผู้มีสิทธิเลือกตั้ง<span class="whitespace-nowrap">ทุกคน</span
 					>และสื่อมวลชน สามารถค้นหาข้อมูล<span class="whitespace-nowrap"
 						>ได้สะดวกขึ้น</span
