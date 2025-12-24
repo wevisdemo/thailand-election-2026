@@ -236,10 +236,28 @@ onMounted(async () => {
 				class="mt-[50px] flex w-60 flex-wrap justify-center gap-2.5 md:mt-[65px] md:w-[640px]"
 			>
 				<img
-					v-for="i in 7"
-					:key="i"
 					class="w-[60px] md:w-20"
-					src="/assets/images/con-for-all-logo.png"
+					src="/assets/images/partner-logo-conforall.png"
+					alt="Logo"
+				/>
+				<img
+					class="w-[60px] md:w-20"
+					src="/assets/images/partner-logo-wewatch.png"
+					alt="Logo"
+				/>
+				<img
+					class="w-[60px] md:w-20"
+					src="/assets/images/partner-logo-ilaw.png"
+					alt="Logo"
+				/>
+				<img
+					class="w-[60px] md:w-20"
+					src="/assets/images/partner-logo-theactive.png"
+					alt="Logo"
+				/>
+				<img
+					class="w-[60px] md:w-20"
+					src="/assets/images/partner-logo-commonmuze.png"
 					alt="Logo"
 				/>
 			</div>
