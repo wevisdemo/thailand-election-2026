@@ -220,11 +220,13 @@ const isExpired = (endDateString: string) => {
 						:class="`${isExpired(card.endDate) ? 'opacity-40' : 'opacity-100'} bg-bg flex w-60 flex-col items-center rounded-2xl border-2 p-[18px] text-center md:w-[316px]`"
 					>
 						<div class="flex items-start gap-1.5 md:gap-2">
-							<div class="w-5 flex-none -translate-y-0.5 md:w-6">
+							<div
+								:class="`w-5 flex-none -translate-y-0.5 md:w-6 ${card.date === 'รอประกาศ' && 'opacity-40'}`"
+							>
 								<img src="/assets/images/calendar-icon.svg" alt="" />
 							</div>
 							<p
-								:class="`${[1, 2].includes(card.id) ? 'w-[125px] md:w-40' : 'w-fit'} text-h9 font-kondolar inline-block leading-[1.2] font-bold`"
+								:class="`${[1, 2].includes(card.id) ? 'w-[125px] md:w-40' : 'w-fit'} ${card.date === 'รอประกาศ' ? 'text-gray-2' : 'text-black'} text-h9 font-kondolar inline-block leading-[1.2] font-bold`"
 							>
 								{{ card.date }}
 							</p>
