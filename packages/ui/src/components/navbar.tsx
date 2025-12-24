@@ -1,4 +1,4 @@
-import { Component, Host, State, h } from '@stencil/core';
+import { Component, Host, Listen, State, h } from '@stencil/core';
 import projects from '@election/constants/projects.json';
 
 const menuItems = [
@@ -29,11 +29,30 @@ const menuItems = [
 })
 export class ElectionNavbar {
 	@State() isMenuOpened = false;
+	@State() isVisible = true;
+
+	private lastScrollY = 0;
+
+	@Listen('scroll', { target: 'window' })
+	handleScroll() {
+		const currentScrollY = window.scrollY;
+
+		if (currentScrollY > this.lastScrollY && currentScrollY > 50) {
+			this.isVisible = false;
+			this.isMenuOpened = false;
+		} else {
+			this.isVisible = true;
+		}
+
+		this.lastScrollY = currentScrollY;
+	}
 
 	render() {
 		return (
 			<Host>
-				<div class="bg-bg relative flex h-10 flex-row items-center justify-between p-1 md:h-14 md:p-3">
+				<div
+					class={`bg-bg fixed top-0 z-50 flex h-10 w-full flex-row items-center justify-between p-1 transition-transform duration-300 ease-in-out md:h-14 md:p-3 ${this.isVisible ? 'translate-y-0' : '-translate-y-full'} `}
+				>
 					<a class="h-full pl-1" href="/" aria-label="WeVis Election">
 						<svg class="h-full" viewBox="0 0 258 40" aria-hidden="true">
 							<path
@@ -214,6 +233,7 @@ export class ElectionNavbar {
 						</ul>
 					) : null}
 				</div>
+				<div class="h-10 w-full md:h-14" />
 			</Host>
 		);
 	}
