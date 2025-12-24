@@ -19,10 +19,10 @@ export class ElectionAboutActions {
 						<a class="w-44 md:w-48" href={this.dataUrl} target="_blank">
 							<election-button
 								compact
-								twClass="w-full justify-start border-black"
+								twClass="w-full items-center justify-center border-black"
 							>
 								<svg
-									class="size-5 stroke-current stroke-2"
+									class="size-5 -translate-y-px stroke-current stroke-2"
 									viewBox="0 0 20 20"
 									fill="none"
 								>
@@ -47,10 +47,10 @@ export class ElectionAboutActions {
 					>
 						<election-button
 							compact
-							twClass="w-full justify-start border-black"
+							twClass="w-full items-center justify-center border-black"
 						>
 							<svg
-								class="size-5 fill-none stroke-current stroke-2"
+								class="size-5 -translate-y-px fill-none stroke-current stroke-2"
 								viewBox="0 0 20 20"
 							>
 								<path
@@ -72,9 +72,12 @@ export class ElectionAboutActions {
 					>
 						<election-button
 							compact
-							twClass="w-full justify-start border-black"
+							twClass="w-full items-center justify-center border-black"
 						>
-							<svg class="size-5 fill-current" viewBox="0 0 20 20">
+							<svg
+								class="size-5 -translate-y-px fill-current"
+								viewBox="0 0 20 20"
+							>
 								<path d="M10.0127 0.0359005C7.63574 0.0335465 5.3356 0.856053 3.52448 2.35603C1.71336 3.856 0.509647 5.93539 0.129065 8.22156C-0.251517 10.5077 0.215908 12.8512 1.44756 14.8321C2.67922 16.813 4.59461 18.3017 6.85047 19.0316C7.34783 19.1213 7.53204 18.8162 7.53204 18.5589C7.53204 18.3017 7.53204 17.7154 7.53204 16.9017C4.75049 17.5 4.16102 15.5974 4.16102 15.5974C3.97568 15.0078 3.58192 14.5011 3.04963 14.1675C2.14701 13.5692 3.12331 13.5692 3.12331 13.5692C3.43972 13.6128 3.74181 13.7259 4.0067 13.9C4.2716 14.0742 4.49235 14.3048 4.65225 14.5743C4.78811 14.8144 4.97127 15.0259 5.19124 15.1968C5.4112 15.3677 5.66364 15.4946 5.93406 15.5702C6.20447 15.6458 6.48754 15.6686 6.76704 15.6373C7.04653 15.6061 7.31693 15.5214 7.56273 15.388C7.60127 14.8958 7.81904 14.4333 8.17676 14.0837C5.95398 13.8384 3.62068 13.0008 3.62068 9.26751C3.60541 8.30007 3.97256 7.36395 4.6461 6.65298C4.34552 5.81189 4.38059 4.89142 4.74435 4.07436C4.74435 4.07436 5.58556 3.81111 7.49519 5.0735C9.135 4.63481 10.8658 4.63481 12.5057 5.0735C14.4153 3.81111 15.2504 4.07436 15.2504 4.07436C15.6179 4.89025 15.6552 5.81141 15.3548 6.65298C16.0283 7.36395 16.3954 8.30007 16.3802 9.26751C16.3802 13.0128 14.0407 13.8325 11.8118 14.0538C12.0508 14.2879 12.2354 14.5694 12.353 14.879C12.4706 15.1887 12.5184 15.5194 12.4934 15.8487C12.4934 17.153 12.4934 18.206 12.4934 18.5231C12.4934 18.8401 12.6715 19.0854 13.1811 18.9957C15.4299 18.259 17.3369 16.7678 18.5621 14.7883C19.7873 12.8087 20.2509 10.4694 19.8704 8.18772C19.4898 5.90599 18.2897 3.83017 16.4842 2.33053C14.6787 0.830891 12.3852 0.00494083 10.0127 0V0.0359005Z" />
 							</svg>
 							<span class="leading-0">View on Github</span>
