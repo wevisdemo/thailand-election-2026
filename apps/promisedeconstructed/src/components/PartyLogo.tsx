@@ -5,6 +5,7 @@ interface PartyLogoProps {
 	size?: number;
 	className?: string;
 	alt?: string;
+	style?: React.CSSProperties;
 }
 
 export const PartyLogo = ({
@@ -12,6 +13,7 @@ export const PartyLogo = ({
 	alt = '',
 	className,
 	size = 100,
+	style,
 }: PartyLogoProps) => {
 	return (
 		<Image
@@ -20,6 +22,7 @@ export const PartyLogo = ({
 			alt={alt}
 			width={size}
 			height={size}
+			style={style}
 		/>
 	);
 };

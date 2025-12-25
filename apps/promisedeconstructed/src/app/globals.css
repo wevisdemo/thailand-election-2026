@@ -31,3 +31,11 @@
 		overflow-x: clip;
 	}
 }
+
+@utility text-box-text {
+	text-box: trim-both text;
+}
+
+@utility text-box-cap {
+	text-box: trim-both cap alphabetic;
+}
