@@ -4,20 +4,25 @@ import AutoComplete from '../shared/Autocomplete';
 import SearchInput from '../shared/SearchInput';
 import { Candidate } from '@/src/type/candidate';
 import IndividualList from './IndividualList';
+import PartyList from './PartyList';
+import { Party } from '@/src/type/party';
 
 // TODO: use props to dynamic variable
 
 interface PartyListSectionProps {
 	candidates: Candidate[];
+	parties: Party[];
 }
 
 export default function PartyListSection({
 	candidates,
+	parties,
 }: PartyListSectionProps) {
 	const [voteType, setVoteType] = useState<'individual' | 'party'>(
 		'individual',
 	);
 	const [individualSearch, setIndividualSearch] = useState('');
+	const [partySearch, setPartySearch] = useState('');
 	return (
 		<div>
 			<div className="flex w-full">
@@ -57,6 +62,31 @@ export default function PartyListSection({
 					/>
 
 					<IndividualList candidates={candidates} />
+				</div>
+			)}
+			{voteType === 'party' && (
+				<div className="relative top-[-2px] flex w-full flex-col items-center gap-[16px] rounded-tl-[16px] rounded-br-[16px] rounded-bl-[16px] border-[2px] bg-white px-[16px] py-[24px] md:px-[52px]">
+					<div className="text-center">
+						<h5 className="text-h8 font-kondolar">
+							ทั้งหมด <span className="font-bold">xx พรรค</span>
+						</h5>
+						<p className="text-b5 flex text-[#0EA177]">
+							<img
+								className="mr-[4px]"
+								src="/ballotready/green-bookmark.svg"
+								alt="green-bookmark"
+							/>
+							เคยมีตำแหน่งในสภาสมัยที่แล้ว{' '}
+							<span className="font-bold">xx พรรค</span>
+						</p>
+					</div>
+					<SearchInput
+						placeholder="ค้นหาชื่อพรรคการเมือง"
+						textInput={partySearch}
+						onChangeTextInput={(e) => setPartySearch(e.target.value)}
+					/>
+
+					<PartyList parties={parties} />
 				</div>
 			)}
 		</div>

@@ -97,7 +97,11 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 						{candidate.hasHeldPositionBefore ? (
 							<>
 								<p className="text-[14px] text-[#0EA177]">เคยมีตำแหน่งในสภา</p>
-								<a className="flex" target="_blank" href="">
+								<a
+									className="flex justify-between md:justify-start"
+									target="_blank"
+									href=""
+								>
 									<span className="text-[14px] text-[#6140D2] underline">
 										ตรวจการบ้าน
 									</span>
@@ -105,7 +109,11 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 								</a>
 							</>
 						) : (
-							<a className="flex" target="_blank" href="">
+							<a
+								className="flex justify-between md:justify-start"
+								target="_blank"
+								href=""
+							>
 								<span className="text-[14px] text-[#6140D2] underline">
 									ส่องประวัติ
 								</span>
@@ -113,7 +121,11 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 							</a>
 						)}
 
-						<a className="flex" target="_blank" href="">
+						<a
+							className="flex justify-between md:justify-start"
+							target="_blank"
+							href=""
+						>
 							<span className="text-[14px] text-[#6140D2] underline">
 								ส่องนโยบายพรรคที่สังกัด
 							</span>

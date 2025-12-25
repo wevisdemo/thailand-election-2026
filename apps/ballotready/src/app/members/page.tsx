@@ -4,6 +4,7 @@ import ElectorateCard from '../component/shared/ElectorateCard';
 import BallotRemind from '../component/Electorate/BallotRemind';
 import PartyListSection from '../component/Electorate/PartyListSection';
 import { Candidate } from '@/src/type/candidate';
+import { Party } from '@/src/type/party';
 
 const mockData: ElectoralDistrict = {
 	province: 'กระบี่',
@@ -53,6 +54,58 @@ const mockCandidates: Candidate[] = [
 		hasHeldPositionBefore: true,
 	},
 ];
+const mockParties: Party[] = [
+	{
+		name: 'รวมแผ่นดิน',
+		number: 1,
+		partyLogoUrl: '/ballotready/people-party-icon.svg',
+		candidates: [
+			{
+				name: 'ชวินชยาทิต ภาณุหสตังไทรแก้ว',
+				photoUrl: '/ballotready/dummie-candidate.svg',
+			},
+			{
+				name: 'ชวินชยาทิต ภาณุหสตังไทรแก้ว',
+				photoUrl: '/ballotready/dummie-candidate.svg',
+			},
+			{
+				name: 'ชวินชยาทิต ภาณุหสตังไทรแก้ว',
+				photoUrl: '/ballotready/dummie-candidate.svg',
+			},
+		],
+		partyListCandidates: [],
+		previousPositions: [
+			{
+				position: 'พรรคร่วมรัฐบาล',
+				duration: '1 ก.ย. 66 - 14 ส.ค. 67',
+			},
+			{
+				position: 'พรรคร่วมฝ่ายค้าน ',
+				duration: '4 ก.ย. 67 - 11 ธ.ค. 68',
+			},
+		],
+	},
+	{
+		name: 'รวมแผ่นดิน',
+		number: 2,
+		partyLogoUrl: '/ballotready/people-party-icon.svg',
+		candidates: [
+			{
+				name: 'ชวินชยาทิต ภาณุหสตังไทรแก้ว',
+				photoUrl: '/ballotready/dummie-candidate.svg',
+			},
+			{
+				name: 'ชวินชยาทิต ภาณุหสตังไทรแก้ว',
+				photoUrl: '/ballotready/dummie-candidate.svg',
+			},
+			{
+				name: 'ชวินชยาทิต ภาณุหสตังไทรแก้ว',
+				photoUrl: '/ballotready/dummie-candidate.svg',
+			},
+		],
+		partyListCandidates: [],
+	},
+];
 
 export default function MembersPage() {
 	return (
@@ -70,7 +123,7 @@ export default function MembersPage() {
 				<div className="m-auto grid max-w-[600px] justify-center gap-[16px]">
 					<ElectorateCard electoralDistrict={mockData} />
 					<BallotRemind />
-					<PartyListSection candidates={mockCandidates} />
+					<PartyListSection candidates={mockCandidates} parties={mockParties} />
 				</div>
 			</div>
 		</div>
