@@ -31,7 +31,7 @@ export const Carousel = ({ slides }: CarouselProps) => {
 	return (
 		<section className="relative flex flex-col gap-2.5">
 			<div
-				className="mx-auto w-[calc(100%-56.26px)] overflow-hidden md:w-[calc(100%-64px)]"
+				className="mx-auto w-auto max-w-[calc(100%-56.26px)] overflow-hidden md:max-w-[calc(100%-64px)]"
 				ref={emblaRef}
 			>
 				<div className="-ml-2.5 flex touch-pan-y touch-pinch-zoom">
