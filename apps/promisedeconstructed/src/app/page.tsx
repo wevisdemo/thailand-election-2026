@@ -1,10 +1,19 @@
+'use client';
 import { CategoryGroup, CategoryGroupProps } from '@/components/CategoryGroup';
 import { FilterCategoryToggle } from '@/components/FilterCategoryToggle';
-import { Select } from '@/components/Select';
+import { PartySelect, PartySelectChoice } from '@/components/PartySelect';
 import { ShareBlock } from '@/components/ShareBlock';
 import { SubCatgCardProps } from '@/components/SubCatgCard';
 import Image from 'next/image';
 import Link from 'next/link';
+
+export const EXAMPLE_PARTIES: PartySelectChoice[] = [
+	{ value: 'ภูมิใจไทย' },
+	{ value: 'ประชาชน' },
+	{ value: 'เพื่อไทย' },
+	{ value: 'พลังประชารัฐ', disabled: true },
+	{ value: 'ประชาธิปัตย์', disabled: true },
+];
 
 const EXAMPLE_SUBCATEGORY: SubCatgCardProps = {
 	href: '/playground',
@@ -59,7 +68,10 @@ export default function Home() {
 					<h1 className="text-h3 font-kondolar font-bold">
 						ถอดโครงสร้างสัญญาพรรคการเมือง
 					</h1>
-					<Select />
+					<PartySelect
+						choices={EXAMPLE_PARTIES}
+						allChoiceText={(count) => `ทั้งหมด ${count} พรรค`}
+					/>
 					<p className="text-b7 text-gray-1">
 						*ฐานข้อมูลมีจำนวนทั้งหมด 5 พรรค
 						โดยเลือกเฉพาะพรรคที่มีข้อมูลนโยบายในเว็บไซต์ทางการ
