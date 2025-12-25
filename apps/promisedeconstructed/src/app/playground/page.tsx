@@ -1,4 +1,5 @@
 import { Carousel } from '@/components/Carousel';
+import { CategoryGroup } from '@/components/CategoryGroup';
 import { SubCatgCard } from '@/components/SubCatgCard';
 import { notFound } from 'next/navigation';
 
@@ -45,6 +46,25 @@ export default function Playground() {
 								]}
 							/>
 						))}
+				/>
+			</section>
+
+			<section className="flex flex-col gap-3">
+				<h2 className="text-h6 font-kondolar font-bold">Category Group</h2>
+				<CategoryGroup
+					name="เศรษฐกิจ"
+					subCategories={Array(10).fill({
+						href: '/playground',
+						category: '💡 ค่าไฟแพง',
+						promiseCount: 10,
+						parties: [
+							'ภูมิใจไทย',
+							'ประชาชน',
+							'เพื่อไทย',
+							'พลังประชารัฐ',
+							'ประชาธิปัตย์',
+						],
+					})}
 				/>
 			</section>
 		</div>

@@ -1,7 +1,51 @@
+import { CategoryGroup, CategoryGroupProps } from '@/components/CategoryGroup';
 import { Select } from '@/components/Select';
 import { ShareBlock } from '@/components/ShareBlock';
+import { SubCatgCardProps } from '@/components/SubCatgCard';
 import Image from 'next/image';
 import Link from 'next/link';
+
+const EXAMPLE_SUBCATEGORY: SubCatgCardProps = {
+	href: '/playground',
+	category: '💡 ค่าไฟแพง',
+	promiseCount: 10,
+	parties: ['ภูมิใจไทย', 'ประชาชน', 'เพื่อไทย', 'พลังประชารัฐ', 'ประชาธิปัตย์'],
+};
+
+const EXAMPLE_CATEGORIES: CategoryGroupProps[] = [
+	{
+		name: 'เศรษฐกิจ',
+		subCategories: Array(11).fill(EXAMPLE_SUBCATEGORY),
+	},
+	{
+		name: 'สิ่งแวดล้อม',
+		subCategories: Array(11).fill(EXAMPLE_SUBCATEGORY),
+	},
+	{
+		name: 'วัฒนธรรม',
+		subCategories: Array(11).fill(EXAMPLE_SUBCATEGORY),
+	},
+	{
+		name: 'การศึกษา',
+		subCategories: Array(11).fill(EXAMPLE_SUBCATEGORY),
+	},
+	{
+		name: 'การศึกษา',
+		subCategories: Array(11).fill(EXAMPLE_SUBCATEGORY),
+	},
+	{
+		name: 'การศึกษา',
+		subCategories: Array(11).fill(EXAMPLE_SUBCATEGORY),
+	},
+	{
+		name: 'การศึกษา',
+		subCategories: Array(3).fill(EXAMPLE_SUBCATEGORY),
+	},
+	{
+		name: 'การศึกษา',
+		subCategories: Array(1).fill(EXAMPLE_SUBCATEGORY),
+	},
+];
 
 export default function Home() {
 	return (
@@ -34,8 +78,8 @@ export default function Home() {
 				<div className="text-b6 text-purple-1 flex flex-col items-center gap-[5px] text-center">
 					<p className="text-balance">
 						<strong>คำชี้แจง:</strong> ข้อมูลอัปเดทล่าสุด xx ม.ค. 2569
-						เก็บจากเว็บไซต์ทางการของ
-						พรรคการเมือง และถูกจัดกลุ่มด้วยระบบปัญญาประดิษฐ์ (LLM)
+						เก็บจากเว็บไซต์ทางการของพรรคการเมือง
+						และถูกจัดกลุ่มด้วยระบบปัญญาประดิษฐ์ (LLM)
 						แม้มีการตรวจสอบโดยทีมงานในระดับหนึ่ง
 						แต่อาจมีความคลาดเคลื่อนเกิดขึ้นได้
 					</p>
@@ -44,6 +88,11 @@ export default function Home() {
 					</Link>
 				</div>
 			</header>
+			<div className="mx-auto flex flex-col gap-4 md:w-[85svw]">
+				{EXAMPLE_CATEGORIES.map((category, index) => (
+					<CategoryGroup key={index} {...category} />
+				))}
+			</div>
 			<ShareBlock />
 		</main>
 	);

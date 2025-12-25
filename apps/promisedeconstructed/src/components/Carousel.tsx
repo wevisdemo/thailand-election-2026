@@ -2,7 +2,7 @@
 
 import useEmblaCarousel from 'embla-carousel-react';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 interface CarouselProps {
 	slides: React.ReactNode[];
@@ -23,6 +23,11 @@ export const Carousel = ({ slides }: CarouselProps) => {
 		return clear;
 	}, [emblaApi]);
 
+	const allSlidesShown = useMemo(
+		() => currentSlides.length === slides.length,
+		[currentSlides, slides],
+	);
+
 	return (
 		<section className="relative flex flex-col gap-2.5">
 			<div
@@ -42,7 +47,7 @@ export const Carousel = ({ slides }: CarouselProps) => {
 			</div>
 
 			<button
-				className="absolute top-[calc(50%-9px)] left-0 -translate-y-1/2"
+				className={`absolute top-[calc(50%-9px)] left-0 -translate-y-1/2 ${allSlidesShown ? 'hidden' : ''}`}
 				type="button"
 				onClick={() => emblaApi?.scrollPrev()}
 			>
@@ -56,7 +61,7 @@ export const Carousel = ({ slides }: CarouselProps) => {
 				/>
 			</button>
 			<button
-				className="absolute top-[calc(50%-9px)] right-0 -translate-y-1/2"
+				className={`absolute top-[calc(50%-9px)] right-0 -translate-y-1/2 ${allSlidesShown ? 'hidden' : ''}`}
 				type="button"
 				onClick={() => emblaApi?.scrollNext()}
 			>

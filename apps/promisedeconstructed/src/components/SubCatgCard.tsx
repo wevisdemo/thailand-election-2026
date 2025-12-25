@@ -19,10 +19,10 @@ export const SubCatgCard = ({
 			href={href}
 			className="hover:bg-green-2 focus:bg-green-2 bg-green-3 flex h-[120px] w-40 flex-col overflow-hidden rounded-[10px] select-none md:h-[180px] md:w-[200px]"
 		>
-			<div className="text-b5 text-trim flex min-h-0 flex-1 items-center justify-center font-bold">
+			<header className="text-b5 text-trim flex min-h-0 flex-1 items-center justify-center font-bold">
 				<span className="text-box-cap">{category}</span>
-			</div>
-			<div className="text-gray-3 text-b6 flex items-center justify-center gap-1 bg-black p-2 pt-1">
+			</header>
+			<footer className="text-gray-3 text-b6 flex items-center justify-center gap-1 bg-black p-2 pt-1">
 				<span className="font-bold">{promiseCount}</span> สัญญา จาก{' '}
 				<div className="relative z-0 flex -space-x-[3px]">
 					{parties.map((party, i) => (
@@ -35,7 +35,7 @@ export const SubCatgCard = ({
 						/>
 					))}
 				</div>
-			</div>
+			</footer>
 		</Link>
 	);
 };
