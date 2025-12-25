@@ -23,6 +23,7 @@ export const PartyLogo = ({
 			width={size}
 			height={size}
 			style={style}
+			draggable={false}
 		/>
 	);
 };

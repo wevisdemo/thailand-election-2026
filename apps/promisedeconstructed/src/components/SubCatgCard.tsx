@@ -17,7 +17,7 @@ export const SubCatgCard = ({
 	return (
 		<Link
 			href={href}
-			className="hover:bg-green-2 focus:bg-green-2 bg-green-3 flex h-[120px] w-40 flex-col overflow-hidden rounded-[10px] md:h-[180px] md:w-[200px]"
+			className="hover:bg-green-2 focus:bg-green-2 bg-green-3 flex h-[120px] w-40 flex-col overflow-hidden rounded-[10px] select-none md:h-[180px] md:w-[200px]"
 		>
 			<div className="text-b5 text-trim flex min-h-0 flex-1 items-center justify-center font-bold">
 				<span className="text-box-cap">{category}</span>

@@ -1,0 +1,86 @@
+'use client';
+
+import useEmblaCarousel from 'embla-carousel-react';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+
+interface CarouselProps {
+	slides: React.ReactNode[];
+}
+
+export const Carousel = ({ slides }: CarouselProps) => {
+	const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'start' });
+	const [currentSlides, setCurrentSlides] = useState<number[]>([]);
+
+	useEffect(() => {
+		if (!emblaApi) return;
+		// eslint-disable-next-line react-hooks/set-state-in-effect
+		setCurrentSlides(emblaApi.slidesInView());
+
+		const { clear } = emblaApi.on('slidesInView', () => {
+			setCurrentSlides(emblaApi.slidesInView());
+		});
+		return clear;
+	}, [emblaApi]);
+
+	return (
+		<section className="relative flex flex-col gap-2.5">
+			<div
+				className="mx-auto w-[calc(100%-56.26px)] overflow-hidden md:w-[calc(100%-64px)]"
+				ref={emblaRef}
+			>
+				<div className="-ml-2.5 flex touch-pan-y touch-pinch-zoom">
+					{slides.map((slide, index) => (
+						<div
+							key={index}
+							className="max-w-full min-w-0 flex-none transform-gpu pl-2.5"
+						>
+							{slide}
+						</div>
+					))}
+				</div>
+			</div>
+
+			<button
+				className="absolute top-[calc(50%-9px)] left-0 -translate-y-1/2"
+				type="button"
+				onClick={() => emblaApi?.scrollPrev()}
+			>
+				<Image
+					className="h-8 w-[22px] md:h-[38px] md:w-[25px]"
+					src="/promisedeconstructed/images/previous-btn.svg"
+					alt="ก่อนหน้า"
+					width={22}
+					height={32}
+					draggable={false}
+				/>
+			</button>
+			<button
+				className="absolute top-[calc(50%-9px)] right-0 -translate-y-1/2"
+				type="button"
+				onClick={() => emblaApi?.scrollNext()}
+			>
+				<Image
+					className="h-8 w-[22px] md:h-[38px] md:w-[25px]"
+					src="/promisedeconstructed/images/next-btn.svg"
+					alt="ถัดไป"
+					width={22}
+					height={32}
+					draggable={false}
+				/>
+			</button>
+
+			<div className="flex gap-0.5 self-center py-0.5">
+				{slides.map((_, index) => (
+					<button
+						key={index}
+						type="button"
+						onClick={() => emblaApi?.scrollTo(index)}
+						className="bg-green-3 data-active:bg-green-1 h-1 w-2 rounded-full"
+						data-active={currentSlides.includes(index) || undefined}
+					/>
+				))}
+			</div>
+		</section>
+	);
+};
