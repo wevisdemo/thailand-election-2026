@@ -1,4 +1,5 @@
 import { CategoryGroup, CategoryGroupProps } from '@/components/CategoryGroup';
+import { FilterCategoryToggle } from '@/components/FilterCategoryToggle';
 import { Select } from '@/components/Select';
 import { ShareBlock } from '@/components/ShareBlock';
 import { SubCatgCardProps } from '@/components/SubCatgCard';
@@ -75,6 +76,10 @@ export default function Home() {
 					height={150}
 					priority
 				/>
+				<div className="flex w-full flex-col items-center gap-2">
+					<span className="text-b5 font-bold">แบ่งคำสัญญาตาม</span>
+					<FilterCategoryToggle />
+				</div>
 				<div className="text-b6 text-purple-1 flex flex-col items-center gap-[5px] text-center">
 					<p className="text-balance">
 						<strong>คำชี้แจง:</strong> ข้อมูลอัปเดทล่าสุด xx ม.ค. 2569
