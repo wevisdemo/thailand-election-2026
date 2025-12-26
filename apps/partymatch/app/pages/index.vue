@@ -145,7 +145,7 @@ onMounted(() => {
 			
 		</section>
 
-		<section id="quiz" v-if="showQuiz">
+		<section id="quiz" v-if="showQuiz" class="h-[calc(100vh-133px)]">
 			<QuizMain />
 		</section>
 
