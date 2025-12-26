@@ -13,11 +13,16 @@ export interface PartySelectChoice {
 }
 
 export interface PartySelectProps {
+	className?: string;
 	choices: PartySelectChoice[];
 	allChoiceText: (count: number) => string;
 }
 
-export const PartySelect = ({ choices, allChoiceText }: PartySelectProps) => {
+export const PartySelect = ({
+	className,
+	choices,
+	allChoiceText,
+}: PartySelectProps) => {
 	const [selectedValues, setSelectedValues] = useState<
 		PartySelectChoice['value'][]
 	>([ALL_VALUE]);
@@ -66,7 +71,9 @@ export const PartySelect = ({ choices, allChoiceText }: PartySelectProps) => {
 			onValueChange={handleSelectChange}
 			multiple
 		>
-			<Select.Trigger className="text-b4 hover:border-green-1 focus-visible:border-green-1 group/select-trigger flex h-11 min-w-65 items-center gap-2 rounded-full border-2 border-black bg-white pr-4 pl-6 font-bold outline-none">
+			<Select.Trigger
+				className={`text-b4 hover:border-green-1 focus-visible:border-green-1 group/select-trigger flex h-11 min-w-65 items-center gap-2 rounded-full border-2 border-black bg-white pr-4 pl-6 font-bold outline-none ${className}`}
+			>
 				<Select.Value>{formatSelectValue}</Select.Value>
 				<Select.Icon className="group-hover/select-trigger:text-green-1 group-focus-visible/select-trigger:text-green-1 ml-auto data-popup-open:rotate-180">
 					<svg

@@ -6,9 +6,10 @@ import { useEffect, useMemo, useState } from 'react';
 
 interface CarouselProps {
 	slides: React.ReactNode[];
+	noDots?: boolean;
 }
 
-export const Carousel = ({ slides }: CarouselProps) => {
+export const Carousel = ({ slides, noDots }: CarouselProps) => {
 	const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'start' });
 	const [currentSlides, setCurrentSlides] = useState<number[]>([]);
 
@@ -47,7 +48,7 @@ export const Carousel = ({ slides }: CarouselProps) => {
 			</div>
 
 			<button
-				className={`absolute top-[calc(50%-9px)] left-0 -translate-y-1/2 ${allSlidesShown ? 'hidden' : ''}`}
+				className={`absolute left-0 -translate-y-1/2 ${noDots ? 'top-1/2' : 'top-[calc(50%-9px)]'} ${allSlidesShown ? 'hidden' : ''}`}
 				type="button"
 				onClick={() => emblaApi?.scrollPrev()}
 			>
@@ -61,7 +62,7 @@ export const Carousel = ({ slides }: CarouselProps) => {
 				/>
 			</button>
 			<button
-				className={`absolute top-[calc(50%-9px)] right-0 -translate-y-1/2 ${allSlidesShown ? 'hidden' : ''}`}
+				className={`absolute right-0 -translate-y-1/2 ${noDots ? 'top-1/2' : 'top-[calc(50%-9px)]'} ${allSlidesShown ? 'hidden' : ''}`}
 				type="button"
 				onClick={() => emblaApi?.scrollNext()}
 			>
@@ -75,17 +76,19 @@ export const Carousel = ({ slides }: CarouselProps) => {
 				/>
 			</button>
 
-			<div className="flex gap-0.5 self-center py-0.5">
-				{slides.map((_, index) => (
-					<button
-						key={index}
-						type="button"
-						onClick={() => emblaApi?.scrollTo(index)}
-						className="bg-green-3 data-active:bg-green-1 h-1 w-2 rounded-full"
-						data-active={currentSlides.includes(index) || undefined}
-					/>
-				))}
-			</div>
+			{!noDots && (
+				<div className="flex gap-0.5 self-center py-0.5">
+					{slides.map((_, index) => (
+						<button
+							key={index}
+							type="button"
+							onClick={() => emblaApi?.scrollTo(index)}
+							className="bg-green-3 data-active:bg-green-1 h-1 w-2 rounded-full"
+							data-active={currentSlides.includes(index) || undefined}
+						/>
+					))}
+				</div>
+			)}
 		</section>
 	);
 };
