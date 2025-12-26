@@ -1,19 +1,24 @@
-import { Topic, TOPICS } from '@/constants/topic';
+import { TOPICS } from '@/constants/topic';
+import { SheetSchema } from '@/utils/data';
 import Link from 'next/link';
 import { PartyLogo } from '../PartyLogo';
 import { Markdown } from './Markdown';
 import { TopicCardSection } from './TopicCardSection';
 
 export interface TopicCardProps {
-	data: Record<Topic, string | null | undefined>;
+	data: SheetSchema;
 }
 
 export const TopicCard = ({ data }: TopicCardProps) => {
 	return (
 		<article className="bg-bg flex h-[90svh] w-[280px] flex-col overflow-hidden rounded-[10px] md:w-[320px]">
 			<header className="text-h7 font-kondolar flex items-center justify-center gap-2.5 bg-black py-2.5 font-bold text-white">
-				<PartyLogo className="rounded-full" size={45} party="ภูมิใจไทย" />
-				<span className="text-box-cap">ภูมิใจไทย</span>
+				<PartyLogo
+					className="rounded-full"
+					size={45}
+					party={data.party || ''}
+				/>
+				<span className="text-box-cap">{data.party}</span>
 			</header>
 			<div
 				className="text-b4 mx-5 flex min-h-0 flex-1 flex-col gap-5 overflow-x-hidden overflow-y-auto py-2.5"
@@ -31,8 +36,10 @@ export const TopicCard = ({ data }: TopicCardProps) => {
 			<footer className="gap-5 p-5 pt-0">
 				<div className="border-t-gray-3 flex flex-col items-end border-t pt-2.5">
 					<Link
-						href="#"
 						className="text-b6 text-purple-1 flex items-center gap-[5px] py-1 underline"
+						href={data.url || '#'}
+						target="_blank"
+						rel="nofollow noopener noreferrer"
 					>
 						<span className="text-box-cap">ดูข้อความต้นฉบับ</span>
 						<svg

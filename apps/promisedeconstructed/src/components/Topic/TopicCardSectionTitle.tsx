@@ -17,7 +17,7 @@ export const TopicCardSectionTitle = ({ type }: TopicCardSectionTitleProps) => {
 				จะทำอะไร (Action)
 			</h3>
 		);
-	if (type === 'outcome_indicator')
+	if (type === 'outcomeIndicator')
 		return (
 			<h3 className="bg-topic-outcome text-b6 sticky top-2.5 z-10 rounded-full px-2.5 py-[5px] font-bold">
 				ผลลัพธ์คืออะไร (Outcome)
@@ -41,7 +41,7 @@ export const TopicCardSectionTitle = ({ type }: TopicCardSectionTitleProps) => {
 				ใช้งบเท่าไหร่ (Budget)
 			</h3>
 		);
-	if (type === 'budget_source')
+	if (type === 'budgetSource')
 		return (
 			<h3 className="bg-topic-budget-src text-b6 sticky top-2.5 z-10 rounded-full px-2.5 py-[5px] font-bold">
 				งบมาจากไหน (Budget Source)
