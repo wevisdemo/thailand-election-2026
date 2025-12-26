@@ -1,11 +1,11 @@
 'use client';
 
+import { ALL_PARTY_VALUE } from '@/constants/party';
+import { usePartyStore } from '@/stores/partyStore';
 import { Select } from '@base-ui/react/select';
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { PartyLogo } from './PartyLogo';
-
-export const ALL_VALUE = 'all';
 
 export interface PartySelectChoice {
 	value: string;
@@ -23,19 +23,21 @@ export const PartySelect = ({
 	choices,
 	allChoiceText,
 }: PartySelectProps) => {
-	const [selectedValues, setSelectedValues] = useState<
-		PartySelectChoice['value'][]
-	>([ALL_VALUE]);
+	const selectedValues = usePartyStore((state) => state.selectedParties);
+	const setSelectedValues = usePartyStore((state) => state.setSelectedParties);
 
 	const handleSelectChange = (values: PartySelectChoice['value'][]) => {
-		if (values.includes(ALL_VALUE) && !selectedValues.includes(ALL_VALUE)) {
+		if (
+			values.includes(ALL_PARTY_VALUE) &&
+			!selectedValues.includes(ALL_PARTY_VALUE)
+		) {
 			// All was pressed
-			setSelectedValues([ALL_VALUE]);
+			setSelectedValues([ALL_PARTY_VALUE]);
 			return;
 		}
-		if (values.includes(ALL_VALUE) && values.length > 1) {
+		if (values.includes(ALL_PARTY_VALUE) && values.length > 1) {
 			// All was pressed and other values are selected
-			setSelectedValues(values.filter((value) => value !== ALL_VALUE));
+			setSelectedValues(values.filter((value) => value !== ALL_PARTY_VALUE));
 			return;
 		}
 		setSelectedValues(values);
@@ -46,24 +48,28 @@ export const PartySelect = ({
 		[allChoiceText, choices],
 	);
 
-	const formatSelectValue = (selectedValues: PartySelectChoice['value'][]) =>
-		selectedValues.length === 0 ? (
-			<span className="text-gray-2">ยังไม่ได้เลือกพรรค</span>
-		) : selectedValues.length === 1 && selectedValues[0] === ALL_VALUE ? (
-			<span>{allChoiceLabel}</span>
-		) : (
+	const formatSelectValue = (selectedValues: PartySelectChoice['value'][]) => {
+		const displayValues = selectedValues.filter(
+			(value) => !choices.find((choice) => choice.value === value)?.disabled,
+		);
+		if (displayValues.length === 0)
+			return <span className="text-gray-2">ยังไม่ได้เลือกพรรค</span>;
+		if (displayValues.length === 1 && displayValues[0] === ALL_PARTY_VALUE)
+			return <span>{allChoiceLabel}</span>;
+		return (
 			<span className="flex items-center">
-				{selectedValues.length === 1 && (
+				{displayValues.length === 1 && (
 					<PartyLogo
-						party={selectedValues[0]}
+						party={displayValues[0]}
 						size={24}
 						className="mr-2 shrink-0 rounded-full border border-black"
 					/>
 				)}
-				{choices.find((choice) => selectedValues.includes(choice.value))?.value}
-				{selectedValues.length > 1 && `+${selectedValues.length - 1}`}
+				{choices.find((choice) => displayValues.includes(choice.value))?.value}
+				{displayValues.length > 1 && `+${displayValues.length - 1}`}
 			</span>
 		);
+	};
 
 	return (
 		<Select.Root
@@ -103,7 +109,7 @@ export const PartySelect = ({
 					<Select.Popup className="bg-bg-2 w-fit max-w-(--available-width) min-w-(--anchor-width) rounded-2xl border-2 border-black px-4">
 						<Select.Item
 							className="text-b4 group/select-item flex items-center gap-2 border-b border-b-black py-4 select-none last:border-b-0 data-disabled:opacity-30"
-							value={ALL_VALUE}
+							value={ALL_PARTY_VALUE}
 						>
 							<div className="size-5 rounded-sm border border-black p-px group-data-selected/select-item:bg-black">
 								<Select.ItemIndicator>
@@ -127,16 +133,13 @@ export const PartySelect = ({
 							>
 								<div className="size-5 rounded-sm border border-black p-px group-data-selected/select-item:bg-black">
 									<Select.ItemIndicator>
-										{/* Make it looks as it's not selected when disabled, so user doesn't confuse why it's selected */}
-										{!choice.disabled && (
-											<Image
-												src="/promisedeconstructed/images/check.svg"
-												alt=""
-												width={16}
-												height={16}
-												draggable={false}
-											/>
-										)}
+										<Image
+											src="/promisedeconstructed/images/check.svg"
+											alt=""
+											width={16}
+											height={16}
+											draggable={false}
+										/>
 									</Select.ItemIndicator>
 								</div>
 								<PartyLogo
