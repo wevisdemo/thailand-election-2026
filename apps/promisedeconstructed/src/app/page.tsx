@@ -100,7 +100,7 @@ export default function Home() {
 						แม้มีการตรวจสอบโดยทีมงานในระดับหนึ่ง
 						แต่อาจมีความคลาดเคลื่อนเกิดขึ้นได้
 					</p>
-					<Link className="underline" href="/about">
+					<Link className="underline" href="/about#sources-and-limitations">
 						อ่านที่มาและข้อจำกัดข้อมูล
 					</Link>
 				</div>

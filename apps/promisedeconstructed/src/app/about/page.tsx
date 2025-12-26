@@ -9,7 +9,12 @@ export default function AboutPage() {
 			</h1>
 			<div className="mx-auto flex max-w-[722px] flex-col gap-12.5 px-9 md:gap-25">
 				<section className="text-b4 flex flex-col gap-3.75 md:gap-7.5">
-					<h2 className="text-h5 font-kondolar font-bold">เป้าหมาย</h2>
+					<h2
+						id="target"
+						className="text-h5 font-kondolar scroll-mt-8 font-bold md:scroll-mt-14"
+					>
+						เป้าหมาย
+					</h2>
 					<p>
 						dummy text of the printing and typesetting industry. Lorem Ipsum has
 						been the industry&apos;s standard dummy text ever since the 1500s,
@@ -23,7 +28,10 @@ export default function AboutPage() {
 					</p>
 				</section>
 				<section className="text-b4 flex flex-col gap-3.75 md:gap-7.5">
-					<h2 className="text-h5 font-kondolar font-bold">
+					<h2
+						id="sources-and-limitations"
+						className="text-h5 font-kondolar scroll-mt-8 font-bold md:scroll-mt-14"
+					>
 						ที่มาของข้อมูล & ข้อจำกัด
 					</h2>
 					<p>
@@ -39,7 +47,10 @@ export default function AboutPage() {
 					</p>
 				</section>
 				<section className="text-b4 flex flex-col gap-3.75 md:gap-7.5">
-					<h2 className="text-h5 font-kondolar font-bold">
+					<h2
+						id="volunteers"
+						className="text-h5 font-kondolar scroll-mt-8 font-bold md:scroll-mt-14"
+					>
 						อาสาสมัครร่วมพัฒนา
 					</h2>
 					<article className="flex flex-col gap-1.25 md:gap-2.5">
