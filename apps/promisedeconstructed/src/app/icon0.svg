@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><style>
+    #light-icon {
+      display: inline;
+    }
+    #dark-icon {
+      display: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #light-icon {
+        display: none;
+      }
+      #dark-icon {
+        display: inline;
+      }
+    }
+  </style><g id="light-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g><g transform="matrix(31.25,0,0,31.25,0,0)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 32 32"><path fill="#000" d="M23.614 10v2.184l.964.239c.327.072.328.297.176.84l-1.357 5.089h-.124l-1.372-3.96-1.538 4.713.899 2.895h4.47l3.091-9.456a.256.256 0 01.067-.109.272.272 0 01.113-.065l.997-.186V10h-6.386zM9.41 10v2.184l.906.239c.374.096.374.28.175.84l-1.759 5.089h-.124L7.25 13.264c-.152-.542-.15-.768.176-.84l.963-.238V10H2v2.185l1.03.191c.1.024.124.072.15.168L6.27 22h4.472l1.557-5.016L13.858 22h4.47l3.097-9.456a.255.255 0 01.067-.109.272.272 0 01.113-.065l.997-.186V10h-6.393v2.184l.963.239c.327.072.33.297.178.84l-1.358 5.089h-.125l-1.759-5.088c-.194-.56-.2-.744.176-.84l.907-.238V10L9.41 10z"></path></svg></svg></g></g></svg></g><g id="dark-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g><g transform="matrix(31.25,0,0,31.25,0,0)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 32 32"><path fill="#FBF8F4" d="M23.614 10v2.184l.964.239c.327.072.328.297.176.84l-1.357 5.089h-.124l-1.372-3.96-1.538 4.713.899 2.895h4.47l3.091-9.456a.256.256 0 01.067-.109.272.272 0 01.113-.065l.997-.186V10h-6.386zM9.41 10v2.184l.906.239c.374.096.374.28.175.84l-1.759 5.089h-.124L7.25 13.264c-.152-.542-.15-.768.176-.84l.963-.238V10H2v2.185l1.03.191c.1.024.124.072.15.168L6.27 22h4.472l1.557-5.016L13.858 22h4.47l3.097-9.456a.255.255 0 01.067-.109.272.272 0 01.113-.065l.997-.186V10h-6.393v2.184l.963.239c.327.072.33.297.178.84l-1.358 5.089h-.125l-1.759-5.088c-.194-.56-.2-.744.176-.84l.907-.238V10L9.41 10z"></path></svg></svg></g></g></svg></g></svg>
