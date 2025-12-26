@@ -2,12 +2,12 @@ import { MISSING_CATEGORY, SHEET_ID, SHEET_NAME } from '@/constants/sheet';
 import {
 	asString,
 	Column,
-	Object,
+	Object as SheethuahuaObject,
 	Spreadsheet,
 	StaticDecode,
 } from 'sheethuahua';
 
-const SheetSchema = Object({
+const SheetSchema = SheethuahuaObject({
 	party: Column('party', asString().optional(undefined)),
 	url: Column('url', asString().optional(undefined)),
 	originalText: Column('original_text', asString().optional(undefined)),
@@ -31,6 +31,7 @@ export type Data = {
 	dataByProblem: Record<string, Record<string, number[]>>;
 	dataByTarget: Record<string, Record<string, number[]>>;
 	dataBySubCategorySlug: Record<string, number[]>;
+	slugSubCategoriesLookup: Record<string, string>;
 };
 
 export const getUnique = (array: string[]) =>
@@ -58,9 +59,7 @@ const createCategoryDataLookup = (
 const createSubCategorySlugIndexLookup = (array: SheetSchema[]) =>
 	array.reduce(
 		(all, current, currentIndex) => {
-			const subCategory = slugifySubCategory(
-				current.problemSubcat || MISSING_CATEGORY,
-			);
+			const subCategory = current.problemSubcat || MISSING_CATEGORY;
 			all[subCategory] = all[subCategory] || [];
 			all[subCategory].push(currentIndex);
 			return all;
@@ -84,13 +83,23 @@ export const fetchData = async () => {
 	if (cachedData) return cachedData;
 	const sheet = await fetchSheet();
 
+	const subCategories = getUnique(
+		sheet.map((item) => item.problemSubcat || ''),
+	);
+
 	cachedData = {
 		data: sheet,
 		parties: getUnique(sheet.map((item) => item.party || '')),
-		subCategories: getUnique(sheet.map((item) => item.problemSubcat || '')),
+		subCategories,
 		dataByProblem: createCategoryDataLookup(sheet, 'problemCat'),
 		dataByTarget: createCategoryDataLookup(sheet, 'targetCat'),
 		dataBySubCategorySlug: createSubCategorySlugIndexLookup(sheet),
+		slugSubCategoriesLookup: Object.fromEntries(
+			subCategories.map((subCategory) => [
+				slugifySubCategory(subCategory),
+				subCategory,
+			]),
+		),
 	};
 	return cachedData;
 };

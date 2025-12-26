@@ -4,7 +4,6 @@ import { ALL_PARTY_VALUE } from '@/constants/party';
 import { usePartyStore } from '@/stores/partyStore';
 import { Data } from '@/utils/data';
 import Link from 'next/link';
-import { useMemo } from 'react';
 import { Carousel } from '../Carousel';
 import { PartySelect } from '../PartySelect';
 import { TopicCard } from './TopicCard';
@@ -17,31 +16,18 @@ export interface TopicBodyProps {
 export const TopicBody = ({ topic, data }: TopicBodyProps) => {
 	const selectedParties = usePartyStore((state) => state.selectedParties);
 
-	const topicData = useMemo(
-		() => data.dataBySubCategorySlug[topic].map((index) => data.data[index]),
-		[data.data, data.dataBySubCategorySlug, topic],
+	const properTopic = data.slugSubCategoriesLookup[topic];
+	const topicData = data.dataBySubCategorySlug[properTopic].map(
+		(index) => data.data[index],
 	);
-	const topicParties = useMemo(
-		() => topicData.map((item) => item.party || ''),
-		[topicData],
-	);
-	const partyChoices = useMemo(
-		() =>
-			data.parties.map((party) => ({
-				value: party,
-				disabled: !topicParties.includes(party),
-			})),
-		[data.parties, topicParties],
-	);
-	const filteredTopicData = useMemo(
-		() =>
-			selectedParties.includes(ALL_PARTY_VALUE)
-				? topicData
-				: topicData.filter((data) =>
-						selectedParties.includes(data.party || ''),
-					),
-		[topicData, selectedParties],
-	);
+	const topicParties = topicData.map((item) => item.party || '');
+	const partyChoices = data.parties.map((party) => ({
+		value: party,
+		disabled: !topicParties.includes(party),
+	}));
+	const filteredTopicData = selectedParties.includes(ALL_PARTY_VALUE)
+		? topicData
+		: topicData.filter((data) => selectedParties.includes(data.party || ''));
 
 	return (
 		<>
@@ -49,7 +35,9 @@ export const TopicBody = ({ topic, data }: TopicBodyProps) => {
 				<p className="text-h7 font-kondolar mt-5 text-center font-bold">
 					ปัญหา
 				</p>
-				<h1 className="text-h3 font-kondolar text-center font-bold">{topic}</h1>
+				<h1 className="text-h3 font-kondolar text-center font-bold">
+					{properTopic}
+				</h1>
 				<p className="text-b4 text-center font-bold">
 					มี {topicData.length} คำสัญญา จาก
 				</p>
