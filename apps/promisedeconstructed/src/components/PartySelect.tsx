@@ -127,13 +127,16 @@ export const PartySelect = ({
 							>
 								<div className="size-5 rounded-sm border border-black p-px group-data-selected/select-item:bg-black">
 									<Select.ItemIndicator>
-										<Image
-											src="/promisedeconstructed/images/check.svg"
-											alt=""
-											width={16}
-											height={16}
-											draggable={false}
-										/>
+										{/* Make it looks as it's not selected when disabled, so user doesn't confuse why it's selected */}
+										{!choice.disabled && (
+											<Image
+												src="/promisedeconstructed/images/check.svg"
+												alt=""
+												width={16}
+												height={16}
+												draggable={false}
+											/>
+										)}
 									</Select.ItemIndicator>
 								</div>
 								<PartyLogo
