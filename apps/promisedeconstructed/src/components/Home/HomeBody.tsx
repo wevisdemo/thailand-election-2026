@@ -22,10 +22,7 @@ export const HomeBody = ({ data }: HomeBodyProps) => {
 		CATEGORY_FILTER_CATEGORY,
 	]);
 
-	const parties = useMemo(
-		() => data.parties.map((party) => ({ value: party })),
-		[data.parties],
-	);
+	const parties = data.parties.map((party) => ({ value: party }));
 	const categories = useMemo(() => {
 		const group = displayCategory.includes(CATEGORY_FILTER_CATEGORY)
 			? data.dataByProblem

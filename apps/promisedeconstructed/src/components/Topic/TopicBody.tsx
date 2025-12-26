@@ -1,7 +1,10 @@
 'use client';
 
+import { ALL_PARTY_VALUE } from '@/constants/party';
+import { usePartyStore } from '@/stores/partyStore';
 import { Data } from '@/utils/data';
 import Link from 'next/link';
+import { useMemo } from 'react';
 import { Carousel } from '../Carousel';
 import { PartySelect } from '../PartySelect';
 import { TopicCard } from './TopicCard';
@@ -12,15 +15,33 @@ export interface TopicBodyProps {
 }
 
 export const TopicBody = ({ topic, data }: TopicBodyProps) => {
-	console.log(topic, data.dataBySubCategorySlug);
-	const topicData = data.dataBySubCategorySlug[topic].map(
-		(index) => data.data[index],
+	const selectedParties = usePartyStore((state) => state.selectedParties);
+
+	const topicData = useMemo(
+		() => data.dataBySubCategorySlug[topic].map((index) => data.data[index]),
+		[data.data, data.dataBySubCategorySlug, topic],
 	);
-	const topicParties = topicData.map((item) => item.party || '');
-	const partyChoices = data.parties.map((party) => ({
-		value: party,
-		disabled: !topicParties.includes(party),
-	}));
+	const topicParties = useMemo(
+		() => topicData.map((item) => item.party || ''),
+		[topicData],
+	);
+	const partyChoices = useMemo(
+		() =>
+			data.parties.map((party) => ({
+				value: party,
+				disabled: !topicParties.includes(party),
+			})),
+		[data.parties, topicParties],
+	);
+	const filteredTopicData = useMemo(
+		() =>
+			selectedParties.includes(ALL_PARTY_VALUE)
+				? topicData
+				: topicData.filter((data) =>
+						selectedParties.includes(data.party || ''),
+					),
+		[topicData, selectedParties],
+	);
 
 	return (
 		<>
@@ -71,7 +92,7 @@ export const TopicBody = ({ topic, data }: TopicBodyProps) => {
 			</header>
 			<div className="mx-auto py-5 md:w-[85svw]">
 				<Carousel
-					slides={topicData.map((data) => (
+					slides={filteredTopicData.map((data) => (
 						<TopicCard key={data.party} data={data} />
 					))}
 					noDots
