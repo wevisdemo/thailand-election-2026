@@ -32,6 +32,24 @@
 	}
 }
 
+@layer components {
+	.topic-content {
+		@apply text-b4;
+
+		& ul {
+			@apply ml-[2ch] list-outside list-disc;
+		}
+
+		& ol {
+			@apply ml-[2ch] list-outside list-decimal;
+		}
+
+		& span.extendsion {
+			@apply text-gray-1;
+		}
+	}
+}
+
 @utility text-box-text {
 	text-box: trim-both text;
 }

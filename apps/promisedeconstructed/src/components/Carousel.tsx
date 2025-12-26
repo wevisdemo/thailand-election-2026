@@ -2,7 +2,7 @@
 
 import useEmblaCarousel from 'embla-carousel-react';
 import Image from 'next/image';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 interface CarouselProps {
 	slides: React.ReactNode[];
@@ -11,23 +11,34 @@ interface CarouselProps {
 
 export const Carousel = ({ slides, noDots }: CarouselProps) => {
 	const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'start' });
-	const [currentSlides, setCurrentSlides] = useState<number[]>([]);
+	const [shownSlides, setShownSlides] = useState<number[]>([]);
+	const [isAllSlideShown, setIsAllSlideShown] = useState<boolean>(false);
+
+	const onResize = useCallback(() => {
+		if (!emblaApi) return;
+		setIsAllSlideShown(!emblaApi.canScrollNext() && !emblaApi.canScrollPrev());
+	}, [emblaApi]);
+
+	const onSlidesInView = useCallback(() => {
+		if (!emblaApi) return;
+		setShownSlides(emblaApi.slidesInView());
+	}, [emblaApi]);
 
 	useEffect(() => {
 		if (!emblaApi) return;
+
 		// eslint-disable-next-line react-hooks/set-state-in-effect
-		setCurrentSlides(emblaApi.slidesInView());
+		onResize();
+		onSlidesInView();
 
-		const { clear } = emblaApi.on('slidesInView', () => {
-			setCurrentSlides(emblaApi.slidesInView());
-		});
+		const { clear } = emblaApi
+			.on('reInit', onResize)
+			.on('reInit', onSlidesInView)
+			.on('resize', onResize)
+			.on('slidesInView', onSlidesInView);
+
 		return clear;
-	}, [emblaApi]);
-
-	const allSlidesShown = useMemo(
-		() => currentSlides.length === slides.length,
-		[currentSlides, slides],
-	);
+	}, [emblaApi, onResize, onSlidesInView, slides.length]);
 
 	return (
 		<section className="relative flex flex-col gap-2.5">
@@ -48,7 +59,7 @@ export const Carousel = ({ slides, noDots }: CarouselProps) => {
 			</div>
 
 			<button
-				className={`absolute left-0 -translate-y-1/2 ${noDots ? 'top-1/2' : 'top-[calc(50%-9px)]'} ${allSlidesShown ? 'hidden' : ''}`}
+				className={`absolute left-0 -translate-y-1/2 ${noDots ? 'top-1/2' : 'top-[calc(50%-9px)]'} ${isAllSlideShown ? 'hidden' : ''}`}
 				type="button"
 				onClick={() => emblaApi?.scrollPrev()}
 			>
@@ -62,7 +73,7 @@ export const Carousel = ({ slides, noDots }: CarouselProps) => {
 				/>
 			</button>
 			<button
-				className={`absolute right-0 -translate-y-1/2 ${noDots ? 'top-1/2' : 'top-[calc(50%-9px)]'} ${allSlidesShown ? 'hidden' : ''}`}
+				className={`absolute right-0 -translate-y-1/2 ${noDots ? 'top-1/2' : 'top-[calc(50%-9px)]'} ${isAllSlideShown ? 'hidden' : ''}`}
 				type="button"
 				onClick={() => emblaApi?.scrollNext()}
 			>
@@ -84,7 +95,7 @@ export const Carousel = ({ slides, noDots }: CarouselProps) => {
 							type="button"
 							onClick={() => emblaApi?.scrollTo(index)}
 							className="bg-green-3 data-active:bg-green-1 h-1 w-2 rounded-full"
-							data-active={currentSlides.includes(index) || undefined}
+							data-active={shownSlides.includes(index) || undefined}
 						/>
 					))}
 				</div>
