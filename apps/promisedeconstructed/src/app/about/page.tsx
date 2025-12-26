@@ -1,9 +1,11 @@
+import { BackBar } from '@/components/BackBar';
 import { ShareBlock } from '@/components/ShareBlock';
 import { ElectionAboutActions } from '@election/ui/react';
 
 export default function AboutPage() {
 	return (
 		<main>
+			<BackBar>กลับไปหน้าแรก</BackBar>
 			<h1 className="text-h3 font-kondolar flex h-[200px] items-center justify-center font-bold">
 				เกี่ยวกับโครงการ
 			</h1>
