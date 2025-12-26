@@ -42,7 +42,9 @@ export const HomeBody = ({ data }: HomeBodyProps) => {
 							href: `/${slugifySubCategory(subCategory)}`,
 							category: subCategory,
 							promiseCount: filteredData.length,
-							parties: getUnique(filteredData.map((data) => data.party || '')),
+							parties: getUnique(
+								filteredData.map((data) => data.party || ''),
+							).sort((a, z) => a.localeCompare(z)),
 						};
 					})
 					.filter((subCategory) => subCategory.promiseCount > 0),

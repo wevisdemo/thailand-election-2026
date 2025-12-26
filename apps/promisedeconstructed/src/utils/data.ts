@@ -89,7 +89,9 @@ export const fetchData = async () => {
 
 	cachedData = {
 		data: sheet,
-		parties: getUnique(sheet.map((item) => item.party || '')),
+		parties: getUnique(sheet.map((item) => item.party || '')).sort((a, z) =>
+			a.localeCompare(z),
+		),
 		subCategories,
 		dataByProblem: createCategoryDataLookup(sheet, 'problemCat'),
 		dataByTarget: createCategoryDataLookup(sheet, 'targetCat'),
