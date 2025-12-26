@@ -5,6 +5,7 @@ import './globals.css';
 export const metadata: Metadata = {
 	title: 'Promise Deconstructed: ถอดโครงสร้างสัญญาพรรคการเมือง',
 	description: 'ดูให้ชัดก่อนตัดสินใจ พรรคไหนจะทำอะไร เมื่อไหร่ และเพื่อใคร',
+	metadataBase: new URL('https://election69.wevis.info'),
 };
 
 export default function RootLayout({
