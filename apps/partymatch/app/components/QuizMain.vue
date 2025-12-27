@@ -1,33 +1,3 @@
-<script setup>
-import { marked } from 'marked';
-import QuizChoices from './QuizChoices.vue';
-const questions = ref([]);
-const currentQuestionIndex = ref(0);
-const currentQuestion = computed(() => {
-	return questions.value[currentQuestionIndex.value] || {};
-});
-const renderMarkdown = (markdownText) => {
-	return marked.parse(markdownText || '');
-};
-
-onMounted(async () => {
-	const { Column, asString, Spreadsheet, Object } = await import('sheethuahua');
-
-	const data = await Spreadsheet(
-		'1cg85RsWVrSTDgRsVMTsmbkABbDk8Y84kIU_SsRl_smQ',
-	).get(
-		'bill',
-		Object({
-			id: Column('id', asString()),
-			title: Column('title', asString()),
-			title_full: Column('title_full', asString()),
-			description: Column('desc', asString()),
-		}),
-	);
-	questions.value = data;
-});
-</script>
-
 <template>
 	<div class="relative flex h-full flex-col">
 		<!-- Progress bar -->
@@ -57,35 +27,32 @@ onMounted(async () => {
 		</div>
 
 		<!-- Quiz Choices -->
-		<template>
-			<div class="section flex w-full flex-col gap-4 py-4">
-				<div>
-					<p class="font-sriracha text-b2 text-center">It's a match</p>
-					<p class="text-b6 text-center">เพราะพรรคนี้ ไม่เข้าประชุมเกินครึ่ง</p>
-				</div>
-				<div class="flex justify-between px-20">
-					<QuizChoices
-						buttonClass="bg-gray-3 w-20 rounded-full"
-						iconSrc="~/assets/images/choice-abstain.svg"
-						label="งดออกเสียง"
-						:showInfoIcon="true"
-					/>
-					<QuizChoices
-						buttonClass="bg-green-2 w-20 rounded-full"
-						iconSrc="~/assets/images/choice-agree.svg"
-						label="เห็นด้วย"
-					/>
-					<QuizChoices
-						buttonStyle="{ backgroundColor: 'var(--red)' }"
-						iconSrc="~/assets/images/choice-disagree.svg"
-						label="ไม่เห็นด้วย"
-					/>
-				</div>
+		<div class="section flex w-full flex-col gap-4 py-4">
+			<div>
+				<p class="font-sriracha text-b2 text-center">It's a match</p>
+				<p class="text-b6 text-center">เพราะพรรคนี้ ไม่เข้าประชุมเกินครึ่ง</p>
 			</div>
-		</template>
+			<div class="flex justify-between px-20">
+				<QuizChoices
+					buttonClass="bg-gray-3"
+					iconSrc="/img/choice-abstain.svg"
+					label="งดออกเสียง"
+					:showInfoIcon="true"
+				/>
+				<QuizChoices
+					buttonClass="bg-green-2"
+					iconSrc="/img/choice-agree.svg"
+					label="เห็นด้วย"
+				/>
+				<QuizChoices
+					:buttonStyle="{ backgroundColor: 'var(--red)' }"
+					iconSrc="/img/choice-disagree.svg"
+					label="ไม่เห็นด้วย"
+				/>
+			</div>
+		</div>
 
 		<!-- Quiz Navigation -->
-
 		<button
 			v-if="currentQuestionIndex > 0"
 			class="font-kondolar absolute bottom-0 left-0 mt-auto mb-0 flex cursor-pointer flex-row items-center gap-2 p-6"
@@ -112,3 +79,62 @@ onMounted(async () => {
 		</button>
 	</div>
 </template>
+
+<script>
+import { ref, computed, onMounted } from 'vue';
+import { marked } from 'marked';
+import QuizChoices from '../components/QuizChoices.vue';
+
+export default {
+	components: {
+		QuizChoices,
+	},
+	setup() {
+		const questions = ref([]);
+		const currentQuestionIndex = ref(0);
+		const currentQuestion = computed(
+			() => questions.value[currentQuestionIndex.value] || {},
+		);
+
+		const renderMarkdown = (markdownText) => marked.parse(markdownText || '');
+
+		onMounted(async () => {
+			const { Column, asString, Spreadsheet, Object } =
+				await import('sheethuahua');
+			const data = await Spreadsheet(
+				'1cg85RsWVrSTDgRsVMTsmbkABbDk8Y84kIU_SsRl_smQ',
+			).get(
+				'bill',
+				Object({
+					id: Column('id', asString()),
+					title: Column('title', asString()),
+					title_full: Column('title_full', asString()),
+					description: Column('desc', asString()),
+				}),
+			);
+			questions.value = data;
+		});
+
+		const goToPreviousQuestion = () => {
+			if (currentQuestionIndex.value > 0) {
+				currentQuestionIndex.value--;
+			}
+		};
+
+		const goToNextQuestion = () => {
+			if (currentQuestionIndex.value < questions.value.length - 1) {
+				currentQuestionIndex.value++;
+			}
+		};
+
+		return {
+			questions,
+			currentQuestionIndex,
+			currentQuestion,
+			renderMarkdown,
+			goToPreviousQuestion,
+			goToNextQuestion,
+		};
+	},
+};
+</script>

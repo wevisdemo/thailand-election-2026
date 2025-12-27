@@ -4,7 +4,11 @@
 			<img src="/img/profile-pic.svg" class="h-8" />
 			<img src="/img/profile-pic.svg" class="h-8" />
 		</div>
-		<button :class="buttonClass" :style="buttonStyle">
+		<button
+			:class="buttonClass"
+			:style="buttonStyle"
+			class="w-20 cursor-pointer rounded-full"
+		>
 			<img :src="iconSrc" class="h-20" />
 		</button>
 		<span class="mt-2">{{ label }}</span>
