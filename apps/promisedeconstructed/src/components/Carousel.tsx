@@ -11,9 +11,10 @@ interface CarouselProps {
 }
 
 export const Carousel = ({ slides, noDots }: CarouselProps) => {
-	const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'start' }, [
-		WheelGesturesPlugin(),
-	]);
+	const [emblaRef, emblaApi] = useEmblaCarousel(
+		{ align: 'start', inViewThreshold: 0.1 },
+		[WheelGesturesPlugin()],
+	);
 	const [shownSlides, setShownSlides] = useState<number[]>([]);
 	const [isAllSlideShown, setIsAllSlideShown] = useState<boolean>(false);
 
