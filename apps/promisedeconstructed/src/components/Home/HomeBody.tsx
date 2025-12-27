@@ -6,44 +6,45 @@ import {
 } from '@/components/DisplayCategoryToggle';
 import { PartySelect } from '@/components/PartySelect';
 import { ALL_PARTY_VALUE } from '@/constants/party';
+import { NO_PARTY } from '@/constants/sheet';
 import { usePartyStore } from '@/stores/partyStore';
-import { Data, getUnique, slugifySubCategory } from '@/utils/data';
+import { getUnique, HomeData, slugifySubCategory } from '@/utils/data';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 
 interface HomeBodyProps {
-	data: Data;
+	homeData: HomeData;
 }
 
-export const HomeBody = ({ data }: HomeBodyProps) => {
+export const HomeBody = ({ homeData }: HomeBodyProps) => {
 	const selectedParties = usePartyStore((state) => state.selectedParties);
 	const [displayCategory, setDisplayCategory] = useState([
 		DISPLAY_CATEGORY_CATEGORY,
 	]);
 
-	const partyChoices = data.parties.map((party) => ({ value: party }));
+	const partyChoices = homeData.parties.map((party) => ({ value: party }));
 	const categories = useMemo(() => {
 		const group = displayCategory.includes(DISPLAY_CATEGORY_CATEGORY)
-			? data.dataByProblem
-			: data.dataByTarget;
+			? homeData.dataByProblem
+			: homeData.dataByTarget;
 		return Object.entries(group)
 			.map(([category, subcategories]) => ({
 				name: category,
 				subCategories: Object.entries(subcategories)
 					.map(([subCategory, dataIndex]) => {
-						const realizedData = dataIndex.map((index) => data.data[index]);
+						const realizedData = dataIndex.map((index) => homeData.data[index]);
 						const filteredData = selectedParties.includes(ALL_PARTY_VALUE)
 							? realizedData
 							: realizedData.filter((data) =>
-									selectedParties.includes(data.party || ''),
+									selectedParties.includes(data.party || NO_PARTY),
 								);
 						return {
 							href: `/${slugifySubCategory(subCategory)}`,
 							category: subCategory,
 							promiseCount: filteredData.length,
 							parties: getUnique(
-								filteredData.map((data) => data.party || ''),
+								filteredData.map((data) => data.party || NO_PARTY),
 							).sort((a, z) => a.localeCompare(z)),
 						};
 					})
@@ -51,9 +52,9 @@ export const HomeBody = ({ data }: HomeBodyProps) => {
 			}))
 			.filter((category) => category.subCategories.length > 0);
 	}, [
-		data.data,
-		data.dataByProblem,
-		data.dataByTarget,
+		homeData.data,
+		homeData.dataByProblem,
+		homeData.dataByTarget,
 		displayCategory,
 		selectedParties,
 	]);
@@ -73,7 +74,7 @@ export const HomeBody = ({ data }: HomeBodyProps) => {
 						allChoiceText={(count) => `ทั้งหมด ${count} พรรค`}
 					/>
 					<p className="text-b7 text-gray-1">
-						*ฐานข้อมูลมีจำนวนทั้งหมด {data.parties.length} พรรค
+						*ฐานข้อมูลมีจำนวนทั้งหมด {homeData.parties.length} พรรค
 						โดยเลือกเฉพาะพรรคที่มีข้อมูลนโยบายในเว็บไซต์ทางการ
 					</p>
 					<p className="text-b4">

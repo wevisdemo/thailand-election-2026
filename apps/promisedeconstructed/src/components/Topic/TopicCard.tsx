@@ -1,3 +1,4 @@
+import { NO_PARTY } from '@/constants/sheet';
 import { TOPICS } from '@/constants/topic';
 import { SheetSchema } from '@/utils/data';
 import Link from 'next/link';
@@ -16,7 +17,7 @@ export const TopicCard = ({ data }: TopicCardProps) => {
 				<PartyLogo
 					className="rounded-full"
 					size={45}
-					party={data.party || ''}
+					party={data.party || NO_PARTY}
 				/>
 				<span className="text-box-cap">{data.party}</span>
 			</header>

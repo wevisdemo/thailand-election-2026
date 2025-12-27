@@ -1,6 +1,7 @@
 'use client';
 
 import { ALL_PARTY_VALUE } from '@/constants/party';
+import { NO_PARTY } from '@/constants/sheet';
 import { usePartyStore } from '@/stores/partyStore';
 import { Data } from '@/utils/data';
 import Link from 'next/link';
@@ -20,14 +21,16 @@ export const TopicBody = ({ topic, data }: TopicBodyProps) => {
 	const topicData = data.dataBySubCategorySlug[properTopic].map(
 		(index) => data.data[index],
 	);
-	const topicParties = topicData.map((item) => item.party || '');
+	const topicParties = topicData.map((item) => item.party || NO_PARTY);
 	const partyChoices = data.parties.map((party) => ({
 		value: party,
 		disabled: !topicParties.includes(party),
 	}));
 	const filteredTopicData = selectedParties.includes(ALL_PARTY_VALUE)
 		? topicData
-		: topicData.filter((data) => selectedParties.includes(data.party || ''));
+		: topicData.filter((data) =>
+				selectedParties.includes(data.party || NO_PARTY),
+			);
 
 	return (
 		<>

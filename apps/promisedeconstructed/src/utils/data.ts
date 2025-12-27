@@ -1,4 +1,9 @@
-import { MISSING_CATEGORY, SHEET_ID, SHEET_NAME } from '@/constants/sheet';
+import {
+	MISSING_CATEGORY,
+	NO_PARTY,
+	SHEET_ID,
+	SHEET_NAME,
+} from '@/constants/sheet';
 import {
 	asString,
 	Column,
@@ -6,6 +11,12 @@ import {
 	Spreadsheet,
 	StaticDecode,
 } from 'sheethuahua';
+
+/**
+ * ------------------------------
+ * SHEET
+ * ------------------------------
+ */
 
 const SheetSchema = SheethuahuaObject({
 	party: Column('party', asString().optional(undefined)),
@@ -23,6 +34,21 @@ const SheetSchema = SheethuahuaObject({
 	targetCat: Column('target_cat', asString().optional(undefined)),
 });
 export type SheetSchema = StaticDecode<typeof SheetSchema>;
+
+let cachedSheet: SheetSchema[] | undefined = undefined;
+export const fetchSheet = async (): Promise<SheetSchema[]> => {
+	if (cachedSheet) return cachedSheet;
+	const sheets = Spreadsheet(SHEET_ID);
+	const sheet = await sheets.get(SHEET_NAME, SheetSchema);
+	cachedSheet = sheet;
+	return cachedSheet;
+};
+
+/**
+ * ------------------------------
+ * DATA
+ * ------------------------------
+ */
 
 export type Data = {
 	data: SheetSchema[];
@@ -67,30 +93,19 @@ const createSubCategorySlugIndexLookup = (array: SheetSchema[]) =>
 		{} as Record<string, number[]>,
 	);
 
-let cachedSheet: SheetSchema[] | undefined = undefined;
-
-export const fetchSheet = async () => {
-	if (cachedSheet) return cachedSheet;
-	const sheets = Spreadsheet(SHEET_ID);
-	const sheet = await sheets.get(SHEET_NAME, SheetSchema);
-	cachedSheet = sheet;
-	return cachedSheet;
-};
-
 let cachedData: Data | undefined = undefined;
-
-export const fetchData = async () => {
+export const getData = async (): Promise<Data> => {
 	if (cachedData) return cachedData;
 	const sheet = await fetchSheet();
 
 	const subCategories = getUnique(
-		sheet.map((item) => item.problemSubcat || ''),
+		sheet.map((item) => item.problemSubcat || MISSING_CATEGORY),
 	);
 
 	cachedData = {
 		data: sheet,
-		parties: getUnique(sheet.map((item) => item.party || '')).sort((a, z) =>
-			a.localeCompare(z),
+		parties: getUnique(sheet.map((item) => item.party || NO_PARTY)).sort(
+			(a, z) => a.localeCompare(z),
 		),
 		subCategories,
 		dataByProblem: createCategoryDataLookup(sheet, 'problemCat'),
@@ -104,4 +119,33 @@ export const fetchData = async () => {
 		),
 	};
 	return cachedData;
+};
+
+/**
+ * ------------------------------
+ * HOME DATA
+ * ------------------------------
+ */
+
+export type HomeData = Pick<
+	Data,
+	'parties' | 'dataByProblem' | 'dataByTarget'
+> & {
+	data: Pick<SheetSchema, 'party'>[];
+};
+
+let cachedHomeData: HomeData | undefined = undefined;
+export const getHomeData = async (): Promise<HomeData> => {
+	if (cachedHomeData) return cachedHomeData;
+	const data = await getData();
+
+	cachedHomeData = {
+		data: data.data.map((item) => ({
+			party: item.party,
+		})),
+		parties: data.parties,
+		dataByProblem: data.dataByProblem,
+		dataByTarget: data.dataByTarget,
+	};
+	return cachedHomeData;
 };

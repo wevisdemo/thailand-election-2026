@@ -1,10 +1,10 @@
 import { BackBar } from '@/components/BackBar';
 import { ShareBlock } from '@/components/ShareBlock';
 import { TopicBody } from '@/components/Topic/TopicBody';
-import { fetchData, slugifySubCategory } from '@/utils/data';
+import { getData, slugifySubCategory } from '@/utils/data';
 
 export async function generateStaticParams() {
-	const data = await fetchData();
+	const data = await getData();
 	return data.subCategories.map((subCategory) => {
 		const topic = slugifySubCategory(subCategory);
 		return {
@@ -20,7 +20,7 @@ export default async function TopicPage({ params }: PageProps<'/[topic]'>) {
 	const { topic } = await params;
 	const decodedTopic = decodeURIComponent(topic);
 
-	const data = await fetchData();
+	const data = await getData();
 
 	return (
 		<main className="bg-green-3">

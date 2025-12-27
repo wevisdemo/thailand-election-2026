@@ -1,13 +1,13 @@
 import { HomeBody } from '@/components/Home/HomeBody';
 import { ShareBlock } from '@/components/ShareBlock';
-import { fetchData } from '@/utils/data';
+import { getHomeData } from '@/utils/data';
 
 export default async function Home() {
-	const data = await fetchData();
+	const homeData = await getHomeData();
 
 	return (
 		<main className="bg-bg">
-			<HomeBody data={data} />
+			<HomeBody homeData={homeData} />
 			<ShareBlock />
 		</main>
 	);
