@@ -1,34 +1,63 @@
 'use client';
 import { CategoryGroup } from '@/components/CategoryGroup';
-import { FilterCategoryToggle } from '@/components/FilterCategoryToggle';
+import {
+	CATEGORY_FILTER_CATEGORY,
+	FilterCategoryToggle,
+} from '@/components/FilterCategoryToggle';
 import { PartySelect } from '@/components/PartySelect';
+import { ALL_PARTY_VALUE } from '@/constants/party';
+import { usePartyStore } from '@/stores/partyStore';
 import { Data, getUnique, slugifySubCategory } from '@/utils/data';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useMemo, useState } from 'react';
 
 interface HomeBodyProps {
 	data: Data;
 }
 
 export const HomeBody = ({ data }: HomeBodyProps) => {
+	const selectedParties = usePartyStore((state) => state.selectedParties);
+	const [displayCategory, setDisplayCategory] = useState([
+		CATEGORY_FILTER_CATEGORY,
+	]);
+
 	const parties = data.parties.map((party) => ({ value: party }));
-	const categories = Object.entries(data.dataByTarget).map(
-		([category, subcategories]) => ({
-			name: category,
-			subCategories: Object.entries(subcategories).map(
-				([subCategory, dataIndex]) => {
-					return {
-						href: `/${slugifySubCategory(subCategory)}`,
-						category: subCategory,
-						promiseCount: dataIndex.length,
-						parties: getUnique(
-							dataIndex.map((index) => data.data[index].party || ''),
-						),
-					};
-				},
-			),
-		}),
-	);
+	const categories = useMemo(() => {
+		const group = displayCategory.includes(CATEGORY_FILTER_CATEGORY)
+			? data.dataByProblem
+			: data.dataByTarget;
+		return Object.entries(group)
+			.map(([category, subcategories]) => ({
+				name: category,
+				subCategories: Object.entries(subcategories)
+					.map(([subCategory, dataIndex]) => {
+						const realizedData = dataIndex.map((index) => data.data[index]);
+						const filteredData = selectedParties.includes(ALL_PARTY_VALUE)
+							? realizedData
+							: realizedData.filter((data) =>
+									selectedParties.includes(data.party || ''),
+								);
+						return {
+							href: `/${slugifySubCategory(subCategory)}`,
+							category: subCategory,
+							promiseCount: filteredData.length,
+							parties: getUnique(
+								filteredData.map((data) => data.party || ''),
+							).sort((a, z) => a.localeCompare(z)),
+						};
+					})
+					.filter((subCategory) => subCategory.promiseCount > 0),
+			}))
+			.filter((category) => category.subCategories.length > 0);
+	}, [
+		data.data,
+		data.dataByProblem,
+		data.dataByTarget,
+		displayCategory,
+		selectedParties,
+	]);
+
 	return (
 		<>
 			<header className="mx-auto flex w-[85svw] max-w-[600px] flex-col items-center gap-4 py-5 md:py-10">
@@ -61,7 +90,10 @@ export const HomeBody = ({ data }: HomeBodyProps) => {
 				/>
 				<div className="flex w-full flex-col items-center gap-2">
 					<span className="text-b5 font-bold">แบ่งคำสัญญาตาม</span>
-					<FilterCategoryToggle />
+					<FilterCategoryToggle
+						filter={displayCategory}
+						setFilter={setDisplayCategory}
+					/>
 				</div>
 				<div className="text-b6 text-purple-1 flex flex-col items-center gap-[5px] text-center">
 					<p className="text-balance">
