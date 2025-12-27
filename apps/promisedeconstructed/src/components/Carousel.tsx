@@ -1,6 +1,7 @@
 'use client';
 
 import useEmblaCarousel from 'embla-carousel-react';
+import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -10,7 +11,9 @@ interface CarouselProps {
 }
 
 export const Carousel = ({ slides, noDots }: CarouselProps) => {
-	const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'start' });
+	const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'start' }, [
+		WheelGesturesPlugin(),
+	]);
 	const [shownSlides, setShownSlides] = useState<number[]>([]);
 	const [isAllSlideShown, setIsAllSlideShown] = useState<boolean>(false);
 
@@ -27,7 +30,6 @@ export const Carousel = ({ slides, noDots }: CarouselProps) => {
 	useEffect(() => {
 		if (!emblaApi) return;
 
-		// eslint-disable-next-line react-hooks/set-state-in-effect
 		onResize();
 		onSlidesInView();
 
