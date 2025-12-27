@@ -1,5 +1,6 @@
 <script setup>
 import { marked } from 'marked';
+import QuizChoices from './QuizChoices.vue';
 const questions = ref([]);
 const currentQuestionIndex = ref(0);
 const currentQuestion = computed(() => {
@@ -36,10 +37,7 @@ onMounted(async () => {
 
 		<!-- Question -->
 		<div class="section flex flex-row">
-			<img
-				src="/assets/images/card-side.png"
-				class="scale-x-[-1] transform py-4"
-			/>
+			<img src="/img/card-side.png" class="scale-x-[-1] transform py-4" />
 			<div
 				class="flex h-80 flex-col gap-4 rounded-2xl bg-white p-6 text-center shadow-md"
 			>
@@ -55,11 +53,36 @@ onMounted(async () => {
 					v-html="renderMarkdown(currentQuestion.description)"
 				></p>
 			</div>
-			<img src="/assets/images/card-side.png" class="py-4" />
+			<img src="/img/card-side.png" class="py-4" />
 		</div>
 
 		<!-- Quiz Choices -->
-		<QuizChoices />
+		<template>
+			<div class="section flex w-full flex-col gap-4 py-4">
+				<div>
+					<p class="font-sriracha text-b2 text-center">It's a match</p>
+					<p class="text-b6 text-center">เพราะพรรคนี้ ไม่เข้าประชุมเกินครึ่ง</p>
+				</div>
+				<div class="flex justify-between px-20">
+					<QuizChoices
+						buttonClass="bg-gray-3 w-20 rounded-full"
+						iconSrc="~/assets/images/choice-abstain.svg"
+						label="งดออกเสียง"
+						:showInfoIcon="true"
+					/>
+					<QuizChoices
+						buttonClass="bg-green-2 w-20 rounded-full"
+						iconSrc="~/assets/images/choice-agree.svg"
+						label="เห็นด้วย"
+					/>
+					<QuizChoices
+						buttonStyle="{ backgroundColor: 'var(--red)' }"
+						iconSrc="~/assets/images/choice-disagree.svg"
+						label="ไม่เห็นด้วย"
+					/>
+				</div>
+			</div>
+		</template>
 
 		<!-- Quiz Navigation -->
 
@@ -68,7 +91,7 @@ onMounted(async () => {
 			class="font-kondolar absolute bottom-0 left-0 mt-auto mb-0 flex cursor-pointer flex-row items-center gap-2 p-6"
 			@click="currentQuestionIndex--"
 		>
-			<img src="/assets/images/arrow-left.svg" class="h-8" />
+			<img src="/img/arrow-left.svg" class="h-8" />
 			กลับ
 		</button>
 		<button
@@ -77,7 +100,7 @@ onMounted(async () => {
 			@click="currentQuestionIndex++"
 		>
 			ไปต่อ
-			<img src="/assets/images/arrow-right.svg" class="h-8" />
+			<img src="/img/arrow-right.svg" class="h-8" />
 		</button>
 		<button
 			v-else-if="currentQuestionIndex === questions.length - 1"
@@ -85,7 +108,7 @@ onMounted(async () => {
 			@click="currentQuestionIndex++"
 		>
 			ดูผลลัพธ์
-			<img src="/assets/images/icon-heart-ol.svg" class="h-8" />
+			<img src="/img/icon-heart-ol.svg" class="h-8" />
 		</button>
 	</div>
 </template>
