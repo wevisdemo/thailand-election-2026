@@ -6,8 +6,12 @@ import {
 	ElectionAboutActions,
 	ElectionFooter,
 } from '@election/ui/vue';
+
 import lottie from 'lottie-web';
 import loadingAnimation from '~/assets/lotties/loading.json';
+
+import PartyDropdown from '../components/PartyDropdown.vue';
+import QuizMain from '../components/QuizMain.vue';
 
 const selectedParty = ref(null);
 const lottieContainer = ref(null);
@@ -15,15 +19,12 @@ const lottieContainer = ref(null);
 const isUnselected = ref(false);
 const showQuiz = ref(false);
 
+const partyOptions = ref([]);
+const quizQuestions = ref([]);
+
 const toggleState = () => {
 	if (!isUnselected.value) {
 		isUnselected.value = true;
-
-		const dropdown = document.querySelector('.dropdown-container');
-		if (dropdown && dropdown.__vueParentComponent?.ctx?.resetDropdown) {
-			dropdown.__vueParentComponent.ctx.resetDropdown();
-		}
-
 		selectedParty.value = null;
 	}
 };
@@ -37,7 +38,34 @@ const startQuiz = () => {
 	showQuiz.value = true;
 };
 
-onMounted(() => {
+onMounted(async () => {
+	const { Column, asString, Spreadsheet, Object } = await import('sheethuahua');
+	const spreadsheet = Spreadsheet(
+		'1cg85RsWVrSTDgRsVMTsmbkABbDk8Y84kIU_SsRl_smQ',
+	);
+
+	const partyData = await spreadsheet.get(
+		'party',
+		Object({
+			id: Column('id', asString()),
+			name: Column('party_name69', asString()),
+			name66: Column('party_name66', asString().optional()),
+			logo: Column('logo', asString().optional()),
+		}),
+	);
+	partyOptions.value = partyData.filter((party) => party.id);
+
+	const quizData = await spreadsheet.get(
+		'bill',
+		Object({
+			id: Column('id', asString()),
+			title: Column('title', asString()),
+			title_full: Column('title_full', asString()),
+			description: Column('desc', asString()),
+		}),
+	);
+	quizQuestions.value = quizData;
+
 	lottie.loadAnimation({
 		container: lottieContainer.value,
 		renderer: 'svg',
@@ -104,8 +132,10 @@ onMounted(() => {
 				</div>
 				<div class="flex flex-row gap-2">
 					<PartyDropdown
-						@update:selected="handlePartySelected"
+						:options="partyOptions"
 						:is-unselected="isUnselected"
+						@update:selected="handlePartySelected"
+						@update:isUnselected="isUnselected = $event"
 					/>
 
 					<ElectionButton
@@ -145,7 +175,7 @@ onMounted(() => {
 		</section>
 
 		<section id="quiz" v-if="showQuiz" class="h-[calc(100vh-133px)]">
-			<QuizMain />
+			<QuizMain v-if="showQuiz" :questions="quizQuestions" />
 		</section>
 
 		<ElectionFooter />

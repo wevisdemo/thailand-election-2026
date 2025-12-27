@@ -91,74 +91,53 @@
 	</div>
 </template>
 
-<script>
-import { ref, computed, onMounted } from 'vue';
+<script setup>
+import { ref, computed, watch } from 'vue';
 import { marked } from 'marked';
 import QuizChoices from '../components/QuizChoices.vue';
 
-export default {
-	components: {
-		QuizChoices,
+const props = defineProps({
+	questions: {
+		type: Array,
+		required: true,
 	},
-	setup() {
-		const questions = ref([]);
-		const currentQuestionIndex = ref(0);
-		const currentQuestion = computed(
-			() => questions.value[currentQuestionIndex.value] || {},
-		);
-		const descriptionContainer = ref(null);
-		const innerContent = ref(null);
-		const isOverflowing = ref(false);
-		let observer = null;
+});
 
-		const renderMarkdown = (markdownText) => marked.parse(markdownText || '');
+const currentQuestionIndex = ref(0);
+const currentQuestion = computed(
+	() => props.questions[currentQuestionIndex.value] || {},
+);
 
-		const checkOverflow = () => {
-			const container = descriptionContainer.value;
-			const content = innerContent.value;
-			if (container && content) {
-				isOverflowing.value = content.scrollHeight > container.clientHeight;
-			}
-		};
+const descriptionContainer = ref(null);
+const innerContent = ref(null);
+const isOverflowing = ref(false);
+let observer = null;
 
-		watch(currentQuestion, () => {
-			checkOverflow();
-		});
+const renderMarkdown = (markdownText) => marked.parse(markdownText || '');
 
-		onMounted(async () => {
-			const { Column, asString, Spreadsheet, Object } =
-				await import('sheethuahua');
-			const data = await Spreadsheet(
-				'1cg85RsWVrSTDgRsVMTsmbkABbDk8Y84kIU_SsRl_smQ',
-			).get(
-				'bill',
-				Object({
-					id: Column('id', asString()),
-					title: Column('title', asString()),
-					title_full: Column('title_full', asString()),
-					description: Column('desc', asString()),
-				}),
-			);
-			questions.value = data;
-
-			observer = new ResizeObserver(() => {
-				checkOverflow();
-			});
-
-			if (innerContent.value) {
-				observer.observe(innerContent.value);
-			}
-		});
-
-		return {
-			questions,
-			currentQuestionIndex,
-			currentQuestion,
-			renderMarkdown,
-			descriptionContainer,
-			innerContent,
-			isOverflowing,
-		};
-	},
+const checkOverflow = () => {
+	const container = descriptionContainer.value;
+	const content = innerContent.value;
+	if (container && content) {
+		isOverflowing.value = content.scrollHeight > container.clientHeight;
+	}
 };
+
+watch(currentQuestion, () => {
+	checkOverflow();
+});
+onMounted(async () => {
+	observer = new ResizeObserver(() => {
+		checkOverflow();
+	});
+
+	if (innerContent.value) {
+		observer.observe(innerContent.value);
+	}
+});
+onUnmounted(() => {
+	if (observer) {
+		observer.disconnect();
+	}
+});
 </script>

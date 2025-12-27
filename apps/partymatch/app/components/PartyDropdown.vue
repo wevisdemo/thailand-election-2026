@@ -1,5 +1,9 @@
 <script setup>
 const props = defineProps({
+	options: {
+		type: Array,
+		required: true,
+	},
 	isUnselected: {
 		type: Boolean,
 		default: false,
@@ -7,38 +11,13 @@ const props = defineProps({
 });
 
 const selected = ref('');
-const options = ref([]);
 const isOpen = ref(false);
 
 const selectedOption = computed(() => {
 	if (props.isUnselected && !isOpen.value) {
 		return null;
 	}
-	return options.value.find((opt) => opt.id === selected.value);
-});
-
-onMounted(async () => {
-	const { Column, asString, Spreadsheet, Object } = await import('sheethuahua');
-
-	const data = await Spreadsheet(
-		'1cg85RsWVrSTDgRsVMTsmbkABbDk8Y84kIU_SsRl_smQ',
-	).get(
-		'party',
-		Object({
-			id: Column('id', asString()),
-			name: Column('party_name69', asString()),
-			name66: Column('party_name66', asString().optional()),
-			logo: Column('logo', asString().optional()),
-		}),
-	);
-
-	options.value = (data || []).filter((party) => party.id);
-
-	document.addEventListener('click', (e) => {
-		if (!e.target.closest('.dropdown-container')) {
-			isOpen.value = false;
-		}
-	});
+	return props.options.find((opt) => opt.id === selected.value);
 });
 
 const toggleDropdown = () => {
