@@ -96,7 +96,7 @@ export const HomeBody = ({ data }: HomeBodyProps) => {
 					/>
 				</div>
 				<div className="text-b6 text-purple-1 flex flex-col items-center gap-[5px] text-center">
-					<p className="text-balance">
+					<p>
 						<strong>คำชี้แจง:</strong> ข้อมูลอัปเดทล่าสุด xx ม.ค. 2569
 						เก็บจากเว็บไซต์ทางการของพรรคการเมือง
 						และถูกจัดกลุ่มด้วยระบบปัญญาประดิษฐ์ (LLM)
