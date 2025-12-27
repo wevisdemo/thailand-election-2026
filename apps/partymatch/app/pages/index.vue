@@ -12,6 +12,7 @@ import loadingAnimation from '~/assets/lotties/loading.json';
 
 import PartyDropdown from '../components/PartyDropdown.vue';
 import QuizMain from '../components/QuizMain.vue';
+import { asNumber } from 'sheethuahua';
 
 const selectedParty = ref(null);
 const lottieContainer = ref(null);
@@ -21,6 +22,7 @@ const showQuiz = ref(false);
 
 const partyOptions = ref([]);
 const quizQuestions = ref([]);
+const partyAnswers = ref([]);
 
 const toggleState = () => {
 	if (!isUnselected.value) {
@@ -35,7 +37,9 @@ const handlePartySelected = (party) => {
 };
 
 const startQuiz = () => {
-	showQuiz.value = true;
+	if (selectedParty.value) {
+		showQuiz.value = true;
+	}
 };
 
 onMounted(async () => {
@@ -65,6 +69,22 @@ onMounted(async () => {
 		}),
 	);
 	quizQuestions.value = quizData;
+
+	const partyAnswerData = await spreadsheet.get(
+		'quiz',
+		Object({
+			party_id: Column('party_id', asString()),
+			quiz_id: Column('question_no', asString()),
+			party_answer: Column('party_answer', asString().optional()),
+			party_count: Column('party_count', asNumber()),
+			agree_count: Column('agree', asNumber()),
+			disagree_count: Column('disagree', asNumber()),
+			abstain_count: Column('abstain', asNumber()),
+			absent_count: Column('absent', asNumber()),
+		}),
+	);
+	partyAnswers.value = partyAnswerData;
+	console.log('partyAnswers', partyAnswers.value);
 
 	lottie.loadAnimation({
 		container: lottieContainer.value,
@@ -174,8 +194,14 @@ onMounted(async () => {
 			>
 		</section>
 
+		<!-- Quiz -->
 		<section id="quiz" v-if="showQuiz" class="h-[calc(100vh-133px)]">
-			<QuizMain v-if="showQuiz" :questions="quizQuestions" />
+			<QuizMain
+				v-if="showQuiz"
+				:questions="quizQuestions"
+				:party-answers="partyAnswers"
+				:selected-party-id="selectedParty?.id"
+			/>
 		</section>
 
 		<ElectionFooter />

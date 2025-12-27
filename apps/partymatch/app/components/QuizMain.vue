@@ -49,16 +49,19 @@
 					iconSrc="/img/choice-abstain.svg"
 					label="งดออกเสียง"
 					:showInfoIcon="true"
+					:isMatch="isAnswerMatch('งดออกเสียง')"
 				/>
 				<QuizChoices
 					buttonClass="bg-green-2 focus:bg-green-1"
 					iconSrc="/img/choice-agree.svg"
 					label="เห็นด้วย"
+					:isMatch="isAnswerMatch('เห็นด้วย')"
 				/>
 				<QuizChoices
 					buttonClass="bg-[var(--red-2)] focus:bg-[var(--red-1)]"
 					iconSrc="/img/choice-disagree.svg"
 					label="ไม่เห็นด้วย"
+					:isMatch="isAnswerMatch('ไม่เห็นด้วย')"
 				/>
 			</div>
 		</div>
@@ -101,12 +104,51 @@ const props = defineProps({
 		type: Array,
 		required: true,
 	},
+	partyAnswers: {
+		type: Array,
+		required: true,
+	},
+	selectedPartyId: {
+		type: String,
+		required: true,
+	},
 });
 
 const currentQuestionIndex = ref(0);
 const currentQuestion = computed(
 	() => props.questions[currentQuestionIndex.value] || {},
 );
+
+const filteredPartyAnswers = computed(() => {
+	if (!props.partyAnswers || !props.selectedPartyId) {
+		return [];
+	}
+	return props.partyAnswers.filter(
+		(answer) => answer.party_id === props.selectedPartyId,
+	);
+});
+
+const isAnswerMatch = (answerLabel) => {
+	if (!filteredPartyAnswers.value.length) {
+		return false;
+	}
+
+	const currentAnswer = filteredPartyAnswers.value.find(
+		(answer) => answer.quiz_id === currentQuestion.value.id,
+	);
+	if (!currentAnswer) return false;
+
+	switch (answerLabel) {
+		case 'งดออกเสียง':
+			return currentAnswer.party_answer === 'abstain';
+		case 'เห็นด้วย':
+			return currentAnswer.party_answer === 'agree';
+		case 'ไม่เห็นด้วย':
+			return currentAnswer.party_answer === 'disagree';
+		default:
+			return false;
+	}
+};
 
 const descriptionContainer = ref(null);
 const innerContent = ref(null);

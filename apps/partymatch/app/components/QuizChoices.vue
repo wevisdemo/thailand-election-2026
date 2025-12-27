@@ -5,7 +5,7 @@
 			<img src="/img/profile-pic.svg" class="h-8" />
 		</div>
 		<button
-			:class="buttonClass"
+			:class="[isMatch ? 'border-3 border-b-black' : '', buttonClass]"
 			:style="buttonStyle"
 			class="hover: h-20 w-20 cursor-pointer rounded-full hover:border-3 hover:border-b-black"
 		>
@@ -36,6 +36,10 @@ export default {
 			required: true,
 		},
 		showInfoIcon: {
+			type: Boolean,
+			default: false,
+		},
+		isMatch: {
 			type: Boolean,
 			default: false,
 		},
