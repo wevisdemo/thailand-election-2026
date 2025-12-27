@@ -15,9 +15,10 @@ import { useMemo, useState } from 'react';
 
 interface HomeBodyProps {
 	homeData: HomeData;
+	buildTime: string;
 }
 
-export const HomeBody = ({ homeData }: HomeBodyProps) => {
+export const HomeBody = ({ homeData, buildTime }: HomeBodyProps) => {
 	const selectedParties = usePartyStore((state) => state.selectedParties);
 	const [displayCategory, setDisplayCategory] = useState([
 		DISPLAY_CATEGORY_CATEGORY,
@@ -101,7 +102,7 @@ export const HomeBody = ({ homeData }: HomeBodyProps) => {
 				</div>
 				<div className="text-b6 text-purple-1 flex flex-col items-center gap-[5px] text-center">
 					<p>
-						<strong>คำชี้แจง:</strong> ข้อมูลอัปเดทล่าสุด xx ม.ค. 2569
+						<strong>คำชี้แจง:</strong> ข้อมูลอัปเดทล่าสุด {buildTime}{' '}
 						เก็บจากเว็บไซต์ทางการของพรรคการเมือง
 						และถูกจัดกลุ่มด้วยระบบปัญญาประดิษฐ์ (LLM)
 						แม้มีการตรวจสอบโดยทีมงานในระดับหนึ่ง
