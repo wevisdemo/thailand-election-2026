@@ -30,7 +30,10 @@ export default function RootLayout({
 				/>
 			</head>
 			<body>
-				<ElectionNavbar />
+				<ElectionNavbar
+					className="bg-bg block h-10 md:h-14"
+					aria-label="Main Navigation"
+				/>
 				{children}
 				<ElectionFooter />
 			</body>
