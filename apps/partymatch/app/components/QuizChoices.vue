@@ -7,9 +7,9 @@
 		<button
 			:class="buttonClass"
 			:style="buttonStyle"
-			class="w-20 cursor-pointer rounded-full"
+			class="hover: h-20 w-20 cursor-pointer rounded-full hover:border-3 hover:border-b-black"
 		>
-			<img :src="iconSrc" class="h-20" />
+			<img :src="iconSrc" class="h-20 w-20" />
 		</button>
 		<span class="mt-2">{{ label }}</span>
 		<img v-if="showInfoIcon" src="/img/icon-info.svg" class="h-6" />
