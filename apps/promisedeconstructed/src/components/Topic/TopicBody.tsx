@@ -3,32 +3,27 @@
 import { ALL_PARTY_VALUE } from '@/constants/party';
 import { NO_PARTY } from '@/constants/sheet';
 import { usePartyStore } from '@/stores/partyStore';
-import { Data } from '@/utils/data';
+import { TopicData } from '@/utils/data';
 import Link from 'next/link';
 import { Carousel } from '../Carousel';
 import { PartySelect } from '../PartySelect';
 import { TopicCard } from './TopicCard';
 
 export interface TopicBodyProps {
-	topic: string;
-	data: Data;
+	topicData: TopicData;
 }
 
-export const TopicBody = ({ topic, data }: TopicBodyProps) => {
+export const TopicBody = ({ topicData }: TopicBodyProps) => {
 	const selectedParties = usePartyStore((state) => state.selectedParties);
 
-	const properTopic = data.slugSubCategoriesLookup[topic];
-	const topicData = data.dataBySubCategorySlug[properTopic].map(
-		(index) => data.data[index],
-	);
-	const topicParties = topicData.map((item) => item.party || NO_PARTY);
-	const partyChoices = data.parties.map((party) => ({
+	const topicParties = topicData.data.map((item) => item.party || NO_PARTY);
+	const partyChoices = topicData.parties.map((party) => ({
 		value: party,
 		disabled: !topicParties.includes(party),
 	}));
 	const filteredTopicData = selectedParties.includes(ALL_PARTY_VALUE)
-		? topicData
-		: topicData.filter((data) =>
+		? topicData.data
+		: topicData.data.filter((data) =>
 				selectedParties.includes(data.party || NO_PARTY),
 			);
 
@@ -39,10 +34,10 @@ export const TopicBody = ({ topic, data }: TopicBodyProps) => {
 					ปัญหา
 				</p>
 				<h1 className="text-h3 font-kondolar text-center font-bold">
-					{properTopic}
+					{topicData.subCategoryName}
 				</h1>
 				<p className="text-b4 text-center font-bold">
-					มี {topicData.length} คำสัญญา จาก
+					มี {topicData.data.length} คำสัญญา จาก
 				</p>
 				<PartySelect
 					className="my-2.5 w-full"
@@ -50,7 +45,7 @@ export const TopicBody = ({ topic, data }: TopicBodyProps) => {
 					allChoiceText={(count) => `${count} พรรคที่พูดถึงปัญหานี้`}
 				/>
 				<p className="text-b7 text-gray-1 mb-5 text-center">
-					*ฐานข้อมูลมีจำนวนทั้งหมด {data.parties.length} พรรค
+					*ฐานข้อมูลมีจำนวนทั้งหมด {topicData.parties.length} พรรค
 					โดยเลือกเฉพาะพรรคที่มีข้อมูลนโยบายในเว็บไซต์ทางการ
 				</p>
 				<article className="text-purple-1 my-2.5 flex flex-col gap-[5px] rounded-[10px] bg-white/40 p-[15px]">
@@ -83,8 +78,8 @@ export const TopicBody = ({ topic, data }: TopicBodyProps) => {
 			</header>
 			<div className="mx-auto py-5 md:w-[85svw]">
 				<Carousel
-					slides={filteredTopicData.map((data) => (
-						<TopicCard key={data.party} data={data} />
+					slides={filteredTopicData.map((topicData) => (
+						<TopicCard key={topicData.party} topicData={topicData} />
 					))}
 					noDots
 				/>

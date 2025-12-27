@@ -4,6 +4,7 @@ import {
 	SHEET_ID,
 	SHEET_NAME,
 } from '@/constants/sheet';
+import { Topic } from '@/constants/topic';
 import {
 	asString,
 	Column,
@@ -85,7 +86,9 @@ const createCategoryDataLookup = (
 const createSubCategorySlugIndexLookup = (array: SheetSchema[]) =>
 	array.reduce(
 		(all, current, currentIndex) => {
-			const subCategory = current.problemSubcat || MISSING_CATEGORY;
+			const subCategory = slugifySubCategory(
+				current.problemSubcat || MISSING_CATEGORY,
+			);
 			all[subCategory] = all[subCategory] || [];
 			all[subCategory].push(currentIndex);
 			return all;
@@ -148,4 +151,57 @@ export const getHomeData = async (): Promise<HomeData> => {
 		dataByTarget: data.dataByTarget,
 	};
 	return cachedHomeData;
+};
+
+/**
+ * ------------------------------
+ * TOPIC SUBCATEGORIES
+ * ------------------------------
+ */
+
+export interface TopicSubCategoryData {
+	subCategories: string[];
+}
+
+let cachedTopicSubCategoryData: TopicSubCategoryData | undefined = undefined;
+export const getTopicSubCategoryData =
+	async (): Promise<TopicSubCategoryData> => {
+		if (cachedTopicSubCategoryData) return cachedTopicSubCategoryData;
+		const data = await getData();
+
+		cachedTopicSubCategoryData = {
+			subCategories: data.subCategories,
+		};
+		return cachedTopicSubCategoryData;
+	};
+
+/**
+ * ------------------------------
+ * TOPIC DATA
+ * ------------------------------
+ */
+
+export type TopicData = Pick<Data, 'parties'> & {
+	data: Pick<SheetSchema, 'party' | 'url' | Topic>[];
+	subCategoryName: string;
+};
+
+const cachedTopicData: Record<string, TopicData | undefined> = {};
+export const getTopicData = async (
+	slugSubCategory: string,
+): Promise<TopicData> => {
+	if (cachedTopicData[slugSubCategory]) return cachedTopicData[slugSubCategory];
+	const data = await getData();
+
+	cachedTopicData[slugSubCategory] = {
+		subCategoryName: data.slugSubCategoriesLookup[slugSubCategory],
+		data: data.dataBySubCategorySlug[slugSubCategory].map((index) => {
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			const { originalText, problemSubcat, problemCat, targetCat, ...pick } =
+				data.data[index];
+			return pick;
+		}),
+		parties: data.parties,
+	};
+	return cachedTopicData[slugSubCategory];
 };

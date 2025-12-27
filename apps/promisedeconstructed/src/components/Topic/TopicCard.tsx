@@ -1,32 +1,32 @@
 import { NO_PARTY } from '@/constants/sheet';
 import { TOPICS } from '@/constants/topic';
-import { SheetSchema } from '@/utils/data';
+import { TopicData } from '@/utils/data';
 import Link from 'next/link';
 import { PartyLogo } from '../PartyLogo';
 import { Markdown } from './Markdown';
 import { TopicCardSection } from './TopicCardSection';
 
 export interface TopicCardProps {
-	data: SheetSchema;
+	topicData: TopicData['data'][number];
 }
 
-export const TopicCard = ({ data }: TopicCardProps) => {
+export const TopicCard = ({ topicData }: TopicCardProps) => {
 	return (
 		<article className="bg-bg flex h-[90svh] w-[280px] flex-col overflow-hidden rounded-[10px] md:w-[320px]">
 			<header className="text-h7 font-kondolar flex items-center justify-center gap-2.5 bg-black py-2.5 font-bold text-white">
 				<PartyLogo
 					className="rounded-full"
 					size={45}
-					party={data.party || NO_PARTY}
+					party={topicData.party || NO_PARTY}
 				/>
-				<span className="text-box-cap">{data.party}</span>
+				<span className="text-box-cap">{topicData.party}</span>
 			</header>
 			<div
 				className="text-b4 mx-5 flex min-h-0 flex-1 flex-col gap-5 overflow-x-hidden overflow-y-auto py-2.5"
 				style={{ scrollbarWidth: 'none' }}
 			>
 				{TOPICS.map((topic) => {
-					const content = data[topic]?.trim();
+					const content = topicData[topic]?.trim();
 					return (
 						<TopicCardSection key={topic} type={topic}>
 							{content && <Markdown content={content} />}
@@ -38,7 +38,7 @@ export const TopicCard = ({ data }: TopicCardProps) => {
 				<div className="border-t-gray-3 flex flex-col items-end border-t pt-2.5">
 					<Link
 						className="text-b6 text-purple-1 flex items-center gap-[5px] py-1 underline"
-						href={data.url || '#'}
+						href={topicData.url || '#'}
 						target="_blank"
 						rel="nofollow noopener noreferrer"
 					>
