@@ -9,19 +9,30 @@
 		<div class="section flex flex-row">
 			<img src="/img/card-side.png" class="scale-x-[-1] transform py-4" />
 			<div
-				class="flex h-80 flex-col gap-4 rounded-2xl bg-white p-6 text-center shadow-md"
+				class="relative flex h-90 flex-col gap-4 overflow-auto rounded-2xl bg-white px-8 py-6 text-center shadow-md [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+				ref="descriptionContainer"
 			>
-				<h2 class="text-h8 font-kondolar font-bold">
-					{{ currentQuestion.title }}
-				</h2>
-				<p v-if="currentQuestion.title_full">
-					ชื่อเต็ม: {{ currentQuestion.title_full }}
-				</p>
-				<h3 class="font-bold" v-if="currentQuestion.description">รายละเอียด</h3>
-				<p
-					v-if="currentQuestion.description"
-					v-html="renderMarkdown(currentQuestion.description)"
-				></p>
+				<div ref="innerContent">
+					<h2 class="text-h8 font-kondolar font-bold">
+						{{ currentQuestion.title }}
+					</h2>
+					<p v-if="currentQuestion.title_full">
+						ชื่อเต็ม: {{ currentQuestion.title_full }}
+					</p>
+					<h3 class="font-bold" v-if="currentQuestion.description">
+						รายละเอียด
+					</h3>
+					<p
+						v-if="currentQuestion.description"
+						v-html="renderMarkdown(currentQuestion.description)"
+					></p>
+				</div>
+				<div
+					v-if="isOverflowing"
+					class="0% 25% 100% sticky -bottom-6 flex h-14 w-full shrink-0 items-center justify-center bg-linear-to-t from-white via-white to-transparent"
+				>
+					<img src="/img/icon-chevron-down.svg" class="h-6" />
+				</div>
 			</div>
 			<img src="/img/card-side.png" class="py-4" />
 		</div>
@@ -95,8 +106,24 @@ export default {
 		const currentQuestion = computed(
 			() => questions.value[currentQuestionIndex.value] || {},
 		);
+		const descriptionContainer = ref(null);
+		const innerContent = ref(null);
+		const isOverflowing = ref(false);
+		let observer = null;
 
 		const renderMarkdown = (markdownText) => marked.parse(markdownText || '');
+
+		const checkOverflow = () => {
+			const container = descriptionContainer.value;
+			const content = innerContent.value;
+			if (container && content) {
+				isOverflowing.value = content.scrollHeight > container.clientHeight;
+			}
+		};
+
+		watch(currentQuestion, () => {
+			checkOverflow();
+		});
 
 		onMounted(async () => {
 			const { Column, asString, Spreadsheet, Object } =
@@ -113,27 +140,24 @@ export default {
 				}),
 			);
 			questions.value = data;
+
+			observer = new ResizeObserver(() => {
+				checkOverflow();
+			});
+
+			if (innerContent.value) {
+				observer.observe(innerContent.value);
+			}
 		});
-
-		const goToPreviousQuestion = () => {
-			if (currentQuestionIndex.value > 0) {
-				currentQuestionIndex.value--;
-			}
-		};
-
-		const goToNextQuestion = () => {
-			if (currentQuestionIndex.value < questions.value.length - 1) {
-				currentQuestionIndex.value++;
-			}
-		};
 
 		return {
 			questions,
 			currentQuestionIndex,
 			currentQuestion,
 			renderMarkdown,
-			goToPreviousQuestion,
-			goToNextQuestion,
+			descriptionContainer,
+			innerContent,
+			isOverflowing,
 		};
 	},
 };
