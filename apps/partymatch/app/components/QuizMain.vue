@@ -40,8 +40,8 @@
 		<!-- Quiz Choices -->
 		<div class="section flex w-full flex-col gap-4 py-4">
 			<div>
-				<p class="font-sriracha text-b2 text-center">It's a match</p>
-				<p class="text-b6 text-center">เพราะพรรคนี้ ไม่เข้าประชุมเกินครึ่ง</p>
+				<p class="font-sriracha text-b2 text-center">{{ resultMessage }}</p>
+				<!-- <p class="text-b6 text-center">เพราะพรรคนี้ ไม่เข้าประชุมเกินครึ่ง</p> -->
 			</div>
 			<div class="flex justify-between px-20">
 				<QuizChoices
@@ -49,19 +49,19 @@
 					iconSrc="/img/choice-abstain.svg"
 					label="งดออกเสียง"
 					:showInfoIcon="true"
-					:isMatch="isAnswerMatch('งดออกเสียง')"
+					@click="handleChoiceClick('งดออกเสียง')"
 				/>
 				<QuizChoices
 					buttonClass="bg-green-2 focus:bg-green-1"
 					iconSrc="/img/choice-agree.svg"
 					label="เห็นด้วย"
-					:isMatch="isAnswerMatch('เห็นด้วย')"
+					@click="handleChoiceClick('เห็นด้วย')"
 				/>
 				<QuizChoices
 					buttonClass="bg-[var(--red-2)] focus:bg-[var(--red-1)]"
 					iconSrc="/img/choice-disagree.svg"
 					label="ไม่เห็นด้วย"
-					:isMatch="isAnswerMatch('ไม่เห็นด้วย')"
+					@click="handleChoiceClick('ไม่เห็นด้วย')"
 				/>
 			</div>
 		</div>
@@ -149,6 +149,15 @@ const isAnswerMatch = (answerLabel) => {
 			return false;
 	}
 };
+const resultMessage = ref('');
+const handleChoiceClick = (selectedLabel) => {
+	const isMatch = isAnswerMatch(selectedLabel);
+	if (isMatch) {
+		resultMessage.value = `It's a match!`;
+	} else {
+		resultMessage.value = `It's not match.`;
+	}
+};
 
 const descriptionContainer = ref(null);
 const innerContent = ref(null);
@@ -166,6 +175,7 @@ const checkOverflow = () => {
 };
 
 watch(currentQuestion, () => {
+	resultMessage.value = '';
 	checkOverflow();
 });
 onMounted(async () => {

@@ -8,6 +8,7 @@
 			:class="[isMatch ? 'border-3 border-b-black' : '', buttonClass]"
 			:style="buttonStyle"
 			class="hover: h-20 w-20 cursor-pointer rounded-full hover:border-3 hover:border-b-black"
+			@click="$emit('click')"
 		>
 			<img :src="iconSrc" class="h-20 w-20" />
 		</button>
