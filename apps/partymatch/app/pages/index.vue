@@ -63,7 +63,7 @@ onMounted(() => {
 					Party <span class="font-sriracha text-green-1">Match</span> or Red
 					Flag Alert?
 				</h1>
-				<img src="/img/hero-img.svg" alt="Illustration" />
+				<img src="/img/hero-img.svg" alt="" />
 				<h1 class="text-h4 font-kondolar text-center font-bold">
 					พรรคที่คุณจะเลือก ทำงานตรงใจคุณแค่ไหน ?
 				</h1>
@@ -85,7 +85,9 @@ onMounted(() => {
 					*หมายเหตุ: คัดเลือกจาก 10 ร่างกฎหมายที่อยู่ในความสนใจ ของสาธารณชน
 					ซึ่งไม่สามารถแทนวิสัยทัศน์เชิงนโยบาย ทั้งหมดของพรรคการเมือง
 					และอาจเปลี่ยนแปลงในอนาคต
-					<a href="/partymatch/about" class="underline">อ่านเพิ่มเติม</a>
+					<NuxtLink to="/about" class="cursor-pointer underline"
+						>อ่านเพิ่มเติม</NuxtLink
+					>
 				</p>
 			</div>
 
