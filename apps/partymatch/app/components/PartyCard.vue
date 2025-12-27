@@ -27,9 +27,7 @@ const emit = defineEmits(['start-quiz']);
 		<div class="relative">
 			<img
 				:src="
-					isUnselected
-						? '/assets/img/neo-unselected.svg'
-						: '/assets/img/neo-selected.svg'
+					isUnselected ? '/img/neo-unselected.svg' : '/img/neo-selected.svg'
 				"
 				class="w-100"
 			/>

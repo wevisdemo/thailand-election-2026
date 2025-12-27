@@ -46,18 +46,18 @@
 			<div class="flex justify-between px-20">
 				<QuizChoices
 					buttonClass="bg-gray-3 focus:bg-gray-2"
-					iconSrc="/assets/img/choice-abstain.svg"
+					iconSrc="/img/choice-abstain.svg"
 					label="งดออกเสียง"
 					:showInfoIcon="true"
 				/>
 				<QuizChoices
 					buttonClass="bg-green-2 focus:bg-green-1"
-					iconSrc="/assets/img/choice-agree.svg"
+					iconSrc="/img/choice-agree.svg"
 					label="เห็นด้วย"
 				/>
 				<QuizChoices
 					buttonClass="bg-[var(--red-2)] focus:bg-[var(--red-1)]"
-					iconSrc="/assets/img/choice-disagree.svg"
+					iconSrc="/img/choice-disagree.svg"
 					label="ไม่เห็นด้วย"
 				/>
 			</div>
