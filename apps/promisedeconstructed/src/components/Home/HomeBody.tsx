@@ -88,6 +88,9 @@ export const HomeBody = ({ homeData }: HomeBodyProps) => {
 					width={250}
 					height={150}
 					priority
+					decoding="sync"
+					loading="eager"
+					fetchPriority="high"
 				/>
 				<div className="flex w-full flex-col items-center gap-2">
 					<span className="text-b5 font-bold">แบ่งคำสัญญาตาม</span>

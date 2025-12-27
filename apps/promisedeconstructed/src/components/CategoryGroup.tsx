@@ -15,6 +15,7 @@ export const CategoryGroup = ({ name, subCategories }: CategoryGroupProps) => {
 			</header>
 
 			<Carousel
+				ariaLabel={`${name} ${subCategories.length} ปัญหา`}
 				slides={subCategories.map((subCategory, index) => (
 					<SubCatgCard key={index} {...subCategory} />
 				))}

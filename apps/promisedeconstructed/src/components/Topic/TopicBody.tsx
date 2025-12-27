@@ -78,6 +78,7 @@ export const TopicBody = ({ topicData }: TopicBodyProps) => {
 			</header>
 			<div className="mx-auto py-5 md:w-[85svw]">
 				<Carousel
+					ariaLabel="คำสัญญาจากพรรคที่พูดถึงปัญหานี้"
 					slides={filteredTopicData.map((topicData) => (
 						<TopicCard key={topicData.party} topicData={topicData} />
 					))}

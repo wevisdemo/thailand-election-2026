@@ -16,10 +16,6 @@ export default function RootLayout({
 	return (
 		<html lang="th">
 			<head>
-				<meta
-					name="apple-mobile-web-app-title"
-					content="Promise Deconstructed"
-				/>
 				<link
 					href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@400;600;700&family=Sriracha&display=swap"
 					rel="stylesheet"
@@ -27,6 +23,10 @@ export default function RootLayout({
 				<link
 					href="https://design-systems.wevis.info/typography.css"
 					rel="stylesheet"
+				/>
+				<meta
+					name="apple-mobile-web-app-title"
+					content="Promise Deconstructed"
 				/>
 			</head>
 			<body>

@@ -53,11 +53,15 @@ export const PartySelect = ({
 			(value) => !choices.find((choice) => choice.value === value)?.disabled,
 		);
 		if (displayValues.length === 0)
-			return <span className="text-gray-2">ยังไม่ได้เลือกพรรค</span>;
+			return (
+				<span id="partyselect-currentvalue" className="text-gray-2">
+					ยังไม่ได้เลือกพรรค
+				</span>
+			);
 		if (displayValues.length === 1 && displayValues[0] === ALL_PARTY_VALUE)
-			return <span>{allChoiceLabel}</span>;
+			return <span id="partyselect-currentvalue">{allChoiceLabel}</span>;
 		return (
-			<span className="flex items-center">
+			<span id="partyselect-currentvalue" className="flex items-center">
 				{displayValues.length === 1 && (
 					<PartyLogo
 						party={displayValues[0]}
@@ -79,6 +83,7 @@ export const PartySelect = ({
 		>
 			<Select.Trigger
 				className={`text-b4 hover:border-green-1 focus-visible:border-green-1 group/select-trigger flex h-11 min-w-65 items-center gap-2 rounded-full border-2 border-black bg-white pr-4 pl-6 font-bold outline-none ${className}`}
+				aria-labelledby="partyselect-currentvalue"
 			>
 				<Select.Value>{formatSelectValue}</Select.Value>
 				<Select.Icon className="group-hover/select-trigger:text-green-1 group-focus-visible/select-trigger:text-green-1 ml-auto data-popup-open:rotate-180">
@@ -119,6 +124,7 @@ export const PartySelect = ({
 										width={16}
 										height={16}
 										draggable={false}
+										priority
 									/>
 								</Select.ItemIndicator>
 							</div>
@@ -139,6 +145,7 @@ export const PartySelect = ({
 											width={16}
 											height={16}
 											draggable={false}
+											priority
 										/>
 									</Select.ItemIndicator>
 								</div>
