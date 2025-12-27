@@ -1,9 +1,9 @@
 'use client';
 import { CategoryGroup } from '@/components/CategoryGroup';
 import {
-	CATEGORY_FILTER_CATEGORY,
-	FilterCategoryToggle,
-} from '@/components/FilterCategoryToggle';
+	DISPLAY_CATEGORY_CATEGORY,
+	DisplayCategoryToggle,
+} from '@/components/DisplayCategoryToggle';
 import { PartySelect } from '@/components/PartySelect';
 import { ALL_PARTY_VALUE } from '@/constants/party';
 import { usePartyStore } from '@/stores/partyStore';
@@ -19,12 +19,12 @@ interface HomeBodyProps {
 export const HomeBody = ({ data }: HomeBodyProps) => {
 	const selectedParties = usePartyStore((state) => state.selectedParties);
 	const [displayCategory, setDisplayCategory] = useState([
-		CATEGORY_FILTER_CATEGORY,
+		DISPLAY_CATEGORY_CATEGORY,
 	]);
 
-	const parties = data.parties.map((party) => ({ value: party }));
+	const partyChoices = data.parties.map((party) => ({ value: party }));
 	const categories = useMemo(() => {
-		const group = displayCategory.includes(CATEGORY_FILTER_CATEGORY)
+		const group = displayCategory.includes(DISPLAY_CATEGORY_CATEGORY)
 			? data.dataByProblem
 			: data.dataByTarget;
 		return Object.entries(group)
@@ -69,11 +69,11 @@ export const HomeBody = ({ data }: HomeBodyProps) => {
 						ถอดโครงสร้างสัญญาพรรคการเมือง
 					</h1>
 					<PartySelect
-						choices={parties}
+						choices={partyChoices}
 						allChoiceText={(count) => `ทั้งหมด ${count} พรรค`}
 					/>
 					<p className="text-b7 text-gray-1">
-						*ฐานข้อมูลมีจำนวนทั้งหมด 5 พรรค
+						*ฐานข้อมูลมีจำนวนทั้งหมด {data.parties.length} พรรค
 						โดยเลือกเฉพาะพรรคที่มีข้อมูลนโยบายในเว็บไซต์ทางการ
 					</p>
 					<p className="text-b4">
@@ -90,9 +90,9 @@ export const HomeBody = ({ data }: HomeBodyProps) => {
 				/>
 				<div className="flex w-full flex-col items-center gap-2">
 					<span className="text-b5 font-bold">แบ่งคำสัญญาตาม</span>
-					<FilterCategoryToggle
-						filter={displayCategory}
-						setFilter={setDisplayCategory}
+					<DisplayCategoryToggle
+						displayCategory={displayCategory}
+						setDisplayCategory={setDisplayCategory}
 					/>
 				</div>
 				<div className="text-b6 text-purple-1 flex flex-col items-center gap-[5px] text-center">
