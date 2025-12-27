@@ -25,12 +25,14 @@ export const TopicCardSection = ({
 		<div
 			className="group/section relative z-0 flex flex-col gap-2.5 py-2.5"
 			data-expanded={isExpanded || undefined}
+			data-fit-mobile={height - 47 < contentHeight.mobile || undefined}
+			data-fit-desktop={height - 47 < contentHeight.desktop || undefined}
 		>
 			<TopicCardSectionTitle type={type} />
 			{children ? (
 				<>
 					<div
-						className="relative max-h-(--content-height) overflow-hidden overscroll-y-contain transition-[max-height] duration-300 ease-in-out will-change-[max-height] group-data-expanded/section:max-h-(--expanded-content-height) md:max-h-(--desktop-content-height)"
+						className="relative max-h-(--content-height) overflow-hidden overscroll-y-contain transition-[max-height] duration-300 ease-in-out will-change-[max-height] group-data-expanded/section:max-h-(--expanded-content-height) group-data-fit-mobile/section:-mb-[47px] md:max-h-(--desktop-content-height) md:group-data-fit-desktop/section:-mb-[47px]"
 						style={
 							{
 								'--expanded-content-height': `${height}px`,
@@ -42,11 +44,11 @@ export const TopicCardSection = ({
 						<div ref={contentRef} className="topic-content pb-[47px]">
 							{children}
 						</div>
-						<div className="from-bg absolute bottom-0 flex w-full justify-center bg-linear-to-t pt-12.5 transition-opacity duration-300 group-data-expanded/section:opacity-0" />
+						<div className="from-bg absolute bottom-0 flex w-full justify-center bg-linear-to-t pt-12.5 transition-opacity duration-300 group-data-expanded/section:opacity-0 group-data-fit-mobile/section:opacity-0 md:group-data-fit-desktop/section:opacity-0" />
 					</div>
 					<button
 						type="button"
-						className="text-b6 text-purple-1 absolute bottom-0 left-1/2 flex -translate-x-1/2 items-center gap-1 py-2.5 transition-transform duration-300 ease-in-out group-data-expanded/section:-translate-y-2.5"
+						className="text-b6 text-purple-1 absolute bottom-0 left-1/2 flex -translate-x-1/2 items-center gap-1 py-2.5 transition-transform duration-300 ease-in-out group-data-expanded/section:-translate-y-2.5 group-data-fit-mobile/section:hidden md:group-data-fit-desktop/section:hidden"
 						onClick={() => setIsExpanded((s) => !s)}
 					>
 						<span className="underline">{isExpanded ? 'ซ่อน' : 'อ่านต่อ'}</span>
