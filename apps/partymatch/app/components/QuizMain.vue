@@ -55,6 +55,7 @@
 					"
 					:selected="selectedAnswer === 'งดออกเสียง'"
 					:isUnselected="selectedAnswer && selectedAnswer !== 'งดออกเสียง'"
+					:showPartyLogo="hasClicked && isAnswerMatch('งดออกเสียง')"
 					:disabled="!!selectedAnswer"
 					@click="handleChoiceClick('งดออกเสียง')"
 				/>
@@ -66,6 +67,7 @@
 					:isMatch="selectedAnswer === 'เห็นด้วย' && isAnswerMatch('เห็นด้วย')"
 					:selected="selectedAnswer === 'เห็นด้วย'"
 					:isUnselected="selectedAnswer && selectedAnswer !== 'เห็นด้วย'"
+					:showPartyLogo="hasClicked && isAnswerMatch('เห็นด้วย')"
 					:disabled="!!selectedAnswer"
 					@click="handleChoiceClick('เห็นด้วย')"
 				/>
@@ -79,6 +81,7 @@
 					"
 					:selected="selectedAnswer === 'ไม่เห็นด้วย'"
 					:isUnselected="selectedAnswer && selectedAnswer !== 'ไม่เห็นด้วย'"
+					:showPartyLogo="hasClicked && isAnswerMatch('ไม่เห็นด้วย')"
 					:disabled="!!selectedAnswer"
 					@click="handleChoiceClick('ไม่เห็นด้วย')"
 				/>
@@ -173,11 +176,13 @@ const isAnswerMatch = (answerLabel) => {
 };
 const resultMessage = ref('');
 const selectedAnswer = ref(null);
+const hasClicked = ref(false);
 
 const handleChoiceClick = (selectedLabel) => {
 	if (selectedAnswer.value) return;
 
 	selectedAnswer.value = selectedLabel;
+	hasClicked.value = true;
 	const isMatch = isAnswerMatch(selectedLabel);
 	if (isMatch) {
 		resultMessage.value = `It's a match!`;
@@ -204,6 +209,7 @@ const checkOverflow = () => {
 watch(currentQuestion, () => {
 	selectedAnswer.value = null;
 	resultMessage.value = '';
+	hasClicked.value = false;
 	checkOverflow();
 });
 onMounted(async () => {
