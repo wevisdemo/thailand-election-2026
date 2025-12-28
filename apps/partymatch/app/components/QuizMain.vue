@@ -37,7 +37,7 @@
 			<img src="/img/card-side.png" class="py-4" />
 		</div>
 
-		<!-- Quiz Choices -->
+		<!-- Choices -->
 		<div class="section flex w-full flex-col gap-4 py-4">
 			<div>
 				<p class="font-sriracha text-b2 text-center">{{ resultMessage }}</p>
@@ -49,24 +49,40 @@
 					iconSrc="/img/choice-abstain.svg"
 					label="งดออกเสียง"
 					:showInfoIcon="true"
+					:isMatch="
+						selectedAnswer === 'งดออกเสียง' && isAnswerMatch('งดออกเสียง')
+					"
+					:selected="selectedAnswer === 'งดออกเสียง'"
+                    :isUnselected="selectedAnswer && selectedAnswer !== 'งดออกเสียง'"
+					:disabled="!!selectedAnswer"
 					@click="handleChoiceClick('งดออกเสียง')"
 				/>
 				<QuizChoices
 					buttonClass="bg-green-2 focus:bg-green-1"
 					iconSrc="/img/choice-agree.svg"
 					label="เห็นด้วย"
+					:isMatch="selectedAnswer === 'เห็นด้วย' && isAnswerMatch('เห็นด้วย')"
+					:selected="selectedAnswer === 'เห็นด้วย'"
+                    :isUnselected="selectedAnswer && selectedAnswer !== 'เห็นด้วย'"
+					:disabled="!!selectedAnswer"
 					@click="handleChoiceClick('เห็นด้วย')"
 				/>
 				<QuizChoices
 					buttonClass="bg-[var(--red-2)] focus:bg-[var(--red-1)]"
 					iconSrc="/img/choice-disagree.svg"
 					label="ไม่เห็นด้วย"
+					:isMatch="
+						selectedAnswer === 'ไม่เห็นด้วย' && isAnswerMatch('ไม่เห็นด้วย')
+					"
+					:selected="selectedAnswer === 'ไม่เห็นด้วย'"
+                    :isUnselected="selectedAnswer && selectedAnswer !== 'ไม่เห็นด้วย'"
+					:disabled="!!selectedAnswer"
 					@click="handleChoiceClick('ไม่เห็นด้วย')"
 				/>
 			</div>
 		</div>
 
-		<!-- Quiz Navigation -->
+		<!-- Navigation -->
 		<button
 			v-if="currentQuestionIndex > 0"
 			class="font-kondolar absolute bottom-0 left-0 mt-auto mb-0 flex cursor-pointer flex-row items-center gap-2 p-6"
@@ -95,7 +111,6 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
 import { marked } from 'marked';
 import QuizChoices from '../components/QuizChoices.vue';
 
@@ -150,7 +165,12 @@ const isAnswerMatch = (answerLabel) => {
 	}
 };
 const resultMessage = ref('');
+const selectedAnswer = ref(null);
+
 const handleChoiceClick = (selectedLabel) => {
+	if (selectedAnswer.value) return;
+
+	selectedAnswer.value = selectedLabel;
 	const isMatch = isAnswerMatch(selectedLabel);
 	if (isMatch) {
 		resultMessage.value = `It's a match!`;
@@ -175,6 +195,7 @@ const checkOverflow = () => {
 };
 
 watch(currentQuestion, () => {
+	selectedAnswer.value = null;
 	resultMessage.value = '';
 	checkOverflow();
 });

@@ -5,10 +5,17 @@
 			<img src="/img/profile-pic.svg" class="h-8" />
 		</div>
 		<button
-			:class="[isMatch ? 'border-3 border-b-black' : '', buttonClass]"
+			:class="[
+				isMatch ? 'border-3 border-b-black' : '',
+				selected ? 'border-3 border-b-black' : '',
+				isUnselected ? 'border-bg border-3 opacity-50' : '',
+				!disabled ? 'cursor-pointer hover:border-3 hover:border-b-black' : '',
+				buttonClass,
+			]"
 			:style="buttonStyle"
-			class="hover: h-20 w-20 cursor-pointer rounded-full hover:border-3 hover:border-b-black"
+			class="h-20 w-20 rounded-full"
 			@click="$emit('click')"
+			:disabled="disabled"
 		>
 			<img :src="iconSrc" class="h-20 w-20" />
 		</button>
@@ -41,6 +48,18 @@ export default {
 			default: false,
 		},
 		isMatch: {
+			type: Boolean,
+			default: false,
+		},
+		disabled: {
+			type: Boolean,
+			default: false,
+		},
+		selected: {
+			type: Boolean,
+			default: false,
+		},
+		isUnselected: {
 			type: Boolean,
 			default: false,
 		},
