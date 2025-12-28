@@ -1,32 +1,34 @@
 <template>
-	<div class="z-2 flex w-90 flex-col gap-4 border-3 bg-white p-6">
+	<div
+		class="right-0 bottom-0 z-2 flex min-h-full w-90 flex-col gap-4 rounded-t-2xl border-3 bg-white p-6"
+	>
 		<div class="flex w-full flex-row justify-between">
-			<div>
-				<h3>ผลลงมติพรรค</h3>
+			<div class="text-h11 font-kondolar font-bold">
+				<h3 class="underline">ผลลงมติพรรค</h3>
 				<h4>{{ billTitle }}</h4>
 			</div>
 			<img
 				src="/img/icon-close.svg"
 				@click="$emit('close')"
-				class="self-start"
+				class="cursor-pointer self-start"
 			/>
 		</div>
-		<div>
+		<div class="flex flex-col gap-2">
 			<div class="flex w-full flex-row justify-between">
-				<div>
-					<img :src="partyLogo" class="w-6" />
+				<div class="flex gap-2">
+					<img :src="partyLogo" class="h-6 w-6" />
 					<h3>{{ partyName }}</h3>
 				</div>
 				<div class="flex gap-2">
 					<p>{{ result }}</p>
-					<p>99%</p>
+					<p class="text-h12 font-kondolar font-bold">{{ resultPct }}%</p>
 				</div>
 			</div>
 			<!-- bar chart -->
 			<div></div>
 
 			<!-- bar chart text -->
-			<div>
+			<div class="flex flex-col gap-1">
 				<div class="flex justify-between">
 					<p>ทั้งหมด</p>
 					<p>{{ partyCount }} คน</p>
@@ -66,6 +68,7 @@ defineProps({
 	partyName: String,
 	partyCount: Number,
 	result: String,
+	resultPct: Number,
 	votes: Array,
 });
 </script>

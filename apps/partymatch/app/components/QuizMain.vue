@@ -81,6 +81,7 @@
 
 			<button
 				class="hover:bg-gray-3 m-auto cursor-pointer rounded-full border-3 bg-white px-4 py-2 font-bold"
+				@click="showPartyResult = true"
 			>
 				ดูผลลงมติพรรค
 			</button>
@@ -103,13 +104,16 @@
 		</div>
 		<!-- Party Result Popup -->
 		<PartyResult
+			v-if="showPartyResult"
 			class="absolute"
 			:billTitle="currentQuestion.title"
 			:partyLogo="partyLogo"
-			:partyName="selectedPartyName"
+			:partyName="partyName"
 			:partyCount="currentPartyAnswer?.party_count"
 			:result="partyAnswerLabel"
+			:resultPct="partyAnswerPct"
 			:votes="partyVotes"
+			@click="handleClose"
 		/>
 	</div>
 </template>
@@ -123,6 +127,7 @@ const props = defineProps({
 	partyAnswers: Array,
 	selectedPartyId: String,
 	partyLogo: String,
+	partyName: String,
 });
 
 const currentQuestionIndex = ref(0);
@@ -138,12 +143,6 @@ const currentQuestion = computed(
 const isLastQuestion = computed(
 	() => currentQuestionIndex.value === props.questions.length - 1,
 );
-const selectedPartyName = computed(() => {
-	const party = props.partyAnswers.find(
-		(answer) => answer.party_id === props.selectedPartyId,
-	);
-	return party ? party.name : '';
-});
 const currentPartyAnswer = computed(() => {
 	return props.partyAnswers?.find(
 		(a) =>
@@ -178,6 +177,20 @@ const partyVotes = computed(() => {
 	];
 });
 
+const partyAnswerPct = computed(() => {
+	if (!currentPartyAnswer.value || !currentPartyAnswer.value.party_count)
+		return 0;
+
+	const matchingVote = partyVotes.value.find(
+		(vote) => vote.label === partyAnswerLabel.value,
+	);
+
+	const matchingCount = matchingVote ? matchingVote.count : 0;
+	const totalCount = currentPartyAnswer.value.party_count;
+
+	return parseFloat(((matchingCount / totalCount) * 100).toFixed(0));
+});
+
 const choiceConfigs = [
 	{
 		label: 'งดออกเสียง',
@@ -199,27 +212,30 @@ const choiceConfigs = [
 
 // --- Logic ---
 const ANSWER_MAP = {
-    abstain: { label: 'งดออกเสียง', matchKey: 'งดออกเสียง' },
-    agree: { label: 'เห็นด้วย', matchKey: 'เห็นด้วย' },
-    disagree: { label: 'ไม่เห็นด้วย', matchKey: 'ไม่เห็นด้วย' },
-    'agree, disagree': { label: 'เสียงแตก', matchKey: ['เห็นด้วย', 'ไม่เห็นด้วย'] },
-    absent: { label: 'ลา/ขาด', matchKey: null },
+	abstain: { label: 'งดออกเสียง', matchKey: 'งดออกเสียง' },
+	agree: { label: 'เห็นด้วย', matchKey: 'เห็นด้วย' },
+	disagree: { label: 'ไม่เห็นด้วย', matchKey: 'ไม่เห็นด้วย' },
+	'agree, disagree': {
+		label: 'เสียงแตก',
+		matchKey: ['เห็นด้วย', 'ไม่เห็นด้วย'],
+	},
+	absent: { label: 'ลา/ขาด', matchKey: null },
 };
 
 const partyAnswerLabel = computed(() => {
-    const pAns = currentPartyAnswer.value?.party_answer;
-    return ANSWER_MAP[pAns]?.label || 'ยังไม่มีชื่อตอนโหวต';
+	const pAns = currentPartyAnswer.value?.party_answer;
+	return ANSWER_MAP[pAns]?.label || 'ยังไม่มีชื่อตอนโหวต';
 });
 
 const isAnswerMatch = (label) => {
-    const pAns = currentPartyAnswer.value?.party_answer;
-    if (!pAns || !ANSWER_MAP[pAns]) return false;
+	const pAns = currentPartyAnswer.value?.party_answer;
+	if (!pAns || !ANSWER_MAP[pAns]) return false;
 
-    const matchKey = ANSWER_MAP[pAns].matchKey;
-    
-    return Array.isArray(matchKey) 
-        ? matchKey.includes(label) 
-        : matchKey === label;
+	const matchKey = ANSWER_MAP[pAns].matchKey;
+
+	return Array.isArray(matchKey)
+		? matchKey.includes(label)
+		: matchKey === label;
 };
 
 const handleChoiceClick = (label) => {
@@ -243,6 +259,12 @@ const descriptionContainer = ref(null);
 const innerContent = ref(null);
 const isOverflowing = ref(false);
 const renderMarkdown = (markdownText) => marked.parse(markdownText || '');
+
+const showPartyResult = ref(true);
+
+const handleClose = () => {
+	showPartyResult.value = false;
+};
 
 const checkOverflow = () => {
 	if (descriptionContainer.value && innerContent.value) {

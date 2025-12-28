@@ -202,6 +202,7 @@ onMounted(async () => {
 				:party-answers="partyAnswers"
 				:selected-party-id="selectedParty?.id"
 				:partyLogo="selectedParty?.logo"
+				:partyName="selectedParty?.name"
 			/>
 		</section>
 
