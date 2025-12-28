@@ -47,35 +47,38 @@
 				<QuizChoices
 					buttonClass="bg-gray-3 focus:bg-gray-2"
 					iconSrc="/img/choice-abstain.svg"
+					:logoSrc="partyLogo"
 					label="งดออกเสียง"
 					:showInfoIcon="true"
 					:isMatch="
 						selectedAnswer === 'งดออกเสียง' && isAnswerMatch('งดออกเสียง')
 					"
 					:selected="selectedAnswer === 'งดออกเสียง'"
-                    :isUnselected="selectedAnswer && selectedAnswer !== 'งดออกเสียง'"
+					:isUnselected="selectedAnswer && selectedAnswer !== 'งดออกเสียง'"
 					:disabled="!!selectedAnswer"
 					@click="handleChoiceClick('งดออกเสียง')"
 				/>
 				<QuizChoices
 					buttonClass="bg-green-2 focus:bg-green-1"
 					iconSrc="/img/choice-agree.svg"
+					:logoSrc="partyLogo"
 					label="เห็นด้วย"
 					:isMatch="selectedAnswer === 'เห็นด้วย' && isAnswerMatch('เห็นด้วย')"
 					:selected="selectedAnswer === 'เห็นด้วย'"
-                    :isUnselected="selectedAnswer && selectedAnswer !== 'เห็นด้วย'"
+					:isUnselected="selectedAnswer && selectedAnswer !== 'เห็นด้วย'"
 					:disabled="!!selectedAnswer"
 					@click="handleChoiceClick('เห็นด้วย')"
 				/>
 				<QuizChoices
 					buttonClass="bg-[var(--red-2)] focus:bg-[var(--red-1)]"
 					iconSrc="/img/choice-disagree.svg"
+					:logoSrc="partyLogo"
 					label="ไม่เห็นด้วย"
 					:isMatch="
 						selectedAnswer === 'ไม่เห็นด้วย' && isAnswerMatch('ไม่เห็นด้วย')
 					"
 					:selected="selectedAnswer === 'ไม่เห็นด้วย'"
-                    :isUnselected="selectedAnswer && selectedAnswer !== 'ไม่เห็นด้วย'"
+					:isUnselected="selectedAnswer && selectedAnswer !== 'ไม่เห็นด้วย'"
 					:disabled="!!selectedAnswer"
 					@click="handleChoiceClick('ไม่เห็นด้วย')"
 				/>
@@ -126,6 +129,10 @@ const props = defineProps({
 	selectedPartyId: {
 		type: String,
 		required: true,
+	},
+	partyLogo: {
+		type: String,
+		required: false,
 	},
 });
 

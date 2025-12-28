@@ -1,8 +1,8 @@
 <template>
-	<div class="flex flex-col items-center">
+	<div class="flex flex-col items-center gap-2">
 		<div class="flex items-center">
-			<img src="/img/profile-pic.svg" class="h-8" />
-			<img src="/img/profile-pic.svg" class="h-8" />
+			<img src="/img/profile-pic.svg" alt="Your choice" class="h-8" />
+			<img :src="logoSrc" alt="Party's choice" class="w-8" />
 		</div>
 		<button
 			:class="[
@@ -38,6 +38,10 @@ export default {
 		iconSrc: {
 			type: String,
 			required: true,
+		},
+		logoSrc: {
+			type: String,
+			required: false,
 		},
 		label: {
 			type: String,
