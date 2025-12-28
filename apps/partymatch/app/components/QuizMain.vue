@@ -41,7 +41,9 @@
 		<div class="section flex w-full flex-col gap-4 py-4">
 			<div>
 				<p class="font-sriracha text-b2 text-center">{{ resultMessage }}</p>
-				<!-- <p class="text-b6 text-center">เพราะพรรคนี้ ไม่เข้าประชุมเกินครึ่ง</p> -->
+				<p v-if="explainMessage" class="text-b6 text-center">
+					เพราะพรรคนี้ {{ explainMessage }}
+				</p>
 			</div>
 			<div class="flex justify-between px-20">
 				<QuizChoices
@@ -92,7 +94,12 @@
 		<button
 			v-if="currentQuestionIndex > 0"
 			class="font-kondolar absolute bottom-0 left-0 mt-auto mb-0 flex cursor-pointer flex-row items-center gap-2 p-6"
-			@click="currentQuestionIndex--"
+			@click="
+				() => {
+					currentQuestionIndex--;
+					explainMessage.value = '';
+				}
+			"
 		>
 			<img src="/img/arrow-left.svg" class="h-8" />
 			กลับ
@@ -100,7 +107,12 @@
 		<button
 			v-if="currentQuestionIndex < questions.length - 1"
 			class="font-kondolar absolute right-0 bottom-0 mt-auto mb-0 flex cursor-pointer flex-row items-center gap-2 p-6"
-			@click="currentQuestionIndex++"
+			@click="
+				() => {
+					currentQuestionIndex++;
+					explainMessage.value = '';
+				}
+			"
 		>
 			ไปต่อ
 			<img src="/img/arrow-right.svg" class="h-8" />
@@ -167,14 +179,21 @@ const isAnswerMatch = (answerLabel) => {
 		case 'งดออกเสียง':
 			return currentAnswer.party_answer === 'abstain';
 		case 'เห็นด้วย':
-			return currentAnswer.party_answer === 'agree';
+			return (
+				currentAnswer.party_answer === 'agree' ||
+				currentAnswer.party_answer === 'agree, disagree'
+			);
 		case 'ไม่เห็นด้วย':
-			return currentAnswer.party_answer === 'disagree';
+			return (
+				currentAnswer.party_answer === 'disagree' ||
+				currentAnswer.party_answer === 'agree, disagree'
+			);
 		default:
 			return false;
 	}
 };
 const resultMessage = ref('');
+const explainMessage = ref('');
 const selectedAnswer = ref(null);
 const hasClicked = ref(false);
 
@@ -183,11 +202,27 @@ const handleChoiceClick = (selectedLabel) => {
 
 	selectedAnswer.value = selectedLabel;
 	hasClicked.value = true;
+
 	const isMatch = isAnswerMatch(selectedLabel);
-	if (isMatch) {
-		resultMessage.value = `It's a match!`;
+	resultMessage.value = isMatch ? `It's a match!` : `Not match!`;
+
+	const currentAnswer = filteredPartyAnswers.value.find(
+		(answer) => answer.quiz_id === currentQuestion.value.id,
+	);
+
+	if (currentAnswer) {
+		const partyAnswer = currentAnswer.party_answer || '';
+		if (partyAnswer === 'absent') {
+			explainMessage.value = 'ไม่เข้าประชุมเกินครึ่ง';
+		} else if (partyAnswer === 'agree, disagree') {
+			explainMessage.value = 'เสียงแตก';
+		} else if (partyAnswer === '') {
+			explainMessage.value = 'ยังไม่มีชื่อตอนโหวต';
+		} else {
+			explainMessage.value = '';
+		}
 	} else {
-		resultMessage.value = `It's not match.`;
+		explainMessage.value = '';
 	}
 };
 
@@ -209,6 +244,7 @@ const checkOverflow = () => {
 watch(currentQuestion, () => {
 	selectedAnswer.value = null;
 	resultMessage.value = '';
+	explainMessage.value = '';
 	hasClicked.value = false;
 	checkOverflow();
 });
