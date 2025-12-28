@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col items-center gap-2">
+	<div class="flex flex-col items-center gap-2" ref="popupContainer">
 		<div class="flex items-center">
 			<img
 				v-if="selected"
@@ -30,7 +30,20 @@
 			<img :src="iconSrc" class="h-20 w-20" />
 		</button>
 		<span class="mt-2">{{ label }}</span>
-		<img v-if="showInfoIcon" src="/img/icon-info.svg" class="h-6" />
+		<img
+			v-if="showInfoIcon"
+			src="/img/icon-info.svg"
+			class="h-6 cursor-pointer"
+			@click="toggleInfoPopup"
+		/>
+		<InfoPopup
+			v-if="isInfoPopupVisible"
+			:title="label"
+			class="absolute right-0 z-1 -translate-y-1/2 transform"
+			content="งดออกเสียง = สส. เข้าประชุมแต่ไม่ออกเสียงว่าเห็นด้วยหรือไม่เห็นด้วยกับมติ อาจจะเพราะยังไม่ตัดสินใจหรือเลี่ยงความขัดแย้ง ในกรณีที่ต้อง ใช้เสียงข้างมากในการชี้ขาดการงดออกเสียงจะมีผลเท่ากับเป็นการไม่เห็นด้วยได้ เช่น ญัตติอภิปรายไม่ไว้วางใจรัฐมนตรีที่ต้องใช้คะแนนเสียงมากกว่ากึ่งหนึ่งของจำนวน สส. ที่มีอยู่ในสภา การงดออกเสียงจึงทำให้เกิดผลไม่เห็นด้วยกับมติ"
+			@click="$emit('click')"
+			@close="isInfoPopupVisible = false"
+		/>
 	</div>
 </template>
 
@@ -81,6 +94,31 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+	},
+	data() {
+		return {
+			isInfoPopupVisible: false,
+		};
+	},
+	methods: {
+		toggleInfoPopup() {
+			this.isInfoPopupVisible = !this.isInfoPopupVisible;
+		},
+		handleClickOutside(event) {
+			if (
+				this.isInfoPopupVisible &&
+				this.$refs.popupContainer &&
+				!this.$refs.popupContainer.contains(event.target)
+			) {
+				this.isInfoPopupVisible = false;
+			}
+		},
+	},
+	mounted() {
+		document.addEventListener('click', this.handleClickOutside);
+	},
+	unmounted() {
+		document.removeEventListener('click', this.handleClickOutside);
 	},
 };
 </script>
