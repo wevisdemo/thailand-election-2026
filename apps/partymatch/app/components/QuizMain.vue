@@ -173,6 +173,7 @@ const partyVotes = computed(() => {
 			label: 'ลา/ขาด',
 			count: currentPartyAnswer.value.absent_count,
 			color: 'white',
+			border: '1px solid gray',
 		},
 	];
 });
@@ -260,7 +261,7 @@ const innerContent = ref(null);
 const isOverflowing = ref(false);
 const renderMarkdown = (markdownText) => marked.parse(markdownText || '');
 
-const showPartyResult = ref(true);
+const showPartyResult = ref(false);
 
 const handleClose = () => {
 	showPartyResult.value = false;

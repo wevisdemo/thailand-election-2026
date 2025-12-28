@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="right-0 bottom-0 z-2 flex min-h-full w-90 flex-col gap-4 rounded-t-2xl border-3 bg-white p-6"
+		class="right-0 bottom-0 z-2 flex min-h-full w-90 flex-col gap-4 rounded-t-2xl border-3 border-b-0 bg-white p-6"
 	>
 		<div class="flex w-full flex-row justify-between">
 			<div class="text-h11 font-kondolar font-bold">
@@ -44,10 +44,16 @@
 							width="16"
 							height="16"
 							viewBox="0 0 16 16"
-							:fill="vote.color"
 							xmlns="http://www.w3.org/2000/svg"
 						>
-							<circle cx="8" cy="8" r="8" :fill="vote.color" />
+							<circle
+								cx="8"
+								cy="8"
+								r="7"
+								:fill="vote.color"
+								:stroke="vote.label === 'ลา/ขาด' ? 'gray' : 'none'"
+								:stroke-width="vote.label === 'ลา/ขาด' ? 1 : 0"
+							/>
 						</svg>
 
 						<p>{{ vote.label }}</p>
