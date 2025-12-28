@@ -101,13 +101,23 @@
 				/>
 			</button>
 		</div>
+		<!-- Party Result Popup -->
+		<PartyResult
+			class="absolute"
+			:billTitle="currentQuestion.title"
+			:partyLogo="partyLogo"
+			:partyName="selectedPartyName"
+			:partyCount="currentPartyAnswer?.party_count"
+			:result="partyAnswerLabel"
+			:votes="partyVotes"
+		/>
 	</div>
 </template>
 
 <script setup>
 import { marked } from 'marked';
 import QuizChoices from '../components/QuizChoices.vue';
-
+import PartyResult from '../components/PartyResult.vue';
 const props = defineProps({
 	questions: Array,
 	partyAnswers: Array,
@@ -128,13 +138,44 @@ const currentQuestion = computed(
 const isLastQuestion = computed(
 	() => currentQuestionIndex.value === props.questions.length - 1,
 );
-
+const selectedPartyName = computed(() => {
+	const party = props.partyAnswers.find(
+		(answer) => answer.party_id === props.selectedPartyId,
+	);
+	return party ? party.name : '';
+});
 const currentPartyAnswer = computed(() => {
 	return props.partyAnswers?.find(
 		(a) =>
 			a.party_id === props.selectedPartyId &&
 			a.quiz_id === currentQuestion.value.id,
 	);
+});
+
+const partyVotes = computed(() => {
+	if (!currentPartyAnswer.value) return [];
+	return [
+		{
+			label: 'เห็นด้วย',
+			count: currentPartyAnswer.value.agree_count,
+			color: '#1AD39E',
+		},
+		{
+			label: 'ไม่เห็นด้วย',
+			count: currentPartyAnswer.value.disagree_count,
+			color: 'var(--red-2)',
+		},
+		{
+			label: 'งดออกเสียง',
+			count: currentPartyAnswer.value.abstain_count,
+			color: '#9D9D9D',
+		},
+		{
+			label: 'ลา/ขาด',
+			count: currentPartyAnswer.value.absent_count,
+			color: 'white',
+		},
+	];
 });
 
 const choiceConfigs = [
@@ -157,13 +198,28 @@ const choiceConfigs = [
 ];
 
 // --- Logic ---
+const ANSWER_MAP = {
+    abstain: { label: 'งดออกเสียง', matchKey: 'งดออกเสียง' },
+    agree: { label: 'เห็นด้วย', matchKey: 'เห็นด้วย' },
+    disagree: { label: 'ไม่เห็นด้วย', matchKey: 'ไม่เห็นด้วย' },
+    'agree, disagree': { label: 'เสียงแตก', matchKey: ['เห็นด้วย', 'ไม่เห็นด้วย'] },
+    absent: { label: 'ลา/ขาด', matchKey: null },
+};
+
+const partyAnswerLabel = computed(() => {
+    const pAns = currentPartyAnswer.value?.party_answer;
+    return ANSWER_MAP[pAns]?.label || 'ยังไม่มีชื่อตอนโหวต';
+});
+
 const isAnswerMatch = (label) => {
-	const pAns = currentPartyAnswer.value?.party_answer;
-	if (!pAns) return false;
-	if (label === 'งดออกเสียง') return pAns === 'abstain';
-	if (label === 'เห็นด้วย') return pAns.includes('agree');
-	if (label === 'ไม่เห็นด้วย') return pAns.includes('disagree');
-	return false;
+    const pAns = currentPartyAnswer.value?.party_answer;
+    if (!pAns || !ANSWER_MAP[pAns]) return false;
+
+    const matchKey = ANSWER_MAP[pAns].matchKey;
+    
+    return Array.isArray(matchKey) 
+        ? matchKey.includes(label) 
+        : matchKey === label;
 };
 
 const handleChoiceClick = (label) => {
