@@ -34,7 +34,7 @@
 			v-if="showInfoIcon"
 			src="/img/icon-info.svg"
 			class="h-6 cursor-pointer"
-			@click="toggleInfoPopup"
+			@click="toggleInfoPopup($event)"
 		/>
 		<InfoPopup
 			v-if="isInfoPopupVisible"
@@ -101,7 +101,8 @@ export default {
 		};
 	},
 	methods: {
-		toggleInfoPopup() {
+		toggleInfoPopup(event) {
+			event.stopPropagation();
 			this.isInfoPopupVisible = !this.isInfoPopupVisible;
 		},
 		handleClickOutside(event) {
