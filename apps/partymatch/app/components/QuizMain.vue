@@ -66,7 +66,9 @@
 		</div>
 
 		<!-- Navigation -->
-		<div class="font-kondolar mt-auto flex justify-between p-6">
+		<div
+			class="font-kondolar right-0justify-between absolute bottom-0 flex w-full flex-row p-6"
+		>
 			<button
 				v-if="currentQuestionIndex > 0"
 				class="flex cursor-pointer items-center gap-2 hover:font-bold"
