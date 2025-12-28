@@ -37,9 +37,7 @@ const handlePartySelected = (party) => {
 };
 
 const startQuiz = () => {
-	if (selectedParty.value) {
-		showQuiz.value = true;
-	}
+	showQuiz.value = true;
 };
 
 onMounted(async () => {
@@ -84,7 +82,6 @@ onMounted(async () => {
 		}),
 	);
 	partyAnswers.value = partyAnswerData;
-	console.log('partyAnswers', partyAnswers.value);
 
 	lottie.loadAnimation({
 		container: lottieContainer.value,

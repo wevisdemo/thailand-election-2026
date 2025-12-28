@@ -42,7 +42,12 @@
 		<!-- Choices -->
 		<div class="section flex w-full flex-col gap-4 py-4">
 			<div class="h-12 text-center">
-				<p class="font-sriracha text-b2">{{ resultMessage }}</p>
+				<p v-if="selectedPartyId" class="font-sriracha text-b2">
+					{{ resultMessage }}
+				</p>
+				<p v-else-if="hasClicked" class="font-sriracha text-b2">
+					Your Answer
+				</p>
 				<p v-if="explainMessage" class="text-b6">
 					เพราะพรรคนี้ {{ explainMessage }}
 				</p>
