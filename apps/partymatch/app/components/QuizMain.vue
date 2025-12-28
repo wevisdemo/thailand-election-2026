@@ -69,13 +69,15 @@
 		<div
 			class="font-kondolar gap-auto absolute bottom-0 flex w-full flex-row justify-between p-6"
 		>
-			<button
-				v-if="currentQuestionIndex > 0"
-				class="flex cursor-pointer items-center gap-2 hover:font-bold"
-				@click="currentQuestionIndex--"
-			>
-				<img src="/img/arrow-left.svg" class="h-8" /> กลับ
-			</button>
+			<div class="w-40 self-center">
+				<button
+					v-if="currentQuestionIndex > 0"
+					class="flex w-40 cursor-pointer items-center gap-2 hover:font-bold"
+					@click="currentQuestionIndex--"
+				>
+					<img src="/img/arrow-left.svg" class="h-8" /> กลับ
+				</button>
+			</div>
 
 			<button
 				class="hover:bg-gray-3 m-auto cursor-pointer rounded-full border-3 bg-white px-4 py-2 font-bold"
@@ -84,7 +86,7 @@
 			</button>
 
 			<button
-				class="flex cursor-pointer items-center gap-2 hover:font-bold"
+				class="flex w-40 cursor-pointer items-center justify-end gap-2 pr-0 hover:font-bold"
 				:class="{ 'font-bold': isLastQuestion }"
 				@click="
 					isLastQuestion ? currentQuestionIndex++ : currentQuestionIndex++
