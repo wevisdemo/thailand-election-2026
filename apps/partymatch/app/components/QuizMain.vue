@@ -67,7 +67,7 @@
 
 		<!-- Navigation -->
 		<div
-			class="font-kondolar right-0justify-between absolute bottom-0 flex w-full flex-row p-6"
+			class="font-kondolar gap-auto absolute bottom-0 flex w-full flex-row justify-between p-6"
 		>
 			<button
 				v-if="currentQuestionIndex > 0"
@@ -78,7 +78,13 @@
 			</button>
 
 			<button
-				class="ml-auto flex cursor-pointer items-center gap-2 hover:font-bold"
+				class="hover:bg-gray-3 m-auto cursor-pointer rounded-full border-3 bg-white px-4 py-2 font-bold"
+			>
+				ดูผลลงมติพรรค
+			</button>
+
+			<button
+				class="flex cursor-pointer items-center gap-2 hover:font-bold"
 				:class="{ 'font-bold': isLastQuestion }"
 				@click="
 					isLastQuestion ? currentQuestionIndex++ : currentQuestionIndex++
