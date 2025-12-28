@@ -43,6 +43,11 @@ const startQuiz = () => {
 	showResult.value = false;
 };
 
+const resetState = () => {
+	showQuiz.value = false;
+	showResult.value = false;
+};
+
 onMounted(async () => {
 	const { Column, asString, Spreadsheet, Object } = await import('sheethuahua');
 	const spreadsheet = Spreadsheet(
@@ -205,7 +210,7 @@ onMounted(async () => {
 			v-if="showResult && !showQuiz"
 			class="h-[calc(100vh-133px)]"
 		>
-			<ResultMain />
+			<ResultMain @reset="resetState" />
 		</section>
 
 		<!-- Info -->
