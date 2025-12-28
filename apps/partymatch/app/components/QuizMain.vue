@@ -93,9 +93,7 @@
 			<button
 				class="flex w-40 cursor-pointer items-center justify-end gap-2 pr-0 hover:font-bold"
 				:class="{ 'font-bold': isLastQuestion }"
-				@click="
-					isLastQuestion ? currentQuestionIndex++ : currentQuestionIndex++
-				"
+				@click="handleNextClick"
 			>
 				{{ isLastQuestion ? 'ดูผลลัพธ์' : 'ไปต่อ' }}
 				<img
@@ -134,6 +132,8 @@ const props = defineProps({
 	partyLogo: String,
 	partyName: String,
 });
+
+const emit = defineEmits(['show-result']);
 
 const currentQuestionIndex = ref(0);
 const selectedAnswer = ref(null);
@@ -258,6 +258,14 @@ const handleChoiceClick = (label) => {
 	};
 	explainMessage.value =
 		statusMap[currentPartyAnswer.value?.party_answer] || '';
+};
+
+const handleNextClick = () => {
+	if (isLastQuestion.value) {
+		emit('show-result');
+	} else {
+		currentQuestionIndex.value++;
+	}
 };
 
 // --- UI/Overflow Logic ---

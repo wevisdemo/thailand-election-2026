@@ -12,6 +12,7 @@ import loadingAnimation from '~/assets/lotties/loading.json';
 
 import PartyDropdown from '../components/PartyDropdown.vue';
 import QuizMain from '../components/QuizMain.vue';
+import ResultMain from '../components/ResultMain.vue';
 import { asNumber } from 'sheethuahua';
 
 const selectedParty = ref(null);
@@ -19,6 +20,7 @@ const lottieContainer = ref(null);
 
 const isUnselected = ref(false);
 const showQuiz = ref(false);
+const showResult = ref(false);
 
 const partyOptions = ref([]);
 const quizQuestions = ref([]);
@@ -38,6 +40,7 @@ const handlePartySelected = (party) => {
 
 const startQuiz = () => {
 	showQuiz.value = true;
+	showResult.value = false;
 };
 
 onMounted(async () => {
@@ -99,7 +102,7 @@ onMounted(async () => {
 
 		<section
 			id="landing"
-			v-if="!showQuiz"
+			v-if="!showQuiz && !showResult"
 			class="flex flex-col gap-30 pt-10 pb-20"
 		>
 			<!-- Title -->
@@ -180,17 +183,6 @@ onMounted(async () => {
 			</div>
 		</section>
 
-		<!-- Info -->
-		<section id="info" v-if="!showQuiz" class="flex flex-col gap-6 py-12">
-			<ElectionAboutActions
-				dataUrl="https://docs.google.com/spreadsheets/d/1cg85RsWVrSTDgRsVMTsmbkABbDk8Y84kIU_SsRl_smQ/edit?usp=sharing"
-			/>
-			<ElectionSharer />
-			<ElectionButton class="typo-h9 font-kondolar self-center font-bold"
-				><NuxtLink to="/about">เกี่ยวกับโครงการ</NuxtLink></ElectionButton
-			>
-		</section>
-
 		<!-- Quiz -->
 		<section id="quiz" v-if="showQuiz" class="h-[calc(100vh-133px)]">
 			<QuizMain
@@ -200,7 +192,31 @@ onMounted(async () => {
 				:selected-party-id="selectedParty?.id"
 				:partyLogo="selectedParty?.logo"
 				:partyName="selectedParty?.name"
+				@show-result="
+					showResult = true;
+					showQuiz = false;
+				"
 			/>
+		</section>
+
+		<!-- Result -->
+		<section
+			id="result"
+			v-if="showResult && !showQuiz"
+			class="h-[calc(100vh-133px)]"
+		>
+			<ResultMain />
+		</section>
+
+		<!-- Info -->
+		<section id="info" v-if="!showQuiz" class="flex flex-col gap-6 py-12">
+			<ElectionAboutActions
+				dataUrl="https://docs.google.com/spreadsheets/d/1cg85RsWVrSTDgRsVMTsmbkABbDk8Y84kIU_SsRl_smQ/edit?usp=sharing"
+			/>
+			<ElectionSharer />
+			<ElectionButton class="typo-h9 font-kondolar self-center font-bold"
+				><NuxtLink to="/about">เกี่ยวกับโครงการ</NuxtLink></ElectionButton
+			>
 		</section>
 
 		<ElectionFooter />
