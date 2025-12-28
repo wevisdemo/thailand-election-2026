@@ -1,12 +1,17 @@
 import { Party } from '@/src/type/party';
 import { ElectionButton } from '@election/ui/react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { ElectorateStoreContext } from '../../store/ElectorateStore';
 
 interface PartyCardProps {
 	party: Party;
+	onClickViewPartyList: () => void;
 }
 
-export default function PartyCard({ party }: PartyCardProps) {
+export default function PartyCard({
+	party,
+	onClickViewPartyList,
+}: PartyCardProps) {
 	const [expanded, setExpanded] = useState(false);
 
 	return (
@@ -72,7 +77,10 @@ export default function PartyCard({ party }: PartyCardProps) {
 							</div>
 						))}
 					</div>
-					<button className="flex gap-[8px] rounded-[16px] bg-[#CEC2F5] px-[8px] py-[10px]">
+					<button
+						className="flex gap-[8px] rounded-[16px] bg-[#CEC2F5] px-[8px] py-[10px] hover:cursor-pointer"
+						onClick={onClickViewPartyList}
+					>
 						<img src="/ballotready/plus-cotton.svg" alt="plus-cotton" />
 						<p className="text-[14px]">ดูบัญชีรายชื่อ</p>
 					</button>

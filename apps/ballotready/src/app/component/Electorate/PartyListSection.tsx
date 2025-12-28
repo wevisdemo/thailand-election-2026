@@ -6,6 +6,7 @@ import { Candidate } from '@/src/type/candidate';
 import IndividualList from './IndividualList';
 import PartyList from './PartyList';
 import { Party } from '@/src/type/party';
+import ModalPartyList from './ModalPartyList';
 
 // TODO: use props to dynamic variable
 
@@ -23,6 +24,7 @@ export default function PartyListSection({
 	);
 	const [individualSearch, setIndividualSearch] = useState('');
 	const [partySearch, setPartySearch] = useState('');
+	const [openModalPartyList, setOpenModalPartyList] = useState<boolean>(false);
 	return (
 		<div>
 			<div className="flex w-full">

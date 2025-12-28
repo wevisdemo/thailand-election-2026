@@ -12,7 +12,7 @@ interface PresidentCandidate {
 	photoUrl?: string;
 }
 
-interface PartyListCandidate {
+export interface PartyListCandidate {
 	name: string;
 	photoUrl?: string;
 	number: number;
