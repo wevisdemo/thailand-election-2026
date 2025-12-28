@@ -27,10 +27,7 @@
 					<h3 class="font-bold" v-if="currentQuestion.description">
 						รายละเอียด
 					</h3>
-					<p
-						v-if="currentQuestion.description"
-						v-html="renderMarkdown(currentQuestion.description)"
-					></p>
+					<p v-html="renderMarkdown(currentQuestion.description)"></p>
 				</div>
 				<div
 					v-if="isOverflowing"
@@ -44,92 +41,56 @@
 
 		<!-- Choices -->
 		<div class="section flex w-full flex-col gap-4 py-4">
-			<div>
-				<p class="font-sriracha text-b2 text-center">{{ resultMessage }}</p>
-				<p v-if="explainMessage" class="text-b6 text-center">
+			<div class="h-12 text-center">
+				<p class="font-sriracha text-b2">{{ resultMessage }}</p>
+				<p v-if="explainMessage" class="text-b6">
 					เพราะพรรคนี้ {{ explainMessage }}
 				</p>
 			</div>
 			<div class="flex justify-between px-20">
 				<QuizChoices
-					buttonClass="bg-gray-3 focus:bg-gray-2"
-					iconSrc="/img/choice-abstain.svg"
+					v-for="choice in choiceConfigs"
+					:key="choice.label"
+					v-bind="choice"
 					:logoSrc="partyLogo"
-					label="งดออกเสียง"
-					:showInfoIcon="true"
+					:selected="selectedAnswer === choice.label"
+					:isUnselected="selectedAnswer && selectedAnswer !== choice.label"
 					:isMatch="
-						selectedAnswer === 'งดออกเสียง' && isAnswerMatch('งดออกเสียง')
+						selectedAnswer === choice.label && isAnswerMatch(choice.label)
 					"
-					:selected="selectedAnswer === 'งดออกเสียง'"
-					:isUnselected="selectedAnswer && selectedAnswer !== 'งดออกเสียง'"
-					:showPartyLogo="hasClicked && isAnswerMatch('งดออกเสียง')"
+					:showPartyLogo="hasClicked && isAnswerMatch(choice.label)"
 					:disabled="!!selectedAnswer"
-					@click="handleChoiceClick('งดออกเสียง')"
-				/>
-				<QuizChoices
-					buttonClass="bg-green-2 focus:bg-green-1"
-					iconSrc="/img/choice-agree.svg"
-					:logoSrc="partyLogo"
-					label="เห็นด้วย"
-					:isMatch="selectedAnswer === 'เห็นด้วย' && isAnswerMatch('เห็นด้วย')"
-					:selected="selectedAnswer === 'เห็นด้วย'"
-					:isUnselected="selectedAnswer && selectedAnswer !== 'เห็นด้วย'"
-					:showPartyLogo="hasClicked && isAnswerMatch('เห็นด้วย')"
-					:disabled="!!selectedAnswer"
-					@click="handleChoiceClick('เห็นด้วย')"
-				/>
-				<QuizChoices
-					buttonClass="bg-[var(--red-2)] focus:bg-[var(--red-1)]"
-					iconSrc="/img/choice-disagree.svg"
-					:logoSrc="partyLogo"
-					label="ไม่เห็นด้วย"
-					:isMatch="
-						selectedAnswer === 'ไม่เห็นด้วย' && isAnswerMatch('ไม่เห็นด้วย')
-					"
-					:selected="selectedAnswer === 'ไม่เห็นด้วย'"
-					:isUnselected="selectedAnswer && selectedAnswer !== 'ไม่เห็นด้วย'"
-					:showPartyLogo="hasClicked && isAnswerMatch('ไม่เห็นด้วย')"
-					:disabled="!!selectedAnswer"
-					@click="handleChoiceClick('ไม่เห็นด้วย')"
+					@click="handleChoiceClick(choice.label)"
 				/>
 			</div>
 		</div>
 
 		<!-- Navigation -->
-		<button
-			v-if="currentQuestionIndex > 0"
-			class="font-kondolar absolute bottom-0 left-0 mt-auto mb-0 flex cursor-pointer flex-row items-center gap-2 p-6"
-			@click="
-				() => {
-					currentQuestionIndex--;
-					explainMessage.value = '';
-				}
-			"
-		>
-			<img src="/img/arrow-left.svg" class="h-8" />
-			กลับ
-		</button>
-		<button
-			v-if="currentQuestionIndex < questions.length - 1"
-			class="font-kondolar absolute right-0 bottom-0 mt-auto mb-0 flex cursor-pointer flex-row items-center gap-2 p-6"
-			@click="
-				() => {
-					currentQuestionIndex++;
-					explainMessage.value = '';
-				}
-			"
-		>
-			ไปต่อ
-			<img src="/img/arrow-right.svg" class="h-8" />
-		</button>
-		<button
-			v-else-if="currentQuestionIndex === questions.length - 1"
-			class="font-kondolar absolute right-0 bottom-0 mt-auto mb-0 flex cursor-pointer flex-row items-center gap-2 p-6 font-bold"
-			@click="currentQuestionIndex++"
-		>
-			ดูผลลัพธ์
-			<img src="/img/icon-heart-ol.svg" class="h-8" />
-		</button>
+		<div class="font-kondolar mt-auto flex justify-between p-6">
+			<button
+				v-if="currentQuestionIndex > 0"
+				class="flex cursor-pointer items-center gap-2 hover:font-bold"
+				@click="currentQuestionIndex--"
+			>
+				<img src="/img/arrow-left.svg" class="h-8" /> กลับ
+			</button>
+
+			<button
+				class="ml-auto flex cursor-pointer items-center gap-2 hover:font-bold"
+				:class="{ 'font-bold': isLastQuestion }"
+				@click="
+					isLastQuestion ? currentQuestionIndex++ : currentQuestionIndex++
+				"
+			>
+				{{ isLastQuestion ? 'ดูผลลัพธ์' : 'ไปต่อ' }}
+				<img
+					:src="
+						isLastQuestion ? '/img/icon-heart-ol.svg' : '/img/arrow-right.svg'
+					"
+					class="h-8"
+				/>
+			</button>
+		</div>
 	</div>
 </template>
 
@@ -138,133 +99,104 @@ import { marked } from 'marked';
 import QuizChoices from '../components/QuizChoices.vue';
 
 const props = defineProps({
-	questions: {
-		type: Array,
-		required: true,
-	},
-	partyAnswers: {
-		type: Array,
-		required: true,
-	},
-	selectedPartyId: {
-		type: String,
-		required: true,
-	},
-	partyLogo: {
-		type: String,
-		required: false,
-	},
+	questions: Array,
+	partyAnswers: Array,
+	selectedPartyId: String,
+	partyLogo: String,
 });
 
 const currentQuestionIndex = ref(0);
+const selectedAnswer = ref(null);
+const hasClicked = ref(false);
+const resultMessage = ref('');
+const explainMessage = ref('');
+
+// --- Computed ---
 const currentQuestion = computed(
 	() => props.questions[currentQuestionIndex.value] || {},
 );
+const isLastQuestion = computed(
+	() => currentQuestionIndex.value === props.questions.length - 1,
+);
 
-const filteredPartyAnswers = computed(() => {
-	if (!props.partyAnswers || !props.selectedPartyId) {
-		return [];
-	}
-	return props.partyAnswers.filter(
-		(answer) => answer.party_id === props.selectedPartyId,
+const currentPartyAnswer = computed(() => {
+	return props.partyAnswers?.find(
+		(a) =>
+			a.party_id === props.selectedPartyId &&
+			a.quiz_id === currentQuestion.value.id,
 	);
 });
 
-const isAnswerMatch = (answerLabel) => {
-	if (!filteredPartyAnswers.value.length) {
-		return false;
-	}
+const choiceConfigs = [
+	{
+		label: 'งดออกเสียง',
+		iconSrc: '/img/choice-abstain.svg',
+		buttonClass: 'bg-gray-2 focus:bg-gray-1',
+		showInfoIcon: true,
+	},
+	{
+		label: 'เห็นด้วย',
+		iconSrc: '/img/choice-agree.svg',
+		buttonClass: 'bg-green-2 focus:bg-green-1',
+	},
+	{
+		label: 'ไม่เห็นด้วย',
+		iconSrc: '/img/choice-disagree.svg',
+		buttonClass: 'bg-[var(--red-2)] focus:bg-[var(--red-1)]',
+	},
+];
 
-	const currentAnswer = filteredPartyAnswers.value.find(
-		(answer) => answer.quiz_id === currentQuestion.value.id,
-	);
-	if (!currentAnswer) return false;
-
-	switch (answerLabel) {
-		case 'งดออกเสียง':
-			return currentAnswer.party_answer === 'abstain';
-		case 'เห็นด้วย':
-			return (
-				currentAnswer.party_answer === 'agree' ||
-				currentAnswer.party_answer === 'agree, disagree'
-			);
-		case 'ไม่เห็นด้วย':
-			return (
-				currentAnswer.party_answer === 'disagree' ||
-				currentAnswer.party_answer === 'agree, disagree'
-			);
-		default:
-			return false;
-	}
+// --- Logic ---
+const isAnswerMatch = (label) => {
+	const pAns = currentPartyAnswer.value?.party_answer;
+	if (!pAns) return false;
+	if (label === 'งดออกเสียง') return pAns === 'abstain';
+	if (label === 'เห็นด้วย') return pAns.includes('agree');
+	if (label === 'ไม่เห็นด้วย') return pAns.includes('disagree');
+	return false;
 };
-const resultMessage = ref('');
-const explainMessage = ref('');
-const selectedAnswer = ref(null);
-const hasClicked = ref(false);
 
-const handleChoiceClick = (selectedLabel) => {
+const handleChoiceClick = (label) => {
 	if (selectedAnswer.value) return;
-
-	selectedAnswer.value = selectedLabel;
+	selectedAnswer.value = label;
 	hasClicked.value = true;
 
-	const isMatch = isAnswerMatch(selectedLabel);
-	resultMessage.value = isMatch ? `It's a match!` : `Not match!`;
+	resultMessage.value = isAnswerMatch(label) ? "It's a match!" : 'Not match!';
 
-	const currentAnswer = filteredPartyAnswers.value.find(
-		(answer) => answer.quiz_id === currentQuestion.value.id,
-	);
-
-	if (currentAnswer) {
-		const partyAnswer = currentAnswer.party_answer || '';
-		if (partyAnswer === 'absent') {
-			explainMessage.value = 'ไม่เข้าประชุมเกินครึ่ง';
-		} else if (partyAnswer === 'agree, disagree') {
-			explainMessage.value = 'เสียงแตก';
-		} else if (partyAnswer === '') {
-			explainMessage.value = 'ยังไม่มีชื่อตอนโหวต';
-		} else {
-			explainMessage.value = '';
-		}
-	} else {
-		explainMessage.value = '';
-	}
+	const statusMap = {
+		absent: 'ไม่เข้าประชุมเกินครึ่ง',
+		'agree, disagree': 'เสียงแตก',
+		'': 'ยังไม่มีชื่อตอนโหวต',
+	};
+	explainMessage.value =
+		statusMap[currentPartyAnswer.value?.party_answer] || '';
 };
 
+// --- UI/Overflow Logic ---
 const descriptionContainer = ref(null);
 const innerContent = ref(null);
 const isOverflowing = ref(false);
-let observer = null;
-
 const renderMarkdown = (markdownText) => marked.parse(markdownText || '');
 
 const checkOverflow = () => {
-	const container = descriptionContainer.value;
-	const content = innerContent.value;
-	if (container && content) {
-		isOverflowing.value = content.scrollHeight > container.clientHeight;
+	if (descriptionContainer.value && innerContent.value) {
+		isOverflowing.value =
+			innerContent.value.scrollHeight > descriptionContainer.value.clientHeight;
 	}
 };
 
-watch(currentQuestion, () => {
+watch(currentQuestionIndex, () => {
 	selectedAnswer.value = null;
 	resultMessage.value = '';
 	explainMessage.value = '';
 	hasClicked.value = false;
-	checkOverflow();
+	nextTick(checkOverflow);
 });
-onMounted(async () => {
-	observer = new ResizeObserver(() => {
-		checkOverflow();
-	});
 
-	if (innerContent.value) {
-		observer.observe(innerContent.value);
-	}
+let observer;
+onMounted(() => {
+	observer = new ResizeObserver(checkOverflow);
+	if (innerContent.value) observer.observe(innerContent.value);
 });
-onUnmounted(() => {
-	if (observer) {
-		observer.disconnect();
-	}
-});
+onUnmounted(() => observer?.disconnect());
 </script>
