@@ -13,7 +13,7 @@
 				class="cursor-pointer self-start"
 			/>
 		</div>
-		<div class="flex flex-col gap-2">
+		<div class="flex flex-col gap-4">
 			<div class="flex w-full flex-row justify-between">
 				<div class="flex gap-2">
 					<img :src="partyLogo" class="h-6 w-6" />
@@ -25,11 +25,22 @@
 				</div>
 			</div>
 			<!-- bar chart -->
-			<div></div>
+			<div class="flex h-6 w-full shadow">
+				<div
+					v-for="vote in votes"
+					:key="vote.label"
+					:style="{
+						width: `${(vote.count / partyCount) * 100}%`,
+						backgroundColor: vote.color,
+						border: vote.border || 'none',
+					}"
+					class="h-full"
+				></div>
+			</div>
 
 			<!-- bar chart text -->
 			<div class="flex flex-col gap-1">
-				<div class="flex justify-between">
+				<div class="flex justify-between font-bold">
 					<p>ทั้งหมด</p>
 					<p>{{ partyCount }} คน</p>
 				</div>

@@ -45,9 +45,7 @@
 				<p v-if="selectedPartyId" class="font-sriracha text-b2">
 					{{ resultMessage }}
 				</p>
-				<p v-else-if="hasClicked" class="font-sriracha text-b2">
-					Your Answer
-				</p>
+				<p v-else-if="hasClicked" class="font-sriracha text-b2">Your Answer</p>
 				<p v-if="explainMessage" class="text-b6">
 					เพราะพรรคนี้ {{ explainMessage }}
 				</p>
@@ -85,6 +83,7 @@
 			</div>
 
 			<button
+				v-if="selectedPartyId"
 				class="hover:bg-gray-3 m-auto cursor-pointer rounded-full border-3 bg-white px-4 py-2 font-bold"
 				@click="showPartyResult = true"
 			>
@@ -107,6 +106,7 @@
 				/>
 			</button>
 		</div>
+
 		<!-- Party Result Popup -->
 		<PartyResult
 			v-if="showPartyResult"
