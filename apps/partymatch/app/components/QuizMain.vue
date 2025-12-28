@@ -83,7 +83,7 @@
 			</div>
 
 			<button
-				v-if="selectedPartyId"
+				v-if="selectedPartyId && hasClicked"
 				class="hover:bg-gray-3 m-auto cursor-pointer rounded-full border-3 bg-white px-4 py-2 font-bold"
 				@click="showPartyResult = true"
 			>
@@ -126,7 +126,7 @@
 <script setup>
 import { marked } from 'marked';
 import QuizChoices from '../components/QuizChoices.vue';
-import PartyResult from '../components/PartyResult.vue';
+import PartyResult from './PartyVotes.vue';
 const props = defineProps({
 	questions: Array,
 	partyAnswers: Array,
