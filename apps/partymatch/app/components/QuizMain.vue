@@ -2,7 +2,12 @@
 	<div class="relative flex h-full flex-col">
 		<!-- Progress bar -->
 		<div class="section w-full py-8">
-			<div class="bg-green-2 h-1 w-full rounded"></div>
+			<div
+				:style="{
+					width: `${((currentQuestionIndex + 1) / questions.length) * 100}%`,
+				}"
+				class="bg-green-2 h-1 rounded transition-all duration-300"
+			></div>
 		</div>
 
 		<!-- Question -->
