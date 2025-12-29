@@ -11,6 +11,7 @@ import lottie from 'lottie-web';
 import loadingAnimation from '~/assets/lotties/loading.json';
 
 import PartyDropdown from '../components/PartyDropdown.vue';
+import PartyCard from '../components/PartyCard.vue';
 import QuizMain from '../components/QuizMain.vue';
 import ResultMain from '../components/ResultMain.vue';
 import { asNumber } from 'sheethuahua';
