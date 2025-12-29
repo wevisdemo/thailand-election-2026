@@ -1,5 +1,6 @@
 // %%
 import { stringify } from 'jsr:@std/csv';
+import { query } from './politigraph.ts';
 
 interface Person {
 	id: string;
@@ -13,53 +14,39 @@ interface Person {
 	}[];
 }
 
-const res = await fetch('https://politigraph.wevis.info/graphql', {
-	method: 'POST',
-	headers: { 'content-type': 'application/json' },
-	body: JSON.stringify({
-		query: `
-      query People($membershipWhere: MembershipWhere, $peopleWhere: PersonWhere) {
-        people(where: $peopleWhere) {
-          id
-          name
-          memberships(where: $membershipWhere) {
-            posts {
-              organizations {
-                term
-              }
-            }
+const { people } = await query<{ people: Person[] }>(
+	`query People($membershipWhere: MembershipWhere, $peopleWhere: PersonWhere) {
+    people(where: $peopleWhere) {
+      id
+      name
+      memberships(where: $membershipWhere) {
+        posts {
+          organizations {
+            term
           }
         }
       }
-    `,
-		variables: {
-			membershipWhere: {
+    }
+  }`,
+	{
+		membershipWhere: {
+			posts_SOME: {
+				organizations_SOME: {
+					classification_EQ: 'HOUSE_OF_REPRESENTATIVE',
+				},
+			},
+		},
+		peopleWhere: {
+			memberships_SOME: {
 				posts_SOME: {
 					organizations_SOME: {
 						classification_EQ: 'HOUSE_OF_REPRESENTATIVE',
 					},
 				},
 			},
-			peopleWhere: {
-				memberships_SOME: {
-					posts_SOME: {
-						organizations_SOME: {
-							classification_EQ: 'HOUSE_OF_REPRESENTATIVE',
-						},
-					},
-				},
-			},
 		},
-	}),
-});
-
-if (!res.ok) {
-	throw res.statusText;
-}
-
-const {
-	data: { people },
-} = (await res.json()) as { data: { people: Person[] } };
+	},
+);
 
 console.log(people.length);
 
