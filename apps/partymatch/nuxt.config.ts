@@ -19,6 +19,7 @@ export default defineNuxtConfig({
 	compatibilityDate: '2025-07-15',
 	css: ['./app/assets/css/main.css'],
 	devtools: { enabled: true },
+	telemetry: false,
 	vite: {
 		plugins: [tailwindcss()],
 		vue: {
