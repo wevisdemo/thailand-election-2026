@@ -46,7 +46,7 @@
 					{{ resultMessage }}
 				</p>
 				<p v-else-if="hasClicked" class="font-sriracha text-b2">Your Answer</p>
-				<p v-if="explainMessage" class="text-b6">
+				<p v-if="explainMessage && selectedPartyId" class="text-b6">
 					เพราะพรรคนี้ {{ explainMessage }}
 				</p>
 			</div>
