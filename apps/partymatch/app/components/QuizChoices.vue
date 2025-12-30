@@ -27,7 +27,7 @@
 			@click="$emit('click')"
 			:disabled="disabled"
 		>
-			<img :src="iconSrc" class="h-20 w-20" />
+			<img :src="withBase(iconSrc)" class="h-20 w-20" />
 		</button>
 		<span class="mt-2">{{ label }}</span>
 		<img
@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import { withBase } from 'ufo';
 export default {
 	props: {
 		buttonClass: {
