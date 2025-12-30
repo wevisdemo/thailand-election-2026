@@ -31,6 +31,13 @@ const projects = [
 				<ElectionButton @click="resetQuiz">เล่นใหม่</ElectionButton>
 				<ElectionButton>ดูลำดับทั้งหมด</ElectionButton>
 			</div>
+			<div
+				href="#"
+				class="text-b6 flex cursor-pointer flex-row items-center gap-1 underline"
+			>
+				<p>อ่านวิธีคำนวณคะแนนเพิ่มเติม</p>
+				<img src="/img/icon-info.svg" class="h-4" />
+			</div>
 		</div>
 	</div>
 	<div class="section text-b4 flex flex-col gap-8 pt-20 pb-10 text-center">
