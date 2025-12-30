@@ -23,6 +23,7 @@ const projects = [
 </script>
 
 <template>
+	<!-- Result -->
 	<div class="bg-green-3 relative flex h-[calc(100vh-56px)] flex-col p-10">
 		<ResultCard />
 		<div class="section flex flex-col items-center gap-4 p-8">
@@ -50,6 +51,8 @@ const projects = [
 			@close="isInfoPopupVisible = false"
 		/>
 	</div>
+
+	<!-- Outro -->
 	<div class="section text-b4 flex flex-col gap-8 pt-20 pb-10 text-center">
 		<p>
 			แม้ร่างกฎหมายที่เราเลือกมาให้โหวต

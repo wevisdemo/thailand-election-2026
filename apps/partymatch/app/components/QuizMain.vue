@@ -127,7 +127,7 @@
 
 <script setup>
 import { marked } from 'marked';
-import QuizChoices from '../components/QuizChoices.vue';
+import QuizChoices from './QuizChoice.vue';
 import PartyResult from './PartyVotes.vue';
 const props = defineProps({
 	questions: Array,

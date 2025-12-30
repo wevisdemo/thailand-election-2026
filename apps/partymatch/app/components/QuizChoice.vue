@@ -101,22 +101,5 @@ export default {
 			isInfoPopupVisible: false,
 		};
 	},
-	// methods: {
-	// 	handleClickOutside(event) {
-	// 		if (
-	// 			this.isInfoPopupVisible &&
-	// 			this.$refs.popupContainer &&
-	// 			!this.$refs.popupContainer.contains(event.target)
-	// 		) {
-	// 			this.isInfoPopupVisible = false;
-	// 		}
-	// 	},
-	// },
-	// mounted() {
-	// 	document.addEventListener('click', this.handleClickOutside);
-	// },
-	// unmounted() {
-	// 	document.removeEventListener('click', this.handleClickOutside);
-	// },
 };
 </script>
