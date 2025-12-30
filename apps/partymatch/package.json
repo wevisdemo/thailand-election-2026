@@ -12,6 +12,7 @@
 	"dependencies": {
 		"@election/tailwind": "workspace:*",
 		"@election/ui": "workspace:*",
+		"@nuxt/image": "^2.0.0",
 		"@tailwindcss/vite": "^4.1.17",
 		"lottie-web": "^5.13.0",
 		"marked": "^17.0.1",
