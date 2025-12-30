@@ -83,7 +83,11 @@
 			</div>
 
 			<button
-				v-if="selectedPartyId && hasClicked"
+				v-if="
+					selectedPartyId &&
+					hasClicked &&
+					explainMessage !== 'ยังไม่มีชื่อตอนโหวต'
+				"
 				class="hover:bg-gray-3 m-auto cursor-pointer rounded-full border-3 bg-white px-4 py-2 font-bold"
 				@click="showPartyResult = true"
 			>
@@ -254,7 +258,7 @@ const handleChoiceClick = (label) => {
 	const statusMap = {
 		absent: 'ไม่เข้าประชุมเกินครึ่ง',
 		'agree, disagree': 'เสียงแตก',
-		'': 'ยังไม่มีชื่อตอนโหวต',
+		undefined: 'ยังไม่มีชื่อตอนโหวต',
 	};
 	explainMessage.value =
 		statusMap[currentPartyAnswer.value?.party_answer] || '';
