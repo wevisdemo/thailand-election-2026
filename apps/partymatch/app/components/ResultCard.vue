@@ -1,0 +1,5 @@
+<template>
+	<div
+		class="section flex w-full flex-col items-center gap-6 rounded-2xl bg-white p-10 shadow-md"
+	></div>
+</template>

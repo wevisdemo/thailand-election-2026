@@ -21,8 +21,17 @@ const projects = [
 </script>
 
 <template>
-	<div class="bg-green-3 relative flex h-[calc(100vh-56px)] flex-col">
-		<ElectionButton @click="resetQuiz">เล่นใหม่</ElectionButton>
+	<div class="bg-green-3 relative flex h-[calc(100vh-56px)] flex-col p-10">
+		<ResultCard />
+		<div class="section flex flex-col items-center gap-4 p-8">
+			<ElectionButton
+				>save ไป<span class="line-through">แฉ</span>แชร์ต่อ</ElectionButton
+			>
+			<div class="flex flex-row gap-4">
+				<ElectionButton @click="resetQuiz">เล่นใหม่</ElectionButton>
+				<ElectionButton>ดูลำดับทั้งหมด</ElectionButton>
+			</div>
+		</div>
 	</div>
 	<div class="section text-b4 flex flex-col gap-8 pt-20 pb-10 text-center">
 		<p>
