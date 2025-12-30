@@ -206,7 +206,11 @@ onMounted(async () => {
 
 		<!-- Result -->
 		<section id="result" v-if="showResult && !showQuiz">
-			<ResultMain @reset="resetState" />
+			<ResultMain
+				@reset="resetState"
+				:partyLogo="selectedParty?.logo"
+				:selected-party-id="selectedParty?.id"
+			/>
 		</section>
 
 		<!-- Info -->
