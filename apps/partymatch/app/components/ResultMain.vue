@@ -32,13 +32,19 @@ const projects = [
 			อย่างที่คาดหวังไว้ไหม พร้อมทั้งให้ไอเดียคุณว่าการเลือกตั้งครั้งนี้
 			จะเลือกสนับสนุนพรรคการเมืองไหนเพื่อทำหน้าที่ให้ตรงใจคุณมากขึ้น
 		</p>
-		<p class="text-b6">
+		<img src="/img/hearts.gif" class="mx-auto h-10" />
+		<p class="text-b6 text-green-1">
 			หมายเหตุ: มติพรรคในการเลือกโหวต ‘เห็นด้วย’ ‘ไม่เห็นด้วย’ หรือ ‘งดออกเสียง’
 			มาจากการพิจารณาในรายละเอียดของร่างฯ กฎหมาย  มากกว่าแค่ชื่อร่างฯ กฎหมาย
-			โดยสามารถศึกษารายละเอียดของแต่ละร่างได้ที่ ระบบสารสนเทศด้านนิติบัญญัติ
+			โดยสามารถศึกษารายละเอียดของแต่ละร่างได้ที่
+			<a
+				href="https://lis.parliament.go.th/index/search_advance.php"
+				class="underline"
+				>ระบบสารสนเทศด้านนิติบัญญัติ</a
+			>
 		</p>
 
-		<div class="section flex flex-row gap-4">
+		<div class="section flex flex-row gap-6">
 			<div
 				v-for="(project, index) in projects"
 				:key="index"
