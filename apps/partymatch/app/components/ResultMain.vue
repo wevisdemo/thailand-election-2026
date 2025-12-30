@@ -44,7 +44,7 @@ const projects = [
 		</div>
 		<InfoPopup
 			v-if="isInfoPopupVisible"
-			:title="วิธีคำนวณคะแนน"
+			title="วิธีคำนวณคะแนน"
 			class="fixed top-1/2 left-1/2 z-2 -translate-x-1/2 -translate-y-1/2 transform"
 			content="นับคะแนนจากตัวเลือกที่คุณเลือก 10 ข้อ เทียบกับกับมติพรรคถถ้าตรงกันจะนับเป็น 1 คะแนน หรือ 10% ยกเว้นในกรณีที่เป็นมติเสียงแตก ผลการลงมติของคนในพรรคเท่ากัน จะนับเป็น 0.5 คะแนน หรือ 5%"
 			@close="isInfoPopupVisible = false"

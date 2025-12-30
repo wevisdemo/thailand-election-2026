@@ -1,5 +1,8 @@
 <template>
-	<div class="bg-bg flex w-90 flex-col gap-4 p-6 shadow-lg">
+	<div
+		class="bg-bg flex w-90 flex-col gap-4 p-6 shadow-lg"
+		ref="popupContainer"
+	>
 		<div class="flex w-full justify-between">
 			<div class="flex flex-row gap-2">
 				<img src="/img/icon-info.svg" class="h-6 w-6" />
@@ -8,7 +11,7 @@
 			<img
 				src="/img/icon-close.svg"
 				class="h-6 w-6 cursor-pointer"
-				@click.stop="$emit('close')"
+				@click.stop="closePopup"
 			/>
 		</div>
 		<p>{{ content }}</p>
@@ -27,22 +30,13 @@ export default {
 		},
 	},
 	setup(props, { emit }) {
-		const isVisible = ref(false);
 		const popupContainer = ref(null);
-
-		const togglePopup = (event) => {
-			event.stopPropagation();
-			isVisible.value = !isVisible.value;
-		};
-
 		const closePopup = () => {
-			isVisible.value = false;
 			emit('close');
 		};
 
 		const handleClickOutside = (event) => {
 			if (
-				isVisible.value &&
 				popupContainer.value &&
 				!popupContainer.value.contains(event.target)
 			) {
@@ -51,16 +45,14 @@ export default {
 		};
 
 		onMounted(() => {
-			document.addEventListener('click', handleClickOutside);
+			document.addEventListener('mousedown', handleClickOutside);
 		});
 
 		onUnmounted(() => {
-			document.removeEventListener('click', handleClickOutside);
+			document.removeEventListener('mousedown', handleClickOutside);
 		});
 		return {
-			isVisible,
 			popupContainer,
-			togglePopup,
 			closePopup,
 		};
 	},
