@@ -43,7 +43,7 @@ const emit = defineEmits(['start-quiz']);
 		</div>
 		<ElectionButton
 			id="start-quiz"
-			class="typo-h8 font-kondolar w-full font-bold"
+			class="typo-h8 font-kondolar m-auto w-full font-bold"
 			@click="emit('start-quiz')"
 		>
 			เริ่มเล่น

@@ -129,6 +129,9 @@ import {
 			dataUrl="https://docs.google.com/spreadsheets/d/1cg85RsWVrSTDgRsVMTsmbkABbDk8Y84kIU_SsRl_smQ/edit?usp=sharing"
 		/>
 		<ElectionSharer />
+		<ElectionButton class="m-auto"
+			><NuxtLink to="/">กลับ</NuxtLink></ElectionButton
+		>
 		<ElectionFooter />
 	</div>
 </template>
