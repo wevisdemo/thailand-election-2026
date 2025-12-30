@@ -5,10 +5,49 @@ const emit = defineEmits(['reset']);
 const resetQuiz = () => {
 	emit('reset');
 };
+
+const projects = [
+	{
+		href: 'https://parliamentwatch.wevis.info/',
+		title: 'ดูผลโหวตในสภาฯ ชุดที่ผ่านมา',
+		imgSrc: '/img/og-project.png',
+	},
+	{
+		href: 'https://election69.wevis.info/',
+		title: 'ส่องนโยบายพรรค เลือกตั้ง 69',
+		imgSrc: '/img/og-project.png',
+	},
+];
 </script>
 
 <template>
-	<div class="bg-green-3 relative flex h-full flex-col">
+	<div class="bg-green-3 relative flex h-[calc(100vh-56px)] flex-col">
 		<ElectionButton @click="resetQuiz">เล่นใหม่</ElectionButton>
+	</div>
+	<div class="section text-b4 flex flex-col gap-8 pt-20 pb-10 text-center">
+		<p>
+			แม้ร่างกฎหมายที่เราเลือกมาให้โหวต
+			จะเป็นเพียงส่วนหนึ่งของประเด็นที่ถูกผลักดันในสภาตลอด 3 ปีที่ผ่านมา
+			แต่ก็ชวนคิดว่าพรรคการเมืองที่คุณจะเลือก เคยได้ทำหน้าที่ตัดสินใจในมติต่าง ๆ
+			อย่างที่คาดหวังไว้ไหม พร้อมทั้งให้ไอเดียคุณว่าการเลือกตั้งครั้งนี้
+			จะเลือกสนับสนุนพรรคการเมืองไหนเพื่อทำหน้าที่ให้ตรงใจคุณมากขึ้น
+		</p>
+		<p class="text-b6">
+			หมายเหตุ: มติพรรคในการเลือกโหวต ‘เห็นด้วย’ ‘ไม่เห็นด้วย’ หรือ ‘งดออกเสียง’
+			มาจากการพิจารณาในรายละเอียดของร่างฯ กฎหมาย  มากกว่าแค่ชื่อร่างฯ กฎหมาย
+			โดยสามารถศึกษารายละเอียดของแต่ละร่างได้ที่ ระบบสารสนเทศด้านนิติบัญญัติ
+		</p>
+
+		<div class="section flex flex-row gap-4">
+			<div
+				v-for="(project, index) in projects"
+				:key="index"
+				class="flex min-h-20 w-full cursor-pointer flex-col gap-4 rounded-2xl border-3 border-b-black bg-white p-6 shadow-md hover:shadow-none"
+				href="project.href"
+			>
+				<h4 class="font-kondolar text-h10 font-bold">{{ project.title }}</h4>
+				<img :src="project.imgSrc" alt="" />
+			</div>
+		</div>
 	</div>
 </template>

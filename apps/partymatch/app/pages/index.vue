@@ -205,11 +205,7 @@ onMounted(async () => {
 		</section>
 
 		<!-- Result -->
-		<section
-			id="result"
-			v-if="showResult && !showQuiz"
-			class="h-[calc(100vh-133px)]"
-		>
+		<section id="result" v-if="showResult && !showQuiz">
 			<ResultMain @reset="resetState" />
 		</section>
 
