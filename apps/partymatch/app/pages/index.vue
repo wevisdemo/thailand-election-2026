@@ -6,7 +6,6 @@ import {
 	ElectionAboutActions,
 	ElectionFooter,
 } from '@election/ui/vue';
-
 import lottie from 'lottie-web';
 import loadingAnimation from '~/assets/lotties/loading.json';
 
