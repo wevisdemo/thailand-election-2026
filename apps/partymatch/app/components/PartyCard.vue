@@ -1,5 +1,6 @@
 <script setup>
 import { ElectionButton } from '@election/ui/vue';
+import { withBase } from 'ufo';
 
 defineProps({
 	selectedParty: {
@@ -25,11 +26,11 @@ const emit = defineEmits(['start-quiz']);
 			<span v-else> มาดูกันว่าพรรคไหน ใจตรงกับคุณมากที่สุด </span>
 		</p>
 		<div class="relative">
-			<NuxtImg
+			<img
 				:src="
 					isUnselected
-						? '/img/neo-unselected.svg'
-						: '/img/neo-selected.svg'
+						? withBase('/img/neo-unselected.svg')
+						: withBase('/img/neo-selected.svg')
 				"
 				class="w-100"
 			/>
