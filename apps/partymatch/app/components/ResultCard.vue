@@ -2,7 +2,7 @@
 	<div
 		class="section flex min-h-140 w-full flex-col items-center justify-between gap-6 rounded-2xl bg-white p-10 shadow-md"
 	>
-		<div class="flex h-full flex-col">
+		<div class="flex h-full flex-col gap-4">
 			<div class="flex flex-row">
 				<h2>มติพรรคที่เลือก</h2>
 				<img src="/img/icon-heart-ol.svg" class="inline h-6 w-6" />
@@ -11,19 +11,24 @@
 				<h2>คุณ</h2>
 			</div>
 			<div>
-				<div class="flex flex-row items-center justify-center gap-2">
-					<!-- heart with logo -->
-					<div>
-						<img :src="matchLogo" class="h-12 w-12" />
-						<img src="/img/icon-heart-ol.svg" class="h-12 w-12" />
+				<div class="flex flex-row items-center justify-center">
+					<div class="relative">
+						<img
+							:src="matchLogo"
+							class="absolute top-1/2 left-1/2 h-12 w-12 -translate-x-1/2 -translate-y-1/2 transform"
+						/>
+						<img src="/img/heart-party.svg" class="h-18 w-18" />
 					</div>
-					<!-- heart with percentage number -->
-					<div>
-						<p>{{ matchPercentage }}</p>
-						<img src="/img/icon-heart-ol.svg" class="h-12 w-12" />
+					<div class="relative">
+						<p
+							class="text-h6 font-kondolar absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform font-black"
+						>
+							{{ matchPercentage }}%
+						</p>
+						<img src="/img/heart-match.svg" class="h-18 w-18" />
 					</div>
 				</div>
-				<p>{{ matchMessage }}</p>
+				<p class="font-sriracha text-center">{{ matchMessage }}เริ่ดเลยล่ะ</p>
 			</div>
 
 			<!-- <ScoreItem> for selected party -->
@@ -46,7 +51,7 @@ export default {
 			type: String,
 		},
 		matchPercentage: {
-			type: String,
+			type: Number,
 		},
 		matchLogo: {
 			type: String,
