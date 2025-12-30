@@ -26,5 +26,43 @@ export default {
 			required: true,
 		},
 	},
+	setup(props, { emit }) {
+		const isVisible = ref(false);
+		const popupContainer = ref(null);
+
+		const togglePopup = (event) => {
+			event.stopPropagation();
+			isVisible.value = !isVisible.value;
+		};
+
+		const closePopup = () => {
+			isVisible.value = false;
+			emit('close');
+		};
+
+		const handleClickOutside = (event) => {
+			if (
+				isVisible.value &&
+				popupContainer.value &&
+				!popupContainer.value.contains(event.target)
+			) {
+				closePopup();
+			}
+		};
+
+		onMounted(() => {
+			document.addEventListener('click', handleClickOutside);
+		});
+
+		onUnmounted(() => {
+			document.removeEventListener('click', handleClickOutside);
+		});
+		return {
+			isVisible,
+			popupContainer,
+			togglePopup,
+			closePopup,
+		};
+	},
 };
 </script>

@@ -1,10 +1,12 @@
 <script setup>
+import InfoPopup from './InfoPopup.vue';
 import { ElectionButton } from '@election/ui/vue';
 
 const emit = defineEmits(['reset']);
 const resetQuiz = () => {
 	emit('reset');
 };
+const isInfoPopupVisible = ref(false);
 
 const projects = [
 	{
@@ -34,11 +36,19 @@ const projects = [
 			<div
 				href="#"
 				class="text-b6 flex cursor-pointer flex-row items-center gap-1 underline"
+				@click="isInfoPopupVisible = true"
 			>
 				<p>อ่านวิธีคำนวณคะแนนเพิ่มเติม</p>
 				<img src="/img/icon-info.svg" class="h-4" />
 			</div>
 		</div>
+		<InfoPopup
+			v-if="isInfoPopupVisible"
+			:title="วิธีคำนวณคะแนน"
+			class="fixed top-1/2 left-1/2 z-2 -translate-x-1/2 -translate-y-1/2 transform"
+			content="นับคะแนนจากตัวเลือกที่คุณเลือก 10 ข้อ เทียบกับกับมติพรรคถถ้าตรงกันจะนับเป็น 1 คะแนน หรือ 10% ยกเว้นในกรณีที่เป็นมติเสียงแตก ผลการลงมติของคนในพรรคเท่ากัน จะนับเป็น 0.5 คะแนน หรือ 5%"
+			@close="isInfoPopupVisible = false"
+		/>
 	</div>
 	<div class="section text-b4 flex flex-col gap-8 pt-20 pb-10 text-center">
 		<p>

@@ -34,22 +34,22 @@
 			v-if="showInfoIcon"
 			src="/img/icon-info.svg"
 			class="h-6 cursor-pointer"
-			@click="toggleInfoPopup($event)"
+			@click="isInfoPopupVisible = true"
 		/>
 		<InfoPopup
 			v-if="isInfoPopupVisible"
 			:title="label"
-			class="absolute right-0 z-2 -translate-y-1/2 transform"
+			class="fixed top-1/2 left-1/2 z-2 -translate-x-1/2 -translate-y-1/2 transform"
 			content="งดออกเสียง = สส. เข้าประชุมแต่ไม่ออกเสียงว่าเห็นด้วยหรือไม่เห็นด้วยกับมติ อาจจะเพราะยังไม่ตัดสินใจหรือเลี่ยงความขัดแย้ง ในกรณีที่ต้อง ใช้เสียงข้างมากในการชี้ขาดการงดออกเสียงจะมีผลเท่ากับเป็นการไม่เห็นด้วยได้ เช่น ญัตติอภิปรายไม่ไว้วางใจรัฐมนตรีที่ต้องใช้คะแนนเสียงมากกว่ากึ่งหนึ่งของจำนวน สส. ที่มีอยู่ในสภา การงดออกเสียงจึงทำให้เกิดผลไม่เห็นด้วยกับมติ"
-			@click="$emit('click')"
 			@close="isInfoPopupVisible = false"
 		/>
 	</div>
 </template>
 
 <script>
-import { withBase } from 'ufo';
+import InfoPopup from './InfoPopup.vue';
 export default {
+	components: { InfoPopup },
 	props: {
 		buttonClass: {
 			type: String,
@@ -102,10 +102,6 @@ export default {
 		};
 	},
 	methods: {
-		toggleInfoPopup(event) {
-			event.stopPropagation();
-			this.isInfoPopupVisible = !this.isInfoPopupVisible;
-		},
 		handleClickOutside(event) {
 			if (
 				this.isInfoPopupVisible &&
