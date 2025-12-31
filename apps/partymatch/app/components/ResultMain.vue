@@ -3,14 +3,15 @@ import InfoPopup from './InfoPopup.vue';
 import { ElectionButton } from '@election/ui/vue';
 
 const props = defineProps({
-	// questions: Array,
-	// partyAnswers: Array,
+	matchAnswers: Array,
+	partyAnswers: Array,
 	selectedPartyId: String,
 	partyLogo: String,
 	partyName: String,
+	matchScore: Number,
 });
 
-const emit = defineEmits(['reset']);
+const emit = defineEmits(['reset', 'update:matchScore']);
 const resetQuiz = () => {
 	emit('reset');
 };
@@ -33,7 +34,13 @@ const projects = [
 <template>
 	<!-- Result -->
 	<div class="bg-green-3 relative flex h-[calc(100vh-56px)] flex-col p-10">
-		<ResultCard :matchLogo="partyLogo" :matchName="partyName" />
+		<ResultCard
+			:matchLogo="partyLogo"
+			:matchName="partyName"
+			:partyAnswers="partyAnswers"
+			:matchAnswers="matchAnswers"
+			@update:matchScore="(score) => $emit('update:matchScore', score)"
+		/>
 		<div class="section flex flex-col items-center gap-4 p-8">
 			<ElectionButton
 				>save ไป<span class="line-through">แฉ</span>แชร์ต่อ</ElectionButton

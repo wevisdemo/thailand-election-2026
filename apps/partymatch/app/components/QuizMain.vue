@@ -95,8 +95,13 @@
 			</button>
 
 			<button
-				class="flex w-40 cursor-pointer items-center justify-end gap-2 pr-0 hover:font-bold"
-				:class="{ 'font-bold': isLastQuestion }"
+				class="flex w-40 items-center justify-end gap-2 pr-0"
+				:class="{
+					'font-bold': isLastQuestion,
+					'cursor-not-allowed opacity-50': !hasClicked,
+					'cursor-pointer hover:font-bold': hasClicked,
+				}"
+				:disabled="!hasClicked"
 				@click="handleNextClick"
 			>
 				{{ isLastQuestion ? 'ดูผลลัพธ์' : 'ไปต่อ' }}
@@ -144,6 +149,7 @@ const selectedAnswer = ref(null);
 const hasClicked = ref(false);
 const resultMessage = ref('');
 const explainMessage = ref('');
+const userAnswers = ref([]);
 
 // --- Computed ---
 const currentQuestion = computed(
@@ -253,6 +259,8 @@ const handleChoiceClick = (label) => {
 	selectedAnswer.value = label;
 	hasClicked.value = true;
 
+	userAnswers.value[currentQuestionIndex.value] = label;
+
 	resultMessage.value = isAnswerMatch(label) ? "It's a match!" : 'Not match!';
 
 	const statusMap = {
@@ -265,8 +273,13 @@ const handleChoiceClick = (label) => {
 };
 
 const handleNextClick = () => {
+	if (!hasClicked.value) {
+		alert('กรุณาเลือกคำตอบก่อนไปต่อ');
+		return;
+	}
+
 	if (isLastQuestion.value) {
-		emit('show-result');
+		emit('show-result', userAnswers.value);
 	} else {
 		currentQuestionIndex.value++;
 	}
@@ -291,11 +304,18 @@ const checkOverflow = () => {
 	}
 };
 
-watch(currentQuestionIndex, () => {
-	selectedAnswer.value = null;
-	resultMessage.value = '';
-	explainMessage.value = '';
-	hasClicked.value = false;
+watch(currentQuestionIndex, (newIndex) => {
+	const previousAnswer = userAnswers.value[newIndex];
+	if (previousAnswer) {
+		selectedAnswer.value = previousAnswer;
+		hasClicked.value = true;
+		// You might want to re-run resultMessage logic here if showing previous results
+	} else {
+		selectedAnswer.value = null;
+		hasClicked.value = false;
+		resultMessage.value = '';
+		explainMessage.value = '';
+	}
 	nextTick(checkOverflow);
 });
 

@@ -76,17 +76,16 @@
 <script>
 export default {
 	props: {
-		partyName: {
-			type: String,
-			required: true,
-		},
-		partyLogo: {
-			type: String,
-			required: true,
-		},
+		partyLogo: String,
+		partyName: String,
 		matchScore: {
 			type: Number,
-			required: true,
+			default: 0,
+		},
+
+		totalQuestions: {
+			type: Number,
+			default: 10,
 		},
 	},
 };

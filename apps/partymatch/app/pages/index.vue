@@ -25,6 +25,8 @@ const showResult = ref(false);
 const partyOptions = ref([]);
 const quizQuestions = ref([]);
 const partyAnswers = ref([]);
+const userAnswers = ref([]);
+const matchScore = ref(0);
 
 const toggleState = () => {
 	if (!isUnselected.value) {
@@ -47,6 +49,27 @@ const resetState = () => {
 	showQuiz.value = false;
 	showResult.value = false;
 };
+
+const handleShowResult = (answers) => {
+	userAnswers.value = answers;
+	showResult.value = true;
+	showQuiz.value = false;
+};
+
+const selectedPartyAnswers = computed(() => {
+	if (!selectedParty.value || !partyAnswers.value.length) return [];
+	return (
+		partyAnswers.value
+			.filter((ans) => ans.party_id === selectedParty.value.id)
+			// Ensure the answers are in the same order as the quiz questions
+			.sort((a, b) => {
+				return (
+					quizQuestions.value.findIndex((q) => q.id === a.quiz_id) -
+					quizQuestions.value.findIndex((q) => q.id === b.quiz_id)
+				);
+			})
+	);
+});
 
 onMounted(async () => {
 	const { Column, asString, Spreadsheet, Object } = await import('sheethuahua');
@@ -191,16 +214,12 @@ onMounted(async () => {
 		<!-- Quiz -->
 		<section id="quiz" v-if="showQuiz" class="h-[calc(100vh-133px)]">
 			<QuizMain
-				v-if="showQuiz"
 				:questions="quizQuestions"
 				:party-answers="partyAnswers"
 				:selected-party-id="selectedParty?.id"
 				:partyLogo="selectedParty?.logo"
 				:partyName="selectedParty?.name"
-				@show-result="
-					showResult = true;
-					showQuiz = false;
-				"
+				@show-result="handleShowResult"
 			/>
 		</section>
 
@@ -211,7 +230,11 @@ onMounted(async () => {
 				:partyLogo="selectedParty?.logo"
 				:selected-party-id="selectedParty?.id"
 				:partyName="selectedParty?.name"
-			/>
+				:matchScore="matchScore"
+				:matchAnswers="userAnswers"
+				:partyAnswers="selectedPartyAnswers"
+				@update:matchScore="(newScore) => (matchScore = newScore)"
+			></ResultMain>
 		</section>
 
 		<!-- Info -->

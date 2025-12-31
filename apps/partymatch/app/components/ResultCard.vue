@@ -39,11 +39,15 @@
 						<img src="/img/heart-match.svg" class="h-18 w-18" />
 					</div>
 				</div>
-				<p class="font-sriracha text-center">{{ matchMessage }}เริ่ดเลยล่ะ</p>
+				<p class="font-sriracha text-center">{{ matchMessage }}</p>
 			</div>
 
 			<!-- <ScoreItem> for selected party -->
-			<ResultItem :partyLogo="matchLogo" :partyName="matchName" />
+			<ResultItem
+				:partyLogo="matchLogo"
+				:partyName="matchName"
+				:matchScore="computedMatchScore"
+			/>
 
 			<h3 class="font-bold">พรรคอื่นที่คะแนนตรงกับคุณ</h3>
 			<!-- v-for <ScoreItem> other parties top 3 highest score -->
@@ -59,21 +63,61 @@
 <script>
 export default {
 	props: {
-		matchMessage: {
-			type: String,
+		partyAnswers: { type: Array, required: true },
+		matchAnswers: { type: Array, required: true },
+		matchLogo: String,
+		matchName: String,
+	},
+	computed: {
+		computedMatchScore() {
+			if (!this.partyAnswers.length || !this.matchAnswers.length) return 0;
+
+			const labelMap = {
+				agree: 'เห็นด้วย',
+				disagree: 'ไม่เห็นด้วย',
+				abstain: 'งดออกเสียง',
+			};
+
+			return this.partyAnswers.reduce((score, partyEntry, index) => {
+				const userAns = this.matchAnswers[index];
+				const pAnsKey = partyEntry.party_answer;
+
+				if (labelMap[pAnsKey] === userAns) {
+					return score + 1;
+				}
+
+				if (pAnsKey === 'agree, disagree') {
+					if (userAns === 'เห็นด้วย' || userAns === 'ไม่เห็นด้วย') {
+						return score + 0.5;
+					}
+				}
+
+				return score;
+			}, 0);
 		},
-		matchPercentage: {
-			type: Number,
+
+		matchPercentage() {
+			const total = this.matchAnswers.length || 10;
+			return Math.round((this.computedMatchScore / total) * 100);
 		},
-		matchLogo: {
-			type: String,
+
+		matchMessage() {
+			if (this.matchPercentage >= 90) return 'ตรงสุดๆ';
+			if (this.matchPercentage >= 70 && this.matchPercentage < 90)
+				return 'ก็ตรงอยู่น้า';
+			if (this.matchPercentage >= 50 && this.matchPercentage < 70)
+				return 'ได้อยู่';
+			if (this.matchPercentage >= 30 && this.matchPercentage < 50)
+				return 'ไม่ค่อยเท่าไร';
+			if (this.matchPercentage <= 20) return 'อาจจะยังน้า';
 		},
-		matchName: {
-			type: String,
-		},
-		showPartyLogo: {
-			type: Boolean,
-			default: false,
+	},
+	watch: {
+		score: {
+			immediate: true,
+			handler(newScore) {
+				this.$emit('update:matchScore', newScore);
+			},
 		},
 	},
 };
