@@ -58,17 +58,36 @@ const handleShowResult = (answers) => {
 
 const selectedPartyAnswers = computed(() => {
 	if (!selectedParty.value || !partyAnswers.value.length) return [];
-	return (
-		partyAnswers.value
-			.filter((ans) => ans.party_id === selectedParty.value.id)
-			// Ensure the answers are in the same order as the quiz questions
+	return partyAnswers.value
+		.filter((ans) => ans.party_id === selectedParty.value.id)
+		.sort((a, b) => {
+			return (
+				quizQuestions.value.findIndex((q) => q.id === a.quiz_id) -
+				quizQuestions.value.findIndex((q) => q.id === b.quiz_id)
+			);
+		});
+});
+
+const allPartiesWithAnswers = computed(() => {
+	if (!partyOptions.value.length || !partyAnswers.value.length) return [];
+
+	return partyOptions.value.map((party) => {
+		const answers = partyAnswers.value
+			.filter((ans) => ans.party_id === party.id)
 			.sort((a, b) => {
 				return (
 					quizQuestions.value.findIndex((q) => q.id === a.quiz_id) -
 					quizQuestions.value.findIndex((q) => q.id === b.quiz_id)
 				);
-			})
-	);
+			});
+
+		return {
+			id: party.id,
+			name: party.name,
+			logo: party.logo,
+			answers: answers,
+		};
+	});
 });
 
 onMounted(async () => {
@@ -233,6 +252,7 @@ onMounted(async () => {
 				:matchScore="matchScore"
 				:matchAnswers="userAnswers"
 				:partyAnswers="selectedPartyAnswers"
+				:allPartiesData="allPartiesWithAnswers"
 				@update:matchScore="(newScore) => (matchScore = newScore)"
 			></ResultMain>
 		</section>

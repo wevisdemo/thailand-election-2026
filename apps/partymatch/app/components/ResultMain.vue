@@ -5,6 +5,7 @@ import { ElectionButton } from '@election/ui/vue';
 const props = defineProps({
 	matchAnswers: Array,
 	partyAnswers: Array,
+	allPartiesData: Array,
 	selectedPartyId: String,
 	partyLogo: String,
 	partyName: String,
@@ -39,6 +40,7 @@ const projects = [
 			:matchName="partyName"
 			:partyAnswers="partyAnswers"
 			:matchAnswers="matchAnswers"
+			:allPartiesData="allPartiesData"
 			@update:matchScore="(score) => $emit('update:matchScore', score)"
 		/>
 		<div class="section flex flex-col items-center gap-4 p-8">

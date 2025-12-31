@@ -73,23 +73,7 @@
 		</div>
 	</div>
 </template>
-<!-- <script>
-export default {
-	props: {
-		partyLogo: String,
-		partyName: String,
-		matchScore: {
-			type: Number,
-			default: 0,
-		},
 
-		totalQuestions: {
-			type: Number,
-			default: 10,
-		},
-	},
-};
-</script> -->
 <script setup>
 import { computed } from 'vue';
 

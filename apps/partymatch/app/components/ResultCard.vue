@@ -2,7 +2,7 @@
 	<div
 		class="section flex min-h-140 w-full flex-col items-center justify-between gap-6 rounded-2xl bg-white p-10 shadow-md"
 	>
-		<div class="flex h-full flex-col gap-4">
+		<div class="flex h-full flex-col items-center gap-4">
 			<div class="flex flex-row">
 				<h2>มติพรรคที่เลือก</h2>
 				<img src="/img/icon-heart-ol.svg" class="inline h-6 w-6" />
@@ -24,7 +24,7 @@
 			<div>
 				<div class="flex flex-row items-center justify-center">
 					<div class="relative">
-						<img src="/img/heart-party.svg" class="z-1 h-18 w-18" />
+						<img src="/img/heart-party.svg" class="z-1 h-20 w-20" />
 						<img
 							:src="matchLogo"
 							class="absolute top-1/2 left-1/2 z-0 h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform rounded-full"
@@ -34,15 +34,14 @@
 						<p
 							class="text-h6 font-kondolar absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform font-black"
 						>
-							{{ matchPercentage }}%
+							{{ matchPercentage }}<span class="text-h8">%</span>
 						</p>
-						<img src="/img/heart-match.svg" class="h-18 w-18" />
+						<img src="/img/heart-match.svg" class="h-20 w-20" />
 					</div>
 				</div>
 				<p class="font-sriracha text-center">{{ matchMessage }}</p>
 			</div>
 
-			<!-- <ScoreItem> for selected party -->
 			<ResultItem
 				:partyLogo="matchLogo"
 				:partyName="matchName"
@@ -50,7 +49,13 @@
 			/>
 
 			<h3 class="font-bold">พรรคอื่นที่คะแนนตรงกับคุณ</h3>
-			<!-- v-for <ScoreItem> other parties top 3 highest score -->
+			<ResultItem
+				v-for="party in topMatches"
+				:key="party.name"
+				:partyLogo="party.logo"
+				:partyName="party.name"
+				:matchScore="party.score"
+			/>
 		</div>
 
 		<div class="flex flex-col items-center gap-2">
@@ -67,33 +72,31 @@ export default {
 		matchAnswers: { type: Array, required: true },
 		matchLogo: String,
 		matchName: String,
+		allPartiesData: { type: Array, default: () => [] },
 	},
 	computed: {
 		computedMatchScore() {
-			if (!this.partyAnswers.length || !this.matchAnswers.length) return 0;
+			const currentParty = this.allPartiesData.find(
+				(p) => p.name === this.matchName,
+			);
+			return currentParty ? this.calculateScore(currentParty.answers) : 0;
+		},
 
-			const labelMap = {
-				agree: 'เห็นด้วย',
-				disagree: 'ไม่เห็นด้วย',
-				abstain: 'งดออกเสียง',
-			};
+		allScores() {
+			return this.allPartiesData.map((party) => {
+				return {
+					name: party.name,
+					logo: party.logo,
+					score: this.calculateScore(party.answers),
+				};
+			});
+		},
 
-			return this.partyAnswers.reduce((score, partyEntry, index) => {
-				const userAns = this.matchAnswers[index];
-				const pAnsKey = partyEntry.party_answer;
-
-				if (labelMap[pAnsKey] === userAns) {
-					return score + 1;
-				}
-
-				if (pAnsKey === 'agree, disagree') {
-					if (userAns === 'เห็นด้วย' || userAns === 'ไม่เห็นด้วย') {
-						return score + 0.5;
-					}
-				}
-
-				return score;
-			}, 0);
+		topMatches() {
+			return [...this.allScores]
+				.filter((p) => p.name !== this.matchName)
+				.sort((a, b) => b.score - a.score)
+				.slice(0, 3);
 		},
 
 		matchPercentage() {
@@ -103,21 +106,43 @@ export default {
 
 		matchMessage() {
 			if (this.matchPercentage >= 90) return 'ตรงสุดๆ';
-			if (this.matchPercentage >= 70 && this.matchPercentage < 90)
-				return 'ก็ตรงอยู่น้า';
-			if (this.matchPercentage >= 50 && this.matchPercentage < 70)
-				return 'ได้อยู่';
-			if (this.matchPercentage >= 30 && this.matchPercentage < 50)
-				return 'ไม่ค่อยเท่าไร';
-			if (this.matchPercentage <= 20) return 'อาจจะยังน้า';
+			if (this.matchPercentage >= 70) return 'ก็ตรงอยู่น้า';
+			if (this.matchPercentage >= 50) return 'ได้อยู่';
+			if (this.matchPercentage >= 30) return 'ไม่ค่อยเท่าไร';
+			return 'อาจจะยังน้า';
 		},
 	},
 	watch: {
-		score: {
+		computedMatchScore: {
 			immediate: true,
-			handler(newScore) {
-				this.$emit('update:matchScore', newScore);
+			handler(newVal) {
+				this.$emit('update:matchScore', newVal);
 			},
+		},
+	},
+	methods: {
+		calculateScore(partyAnswersArray) {
+			if (!partyAnswersArray || !this.matchAnswers.length) return 0;
+
+			const labelMap = {
+				agree: 'เห็นด้วย',
+				disagree: 'ไม่เห็นด้วย',
+				abstain: 'งดออกเสียง',
+			};
+
+			return partyAnswersArray.reduce((score, partyEntry, index) => {
+				const userAns = this.matchAnswers[index];
+				const pAnsKey = partyEntry.party_answer;
+				if (labelMap[pAnsKey] === userAns) return score + 1;
+				if (
+					pAnsKey === 'agree, disagree' &&
+					(userAns === 'เห็นด้วย' || userAns === 'ไม่เห็นด้วย')
+				) {
+					return score + 0.5;
+				}
+
+				return score;
+			}, 0);
 		},
 	},
 };
