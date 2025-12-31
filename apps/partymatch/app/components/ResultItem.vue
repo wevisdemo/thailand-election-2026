@@ -64,7 +64,7 @@
 		</div>
 		<div class="flex flex-row justify-between">
 			<div class="flex flex-row items-center gap-2">
-				<img :src="matchLogo" class="h-6 w-6" />
+				<img :src="partyLogo" class="h-6 w-6" />
 				<p>{{ partyName }}</p>
 			</div>
 			<div>
@@ -80,7 +80,7 @@ export default {
 			type: String,
 			required: true,
 		},
-		matchLogo: {
+		partyLogo: {
 			type: String,
 			required: true,
 		},

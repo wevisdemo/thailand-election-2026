@@ -33,7 +33,7 @@ const projects = [
 <template>
 	<!-- Result -->
 	<div class="bg-green-3 relative flex h-[calc(100vh-56px)] flex-col p-10">
-		<ResultCard :matchLogo="partyLogo" :matchParty="partyName" />
+		<ResultCard :matchLogo="partyLogo" :matchName="partyName" />
 		<div class="section flex flex-col items-center gap-4 p-8">
 			<ElectionButton
 				>save ไป<span class="line-through">แฉ</span>แชร์ต่อ</ElectionButton

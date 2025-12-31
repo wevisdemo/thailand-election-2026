@@ -43,7 +43,7 @@
 			</div>
 
 			<!-- <ScoreItem> for selected party -->
-			<ResultItem :matchLogo="matchLogo" :partyName="matchParty" />
+			<ResultItem :partyLogo="matchLogo" :partyName="matchName" />
 
 			<h3 class="font-bold">พรรคอื่นที่คะแนนตรงกับคุณ</h3>
 			<!-- v-for <ScoreItem> other parties top 3 highest score -->
@@ -68,7 +68,7 @@ export default {
 		matchLogo: {
 			type: String,
 		},
-		matchParty: {
+		matchName: {
 			type: String,
 		},
 		showPartyLogo: {
