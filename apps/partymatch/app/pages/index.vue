@@ -210,6 +210,7 @@ onMounted(async () => {
 				@reset="resetState"
 				:partyLogo="selectedParty?.logo"
 				:selected-party-id="selectedParty?.id"
+				:partyName="selectedParty?.name"
 			/>
 		</section>
 
