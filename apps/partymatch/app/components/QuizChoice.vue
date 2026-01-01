@@ -23,11 +23,14 @@
 				buttonClass,
 			]"
 			:style="buttonStyle"
-			class="h-20 w-20 rounded-full"
+			class="h-20 w-20 items-center justify-center self-center rounded-full"
 			@click="$emit('click')"
 			:disabled="disabled"
 		>
-			<img :src="iconSrc" class="h-20 w-20" />
+			<div
+				v-html="iconSvg"
+				class="flex h-20 w-20 items-center justify-center"
+			></div>
 		</button>
 		<span class="mt-2">{{ label }}</span>
 		<img
@@ -59,7 +62,7 @@ export default {
 			type: Object,
 			default: () => ({}),
 		},
-		iconSrc: {
+		iconSvg: {
 			type: String,
 			required: true,
 		},

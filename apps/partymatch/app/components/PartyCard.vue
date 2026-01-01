@@ -1,6 +1,7 @@
 <script setup>
 import { ElectionButton } from '@election/ui/vue';
-import { withBase } from 'ufo';
+import neoSelectedImg from '~/assets/images/neo-selected.svg';
+import neoUnselectedImg from '~/assets/images/neo-unselected.svg';
 
 defineProps({
 	selectedParty: {
@@ -27,11 +28,7 @@ const emit = defineEmits(['start-quiz']);
 		</p>
 		<div class="relative">
 			<img
-				:src="
-					isUnselected
-						? withBase('/img/neo-unselected.svg')
-						: withBase('/img/neo-selected.svg')
-				"
+				:src="isUnselected ? neoUnselectedImg : neoSelectedImg"
 				class="w-100"
 			/>
 			<img
