@@ -1,8 +1,15 @@
 'use client';
 
+interface SearchSectionProps {
+	mapDistrict: Map<string, ThailandDistrict>;
+}
+
+import { ThailandDistrict } from '@/src/type/district';
 import AutoComplete from '../shared/Autocomplete';
 
-export default function SearchSection() {
+export default function SearchSection({ mapDistrict }: SearchSectionProps) {
+	const listOfDistrictLabel = mapDistrict.keys().toArray();
+
 	return (
 		<div className="grid items-center gap-[16px] bg-[#76EECC] px-[16px] py-[24px] text-center">
 			<p className="font-kondolar text-h5 font-bold">รู้จักผู้สมัคร</p>
@@ -10,7 +17,7 @@ export default function SearchSection() {
 				ค้นหารายชื่อผู้สมัคร ส.ส. ในเขตเลือกตั้งของคุณ
 			</p>
 			<AutoComplete
-				options={['ต.ยะหา อ.ยะหา จ.ยะลา', 'กรุงเทพมหานคร', 'เชียงใหม่']}
+				options={listOfDistrictLabel}
 				onSelect={() => {}}
 				placeholder="พิมพ์ชื่อตำบล/เขต/แขวง"
 			/>
