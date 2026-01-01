@@ -281,7 +281,6 @@ const handleChoiceClick = (label) => {
 
 const handleNextClick = () => {
 	if (!hasClicked.value) {
-		alert('กรุณาเลือกคำตอบก่อนไปต่อ');
 		return;
 	}
 

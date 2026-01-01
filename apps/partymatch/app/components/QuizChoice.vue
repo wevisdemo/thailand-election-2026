@@ -17,8 +17,10 @@
 		<button
 			:class="[
 				isMatch ? 'border-3 border-black' : '',
-				selected ? 'border-3 border-black' : '',
-				isUnselected ? 'border-gray-3 bg-bg border-4 opacity-75' : '',
+				selected ? 'border-4 border-black' : '',
+				isUnselected && !showPartyLogo
+					? 'border-gray-3 bg-bg border-4 opacity-75'
+					: '',
 				!disabled ? 'cursor-pointer hover:border-3 hover:border-black' : '',
 				buttonClass,
 			]"
@@ -101,7 +103,7 @@ export default {
 	},
 	computed: {
 		computedIconSvg() {
-			if (this.isUnselected) {
+			if (this.isUnselected && !this.showPartyLogo) {
 				return this.iconSvg.replace(
 					/<path([^>]*)fill=['\"](.*?)['\"]/,
 					"<path$1fill='#BFBFBF'",
