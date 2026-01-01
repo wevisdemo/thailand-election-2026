@@ -5,7 +5,7 @@
 		<div class="flex h-full flex-col items-center gap-4">
 			<div class="flex flex-row">
 				<h2>มติพรรคที่เลือก</h2>
-				<img src="/img/icon-heart-ol.svg" class="inline h-6 w-6" />
+				<img src="assets/images/heart-icon.svg" class="inline h-6 w-6" />
 				<h2>ใจตรงกับ</h2>
 				<svg
 					width="24"
@@ -36,7 +36,10 @@
 						>
 							{{ matchPercentage }}<span class="text-h8">%</span>
 						</p>
-						<img src="/img/heart-match.svg" class="h-20 w-20" />
+						<img
+							:src="matchPercentage > 50 ? heartMatchImg : heartUnMatchImg"
+							class="h-20 w-20"
+						/>
 					</div>
 				</div>
 				<p class="font-sriracha text-center">{{ matchMessage }}</p>
@@ -65,85 +68,86 @@
 	</div>
 </template>
 
-<script>
-export default {
-	props: {
-		partyAnswers: { type: Array, required: true },
-		matchAnswers: { type: Array, required: true },
-		matchLogo: String,
-		matchName: String,
-		allPartiesData: { type: Array, default: () => [] },
+<script setup>
+import heartMatchImg from '~/assets/images/heart-match.svg';
+import heartUnMatchImg from '~/assets/images/heart-unmatch.svg';
+
+const props = defineProps({
+	partyAnswers: { type: Array, required: true },
+	matchAnswers: { type: Array, required: true },
+	matchLogo: String,
+	matchName: String,
+	allPartiesData: { type: Array, default: () => [] },
+});
+
+const emit = defineEmits(['update:matchScore']);
+
+const computedMatchScore = computed(() => {
+	const currentParty = props.allPartiesData.find(
+		(p) => p.name === props.matchName,
+	);
+	return currentParty ? calculateScore(currentParty.answers) : 0;
+});
+
+const allScores = computed(() => {
+	return props.allPartiesData.map((party) => {
+		return {
+			name: party.name,
+			logo: party.logo,
+			score: calculateScore(party.answers),
+		};
+	});
+});
+
+const topMatches = computed(() => {
+	return [...allScores.value]
+		.filter((p) => p.name !== props.matchName)
+		.sort((a, b) => b.score - a.score)
+		.slice(0, 3);
+});
+
+const matchPercentage = computed(() => {
+	const total = props.matchAnswers.length || 10;
+	return Math.round((computedMatchScore.value / total) * 100);
+});
+
+const matchMessage = computed(() => {
+	if (matchPercentage.value >= 90) return 'ตรงสุดๆ';
+	if (matchPercentage.value >= 70) return 'ก็ตรงอยู่น้า';
+	if (matchPercentage.value >= 50) return 'ได้อยู่';
+	if (matchPercentage.value >= 30) return 'ไม่ค่อยเท่าไร';
+	return 'อาจจะยังน้า';
+});
+
+watch(
+	() => computedMatchScore.value,
+	(newVal) => {
+		emit('update:matchScore', newVal);
 	},
-	computed: {
-		computedMatchScore() {
-			const currentParty = this.allPartiesData.find(
-				(p) => p.name === this.matchName,
-			);
-			return currentParty ? this.calculateScore(currentParty.answers) : 0;
-		},
+	{ immediate: true },
+);
 
-		allScores() {
-			return this.allPartiesData.map((party) => {
-				return {
-					name: party.name,
-					logo: party.logo,
-					score: this.calculateScore(party.answers),
-				};
-			});
-		},
+function calculateScore(partyAnswersArray) {
+	if (!partyAnswersArray || !props.matchAnswers.length) return 0;
 
-		topMatches() {
-			return [...this.allScores]
-				.filter((p) => p.name !== this.matchName)
-				.sort((a, b) => b.score - a.score)
-				.slice(0, 3);
-		},
+	const labelMap = {
+		agree: 'เห็นด้วย',
+		disagree: 'ไม่เห็นด้วย',
+		abstain: 'งดออกเสียง',
+	};
 
-		matchPercentage() {
-			const total = this.matchAnswers.length || 10;
-			return Math.round((this.computedMatchScore / total) * 100);
-		},
+	return partyAnswersArray.reduce((score, partyEntry, index) => {
+		const userAns = props.matchAnswers[index];
+		const pAnsKey = partyEntry.party_answer;
+		if (labelMap[pAnsKey] === userAns) return score + 1;
+		if (
+			pAnsKey === 'agree, disagree' &&
+			(userAns === 'เห็นด้วย' || userAns === 'ไม่เห็นด้วย')
+		) {
+			return score + 0.5;
+		}
 
-		matchMessage() {
-			if (this.matchPercentage >= 90) return 'ตรงสุดๆ';
-			if (this.matchPercentage >= 70) return 'ก็ตรงอยู่น้า';
-			if (this.matchPercentage >= 50) return 'ได้อยู่';
-			if (this.matchPercentage >= 30) return 'ไม่ค่อยเท่าไร';
-			return 'อาจจะยังน้า';
-		},
-	},
-	watch: {
-		computedMatchScore: {
-			immediate: true,
-			handler(newVal) {
-				this.$emit('update:matchScore', newVal);
-			},
-		},
-	},
-	methods: {
-		calculateScore(partyAnswersArray) {
-			if (!partyAnswersArray || !this.matchAnswers.length) return 0;
-
-			const labelMap = {
-				agree: 'เห็นด้วย',
-				disagree: 'ไม่เห็นด้วย',
-				abstain: 'งดออกเสียง',
-			};
-
-			return partyAnswersArray.reduce((score, partyEntry, index) => {
-				const userAns = this.matchAnswers[index];
-				const pAnsKey = partyEntry.party_answer;
-				if (labelMap[pAnsKey] === userAns) return score + 1;
-				if (
-					pAnsKey === 'agree, disagree' &&
-					(userAns === 'เห็นด้วย' || userAns === 'ไม่เห็นด้วย')
-				) {
-					return score + 0.5;
-				}
-
-				return score;
-			}, 0);
-		},
-	},
-};
+		return score;
+	}, 0);
+}
 </script>

@@ -13,7 +13,6 @@ import PartyDropdown from '../components/PartyDropdown.vue';
 import PartyCard from '../components/PartyCard.vue';
 import QuizMain from '../components/QuizMain.vue';
 import ResultMain from '../components/ResultMain.vue';
-import { asNumber } from 'sheethuahua';
 
 const selectedParty = ref(null);
 const lottieContainer = ref(null);
@@ -91,7 +90,8 @@ const allPartiesWithAnswers = computed(() => {
 });
 
 onMounted(async () => {
-	const { Column, asString, Spreadsheet, Object } = await import('sheethuahua');
+	const { Column, asString, asNumber, Spreadsheet, Object } =
+		await import('sheethuahua');
 	const spreadsheet = Spreadsheet(
 		'1cg85RsWVrSTDgRsVMTsmbkABbDk8Y84kIU_SsRl_smQ',
 	);
