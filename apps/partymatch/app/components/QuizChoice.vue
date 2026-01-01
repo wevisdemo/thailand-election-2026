@@ -16,10 +16,10 @@
 		</div>
 		<button
 			:class="[
-				isMatch ? 'border-3 border-b-black' : '',
-				selected ? 'border-3 border-b-black' : '',
-				isUnselected ? 'border-bg border-3 opacity-50' : '',
-				!disabled ? 'cursor-pointer hover:border-3 hover:border-b-black' : '',
+				isMatch ? 'border-3 border-black' : '',
+				selected ? 'border-3 border-black' : '',
+				isUnselected ? 'border-gray-3 bg-bg border-4 opacity-75' : '',
+				!disabled ? 'cursor-pointer hover:border-3 hover:border-black' : '',
 				buttonClass,
 			]"
 			:style="buttonStyle"
@@ -28,7 +28,7 @@
 			:disabled="disabled"
 		>
 			<div
-				v-html="iconSvg"
+				v-html="computedIconSvg"
 				class="flex h-20 w-20 items-center justify-center"
 			></div>
 		</button>
@@ -97,6 +97,17 @@ export default {
 		showPartyLogo: {
 			type: Boolean,
 			default: false,
+		},
+	},
+	computed: {
+		computedIconSvg() {
+			if (this.isUnselected) {
+				return this.iconSvg.replace(
+					/<path([^>]*)fill=['\"](.*?)['\"]/,
+					"<path$1fill='#BFBFBF'",
+				);
+			}
+			return this.iconSvg;
 		},
 	},
 	data() {
