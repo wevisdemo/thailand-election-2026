@@ -15,6 +15,7 @@ export default function AutoComplete({
 }: AutoCompleteProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [textInput, setTextInput] = useState('');
+	const [electoralSelected, setElectoralSelected] = useState('');
 	const componentRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
@@ -46,14 +47,12 @@ export default function AutoComplete({
 		if (e.target.value === '') {
 			setIsOpen(false);
 		} else {
-			console.log('open');
 			setIsOpen(true);
 		}
 	};
 
 	const getHighlightedText = (text: string, highlight: string) => {
 		const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
-		console.log(parts);
 		return (
 			<span>
 				{parts.map((part, i) =>
@@ -69,8 +68,13 @@ export default function AutoComplete({
 		);
 	};
 
+	const getElectoralDistrict = (name: string) => {};
+
 	return (
-		<div ref={componentRef} className="relative z-30 flex justify-center">
+		<div
+			ref={componentRef}
+			className="relative z-30 m-auto flex w-full max-w-[720px] justify-center"
+		>
 			<div className="relative flex w-full max-w-[720px]">
 				<input
 					className="w-full rounded-[100px] bg-white px-[24px] py-[17px] text-[16px] outline-[1px] focus:outline-[#0EA177]"
@@ -97,11 +101,11 @@ export default function AutoComplete({
 				</div>
 			)}
 			{isOpen && filterOptions(textInput).length > 0 && (
-				<ul className="absolute top-[100%] left-0 w-full overflow-hidden rounded-[16px] border bg-white text-left">
+				<ul className="absolute top-[100%] left-0 max-h-[260px] w-full overflow-scroll rounded-[16px] border bg-white text-left">
 					{filterOptions(textInput).map((option, index) => (
 						<li
 							key={index}
-							className="hover:bg-gray1 relative border-b px-[24px] py-[16px] last:border-0 hover:cursor-pointer"
+							className="hover:bg-gray1 relative border-b px-[24px] py-[16px] last:border-0 hover:cursor-pointer hover:bg-[#9A9A9A]"
 							onClick={() => handleSelect(option)}
 						>
 							{getHighlightedText(option, textInput)}
