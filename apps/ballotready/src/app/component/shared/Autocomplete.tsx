@@ -15,6 +15,7 @@ export default function AutoComplete({
 }: AutoCompleteProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [textInput, setTextInput] = useState('');
+	const [electoralSelected, setElectoralSelected] = useState('');
 	const componentRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
@@ -46,14 +47,12 @@ export default function AutoComplete({
 		if (e.target.value === '') {
 			setIsOpen(false);
 		} else {
-			console.log('open');
 			setIsOpen(true);
 		}
 	};
 
 	const getHighlightedText = (text: string, highlight: string) => {
 		const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
-		console.log(parts);
 		return (
 			<span>
 				{parts.map((part, i) =>
@@ -68,6 +67,8 @@ export default function AutoComplete({
 			</span>
 		);
 	};
+
+	const getElectoralDistrict = (name: string) => {};
 
 	return (
 		<div

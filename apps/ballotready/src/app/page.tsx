@@ -28,7 +28,10 @@ export default function Intro() {
 		<div className="flex flex-col">
 			<ElectionNavbar />
 			<IntroSection />
-			<SearchSection mapDistrict={districtMapLabel} />
+			<SearchSection
+				mapDistrict={districtMapLabel}
+				mapElectoralDistrict={electoralDistrictMap}
+			/>
 			<HowToVoteSection />
 			<BallotStepSection />
 			<div className="flex flex-col items-center gap-[10px] px-[16px] py-[32px]">

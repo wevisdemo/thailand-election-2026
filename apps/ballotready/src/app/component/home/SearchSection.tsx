@@ -2,12 +2,17 @@
 
 interface SearchSectionProps {
 	mapDistrict: Map<string, ThailandDistrict>;
+	mapElectoralDistrict: ElectoralDistrictsMap;
 }
 
 import { ThailandDistrict } from '@/src/type/district';
-import AutoComplete from '../shared/Autocomplete';
+import ElectorateAutoComplete from '../shared/ElectorateAutocomplete';
+import { ElectoralDistrictsMap } from '@/src/type/electoral_district';
 
-export default function SearchSection({ mapDistrict }: SearchSectionProps) {
+export default function SearchSection({
+	mapDistrict,
+	mapElectoralDistrict,
+}: SearchSectionProps) {
 	const listOfDistrictLabel = mapDistrict.keys().toArray();
 
 	return (
@@ -16,9 +21,9 @@ export default function SearchSection({ mapDistrict }: SearchSectionProps) {
 			<p className="font-kondolar text-h8 font-bold">
 				ค้นหารายชื่อผู้สมัคร ส.ส. ในเขตเลือกตั้งของคุณ
 			</p>
-			<AutoComplete
-				options={listOfDistrictLabel}
-				onSelect={() => {}}
+			<ElectorateAutoComplete
+				mapThaiDistrict={mapDistrict}
+				mapElectoralDistrict={mapElectoralDistrict}
 				placeholder="พิมพ์ชื่อตำบล/เขต/แขวง"
 			/>
 			<p className="text-b5">
