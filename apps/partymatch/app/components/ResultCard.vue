@@ -30,14 +30,7 @@
 							class="absolute top-1/2 left-1/2 z-0 h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform rounded-full"
 						/>
 					</div>
-					<div v-else class="relative" v-for="party in topMatches">
-						<img src="/img/heart-party.svg" class="z-1 h-20 w-20" />
-						<img
-							:key="party.name"
-							:src="party.logo"
-							class="absolute top-1/2 left-1/2 z-0 h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform rounded-full"
-						/>
-					</div>
+
 					<div v-if="selectedParty?.id" class="relative">
 						<p
 							class="text-h6 font-kondolar absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform font-black"
