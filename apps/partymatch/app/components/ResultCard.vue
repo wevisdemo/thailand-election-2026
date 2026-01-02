@@ -57,8 +57,7 @@
 
 			<ResultItem
 				v-if="selectedParty?.id"
-				:partyLogo="matchLogo"
-				:partyName="matchName"
+				:parties="[{ name: matchName, logo: matchLogo }]"
 				:matchScore="computedMatchScore"
 			/>
 
@@ -66,11 +65,10 @@
 				พรรคอื่นที่คะแนนตรงกับคุณ
 			</h3>
 			<ResultItem
-				v-for="party in topMatches"
-				:key="party.name"
-				:partyLogo="party.logo"
-				:partyName="party.name"
-				:matchScore="party.score"
+				v-for="group in topMatches"
+				:key="group.score"
+				:parties="group.parties"
+				:matchScore="group.score"
 			/>
 		</div>
 
@@ -114,10 +112,22 @@ const allScores = computed(() => {
 });
 
 const topMatches = computed(() => {
-	return [...allScores.value]
+	const sorted = [...allScores.value]
 		.filter((p) => p.name !== props.matchName)
-		.sort((a, b) => b.score - a.score)
-		.slice(0, 3);
+		.sort((a, b) => b.score - a.score);
+
+	const groups = [];
+	for (const p of sorted) {
+		const g = groups.find((gr) => gr.score === p.score);
+		if (g) g.parties.push({ name: p.name, logo: p.logo });
+		else
+			groups.push({
+				score: p.score,
+				parties: [{ name: p.name, logo: p.logo }],
+			});
+	}
+
+	return groups.slice(0, 3);
 });
 
 const matchPercentage = computed(() => {

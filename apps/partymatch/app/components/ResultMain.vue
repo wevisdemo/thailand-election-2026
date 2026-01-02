@@ -6,7 +6,7 @@ const props = defineProps({
 	matchAnswers: Array,
 	partyAnswers: Array,
 	allPartiesData: Array,
-	selectedPartyId: String,
+	selectedParty: { type: Object, default: null },
 	partyLogo: String,
 	partyName: String,
 	matchScore: Number,
@@ -41,6 +41,7 @@ const projects = [
 			:partyAnswers="partyAnswers"
 			:matchAnswers="matchAnswers"
 			:allPartiesData="allPartiesData"
+			:selectedParty="selectedParty"
 			@update:matchScore="(score) => $emit('update:matchScore', score)"
 		/>
 		<div class="section flex flex-col items-center gap-4 p-8">

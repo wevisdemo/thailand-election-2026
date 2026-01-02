@@ -64,8 +64,10 @@
 		</div>
 		<div class="flex flex-row justify-between">
 			<div class="flex flex-row items-center gap-2">
-				<img :src="partyLogo" class="h-6 w-6" />
-				<p>{{ partyName }}</p>
+				<template v-for="p in parties" :key="p.name">
+					<img :src="p.logo" class="h-6 w-6" />
+				</template>
+				<p>{{ parties.map((p) => p.name).join(', ') }}</p>
 			</div>
 			<div>
 				<p>{{ matchScore }}/10</p>
@@ -78,8 +80,7 @@
 import { computed } from 'vue';
 
 const props = defineProps({
-	partyLogo: String,
-	partyName: String,
+	parties: { type: Array, default: () => [] },
 	matchScore: { type: Number, default: 0 },
 	totalQuestions: { type: Number, default: 10 },
 });
