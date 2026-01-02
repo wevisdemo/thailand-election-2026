@@ -1,5 +1,4 @@
 <script setup>
-import { ElectionButton } from '@election/ui/vue';
 import neoSelectedImg from '~/assets/images/neo-selected.svg';
 import neoUnselectedImg from '~/assets/images/neo-unselected.svg';
 
@@ -35,15 +34,15 @@ const emit = defineEmits(['start-quiz']);
 				v-if="!isUnselected"
 				:src="selectedParty.logo"
 				alt=""
-				class="absolute top-2/3 left-1/2 w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-white p-1"
+				class="absolute top-2/3 left-1/2 h-24 w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-white p-1"
 			/>
 		</div>
-		<ElectionButton
+		<IconButton
 			id="start-quiz"
 			class="typo-h8 font-kondolar m-auto w-full font-bold"
 			@click="emit('start-quiz')"
+			:buttonText="'เริ่มเล่น'"
 		>
-			เริ่มเล่น
-		</ElectionButton>
+		</IconButton>
 	</div>
 </template>
