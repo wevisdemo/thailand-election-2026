@@ -33,7 +33,7 @@
 					v-if="isOverflowing"
 					class="0% 25% 100% sticky -bottom-6 flex h-14 w-full shrink-0 items-center justify-center bg-linear-to-t from-white via-white to-transparent"
 				>
-					<img src="/img/icon-chevron-down.svg" class="h-6" />
+					<img src="/img/chevron-down.svg" class="h-6" />
 				</div>
 			</div>
 			<img src="/img/card-side.png" class="py-4" />
@@ -70,7 +70,7 @@
 
 		<!-- Navigation -->
 		<div
-			class="font-kondolar gap-auto absolute bottom-0 flex w-full flex-row justify-between p-6"
+			class="font-kondolar gap-auto absolute bottom-0 z-0 flex w-full flex-row justify-between p-6"
 		>
 			<div class="w-40 self-center">
 				<button

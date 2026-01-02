@@ -38,7 +38,7 @@
 		<img
 			v-if="showInfoIcon"
 			src="/img/icon-info.svg"
-			class="h-6 cursor-pointer"
+			class="z-1 h-6 cursor-pointer"
 			@click="isInfoPopupVisible = true"
 		/>
 		<InfoPopup

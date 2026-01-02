@@ -57,7 +57,7 @@ const selectOption = (option) => {
 				</span>
 			</div>
 			<img
-				src="/img/icon-chevron-down.svg"
+				src="/img/chevron-down.svg"
 				:class="{ 'rotate-180': isOpen }"
 				class="transition-transform"
 			/>
