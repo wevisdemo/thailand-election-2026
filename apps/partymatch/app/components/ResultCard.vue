@@ -4,7 +4,7 @@
 	>
 		<div class="flex h-full flex-col items-center gap-4">
 			<div class="flex flex-row">
-				<h2>มติพรรคที่เลือก</h2>
+				<h2>มติพรรคที่<span v-if="selectedParty?.id">เลือก</span></h2>
 				<img src="assets/images/heart-icon.svg" class="inline h-6 w-6" />
 				<h2>ใจตรงกับ</h2>
 				<svg
@@ -23,14 +23,22 @@
 			</div>
 			<div>
 				<div class="flex flex-row items-center justify-center">
-					<div class="relative">
+					<div v-if="selectedParty?.id" class="relative">
 						<img src="/img/heart-party.svg" class="z-1 h-20 w-20" />
 						<img
 							:src="matchLogo"
 							class="absolute top-1/2 left-1/2 z-0 h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform rounded-full"
 						/>
 					</div>
-					<div class="relative">
+					<div v-else class="relative" v-for="party in topMatches">
+						<img src="/img/heart-party.svg" class="z-1 h-20 w-20" />
+						<img
+							:key="party.name"
+							:src="party.logo"
+							class="absolute top-1/2 left-1/2 z-0 h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform rounded-full"
+						/>
+					</div>
+					<div v-if="selectedParty?.id" class="relative">
 						<p
 							class="text-h6 font-kondolar absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform font-black"
 						>
@@ -42,16 +50,21 @@
 						/>
 					</div>
 				</div>
-				<p class="font-sriracha text-center">{{ matchMessage }}</p>
+				<p v-if="selectedParty?.id" class="font-sriracha text-center">
+					{{ matchMessage }}
+				</p>
 			</div>
 
 			<ResultItem
+				v-if="selectedParty?.id"
 				:partyLogo="matchLogo"
 				:partyName="matchName"
 				:matchScore="computedMatchScore"
 			/>
 
-			<h3 class="font-bold">พรรคอื่นที่คะแนนตรงกับคุณ</h3>
+			<h3 v-if="selectedParty?.id" class="font-bold">
+				พรรคอื่นที่คะแนนตรงกับคุณ
+			</h3>
 			<ResultItem
 				v-for="party in topMatches"
 				:key="party.name"
@@ -77,6 +90,7 @@ const props = defineProps({
 	matchAnswers: { type: Array, required: true },
 	matchLogo: String,
 	matchName: String,
+	selectedParty: { type: Object, default: null },
 	allPartiesData: { type: Array, default: () => [] },
 });
 
