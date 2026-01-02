@@ -1,22 +1,22 @@
 <template>
 	<div class="flex flex-col items-center gap-2" ref="popupContainer">
-		<div class="flex items-center">
+		<div class="flex min-h-8 items-center">
 			<img
 				v-if="selected"
 				src="/img/profile-pic.svg"
 				alt="Your choice"
-				class="h-8"
+				class="h-8 w-8"
 			/>
 			<img
 				v-if="showPartyLogo"
 				:src="logoSrc"
 				alt="Party's choice"
-				class="w-8"
+				class="h-8 w-8 rounded-full"
 			/>
 		</div>
 		<button
 			:class="[
-				isMatch ? 'border-3 border-black' : '',
+				isMatch ? 'border-4 border-black' : '',
 				selected ? 'border-4 border-black' : '',
 				isUnselected && !showPartyLogo
 					? 'border-gray-3 bg-bg border-4 opacity-75'
