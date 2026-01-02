@@ -63,11 +63,18 @@
 			</svg>
 		</div>
 		<div class="flex flex-row justify-between">
-			<div class="flex flex-row items-center gap-2">
-				<template v-for="p in parties" :key="p.name">
-					<img :src="p.logo" class="h-6 w-6" />
-				</template>
-				<p>{{ parties.map((p) => p.name).join(', ') }}</p>
+			<div class="start-top flex flex-row items-center gap-2">
+				<div class="flex flex-col">
+					<img
+						v-for="p in parties"
+						:key="p.name"
+						:src="p.logo"
+						class="-mt-2 h-6 w-6 rounded-full first:mt-0"
+					/>
+				</div>
+				<p class="max-w-50 self-start">
+					{{ parties.map((p) => p.name).join(', ') }}
+				</p>
 			</div>
 			<div>
 				<p>{{ matchScore }}/10</p>
