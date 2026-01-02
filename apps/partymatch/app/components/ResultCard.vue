@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="section flex min-h-140 w-full flex-col items-center justify-between gap-6 rounded-2xl bg-white p-10 shadow-md"
+		class="section bg-bg flex w-full flex-col items-center justify-between gap-6 rounded-2xl p-10 shadow-md"
 	>
 		<div class="flex h-full flex-col items-center gap-4">
 			<div class="flex flex-row">
@@ -52,6 +52,7 @@
 				v-if="selectedParty?.id"
 				:parties="[{ name: matchName, logo: matchLogo }]"
 				:matchScore="computedMatchScore"
+				class="border-green-3 rounded-lg border-2 bg-white p-2 shadow-sm"
 			/>
 
 			<h3 v-if="selectedParty?.id" class="font-bold">

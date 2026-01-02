@@ -34,7 +34,7 @@ const projects = [
 
 <template>
 	<!-- Result -->
-	<div class="bg-green-3 relative flex h-[calc(100vh-56px)] flex-col p-10">
+	<div class="bg-green-3 relative flex min-h-[calc(100vh-56px)] flex-col p-10">
 		<ResultCard
 			:matchLogo="partyLogo"
 			:matchName="partyName"
@@ -44,7 +44,7 @@ const projects = [
 			:selectedParty="selectedParty"
 			@update:matchScore="(score) => $emit('update:matchScore', score)"
 		/>
-		<div class="section flex flex-col items-center gap-4 p-8">
+		<div class="section flex flex-col items-center gap-4 pt-8">
 			<ElectionButton
 				>save ไป<span class="line-through">แฉ</span>แชร์ต่อ</ElectionButton
 			>
