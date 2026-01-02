@@ -40,7 +40,7 @@
 		</div>
 
 		<!-- Choices -->
-		<div class="section flex w-full flex-col gap-4 py-4">
+		<div class="section flex w-full flex-col gap-4 pt-4">
 			<div class="h-12 text-center">
 				<p v-if="selectedPartyId" class="font-sriracha text-b2">
 					{{ resultMessage }}
@@ -70,17 +70,15 @@
 
 		<!-- Navigation -->
 		<div
-			class="font-kondolar gap-auto absolute bottom-0 z-0 flex w-full flex-row justify-between p-6"
+			class="font-kondolar items center absolute bottom-0 z-0 flex h-20 w-full flex-row justify-between p-6"
 		>
-			<div class="w-40 self-center">
-				<button
-					v-if="currentQuestionIndex > 0"
-					class="flex w-40 cursor-pointer items-center gap-2 hover:font-bold"
-					@click="currentQuestionIndex--"
-				>
-					<img :src="arrowNext" class="h-8 scale-x-[-1]" /> กลับ
-				</button>
-			</div>
+			<button
+				v-if="currentQuestionIndex > 0"
+				class="flex h-8 w-40 cursor-pointer items-center gap-2 self-center hover:font-bold"
+				@click="currentQuestionIndex--"
+			>
+				<img :src="arrowNext" class="h-8 scale-x-[-1]" /> กลับ
+			</button>
 
 			<button
 				v-if="
@@ -88,14 +86,14 @@
 					hasClicked &&
 					explainMessage !== 'ยังไม่มีชื่อตอนโหวต'
 				"
-				class="hover:bg-gray-3 m-auto cursor-pointer rounded-full border-3 bg-white px-4 py-2 font-bold"
+				class="hover:bg-gray-3 mx-auto cursor-pointer self-center rounded-full border-3 bg-white px-4 py-2 font-bold"
 				@click="showPartyResult = true"
 			>
 				ดูผลลงมติพรรค
 			</button>
 
 			<button
-				class="flex w-40 items-center justify-end gap-2 pr-0"
+				class="flex h-8 w-40 items-center justify-end gap-2 self-center pr-0"
 				:class="{
 					'font-bold': isLastQuestion,
 					'cursor-not-allowed opacity-50': !hasClicked,

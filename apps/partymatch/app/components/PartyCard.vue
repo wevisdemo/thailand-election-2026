@@ -34,7 +34,7 @@ const emit = defineEmits(['start-quiz']);
 				v-if="!isUnselected"
 				:src="selectedParty.logo"
 				alt=""
-				class="absolute top-2/3 left-1/2 h-24 w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-white p-1"
+				class="absolute top-2/3 left-1/2 h-24 w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-white object-contain p-1"
 			/>
 		</div>
 		<IconButton

@@ -11,7 +11,7 @@
 				v-if="showPartyLogo"
 				:src="logoSrc"
 				alt="Party's choice"
-				class="h-8 w-8 rounded-full"
+				class="h-8 w-8 rounded-full object-contain"
 			/>
 		</div>
 		<button

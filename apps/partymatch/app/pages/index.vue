@@ -206,7 +206,7 @@ onMounted(async () => {
 					/>
 
 					<ElectionButton
-						class="typo-h9 font-kondolar self-center font-bold text-nowrap"
+						class="typo-h9 font-kondolar self-center border-black font-bold text-nowrap"
 						:disabled="isUnselected"
 						@click="toggleState"
 					>
