@@ -83,6 +83,7 @@ const props = defineProps({
 	matchLogo: String,
 	matchName: String,
 	selectedParty: { type: Object, default: null },
+	showAll: { type: Boolean, default: false },
 	allPartiesData: { type: Array, default: () => [] },
 });
 
@@ -121,7 +122,8 @@ const topMatches = computed(() => {
 			});
 	}
 
-	return groups.slice(0, 3);
+	// If `showAll` is true, return all groups; otherwise limit to top 3 groups
+	return props.showAll ? groups : groups.slice(0, 3);
 });
 
 const matchPercentage = computed(() => {

@@ -16,6 +16,10 @@ const emit = defineEmits(['reset', 'update:matchScore']);
 const resetQuiz = () => {
 	emit('reset');
 };
+const showAll = ref(false);
+const showAllParty = () => {
+	showAll.value = !showAll.value;
+};
 const isInfoPopupVisible = ref(false);
 
 const projects = [
@@ -35,22 +39,31 @@ const projects = [
 <template>
 	<!-- Result -->
 	<div class="bg-green-3 relative flex min-h-[calc(100vh-56px)] flex-col p-10">
-		<ResultCard
-			:matchLogo="partyLogo"
-			:matchName="partyName"
-			:partyAnswers="partyAnswers"
-			:matchAnswers="matchAnswers"
-			:allPartiesData="allPartiesData"
-			:selectedParty="selectedParty"
-			@update:matchScore="(score) => $emit('update:matchScore', score)"
-		/>
+		<div class="center flex flex-col items-center">
+			<ResultCard
+				:matchLogo="partyLogo"
+				:matchName="partyName"
+				:partyAnswers="partyAnswers"
+				:matchAnswers="matchAnswers"
+				:allPartiesData="allPartiesData"
+				:selectedParty="selectedParty"
+				:showAll="showAll"
+				@update:matchScore="(score) => $emit('update:matchScore', score)"
+			/>
+			<button
+				class="bg-bg flex h-10 w-40 cursor-pointer items-center justify-center rounded-b-2xl p-4 pt-1 shadow-md hover:shadow-none"
+				@click="showAllParty"
+			>
+				{{ showAll ? 'ย่อ' : 'ดูลำดับทั้งหมด' }}
+			</button>
+		</div>
+
 		<div class="section flex flex-col items-center gap-4 pt-8">
 			<ElectionButton
 				>save ไป<span class="line-through">แฉ</span>แชร์ต่อ</ElectionButton
 			>
 			<div class="flex flex-row gap-4">
 				<ElectionButton @click="resetQuiz">เล่นใหม่</ElectionButton>
-				<ElectionButton>ดูลำดับทั้งหมด</ElectionButton>
 			</div>
 			<div
 				href="#"
