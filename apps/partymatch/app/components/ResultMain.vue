@@ -1,6 +1,5 @@
 <script setup>
 import InfoPopup from './InfoPopup.vue';
-import { ElectionButton } from '@election/ui/vue';
 
 const props = defineProps({
 	matchAnswers: Array,

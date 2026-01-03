@@ -70,12 +70,12 @@
 
 		<!-- Navigation -->
 		<div
-			class="font-kondolar items center absolute bottom-0 z-0 flex h-20 w-full flex-row justify-between p-6"
+			class="font-kondolar gap-auto absolute bottom-0 z-0 flex h-20 w-full flex-row items-center justify-between p-6"
 		>
 			<div class="h-8 w-40">
 				<button
 					v-if="currentQuestionIndex > 0"
-					class="flex cursor-pointer items-center gap-2 self-center hover:font-bold"
+					class="flex cursor-pointer items-center gap-2 self-center hover:bg-white hover:font-bold"
 					@click="currentQuestionIndex--"
 				>
 					<img :src="arrowNext" class="h-8 scale-x-[-1]" /> กลับ
