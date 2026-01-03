@@ -72,13 +72,15 @@
 		<div
 			class="font-kondolar items center absolute bottom-0 z-0 flex h-20 w-full flex-row justify-between p-6"
 		>
-			<button
-				v-if="currentQuestionIndex > 0"
-				class="flex h-8 w-40 cursor-pointer items-center gap-2 self-center hover:font-bold"
-				@click="currentQuestionIndex--"
-			>
-				<img :src="arrowNext" class="h-8 scale-x-[-1]" /> กลับ
-			</button>
+			<div class="h-8 w-40">
+				<button
+					v-if="currentQuestionIndex > 0"
+					class="flex cursor-pointer items-center gap-2 self-center hover:font-bold"
+					@click="currentQuestionIndex--"
+				>
+					<img :src="arrowNext" class="h-8 scale-x-[-1]" /> กลับ
+				</button>
+			</div>
 
 			<button
 				v-if="

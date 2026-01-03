@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="hover:bg-purple-1 font-kondolar flex h-12 cursor-pointer flex-row items-center justify-center gap-4 self-center rounded-full bg-black px-6 font-bold text-white shadow-lg hover:shadow-none"
+		class="hover:bg-purple-1 font-kondolar flex h-12 cursor-pointer flex-row items-center justify-center gap-2 self-center rounded-full bg-black px-6 font-bold text-white shadow-lg hover:shadow-none"
 	>
 		<div
 			v-if="buttonIcon"
