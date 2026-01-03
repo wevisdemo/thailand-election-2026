@@ -109,8 +109,8 @@
 			</button>
 		</div>
 
-		<!-- Party Result Popup -->
-		<PartyResult
+		<!-- Party Votes Popup -->
+		<PartyVotes
 			v-if="showPartyResult"
 			class="absolute"
 			:billTitle="currentQuestion.title"
@@ -129,7 +129,7 @@
 <script setup>
 import { marked } from 'marked';
 import QuizChoices from './QuizChoice.vue';
-import PartyResult from './PartyVotes.vue';
+import PartyVotes from './PartyVotes.vue';
 import arrowNext from '~/assets/images/arrow-next.svg';
 import heartIcon from '~/assets/images/heart-icon.svg';
 

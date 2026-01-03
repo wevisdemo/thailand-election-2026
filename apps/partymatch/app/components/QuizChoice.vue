@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col items-center gap-2" ref="popupContainer">
+	<div class="flex flex-col items-center gap-2">
 		<div class="flex min-h-8 items-center">
 			<img
 				v-if="selected"
@@ -31,7 +31,7 @@
 		>
 			<div
 				v-html="computedIconSvg"
-				class="flex h-20 w-20 items-center justify-center"
+				class="h-20 w-20 items-center justify-center"
 			></div>
 		</button>
 		<span class="mt-2">{{ label }}</span>
@@ -39,15 +39,17 @@
 			v-if="showInfoIcon"
 			src="/img/icon-info.svg"
 			class="z-1 h-6 cursor-pointer"
-			@click="isInfoPopupVisible = true"
+			@click.stop="isInfoPopupVisible = true"
 		/>
-		<InfoPopup
-			v-if="isInfoPopupVisible"
-			:title="label"
-			class="fixed top-1/2 left-1/2 z-2 -translate-x-1/2 -translate-y-1/2 transform"
-			content="งดออกเสียง = สส. เข้าประชุมแต่ไม่ออกเสียงว่าเห็นด้วยหรือไม่เห็นด้วยกับมติ อาจจะเพราะยังไม่ตัดสินใจหรือเลี่ยงความขัดแย้ง ในกรณีที่ต้อง ใช้เสียงข้างมากในการชี้ขาดการงดออกเสียงจะมีผลเท่ากับเป็นการไม่เห็นด้วยได้ เช่น ญัตติอภิปรายไม่ไว้วางใจรัฐมนตรีที่ต้องใช้คะแนนเสียงมากกว่ากึ่งหนึ่งของจำนวน สส. ที่มีอยู่ในสภา การงดออกเสียงจึงทำให้เกิดผลไม่เห็นด้วยกับมติ"
-			@close="isInfoPopupVisible = false"
-		/>
+		<div ref="popupContainer">
+			<InfoPopup
+				v-if="isInfoPopupVisible"
+				:title="label"
+				class="fixed top-1/2 left-1/2 z-2 -translate-x-1/2 -translate-y-1/2 transform"
+				content="งดออกเสียง = สส. เข้าประชุมแต่ไม่ออกเสียงว่าเห็นด้วยหรือไม่เห็นด้วยกับมติ อาจจะเพราะยังไม่ตัดสินใจหรือเลี่ยงความขัดแย้ง<br/><br/> ในกรณีที่ต้อง ใช้เสียงข้างมากในการชี้ขาด<span class='text-purple-1 font-bold'>การงดออกเสียงจะมีผลเท่ากับเป็นการไม่เห็นด้วยได้</span> เช่น ญัตติอภิปรายไม่ไว้วางใจรัฐมนตรีที่ต้องใช้คะแนนเสียงมากกว่ากึ่งหนึ่งของจำนวน สส. ที่มีอยู่ในสภา การงดออกเสียงจึงทำให้เกิดผลไม่เห็นด้วยกับมติ"
+				@close="isInfoPopupVisible = false"
+			/>
+		</div>
 	</div>
 </template>
 

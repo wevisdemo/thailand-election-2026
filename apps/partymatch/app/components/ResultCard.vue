@@ -125,7 +125,6 @@ const topMatches = computed(() => {
 			});
 	}
 
-	// If `showAll` is true, return all groups; otherwise limit to top 3 groups
 	return props.showAll ? groups : groups.slice(0, 3);
 });
 

@@ -1,20 +1,24 @@
 <template>
 	<div
-		class="bg-bg flex w-90 flex-col gap-4 p-6 shadow-lg"
-		ref="popupContainer"
+		class="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.5)]"
 	>
-		<div class="flex w-full justify-between">
-			<div class="flex flex-row gap-2">
-				<img src="/img/icon-info.svg" class="h-6 w-6" />
-				<h3 class="text-h10 font-kondolar font-bold">{{ title }}</h3>
+		<div
+			class="bg-bg flex w-90 flex-col gap-4 rounded-sm p-8 shadow-lg"
+			ref="popupContainer"
+		>
+			<div class="flex w-full justify-between">
+				<div class="flex flex-row gap-2">
+					<img src="/img/icon-info.svg" class="h-6 w-6" />
+					<h3 class="text-h10 font-kondolar font-bold">{{ title }}</h3>
+				</div>
+				<img
+					src="/img/icon-close.svg"
+					class="h-6 w-6 cursor-pointer"
+					@click.stop="closePopup"
+				/>
 			</div>
-			<img
-				src="/img/icon-close.svg"
-				class="h-6 w-6 cursor-pointer"
-				@click.stop="closePopup"
-			/>
+			<div v-html="content"></div>
 		</div>
-		<p>{{ content }}</p>
 	</div>
 </template>
 <script>
