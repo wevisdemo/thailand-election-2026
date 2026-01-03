@@ -120,6 +120,7 @@
 			:result="partyAnswerLabel"
 			:resultPct="partyAnswerPct"
 			:votes="partyVotes"
+			:pwUrl="currentQuestion.pw_url"
 			@click="handleClose"
 		/>
 	</div>

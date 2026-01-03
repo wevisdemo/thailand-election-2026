@@ -114,6 +114,7 @@ onMounted(async () => {
 			title: Column('title', asString()),
 			title_full: Column('title_full', asString()),
 			description: Column('desc', asString()),
+			pw_url: Column('pw_url', asString()),
 		}),
 	);
 	quizQuestions.value = quizData;
