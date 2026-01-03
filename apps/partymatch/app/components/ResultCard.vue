@@ -2,7 +2,7 @@
 	<div
 		class="bg-bg flex min-h-140 w-full max-w-[400px] flex-col items-center justify-between gap-6 rounded-2xl p-10 shadow-md"
 	>
-		<div>
+		<div class="flex w-full flex-col items-center gap-8">
 			<div class="flex h-full flex-col items-center gap-4">
 				<div class="font-kondolar text-h10 flex flex-row gap-1 font-bold">
 					<h2>มติพรรคที่<span v-if="selectedParty?.id">เลือก</span></h2>
