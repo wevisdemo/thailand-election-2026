@@ -1,5 +1,6 @@
 <template>
 	<div
+		@click="$emit('click')"
 		class="hover:bg-purple-1 font-kondolar flex h-12 cursor-pointer flex-row items-center justify-center gap-2 self-center rounded-full bg-black px-6 font-bold text-white shadow-lg hover:shadow-none"
 	>
 		<div
@@ -12,6 +13,7 @@
 </template>
 
 <script setup>
+const emit = defineEmits(['click']);
 const props = defineProps({
 	buttonIcon: {
 		type: String,

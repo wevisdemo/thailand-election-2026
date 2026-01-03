@@ -14,6 +14,7 @@
 		"@election/ui": "workspace:*",
 		"@nuxt/image": "^2.0.0",
 		"@tailwindcss/vite": "^4.1.17",
+		"html2canvas": "^1.4.1",
 		"lottie-web": "^5.13.0",
 		"marked": "^17.0.1",
 		"nuxt": "^4.2.1",
