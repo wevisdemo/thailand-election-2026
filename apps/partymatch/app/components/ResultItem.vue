@@ -2,8 +2,8 @@
 	<div class="flex flex-col">
 		<div class="flex flex-row items-center">
 			<svg
-				:width="barWidth"
-				height="4"
+				:style="{ width: barWidth + 'px', height: '3px' }"
+				preserveAspectRatio="none"
 				viewBox="0 0 264 4"
 				fill="none"
 				xmlns="http://www.w3.org/2000/svg"
@@ -33,9 +33,9 @@
 			</svg>
 
 			<svg
-				:width="264 - barWidth"
-				height="4"
+				:style="{ width: 264 - barWidth + 'px', height: '3px' }"
 				:viewBox="`0 0 ${264 - barWidth} 4`"
+				preserveAspectRatio="none"
 				fill="none"
 				xmlns="http://www.w3.org/2000/svg"
 			>

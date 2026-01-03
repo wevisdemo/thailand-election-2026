@@ -1,12 +1,12 @@
 <template>
 	<div
-		class="bg-bg flex min-h-140 w-full max-w-[400px] flex-col items-center justify-between gap-6 rounded-2xl p-10 shadow-md"
+		class="bg-bg flex min-h-140 w-full max-w-[360px] flex-col items-center justify-between gap-6 rounded-2xl p-8 shadow-md"
 	>
 		<div class="flex w-full flex-col items-center gap-8">
 			<div class="flex h-full flex-col items-center gap-4">
 				<div class="font-kondolar text-h10 flex flex-row gap-1 font-bold">
 					<h2>มติพรรคที่<span v-if="selectedParty?.id">เลือก</span></h2>
-					<img src="assets/images/heart-icon.svg" class="inline h-6 w-6" />
+					<img src="assets/images/heart-icon.svg" class="h-6 w-6 self-end" />
 					<h2>ใจตรงกับ</h2>
 					<svg
 						width="24"
@@ -49,12 +49,15 @@
 						{{ matchMessage }}
 					</p>
 				</div>
-				<ResultItem
-					v-if="selectedParty?.id"
-					:parties="[{ name: matchName, logo: matchLogo }]"
-					:matchScore="computedMatchScore"
-					class="border-green-3 rounded-lg border-2 bg-white p-2 shadow-sm"
-				/>
+
+				<div class="bg-green-3 rounded-xl p-0.75 shadow-sm">
+					<ResultItem
+						v-if="selectedParty?.id"
+						:parties="[{ name: matchName, logo: matchLogo }]"
+						:matchScore="computedMatchScore"
+						class="rounded-lg bg-white p-2"
+					/>
+				</div>
 			</div>
 			<div class="flex w-full flex-col items-center gap-3">
 				<h3 v-if="selectedParty?.id" class="w-72 text-left font-bold">

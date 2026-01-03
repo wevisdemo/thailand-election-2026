@@ -97,7 +97,7 @@ const handleSaveClick = async () => {
 				@update:matchScore="(score) => $emit('update:matchScore', score)"
 			/>
 			<button
-				class="bg-bg text-b6 flex h-8 w-25 cursor-pointer items-center justify-center rounded-b-2xl p-3 pt-1 shadow-md hover:font-bold hover:shadow-none"
+				class="bg-bg text-b6 flex h-8 w-25 cursor-pointer items-center justify-center rounded-b-2xl p-3 pt-0 shadow-md hover:font-bold hover:shadow-none"
 				@click="showAllParty"
 			>
 				{{ showAll ? 'ย่อ' : 'ดูทั้งหมด' }}
