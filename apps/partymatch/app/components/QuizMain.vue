@@ -283,12 +283,12 @@ onUnmounted(() => observer?.disconnect());
 
 		<!-- Navigation -->
 		<div
-			class="font-kondolar gap-auto sticky bottom-0 z-0 flex h-16 w-full flex-row items-center justify-between p-4 md:h-20 md:p-6"
+			class="font-kondolar gap-auto absolute bottom-0 z-0 flex h-16 w-full flex-row items-center justify-between px-4 md:h-20 md:p-6"
 		>
 			<div class="flex h-8 w-40 items-center justify-start">
 				<button
 					v-if="currentQuestionIndex > 0"
-					class="flex cursor-pointer items-center gap-1 self-center hover:bg-white hover:font-bold md:gap-2"
+					class="flex cursor-pointer items-center gap-1 self-center hover:font-bold md:gap-2"
 					@click="currentQuestionIndex--"
 				>
 					<img :src="arrowNext" class="h-6 scale-x-[-1] md:h-8" /> กลับ
@@ -301,7 +301,7 @@ onUnmounted(() => observer?.disconnect());
 					hasClicked &&
 					explainMessage !== 'ยังไม่มีชื่อตอนโหวต'
 				"
-				class="hover:bg-gray-3 mx-auto cursor-pointer self-center rounded-full border-3 bg-white px-4 py-2 font-bold text-nowrap"
+				class="hover:bg-gray-3 mx-auto cursor-pointer self-end rounded-full border-3 bg-white px-4 py-2 font-bold text-nowrap"
 				@click="showPartyResult = true"
 			>
 				ดูผลลงมติพรรค

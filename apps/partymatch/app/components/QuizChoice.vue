@@ -96,7 +96,7 @@ onClickOutside(popupContainer, () => (isInfoPopupVisible.value = false));
 		<img
 			v-if="showInfoIcon"
 			src="/img/icon-info.svg"
-			class="z-1 h-6 cursor-pointer"
+			class="z-1 h-6 cursor-pointer opacity-50 hover:opacity-100"
 			@click.stop="isInfoPopupVisible = true"
 		/>
 		<Teleport to="body">
