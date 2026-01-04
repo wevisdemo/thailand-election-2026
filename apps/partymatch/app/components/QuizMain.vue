@@ -128,6 +128,15 @@ const isAnswerMatch = (label) => {
 		: matchKey === label;
 };
 
+function getExplainMessage(partyAnswer) {
+	const statusMap = {
+		absent: 'ไม่เข้าประชุมเกินครึ่ง',
+		'agree, disagree': 'เสียงแตก',
+		undefined: 'ยังไม่มีชื่อตอนโหวต',
+	};
+	return statusMap[partyAnswer] || '';
+}
+
 const handleChoiceClick = (label) => {
 	if (selectedAnswer.value) return;
 	selectedAnswer.value = label;
@@ -185,6 +194,12 @@ watch(currentQuestionIndex, (newIndex) => {
 	if (previousAnswer) {
 		selectedAnswer.value = previousAnswer;
 		hasClicked.value = true;
+		resultMessage.value = isAnswerMatch(previousAnswer)
+			? "It's a match!"
+			: 'Not match!';
+		explainMessage.value = getExplainMessage(
+			currentPartyAnswer.value?.party_answer,
+		);
 	} else {
 		selectedAnswer.value = null;
 		hasClicked.value = false;
@@ -301,7 +316,7 @@ onUnmounted(() => observer?.disconnect());
 					hasClicked &&
 					explainMessage !== 'ยังไม่มีชื่อตอนโหวต'
 				"
-				class="hover:bg-gray-3 mx-auto cursor-pointer self-end rounded-full border-3 bg-white px-4 py-2 font-bold text-nowrap"
+				class="hover:bg-gray-3 mx-auto cursor-pointer self-center rounded-full border-3 bg-white px-4 py-2 font-bold text-nowrap md:self-end"
 				@click="showPartyResult = true"
 			>
 				ดูผลลงมติพรรค
