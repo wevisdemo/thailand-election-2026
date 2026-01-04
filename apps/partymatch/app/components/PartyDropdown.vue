@@ -65,22 +65,21 @@ const selectOption = (option) => {
 
 		<div
 			v-if="isOpen"
-			class="absolute z-50 mt-2 max-h-[300px] w-full overflow-y-auto rounded-lg border-2 border-black bg-white shadow-lg"
+			class="absolute z-50 mt-2 max-h-[320px] w-full overflow-y-auto rounded-lg border-2 border-black bg-white shadow-lg"
 		>
 			<div
 				v-for="option in options"
 				:key="option.id"
-				class="hover:bg-gray-3 border-gray-3 flex cursor-pointer items-center gap-4 border-b px-4 py-2"
+				class="hover:bg-gray-3 border-gray-3 flex cursor-pointer items-center gap-4 border-b px-4 py-3 md:py-2"
 				:class="{ 'bg-gray-2': selected === option.id }"
 				@click="selectOption(option)"
 			>
 				<img
-					v-if="option.logo"
 					:src="option.logo"
-					class="h-8 w-8 rounded-full object-contain"
+					class="h-6 w-6 shrink-0 rounded-full object-contain md:h-8 md:w-8"
 					alt=""
 				/>
-				<span>
+				<span class="text-left">
 					{{ option.name }} {{ option.name66 ? `/ ${option.name66}` : '' }}
 				</span>
 			</div>

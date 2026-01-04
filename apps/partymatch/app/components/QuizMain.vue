@@ -1,131 +1,3 @@
-<template>
-	<div class="relative flex h-full flex-col">
-		<!-- Progress bar -->
-		<div class="section w-full py-8">
-			<div
-				:style="{
-					width: `${((currentQuestionIndex + 1) / questions.length) * 100}%`,
-				}"
-				class="bg-green-2 h-1 rounded transition-all duration-300"
-			></div>
-		</div>
-
-		<!-- Question -->
-		<div class="section flex flex-row">
-			<img src="/img/card-side.png" class="scale-x-[-1] transform py-4" />
-			<div
-				class="relative flex h-90 flex-col gap-4 overflow-auto rounded-2xl bg-white px-8 py-6 text-center shadow-md [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-				ref="descriptionContainer"
-			>
-				<div ref="innerContent">
-					<h2 class="text-h8 font-kondolar font-bold">
-						{{ currentQuestion.title }}
-					</h2>
-					<p v-if="currentQuestion.title_full">
-						ชื่อเต็ม: {{ currentQuestion.title_full }}
-					</p>
-					<h3 class="font-bold" v-if="currentQuestion.description">
-						รายละเอียด
-					</h3>
-					<p v-html="renderMarkdown(currentQuestion.description)"></p>
-				</div>
-				<div
-					v-if="isOverflowing"
-					class="0% 25% 100% sticky -bottom-6 flex h-14 w-full shrink-0 items-center justify-center bg-linear-to-t from-white via-white to-transparent"
-				>
-					<img src="/img/chevron-down.svg" class="h-6" />
-				</div>
-			</div>
-			<img src="/img/card-side.png" class="py-4" />
-		</div>
-
-		<!-- Choices -->
-		<div class="section flex w-full flex-col gap-4 pt-4">
-			<div class="h-12 text-center">
-				<p v-if="selectedPartyId" class="font-sriracha text-b2">
-					{{ resultMessage }}
-				</p>
-				<p v-else-if="hasClicked" class="font-sriracha text-b2">Your Answer</p>
-				<p v-if="explainMessage && selectedPartyId" class="text-b6">
-					เพราะพรรคนี้ {{ explainMessage }}
-				</p>
-			</div>
-			<div class="flex justify-between px-20">
-				<QuizChoices
-					v-for="choice in choiceConfigs"
-					:key="choice.label"
-					v-bind="choice"
-					:logoSrc="partyLogo"
-					:selected="selectedAnswer === choice.label"
-					:isUnselected="selectedAnswer && selectedAnswer !== choice.label"
-					:isMatch="
-						selectedAnswer === choice.label && isAnswerMatch(choice.label)
-					"
-					:showPartyLogo="hasClicked && isAnswerMatch(choice.label)"
-					:disabled="!!selectedAnswer"
-					@click="handleChoiceClick(choice.label)"
-				/>
-			</div>
-		</div>
-
-		<!-- Navigation -->
-		<div
-			class="font-kondolar gap-auto absolute bottom-0 z-0 flex h-20 w-full flex-row items-center justify-between p-6"
-		>
-			<div class="h-8 w-40">
-				<button
-					v-if="currentQuestionIndex > 0"
-					class="flex cursor-pointer items-center gap-2 self-center hover:bg-white hover:font-bold"
-					@click="currentQuestionIndex--"
-				>
-					<img :src="arrowNext" class="h-8 scale-x-[-1]" /> กลับ
-				</button>
-			</div>
-
-			<button
-				v-if="
-					selectedPartyId &&
-					hasClicked &&
-					explainMessage !== 'ยังไม่มีชื่อตอนโหวต'
-				"
-				class="hover:bg-gray-3 mx-auto cursor-pointer self-center rounded-full border-3 bg-white px-4 py-2 font-bold"
-				@click="showPartyResult = true"
-			>
-				ดูผลลงมติพรรค
-			</button>
-
-			<button
-				class="flex h-8 w-40 items-center justify-end gap-2 self-center pr-0"
-				:class="{
-					'font-bold': isLastQuestion,
-					'cursor-not-allowed opacity-50': !hasClicked,
-					'cursor-pointer hover:font-bold': hasClicked,
-				}"
-				:disabled="!hasClicked"
-				@click="handleNextClick"
-			>
-				{{ isLastQuestion ? 'ดูผลลัพธ์' : 'ไปต่อ' }}
-				<img :src="isLastQuestion ? heartIcon : arrowNext" class="h-8" />
-			</button>
-		</div>
-
-		<!-- Party Votes Popup -->
-		<PartyVotes
-			v-if="showPartyResult"
-			class="absolute"
-			:billTitle="currentQuestion.title"
-			:partyLogo="partyLogo"
-			:partyName="partyName"
-			:partyCount="currentPartyAnswer?.party_count"
-			:result="partyAnswerLabel"
-			:resultPct="partyAnswerPct"
-			:votes="partyVotes"
-			:pwUrl="currentQuestion.pw_url"
-			@click="handleClose"
-		/>
-	</div>
-</template>
-
 <script setup>
 import { marked } from 'marked';
 import QuizChoices from './QuizChoice.vue';
@@ -307,7 +179,8 @@ const handleClose = () => {
 const checkOverflow = () => {
 	if (descriptionContainer.value && innerContent.value) {
 		isOverflowing.value =
-			innerContent.value.scrollHeight > descriptionContainer.value.clientHeight;
+			innerContent.value.scrollHeight >
+			descriptionContainer.value.clientHeight - 32;
 	}
 };
 
@@ -332,3 +205,136 @@ onMounted(() => {
 });
 onUnmounted(() => observer?.disconnect());
 </script>
+
+<template>
+	<div class="relative flex h-full flex-col">
+		<!-- Progress bar -->
+		<div class="section w-full pt-2 pb-4">
+			<div
+				:style="{
+					width: `${((currentQuestionIndex + 1) / questions.length) * 100}%`,
+				}"
+				class="bg-green-2 h-1 rounded transition-all duration-300"
+			></div>
+		</div>
+
+		<!-- Question -->
+		<div class="mx-auto flex flex-row md:max-w-[40rem]">
+			<img
+				src="/img/card-side.png"
+				class="h-60 scale-x-[-1] transform py-4 md:h-80"
+			/>
+			<div
+				class="relative h-60 overflow-auto rounded-2xl bg-white p-4 text-center shadow-md [-ms-overflow-style:none] [scrollbar-width:none] md:h-80 md:px-8 md:py-6 [&::-webkit-scrollbar]:hidden"
+				ref="descriptionContainer"
+			>
+				<div ref="innerContent" class="flex flex-col gap-4">
+					<h2 class="text-h8 font-kondolar font-bold">
+						{{ currentQuestion.title }}
+					</h2>
+					<p v-if="currentQuestion.title_full" class="text-b5">
+						ชื่อเต็ม: {{ currentQuestion.title_full }}
+					</p>
+					<div class="text-b5">
+						<h3 class="font-bold" v-if="currentQuestion.description">
+							รายละเอียด
+						</h3>
+						<p v-html="renderMarkdown(currentQuestion.description)"></p>
+					</div>
+				</div>
+				<div
+					v-if="isOverflowing"
+					class="0% 25% 100% sticky -bottom-6 flex h-14 w-full shrink-0 items-center justify-center bg-linear-to-t from-white via-white to-transparent"
+				>
+					<img src="/img/chevron-down.svg" class="h-6" />
+				</div>
+			</div>
+			<img src="/img/card-side.png" class="h-60 py-4 md:h-80" />
+		</div>
+
+		<!-- Choices -->
+		<div class="section flex w-full flex-col gap-4 pt-3 md:pt-4">
+			<div class="flex h-10 flex-col items-center justify-center text-center">
+				<p v-if="selectedPartyId" class="font-sriracha text-b2">
+					{{ resultMessage }}
+				</p>
+				<p v-else-if="hasClicked" class="font-sriracha text-b2">Your Answer</p>
+				<p v-if="explainMessage && selectedPartyId" class="text-b6">
+					เพราะพรรคนี้ {{ explainMessage }}
+				</p>
+			</div>
+			<div class="flex justify-between md:px-20">
+				<QuizChoices
+					v-for="choice in choiceConfigs"
+					:key="choice.label"
+					v-bind="choice"
+					:logoSrc="partyLogo"
+					:selected="selectedAnswer === choice.label"
+					:isUnselected="selectedAnswer && selectedAnswer !== choice.label"
+					:isMatch="
+						selectedAnswer === choice.label && isAnswerMatch(choice.label)
+					"
+					:showPartyLogo="hasClicked && isAnswerMatch(choice.label)"
+					:disabled="!!selectedAnswer"
+					@click="handleChoiceClick(choice.label)"
+				/>
+			</div>
+		</div>
+
+		<!-- Navigation -->
+		<div
+			class="font-kondolar gap-auto absolute bottom-0 z-0 flex h-16 w-full flex-row items-center justify-between p-4 md:h-20 md:p-6"
+		>
+			<div class="flex h-8 w-40 items-center justify-start">
+				<button
+					v-if="currentQuestionIndex > 0"
+					class="flex cursor-pointer items-center gap-1 self-center hover:bg-white hover:font-bold md:gap-2"
+					@click="currentQuestionIndex--"
+				>
+					<img :src="arrowNext" class="h-6 scale-x-[-1] md:h-8" /> กลับ
+				</button>
+			</div>
+
+			<button
+				v-if="
+					selectedPartyId &&
+					hasClicked &&
+					explainMessage !== 'ยังไม่มีชื่อตอนโหวต'
+				"
+				class="hover:bg-gray-3 mx-auto cursor-pointer self-center rounded-full border-3 bg-white px-4 py-2 font-bold text-nowrap"
+				@click="showPartyResult = true"
+			>
+				ดูผลลงมติพรรค
+			</button>
+
+			<button
+				class="flex h-8 w-40 items-center justify-end gap-1 self-center pr-0 md:gap-2"
+				:class="{
+					'font-bold': isLastQuestion,
+					'cursor-not-allowed opacity-50': !hasClicked,
+					'cursor-pointer hover:font-bold': hasClicked,
+				}"
+				:disabled="!hasClicked"
+				@click="handleNextClick"
+			>
+				{{ isLastQuestion ? 'ดูผลลัพธ์' : 'ไปต่อ' }}
+				<img :src="isLastQuestion ? heartIcon : arrowNext" class="h-6 md:h-8" />
+			</button>
+		</div>
+
+		<!-- Party Votes Popup -->
+		<PartyVotes
+			v-if="showPartyResult"
+			class="absolute"
+			:billTitle="currentQuestion.title"
+			:partyLogo="partyLogo"
+			:partyName="partyName"
+			:partyCount="currentPartyAnswer?.party_count"
+			:result="partyAnswerLabel"
+			:resultPct="partyAnswerPct"
+			:votes="partyVotes"
+			:pwUrl="currentQuestion.pw_url"
+			@click="handleClose"
+		/>
+	</div>
+</template>

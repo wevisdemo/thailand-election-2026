@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col items-center gap-2">
+	<div class="flex flex-col items-center gap-1 md:gap-2">
 		<div class="flex min-h-8 items-center">
 			<img
 				v-if="selected"

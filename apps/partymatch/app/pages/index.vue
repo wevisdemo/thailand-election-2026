@@ -259,7 +259,7 @@ watch(lottieContainer, (newVal) => {
 		<section
 			id="quiz"
 			v-if="showQuiz"
-			class="h-[calc(100dvh-80px)] md:h-[calc(100vh-133px)]"
+			class="h-[calc(100dvh-92px)] md:h-[calc(100vh-133px)]"
 		>
 			<QuizMain
 				:questions="quizQuestions"
