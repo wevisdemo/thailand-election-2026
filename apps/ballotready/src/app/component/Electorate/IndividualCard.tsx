@@ -7,6 +7,25 @@ interface IndividualCardProps {
 
 export default function IndividualCard({ candidate }: IndividualCardProps) {
 	const [expanded, setExpanded] = useState(false);
+
+	function calculateAge(
+		birthDate: string | Date,
+		asOf: Date = new Date(),
+	): number {
+		const dob = new Date(birthDate);
+
+		let age = asOf.getFullYear() - dob.getFullYear();
+		const monthDiff = asOf.getMonth() - dob.getMonth();
+		const dayDiff = asOf.getDate() - dob.getDate();
+
+		// If birthday hasn't happened yet this year, subtract 1
+		if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+			age--;
+		}
+
+		return age;
+	}
+
 	return (
 		<div className="flex w-full flex-col">
 			<div className="relative flex border-t-[1px]">
@@ -21,14 +40,14 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 						<div className="relative flex h-fit">
 							<img
 								className="w-[40px] rounded-full"
-								src={candidate.photoUrl || '/ballotready/dummie-candidate.svg'}
+								src={'/ballotready/dummie-candidate.svg'}
 								alt={candidate.name}
 							/>
-							{candidate.partyLogoUrl && (
+							{candidate.party.image && (
 								<img
 									className="absolute right-[0px] bottom-[0px] w-[16px] rounded-full"
-									src={candidate.partyLogoUrl}
-									alt={candidate.party}
+									src={candidate.party.image}
+									alt={candidate.party.name}
 								/>
 							)}
 						</div>
@@ -37,7 +56,7 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 								{candidate.name}
 							</p>
 							<p className="text-[12px]">
-								พรรค <span className="font-bold">{candidate.party}</span>
+								พรรค <span className="font-bold">{candidate.party.name}</span>
 							</p>
 						</div>
 					</div>
@@ -66,7 +85,9 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 									อายุ
 								</th>
 								<td className="pl-[6px] text-[14px]">
-									{candidate.age || 'ไม่ระบุ'}
+									{candidate.birthDate
+										? calculateAge(candidate.birthDate)
+										: 'ไม่ระบุ'}
 								</td>
 							</tr>
 							<tr>
@@ -94,7 +115,7 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 						</tbody>
 					</table>
 					<div>
-						{candidate.hasHeldPositionBefore ? (
+						{candidate.hasPreviousPosition ? (
 							<>
 								<p className="text-[14px] text-[#0EA177]">เคยมีตำแหน่งในสภา</p>
 								<a

@@ -28,7 +28,7 @@ export default function PartyCard({
 						<div className="relative flex h-fit">
 							<img
 								className="h-[64px] w-[64px] rounded-full"
-								src={party.partyLogoUrl}
+								src={party.image}
 								alt={party.name}
 							/>
 						</div>
@@ -51,32 +51,35 @@ export default function PartyCard({
 			</div>
 			{expanded && (
 				<div className="flex flex-col gap-[8px] py-[8px]">
-					<div>
-						<p className="mb-[4px] text-[14px] text-[#9A9A9A]">แคนดิเดตนายก</p>
-						{party.candidates.map((candidate, index) => (
-							<div className="flex items-center" key={index}>
-								<div className="relative flex h-fit">
-									<img
-										className="w-[40px] rounded-full"
-										src={
-											candidate.photoUrl || '/ballotready/dummie-candidate.svg'
-										}
-										alt={candidate.name}
-									/>
-									{party.partyLogoUrl && (
+					{party.pmCandidates.length > 0 && (
+						<div>
+							<p className="mb-[4px] text-[14px] text-[#9A9A9A]">
+								แคนดิเดตนายก
+							</p>
+							{party.pmCandidates.map((candidate, index) => (
+								<div className="flex items-center" key={index}>
+									<div className="relative flex h-fit">
+										{/* TODO: candidate photo */}
 										<img
-											className="absolute right-[0px] bottom-[0px] w-[16px] rounded-full"
-											src={party.partyLogoUrl}
-											alt={party.name}
+											className="w-[40px] rounded-full"
+											src={'/ballotready/dummie-candidate.svg'}
+											alt={candidate.name}
 										/>
-									)}
+										{party.image && (
+											<img
+												className="absolute right-[0px] bottom-[0px] w-[16px] rounded-full"
+												src={party.image}
+												alt={party.name}
+											/>
+										)}
+									</div>
+									<p className="text-h9 font-kondolar font-bold">
+										{candidate.name}
+									</p>
 								</div>
-								<p className="text-h9 font-kondolar font-bold">
-									{candidate.name}
-								</p>
-							</div>
-						))}
-					</div>
+							))}
+						</div>
+					)}
 					<button
 						className="flex gap-[8px] rounded-[16px] bg-[#CEC2F5] px-[8px] py-[10px] hover:cursor-pointer"
 						onClick={onClickViewPartyList}
@@ -97,8 +100,11 @@ export default function PartyCard({
 										className="list-inside list-disc text-[14px] text-[#0EA177]"
 										key={index}
 									>
-										<p>{position.position}</p>
-										<li className="ml-[4px]">{position.duration}</li>
+										<p>{position.label}</p>
+										{/* TODO: convert date to thai date */}
+										<li className="ml-[4px]">
+											{position.from} - {position.to}{' '}
+										</li>
 									</ul>
 								))}
 							</div>

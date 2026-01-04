@@ -1,12 +1,22 @@
+export type ConstituencyMap = Record<string, Candidate[]>;
+
 export interface Candidate {
 	name: string;
-	party: string;
-	electoralDistrict: string;
-	photoUrl?: string;
-	partyLogoUrl?: string;
 	number: number;
-	age?: number;
-	education?: string;
-	previousOccupation?: string;
-	hasHeldPositionBefore?: boolean;
+	birthDate: string | null;
+	education: string;
+	previousOccupation: string;
+	party: Party;
+	hasPreviousPosition: boolean;
+	externalLinks: ExternalLink[];
+}
+
+export interface Party {
+	name: string;
+	image: string;
+}
+
+export interface ExternalLink {
+	label: string;
+	url: string;
 }

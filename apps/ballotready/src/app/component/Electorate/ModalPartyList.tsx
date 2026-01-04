@@ -39,10 +39,7 @@ export default function ModalPartyList({
 					<p className="font-kondolar text-[18px] font-bold">{party.name}</p>
 					<p className="font-[14px]">
 						ส.ส. บัญชีรายชื่อ 
-						<span className="font-bold">
-							{' '}
-							{party.partyListCandidates.length} คน
-						</span>
+						<span className="font-bold"> {party.partyList.length} คน</span>
 					</p>
 				</div>
 				<p className="text-b5 flex text-[#0EA177]">
@@ -62,10 +59,10 @@ export default function ModalPartyList({
 							</tr>
 						</thead>
 						<tbody>
-							{party.partyListCandidates.map((candidate, index) => (
+							{party.partyList.map((candidate, index) => (
 								<tr key={index} className="border-b hover:bg-gray-50">
 									<td className="relative py-[8px] text-center">
-										{candidate.hasHeldPositionBefore && (
+										{candidate.hasPreviousPosition && (
 											<img
 												className="absolute top-1/2 left-1/2 z-10 w-[24px] -translate-x-1/2 -translate-y-1/2"
 												src="/ballotready/green-bookmark.svg"

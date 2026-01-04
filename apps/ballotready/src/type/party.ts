@@ -1,25 +1,57 @@
-export interface Party {
-	name: string;
-	number: number;
-	partyLogoUrl?: string;
-	candidates: PresidentCandidate[];
-	partyListCandidates: PartyListCandidate[];
-	previousPositions?: PreviousPosition[];
-}
+// export interface Party {
+// 	name: string;
+// 	number: number;
+// 	partyLogoUrl?: string;
+// 	candidates: PresidentCandidate[];
+// 	partyListCandidates: PartyListCandidate[];
+// 	previousPositions?: PreviousPosition[];
+// }
 
-interface PresidentCandidate {
+// interface PresidentCandidate {
+// 	name: string;
+// 	photoUrl?: string;
+// }
+
+// export interface PartyListCandidate {
+// 	name: string;
+// 	photoUrl?: string;
+// 	number: number;
+// 	hasHeldPositionBefore?: boolean;
+// }
+
+// interface PreviousPosition {
+// 	position: string;
+// 	duration: string;
+// }
+
+export interface PmCandidate {
 	name: string;
-	photoUrl?: string;
+	image: string;
 }
 
 export interface PartyListCandidate {
 	name: string;
-	photoUrl?: string;
 	number: number;
-	hasHeldPositionBefore?: boolean;
+	hasPreviousPosition: boolean;
 }
 
-interface PreviousPosition {
-	position: string;
-	duration: string;
+export interface PreviousPosition {
+	label: string;
+	from: string; // ISO date string (YYYY-MM-DD)
+	to: string; // ISO date string (YYYY-MM-DD)
+}
+
+export interface ExternalLink {
+	label: string;
+	url: string;
+}
+
+export interface Party {
+	name: string;
+	number: number;
+	image: string;
+	pmCandidates: PmCandidate[];
+	partyList: PartyListCandidate[];
+	previousPositions: PreviousPosition[];
+	externalLinks: ExternalLink[];
 }
