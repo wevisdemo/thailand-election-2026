@@ -89,58 +89,79 @@ const allPartiesWithAnswers = computed(() => {
 	});
 });
 
-onMounted(async () => {
-	const { Column, asString, asNumber, Spreadsheet, Object } =
-		await import('sheethuahua');
-	const spreadsheet = Spreadsheet(
-		'1cg85RsWVrSTDgRsVMTsmbkABbDk8Y84kIU_SsRl_smQ',
-	);
+const { data: electionData, pending } = await useAsyncData(
+	'election-content',
+	async () => {
+		const {
+			Column,
+			asString,
+			asNumber,
+			Spreadsheet,
+			Object: SheetObject,
+		} = await import('sheethuahua');
 
-	const partyData = await spreadsheet.get(
-		'party',
-		Object({
-			id: Column('id', asString()),
-			name: Column('party_name69', asString()),
-			name66: Column('party_name66', asString().optional()),
-			logo: Column('logo', asString().optional()),
-		}),
-	);
-	partyOptions.value = partyData.filter((party) => party.id);
+		const spreadsheet = Spreadsheet(
+			'1cg85RsWVrSTDgRsVMTsmbkABbDk8Y84kIU_SsRl_smQ',
+		);
 
-	const quizData = await spreadsheet.get(
-		'bill',
-		Object({
-			id: Column('id', asString()),
-			title: Column('title', asString()),
-			title_full: Column('title_full', asString()),
-			description: Column('desc', asString()),
-			pw_url: Column('pw_url', asString()),
-		}),
-	);
-	quizQuestions.value = quizData;
-
-	const partyAnswerData = await spreadsheet.get(
-		'quiz',
-		Object({
-			party_id: Column('party_id', asString()),
-			quiz_id: Column('question_no', asString()),
-			party_answer: Column('party_answer', asString().optional()),
-			party_count: Column('party_count', asNumber()),
-			agree_count: Column('agree', asNumber()),
-			disagree_count: Column('disagree', asNumber()),
-			abstain_count: Column('abstain', asNumber()),
-			absent_count: Column('absent', asNumber()),
-		}),
-	);
-	partyAnswers.value = partyAnswerData;
-
-	lottie.loadAnimation({
-		container: lottieContainer.value,
-		renderer: 'svg',
-		loop: true,
-		autoplay: true,
-		animationData: loadingAnimation,
-	});
+		const [partyData, quizData, partyAnswerData] = await Promise.all([
+			spreadsheet.get(
+				'party',
+				SheetObject({
+					id: Column('id', asString()),
+					name: Column('party_name69', asString()),
+					name66: Column('party_name66', asString().optional()),
+					logo: Column('logo', asString().optional()),
+				}),
+			),
+			spreadsheet.get(
+				'bill',
+				SheetObject({
+					id: Column('id', asString()),
+					title: Column('title', asString()),
+					title_full: Column('title_full', asString()),
+					description: Column('desc', asString()),
+					pw_url: Column('pw_url', asString()),
+				}),
+			),
+			spreadsheet.get(
+				'quiz',
+				SheetObject({
+					party_id: Column('party_id', asString()),
+					quiz_id: Column('question_no', asString()),
+					party_answer: Column('party_answer', asString().optional()),
+					party_count: Column('party_count', asNumber()),
+					agree_count: Column('agree', asNumber()),
+					disagree_count: Column('disagree', asNumber()),
+					abstain_count: Column('abstain', asNumber()),
+					absent_count: Column('absent', asNumber()),
+				}),
+			),
+		]);
+		return {
+			parties: partyData.filter((p) => p.id),
+			questions: quizData,
+			answers: partyAnswerData,
+		};
+	},
+);
+watchEffect(() => {
+	if (electionData.value) {
+		partyOptions.value = electionData.value.parties;
+		quizQuestions.value = electionData.value.questions;
+		partyAnswers.value = electionData.value.answers;
+	}
+});
+watch(lottieContainer, (newVal) => {
+	if (newVal && !showQuiz.value) {
+		lottie.loadAnimation({
+			container: newVal,
+			renderer: 'svg',
+			loop: true,
+			autoplay: true,
+			animationData: loadingAnimation,
+		});
+	}
 });
 </script>
 
@@ -198,7 +219,7 @@ onMounted(async () => {
 						ข้อมูลที่กรอกใช้เฉพาะประมวลผลแบบทดสอบเท่านั้น
 					</p>
 				</div>
-				<div class="flex flex-row gap-2">
+				<div class="flex flex-col gap-2 sm:flex-row">
 					<PartyDropdown
 						:options="partyOptions"
 						:is-unselected="isUnselected"
@@ -226,13 +247,20 @@ onMounted(async () => {
 					v-else
 					class="flex w-full flex-row justify-center rounded-2xl bg-white p-10 shadow-md"
 				>
-					<div ref="lottieContainer" style="width: 400px; height: 400px"></div>
+					<div
+						ref="lottieContainer"
+						class="mx-auto aspect-square w-full max-w-[400px]"
+					></div>
 				</div>
 			</div>
 		</section>
 
 		<!-- Quiz -->
-		<section id="quiz" v-if="showQuiz" class="h-[calc(100vh-133px)]">
+		<section
+			id="quiz"
+			v-if="showQuiz"
+			class="h-[calc(100dvh-80px)] md:h-[calc(100vh-133px)]"
+		>
 			<QuizMain
 				:questions="quizQuestions"
 				:party-answers="partyAnswers"

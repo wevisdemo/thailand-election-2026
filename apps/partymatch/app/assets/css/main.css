@@ -3,8 +3,18 @@
 .section {
 	margin-left: auto;
 	margin-right: auto;
-	max-width: 40rem;
+	max-width: 100%;
+	padding-left: 2rem;
+	padding-right: 2rem;
 }
+@media (min-width: 640px) {
+	.section {
+		max-width: 40rem;
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
 :root {
 	--red-1: #ed4b4b;
 	--red-2: #ff6868;
