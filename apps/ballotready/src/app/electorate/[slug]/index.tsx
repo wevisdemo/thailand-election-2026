@@ -15,52 +15,21 @@ import ModalPartyList from '../../component/Electorate/ModalPartyList';
 import districtCandidateMap from '../../data/district_candidates.json' with { type: 'json' };
 import rawParties from '../../data/parties.json' with { type: 'json' };
 
-const mockData: ElectoralDistrict = {
-	province: 'กระบี่',
-	districts: [
-		{
-			name: 'เมืองกระบี่',
-			subDistricts: [
-				'กระบี่น้อย',
-				'กระบี่ใหญ่',
-				'เขาคราม',
-				'เขาทอง',
-				'คลองประสงค์',
-				'ทับปริก',
-				'ปากน้ำ',
-				'ไสไทย',
-				'หนองทะเล',
-				'อ่าวนาง',
-			],
-			belongsToOneElecDist: true,
-		},
-		{
-			name: 'เหนือคลอง',
-			subDistricts: [
-				'เกาะศรีบอยา',
-				'คลองขนาน',
-				'คลองเขม้า',
-				'ตลิ่งชัน',
-				'เหนือคลอง',
-			],
-			belongsToOneElecDist: false,
-		},
-	],
-	electoralDistrictNumber: 1,
-};
+interface ElectorateTemplateProps {
+	candidates: Candidate[];
+	parties: Party[];
+	electoralDistrict: ElectoralDistrict;
+}
 
-const mockCandidates: Candidate[] = districtCandidateMap['กระบี่-1'];
-const mockParties: Party[] = rawParties as Party[];
-
-export default function MembersPage() {
+export default function ElectorateTemplate(props: ElectorateTemplateProps) {
 	return (
 		<ElectorateStoreProvider>
-			<PageTemplate />
+			<PageTemplate {...props} />
 		</ElectorateStoreProvider>
 	);
 }
 
-const PageTemplate = (): React.ReactElement => {
+const PageTemplate = (props: ElectorateTemplateProps): React.ReactElement => {
 	const { modalPartyList } = useContext(ElectorateStoreContext);
 	return (
 		<>
@@ -76,11 +45,11 @@ const PageTemplate = (): React.ReactElement => {
 						<p className="text-[14px] font-bold">กลับไปหน้าแรก</p>
 					</button>
 					<div className="m-auto grid max-w-[600px] justify-center gap-[16px]">
-						<ElectorateCard electoralDistrict={mockData} />
+						<ElectorateCard electoralDistrict={props.electoralDistrict} />
 						<BallotRemind />
 						<PartyListSection
-							candidates={mockCandidates}
-							parties={mockParties}
+							candidates={props.candidates}
+							parties={props.parties}
 						/>
 					</div>
 				</div>
