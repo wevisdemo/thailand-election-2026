@@ -84,7 +84,7 @@ const handleSaveClick = async () => {
 <template>
 	<!-- Result -->
 	<div
-		class="bg-green-3 relative flex min-h-[calc(100vh-56px)] flex-col p-4 md:p-10"
+		class="bg-green-3 relative flex flex-col p-4 md:min-h-[calc(100vh-56px)] md:p-10"
 	>
 		<div class="center flex flex-col items-center">
 			<ResultCard

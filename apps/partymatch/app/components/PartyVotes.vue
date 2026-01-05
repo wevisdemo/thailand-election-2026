@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="right-0 bottom-0 z-2 flex min-h-full w-90 flex-col gap-6 rounded-t-2xl border-3 border-b-0 bg-white p-6"
+		class="right-0 bottom-0 z-2 flex min-h-full w-full flex-col gap-6 rounded-t-2xl border-3 border-b-0 bg-white p-6 md:w-90"
 	>
 		<div class="flex w-full flex-row justify-between">
 			<div class="text-h11 font-kondolar font-bold">
