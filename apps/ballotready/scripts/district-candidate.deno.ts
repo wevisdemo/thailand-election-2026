@@ -50,6 +50,7 @@ for await (const { name } of Deno.readDir(OLD_DATA_DIR)) {
 			return {
 				name: p.Name,
 				number: p.Number,
+				image: 'https://election66.wevis.info' + p.Image,
 				birthDate: p.Birthdate,
 				education: p.Education,
 				previousOccupation: p.ExOccupation,
