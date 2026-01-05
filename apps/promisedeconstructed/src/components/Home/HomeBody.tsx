@@ -12,6 +12,7 @@ import { getUnique, HomeData, slugifySubCategory } from '@/utils/data';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
+import { SparklesText } from '../SparklesText';
 
 interface HomeBodyProps {
 	homeData: HomeData;
@@ -82,17 +83,22 @@ export const HomeBody = ({ homeData, buildTime }: HomeBodyProps) => {
 						ดูให้ชัดก่อนตัดสินใจ พรรคไหนจะทำอะไร เมื่อไหร่ และเพื่อใคร
 					</p>
 				</div>
-				<Image
-					className="h-auto w-[250px] md:w-[400px]"
-					src="/promisedeconstructed/images/deco1.svg"
-					alt=""
-					width={250}
-					height={150}
-					priority
-					decoding="sync"
-					loading="eager"
-					fetchPriority="high"
-				/>
+				<SparklesText
+					colors={['#FF91E5', '#05D6BA', '#ADF3EB', '#FFFDA0', '#FF8C4A']}
+					sparklesCount={5}
+				>
+					<Image
+						className="h-auto w-[250px] md:w-[400px]"
+						src="/promisedeconstructed/images/deco1.svg"
+						alt=""
+						width={250}
+						height={150}
+						priority
+						decoding="sync"
+						loading="eager"
+						fetchPriority="high"
+					/>
+				</SparklesText>
 				<div className="flex w-full flex-col items-center gap-2">
 					<span className="text-b5 font-bold">แบ่งคำสัญญาตาม</span>
 					<DisplayCategoryToggle
