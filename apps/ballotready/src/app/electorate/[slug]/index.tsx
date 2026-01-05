@@ -18,10 +18,11 @@ import rawParties from '../../data/parties.json' with { type: 'json' };
 interface ElectorateTemplateProps {
 	candidates: Candidate[];
 	parties: Party[];
-	electoralDistrict: ElectoralDistrict;
+	electoralDistrict: ElectoralDistrict | undefined;
 }
 
 export default function ElectorateTemplate(props: ElectorateTemplateProps) {
+	if (!props.electoralDistrict) return null;
 	return (
 		<ElectorateStoreProvider>
 			<PageTemplate {...props} />
@@ -31,6 +32,7 @@ export default function ElectorateTemplate(props: ElectorateTemplateProps) {
 
 const PageTemplate = (props: ElectorateTemplateProps): React.ReactElement => {
 	const { modalPartyList } = useContext(ElectorateStoreContext);
+	if (!props.electoralDistrict) return <></>;
 	return (
 		<>
 			<div className="flex flex-col">
