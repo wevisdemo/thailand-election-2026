@@ -83,7 +83,9 @@ const handleSaveClick = async () => {
 
 <template>
 	<!-- Result -->
-	<div class="bg-green-3 relative flex min-h-[calc(100vh-56px)] flex-col p-10">
+	<div
+		class="bg-green-3 relative flex min-h-[calc(100vh-56px)] flex-col p-4 md:p-10"
+	>
 		<div class="center flex flex-col items-center">
 			<ResultCard
 				id="capture"
@@ -104,8 +106,12 @@ const handleSaveClick = async () => {
 			</button>
 		</div>
 
-		<div class="section flex flex-col items-center gap-4 pt-6">
-			<div class="flex flex-row gap-4">
+		<div
+			class="mx-auto flex w-full flex-col items-center gap-4 self-center pt-6"
+		>
+			<div
+				class="mx-auto flex w-full flex-col items-center justify-center gap-4 self-center md:flex-row"
+			>
 				<IconButton
 					:buttonText="saveButtonText"
 					:buttonIcon="saveButtonIcon"
@@ -113,7 +119,7 @@ const handleSaveClick = async () => {
 				/>
 				<button
 					@click="resetQuiz"
-					class="font-kondolar hover:bg-green-2 flex h-12 cursor-pointer flex-row items-center justify-center gap-2 rounded-full border-2 pr-6 pl-4 font-bold hover:border-3"
+					class="font-kondolar hover:bg-green-2 flex h-12 w-full cursor-pointer flex-row items-center justify-center gap-2 rounded-full border-2 pr-6 pl-4 font-bold text-nowrap hover:border-3 md:w-auto"
 				>
 					<svg
 						width="24"
@@ -191,7 +197,7 @@ const handleSaveClick = async () => {
 			>
 		</p>
 
-		<div class="section flex flex-row gap-6">
+		<div class="flex flex-col gap-6 md:flex-row">
 			<div
 				v-for="(project, index) in projects"
 				:key="index"
