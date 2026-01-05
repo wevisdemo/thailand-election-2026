@@ -1,6 +1,19 @@
 <script setup>
 import InfoPopup from './InfoPopup.vue';
 import html2canvas from 'html2canvas';
+import ResultCard from './ResultCard.vue';
+import IconButton from './IconButton.vue';
+
+const props = defineProps({
+	matchAnswers: Object,
+	partyAnswers: Array,
+	allPartiesData: Array,
+	selectedParty: { type: Object, default: null },
+	partyLogo: String,
+	partyName: String,
+	matchScore: Number,
+});
+const emit = defineEmits(['reset', 'update:matchScore']);
 
 const captureResult = async () => {
 	const el = document.getElementById('capture');
@@ -22,17 +35,6 @@ const captureResult = async () => {
 	}
 };
 
-const props = defineProps({
-	matchAnswers: Array,
-	partyAnswers: Array,
-	allPartiesData: Array,
-	selectedParty: { type: Object, default: null },
-	partyLogo: String,
-	partyName: String,
-	matchScore: Number,
-});
-
-const emit = defineEmits(['reset', 'update:matchScore']);
 const resetQuiz = () => {
 	emit('reset');
 };

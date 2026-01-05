@@ -14,6 +14,19 @@ import PartyCard from '../components/PartyCard.vue';
 import QuizMain from '../components/QuizMain.vue';
 import ResultMain from '../components/ResultMain.vue';
 
+const logCurrentIds = () => {
+	const currentPartyId = selectedParty.value?.id || 'No party selected';
+	const currentBillId =
+		quizQuestions.value[currentQuestionIndex.value]?.id || 'No bill selected';
+	const currentQuizId =
+		quizQuestions.value[currentQuestionIndex.value]?.quiz_id ||
+		'No quiz selected';
+
+	console.log('Party ID:', currentPartyId);
+	console.log('Bill ID:', currentBillId);
+	console.log('Quiz ID:', currentQuizId);
+};
+
 const selectedParty = ref(null);
 const lottieContainer = ref(null);
 
@@ -24,7 +37,7 @@ const showResult = ref(false);
 const partyOptions = ref([]);
 const quizQuestions = ref([]);
 const partyAnswers = ref([]);
-const userAnswers = ref([]);
+const userAnswers = ref({});
 const matchScore = ref(0);
 
 const toggleState = () => {
@@ -262,7 +275,7 @@ watch(lottieContainer, (newVal) => {
 			class="h-[calc(100dvh-92px)] md:h-[calc(100vh-133px)]"
 		>
 			<QuizMain
-				:questions="quizQuestions"
+				:questionsData="quizQuestions"
 				:party-answers="partyAnswers"
 				:selected-party-id="selectedParty?.id"
 				:partyLogo="selectedParty?.logo"
@@ -283,7 +296,7 @@ watch(lottieContainer, (newVal) => {
 				:partyAnswers="selectedPartyAnswers"
 				:allPartiesData="allPartiesWithAnswers"
 				@update:matchScore="(newScore) => (matchScore = newScore)"
-			></ResultMain>
+			/>
 		</section>
 
 		<!-- Info -->

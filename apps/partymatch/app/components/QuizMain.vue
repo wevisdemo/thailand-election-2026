@@ -9,8 +9,8 @@ import IconAgree from './icons/IconAgree.vue';
 import IconDisagree from './icons/IconDisagree.vue';
 
 const props = defineProps({
-	questions: Array,
-	partyAnswers: Array,
+	questionsData: { type: Array, required: true },
+	partyAnswers: { type: Array, default: () => [] },
 	selectedPartyId: String,
 	partyLogo: String,
 	partyName: String,
@@ -19,26 +19,65 @@ const props = defineProps({
 const emit = defineEmits(['show-result']);
 
 const currentQuestionIndex = ref(0);
+const shuffledQuestions = ref([]);
+
+const userAnswers = ref({});
 const selectedAnswer = ref(null);
+
 const hasClicked = ref(false);
 const resultMessage = ref('');
 const explainMessage = ref('');
-const userAnswers = ref([]);
+const showPartyResult = ref(false);
 
-// --- Computed ---
-const currentQuestion = computed(
-	() => props.questions[currentQuestionIndex.value] || {},
-);
+const currentQuestion = computed(() => {
+	return shuffledQuestions.value[currentQuestionIndex.value] || {};
+});
 const isLastQuestion = computed(
-	() => currentQuestionIndex.value === props.questions.length - 1,
+	() => currentQuestionIndex.value === shuffledQuestions.value.length - 1,
 );
+
 const currentPartyAnswer = computed(() => {
+	if (!currentQuestion.value.id) return null;
 	return props.partyAnswers?.find(
 		(a) =>
 			a.party_id === props.selectedPartyId &&
 			a.quiz_id === currentQuestion.value.id,
 	);
 });
+
+const renderedDescription = computed(() =>
+	marked.parse(currentQuestion.value.description || ''),
+);
+
+const ANSWER_MAP = {
+	abstain: { label: 'งดออกเสียง', matchKey: 'งดออกเสียง' },
+	agree: { label: 'เห็นด้วย', matchKey: 'เห็นด้วย' },
+	disagree: { label: 'ไม่เห็นด้วย', matchKey: 'ไม่เห็นด้วย' },
+	'agree, disagree': {
+		label: 'เสียงแตก',
+		matchKey: ['เห็นด้วย', 'ไม่เห็นด้วย'],
+	},
+	absent: { label: 'ลา/ขาด', matchKey: null },
+};
+
+const choiceConfigs = [
+	{
+		label: 'งดออกเสียง',
+		icon: IconAbstain,
+		buttonClass: 'bg-[#BFBFBF] focus:bg-gray-2',
+		showInfoIcon: true,
+	},
+	{
+		label: 'เห็นด้วย',
+		icon: IconAgree,
+		buttonClass: 'bg-[#1AD39E] focus:bg-green-1',
+	},
+	{
+		label: 'ไม่เห็นด้วย',
+		icon: IconDisagree,
+		buttonClass: 'bg-[var(--red-2)] focus:bg-[var(--red-1)]',
+	},
+];
 
 const partyVotes = computed(() => {
 	if (!currentPartyAnswer.value) return [];
@@ -81,37 +120,6 @@ const partyAnswerPct = computed(() => {
 	return parseFloat(((matchingCount / totalCount) * 100).toFixed(0));
 });
 
-const choiceConfigs = [
-	{
-		label: 'งดออกเสียง',
-		icon: IconAbstain,
-		buttonClass: 'bg-[#BFBFBF] focus:bg-gray-2',
-		showInfoIcon: true,
-	},
-	{
-		label: 'เห็นด้วย',
-		icon: IconAgree,
-		buttonClass: 'bg-[#1AD39E] focus:bg-green-1',
-	},
-	{
-		label: 'ไม่เห็นด้วย',
-		icon: IconDisagree,
-		buttonClass: 'bg-[var(--red-2)] focus:bg-[var(--red-1)]',
-	},
-];
-
-// --- Logic ---
-const ANSWER_MAP = {
-	abstain: { label: 'งดออกเสียง', matchKey: 'งดออกเสียง' },
-	agree: { label: 'เห็นด้วย', matchKey: 'เห็นด้วย' },
-	disagree: { label: 'ไม่เห็นด้วย', matchKey: 'ไม่เห็นด้วย' },
-	'agree, disagree': {
-		label: 'เสียงแตก',
-		matchKey: ['เห็นด้วย', 'ไม่เห็นด้วย'],
-	},
-	absent: { label: 'ลา/ขาด', matchKey: null },
-};
-
 const partyAnswerLabel = computed(() => {
 	const pAns = currentPartyAnswer.value?.party_answer;
 	return ANSWER_MAP[pAns]?.label || 'ยังไม่มีชื่อตอนโหวต';
@@ -141,18 +149,23 @@ const handleChoiceClick = (label) => {
 	if (selectedAnswer.value) return;
 	selectedAnswer.value = label;
 	hasClicked.value = true;
+	userAnswers.value[currentQuestion.value.id] = label;
+	if (props.selectedPartyId) {
+		resultMessage.value = isAnswerMatch(label) ? "It's a match!" : 'Not match!';
+		explainMessage.value = getExplainMessage(
+			currentPartyAnswer.value?.party_answer,
+		);
+	}
 
-	userAnswers.value[currentQuestionIndex.value] = label;
+	// resultMessage.value = isAnswerMatch(label) ? "It's a match!" : 'Not match!';
 
-	resultMessage.value = isAnswerMatch(label) ? "It's a match!" : 'Not match!';
-
-	const statusMap = {
-		absent: 'ไม่เข้าประชุมเกินครึ่ง',
-		'agree, disagree': 'เสียงแตก',
-		undefined: 'ยังไม่มีชื่อตอนโหวต',
-	};
-	explainMessage.value =
-		statusMap[currentPartyAnswer.value?.party_answer] || '';
+	// const statusMap = {
+	// 	absent: 'ไม่เข้าประชุมเกินครึ่ง',
+	// 	'agree, disagree': 'เสียงแตก',
+	// 	undefined: 'ยังไม่มีชื่อตอนโหวต',
+	// };
+	// explainMessage.value =
+	// 	statusMap[currentPartyAnswer.value?.party_answer] || '';
 };
 
 const handleNextClick = () => {
@@ -167,15 +180,20 @@ const handleNextClick = () => {
 	}
 };
 
-// --- UI/Overflow Logic ---
+const shuffleArray = (array) => {
+	if (!array) return [];
+	const newArray = [...array];
+	for (let i = newArray.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+	}
+	return newArray;
+};
+
+// ---
 const descriptionContainer = ref(null);
 const innerContent = ref(null);
 const isOverflowing = ref(false);
-const renderedDescription = computed(() =>
-	marked.parse(currentQuestion.value.description || ''),
-);
-
-const showPartyResult = ref(false);
 
 const handleClose = () => {
 	showPartyResult.value = false;
@@ -190,7 +208,9 @@ const checkOverflow = () => {
 };
 
 watch(currentQuestionIndex, (newIndex) => {
-	const previousAnswer = userAnswers.value[newIndex];
+	const qId = shuffledQuestions.value[newIndex]?.id;
+	const previousAnswer = userAnswers.value[qId];
+
 	if (previousAnswer) {
 		selectedAnswer.value = previousAnswer;
 		hasClicked.value = true;
@@ -208,9 +228,22 @@ watch(currentQuestionIndex, (newIndex) => {
 	}
 	nextTick(checkOverflow);
 });
+watch(
+	() => props.questionsData,
+	(newData) => {
+		if (newData && newData.length > 0 && shuffledQuestions.value.length === 0) {
+			shuffledQuestions.value = shuffleArray(newData);
+		}
+	},
+	{ immediate: true },
+);
 
 let observer;
 onMounted(() => {
+	if (props.questionsData && props.questionsData.length > 0) {
+		shuffledQuestions.value = shuffleArray(props.questionsData);
+	}
+
 	observer = new ResizeObserver(checkOverflow);
 	if (innerContent.value) observer.observe(innerContent.value);
 });
@@ -223,7 +256,7 @@ onUnmounted(() => observer?.disconnect());
 		<div class="section w-full pt-2 pb-4">
 			<div
 				:style="{
-					width: `${((currentQuestionIndex + 1) / questions.length) * 100}%`,
+					width: `${((currentQuestionIndex + 1) / shuffledQuestions.length) * 100}%`,
 				}"
 				class="bg-green-2 h-1 rounded transition-all duration-300"
 			></div>
@@ -267,7 +300,7 @@ onUnmounted(() => observer?.disconnect());
 		</div>
 
 		<!-- Choices -->
-		<div class="section flex w-full flex-col gap-4 pt-3 md:pt-4">
+		<div class="section flex w-full flex-col gap-4 pt-3 md:pt-6">
 			<div class="flex h-10 flex-col items-center justify-center text-center">
 				<p v-if="selectedPartyId" class="font-sriracha text-b2">
 					{{ resultMessage }}
