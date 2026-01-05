@@ -250,7 +250,10 @@ onUnmounted(() => observer?.disconnect());
 						<h3 class="font-bold" v-if="currentQuestion.description">
 							รายละเอียด
 						</h3>
-						<p v-html="renderedDescription"></p>
+						<div
+							v-html="renderedDescription"
+							class="markdown-content text-left"
+						></div>
 					</div>
 				</div>
 				<div
@@ -353,3 +356,9 @@ onUnmounted(() => observer?.disconnect());
 		/>
 	</div>
 </template>
+<style scoped>
+.markdown-content :deep(ul) {
+	list-style-type: disc;
+	margin-left: 1.5rem;
+}
+</style>

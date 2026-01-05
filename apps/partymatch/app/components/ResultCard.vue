@@ -26,7 +26,7 @@
 				<div>
 					<div
 						class="flex flex-row items-center justify-center"
-						:style="{ gap: `${(10 - computedMatchScore) * 10}px` }"
+						:style="{ gap: `${(10 - computedMatchScore) * 8}px` }"
 					>
 						<div v-if="selectedParty?.id" class="relative">
 							<img src="/img/heart-party.svg" class="z-1 h-20 w-20" />
@@ -97,21 +97,17 @@ const props = defineProps({
 
 const emit = defineEmits(['update:matchScore']);
 
-const computedMatchScore = computed(() => {
-	const currentParty = props.allPartiesData.find(
-		(p) => p.name === props.matchName,
-	);
-	return currentParty ? calculateScore(currentParty.answers) : 0;
+const allScores = computed(() => {
+	return props.allPartiesData.map((party) => ({
+		name: party.name,
+		logo: party.logo,
+		score: calculateScore(party.answers),
+	}));
 });
 
-const allScores = computed(() => {
-	return props.allPartiesData.map((party) => {
-		return {
-			name: party.name,
-			logo: party.logo,
-			score: calculateScore(party.answers),
-		};
-	});
+const computedMatchScore = computed(() => {
+	const currentParty = allScores.value.find((p) => p.name === props.matchName);
+	return currentParty ? currentParty.score : 0;
 });
 
 const topMatches = computed(() => {
@@ -119,16 +115,18 @@ const topMatches = computed(() => {
 		.filter((p) => p.name !== props.matchName)
 		.sort((a, b) => b.score - a.score);
 
-	const groups = [];
-	for (const p of sorted) {
-		const g = groups.find((gr) => gr.score === p.score);
-		if (g) g.parties.push({ name: p.name, logo: p.logo });
-		else
-			groups.push({
-				score: p.score,
-				parties: [{ name: p.name, logo: p.logo }],
+	const groups = sorted.reduce((acc, party) => {
+		const existingGroup = acc.find((g) => g.score === party.score);
+		if (existingGroup) {
+			existingGroup.parties.push({ name: party.name, logo: party.logo });
+		} else {
+			acc.push({
+				score: party.score,
+				parties: [{ name: party.name, logo: party.logo }],
 			});
-	}
+		}
+		return acc;
+	}, []);
 
 	return props.showAll ? groups : groups.slice(0, 3);
 });
@@ -147,7 +145,7 @@ const matchMessage = computed(() => {
 });
 
 watch(
-	() => computedMatchScore.value,
+	computedMatchScore,
 	(newVal) => {
 		emit('update:matchScore', newVal);
 	},
