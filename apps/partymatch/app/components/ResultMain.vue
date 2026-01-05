@@ -3,6 +3,8 @@ import InfoPopup from './InfoPopup.vue';
 import html2canvas from 'html2canvas';
 import ResultCard from './ResultCard.vue';
 import IconButton from './IconButton.vue';
+import ogPromise from '~/assets/images/og-promise.png';
+import ogPW from '~/assets/images/og-pw.png';
 
 const props = defineProps({
 	matchAnswers: Object,
@@ -46,14 +48,14 @@ const isInfoPopupVisible = ref(false);
 
 const projects = [
 	{
-		href: 'https://parliamentwatch.wevis.info/',
+		href: 'https://parliamentwatch.wevis.info/assemblies/%E0%B8%AA%E0%B8%A0%E0%B8%B2%E0%B8%9C%E0%B8%B9%E0%B9%89%E0%B9%81%E0%B8%97%E0%B8%99%E0%B8%A3%E0%B8%B2%E0%B8%A9%E0%B8%8E%E0%B8%A3-26/votes',
 		title: 'ดูผลโหวตในสภาฯ ชุดที่ผ่านมา',
-		imgSrc: '/img/og-project.png',
+		imgSrc: ogPW,
 	},
 	{
-		href: 'https://election69.wevis.info/',
+		href: 'https://election69.wevis.info/promisedeconstructed',
 		title: 'ส่องนโยบายพรรค เลือกตั้ง 69',
-		imgSrc: '/img/og-project.png',
+		imgSrc: ogPromise,
 	},
 ];
 const saveIcon =
@@ -196,7 +198,7 @@ const handleSaveClick = async () => {
 			<div
 				v-for="(project, index) in projects"
 				:key="index"
-				class="flex min-h-20 w-full cursor-pointer flex-col gap-4 rounded-2xl border-3 border-b-black bg-white p-6 shadow-md hover:shadow-none"
+				class="flex min-h-20 w-full cursor-pointer flex-col gap-4 rounded-2xl border-3 border-b-black bg-white p-4 pt-6 shadow-md hover:shadow-none"
 				href="project.href"
 			>
 				<h4 class="font-kondolar text-h10 font-bold">{{ project.title }}</h4>

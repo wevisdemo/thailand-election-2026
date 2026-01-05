@@ -101,13 +101,13 @@ function calculateScore(partyAnswersArray) {
 
 <template>
 	<div
-		class="bg-bg flex min-h-140 w-full max-w-[360px] flex-col items-center justify-between gap-6 rounded-2xl p-6 shadow-md md:p-8"
+		class="bg-bg flex min-h-140 w-full max-w-[360px] flex-col items-center justify-between gap-6 rounded-2xl p-6 shadow-md"
 	>
-		<div class="flex w-full flex-col items-center gap-8">
+		<div class="bg-bg flex w-full flex-col items-center gap-6">
 			<div class="flex h-full flex-col items-center gap-4">
-				<div class="font-kondolar text-h10 flex flex-row gap-1 font-bold">
+				<div class="font-kondolar text-h9 flex flex-row gap-1 font-bold">
 					<h2>มติพรรคที่<span v-if="selectedParty?.id">เลือก</span></h2>
-					<img src="assets/images/heart-icon.svg" class="h-6 w-6 self-end" />
+					<img src="assets/images/heart-icon.svg" class="h-6 w-6" />
 					<h2>ใจตรงกับ</h2>
 					<svg
 						width="24"
@@ -153,9 +153,11 @@ function calculateScore(partyAnswersArray) {
 					</p>
 				</div>
 
-				<div class="bg-green-3 rounded-xl p-0.75 shadow-sm">
+				<div
+					v-if="selectedParty?.id"
+					class="bg-green-3 rounded-xl p-0.75 shadow-sm"
+				>
 					<ResultItem
-						v-if="selectedParty?.id"
 						:parties="[{ name: matchName, logo: matchLogo }]"
 						:matchScore="computedMatchScore"
 						class="rounded-lg bg-white p-2"
