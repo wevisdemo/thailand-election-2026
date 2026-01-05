@@ -1,6 +1,7 @@
 <script setup>
 import InfoPopup from './InfoPopup.vue';
 import { onClickOutside } from '@vueuse/core';
+import ProfilePic from '~/assets/images/profile-pic.svg';
 
 const props = defineProps({
 	buttonClass: {
@@ -59,7 +60,7 @@ onClickOutside(popupContainer, () => (isInfoPopupVisible.value = false));
 		<div class="flex min-h-8 items-center">
 			<img
 				v-if="selected"
-				src="/img/profile-pic.svg"
+				:src="ProfilePic"
 				alt="Your choice"
 				class="h-6 w-6 md:h-8 md:w-8"
 			/>

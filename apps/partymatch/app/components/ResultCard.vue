@@ -1,6 +1,7 @@
 <script setup>
 import heartMatchImg from '~/assets/images/heart-match.svg';
 import heartUnMatchImg from '~/assets/images/heart-unmatch.svg';
+import heartParty from '~/assets/images/heart-party.svg';
 
 const props = defineProps({
 	partyAnswers: { type: Array, required: true },
@@ -130,7 +131,7 @@ function calculateScore(partyAnswersArray) {
 						:style="{ gap: `${(10 - computedMatchScore) * 8}px` }"
 					>
 						<div v-if="selectedParty?.id" class="relative">
-							<img src="/img/heart-party.svg" class="z-1 h-20 w-20" />
+							<img :src="heartParty" class="z-1 h-20 w-20" />
 							<img
 								:src="matchLogo"
 								class="absolute top-1/2 left-1/2 z-0 h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform rounded-full"

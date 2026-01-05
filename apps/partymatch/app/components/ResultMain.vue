@@ -195,15 +195,16 @@ const handleSaveClick = async () => {
 		</p>
 
 		<div class="flex flex-col gap-6 md:flex-row">
-			<div
+			<a
 				v-for="(project, index) in projects"
 				:key="index"
 				class="flex min-h-20 w-full cursor-pointer flex-col gap-4 rounded-2xl border-3 border-b-black bg-white p-4 pt-6 shadow-md hover:shadow-none"
-				href="project.href"
+				:href="project.href"
+				target="_blank"
 			>
 				<h4 class="font-kondolar text-h10 font-bold">{{ project.title }}</h4>
 				<img :src="project.imgSrc" alt="" />
-			</div>
+			</a>
 		</div>
 	</div>
 </template>
