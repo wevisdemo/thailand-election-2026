@@ -35,6 +35,30 @@ export default function PartyListSection({
 		const regex = new RegExp(`(${individualSearch})`, 'gi');
 		return candidates.filter((c) => c.party.name.match(regex));
 	};
+
+	const getPartiesDisplay = () => {
+		if (partySearch === '') return parties;
+		const regex = new RegExp(`(${partySearch})`, 'gi');
+		return parties.filter((p) => p.name.match(regex));
+	};
+
+	function isDateInYear(dateToCheck: Date, targetYear: number): boolean {
+		// Use getFullYear() to get the 4-digit year from the Date object
+		const dateYear = dateToCheck.getFullYear();
+
+		// Compare the extracted year with the target year
+		return dateYear === targetYear;
+	}
+
+	const getAmountOfPreviousPositionParties = () => {
+		return getPartiesDisplay().filter((p) => {
+			const lastPosition = p.previousPositions.find((position) => {
+				const date = new Date(position.to);
+				return isDateInYear(date, 2025);
+			});
+			return !!lastPosition;
+		}).length;
+	};
 	return (
 		<div>
 			<div className="flex w-full">
@@ -86,7 +110,10 @@ export default function PartyListSection({
 				<div className="relative top-[-2px] flex w-full flex-col items-center gap-[16px] rounded-tl-[16px] rounded-br-[16px] rounded-bl-[16px] border-[2px] bg-white px-[16px] py-[24px] md:px-[52px]">
 					<div className="text-center">
 						<h5 className="text-h8 font-kondolar">
-							ทั้งหมด <span className="font-bold">xx พรรค</span>
+							ทั้งหมด{' '}
+							<span className="font-bold">
+								{getPartiesDisplay().length} พรรค
+							</span>
 						</h5>
 						<p className="text-b5 flex text-[#0EA177]">
 							<img
@@ -95,7 +122,9 @@ export default function PartyListSection({
 								alt="green-bookmark"
 							/>
 							เคยมีตำแหน่งในสภาสมัยที่แล้ว{' '}
-							<span className="font-bold">xx พรรค</span>
+							<span className="font-bold">
+								{getAmountOfPreviousPositionParties()} พรรค
+							</span>
 						</p>
 					</div>
 					<SearchInput
@@ -105,7 +134,7 @@ export default function PartyListSection({
 						resetTextInput={() => setPartySearch('')}
 					/>
 
-					<PartyList parties={parties} />
+					<PartyList parties={getPartiesDisplay()} />
 				</div>
 			)}
 		</div>

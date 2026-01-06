@@ -9,7 +9,7 @@ interface PartyListProps {
 
 export default function PartyList({ parties }: PartyListProps) {
 	const { modalPartyList } = useContext(ElectorateStoreContext);
-	return (
+	return parties.length > 0 ? (
 		<div className="w-full">
 			{parties.map((party, index) => (
 				<PartyCard
@@ -23,6 +23,10 @@ export default function PartyList({ parties }: PartyListProps) {
 					}}
 				/>
 			))}
+		</div>
+	) : (
+		<div>
+			<p className="text-gray-2 text-[14px]">ไม่พบรายชื่อพรรคการเมืองนี้</p>
 		</div>
 	);
 }

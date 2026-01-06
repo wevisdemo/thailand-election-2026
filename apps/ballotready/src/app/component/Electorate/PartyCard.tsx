@@ -8,14 +8,30 @@ interface PartyCardProps {
 	onClickViewPartyList: () => void;
 }
 
+function isDateInYear(dateToCheck: Date, targetYear: number): boolean {
+	// Use getFullYear() to get the 4-digit year from the Date object
+	const dateYear = dateToCheck.getFullYear();
+
+	// Compare the extracted year with the target year
+	return dateYear === targetYear;
+}
+
 export default function PartyCard({
 	party,
 	onClickViewPartyList,
 }: PartyCardProps) {
 	const [expanded, setExpanded] = useState(false);
 
+	const hasLastPostition = () => {
+		const lastPosition = party.previousPositions.find((position) => {
+			const date = new Date(position.to);
+			return isDateInYear(date, 2025);
+		});
+		return !!lastPosition;
+	};
+
 	return (
-		<div className="flex w-full flex-col">
+		<div className="flex w-full flex-col py-[8px]">
 			<div className="relative flex border-t-[1px]">
 				<div className="flex w-[40px] flex-col items-center justify-center bg-black p-[8px]">
 					<p className="text-[10px] text-white">เบอร์</p>
@@ -41,7 +57,7 @@ export default function PartyCard({
 						onClick={() => setExpanded(!expanded)}
 					/>
 				</div>
-				{party.previousPositions && party.previousPositions.length > 0 && (
+				{hasLastPostition() && (
 					<img
 						className="absolute top-0 right-[24px] w-[15px]"
 						src="/ballotready/green-bookmark.svg"
@@ -62,7 +78,9 @@ export default function PartyCard({
 										{/* TODO: candidate photo */}
 										<img
 											className="w-[40px] rounded-full"
-											src={'/ballotready/dummie-candidate.svg'}
+											src={
+												candidate.image || '/ballotready/dummie-candidate.svg'
+											}
 											alt={candidate.name}
 										/>
 										{party.image && (
@@ -89,29 +107,48 @@ export default function PartyCard({
 					</button>
 					{party.previousPositions && party.previousPositions.length > 0 && (
 						<div className="flex">
-							<img
-								className="mr-[4px] h-[14px]"
-								src="/ballotready/green-bookmark.svg"
-								alt="green-bookmark"
-							/>
 							<div className="flex flex-col">
 								{party.previousPositions.map((position, index) => (
-									<ul
-										className="list-inside list-disc text-[14px] text-[#0EA177]"
-										key={index}
-									>
-										<p>{position.label}</p>
-										{/* TODO: convert date to thai date */}
-										<li className="ml-[4px]">
-											{position.from} - {position.to}{' '}
-										</li>
-									</ul>
+									<div className="flex" key={index}>
+										{isDateInYear(new Date(position.to), 2025) ? (
+											<img
+												className="mr-[4px] h-[14px]"
+												src="/ballotready/green-bookmark.svg"
+												alt="green-bookmark"
+											/>
+										) : (
+											<div className="h-[14px] w-[14px]" />
+										)}
+
+										<ul className="list-inside list-disc text-[14px] text-[#0EA177]">
+											<p>{position.label}</p>
+											{/* TODO: convert date to thai date */}
+											<li className="ml-[4px]">
+												{position.from} - {position.to}{' '}
+											</li>
+										</ul>
+									</div>
 								))}
 							</div>
 						</div>
 					)}
 					<div className="w-full">
-						<a
+						{party.externalLinks.map((link) => {
+							return (
+								<a
+									key={`${party}-${link.label}`}
+									className="flex justify-between md:justify-start"
+									target="_blank"
+									href={link.url}
+								>
+									<span className="text-[14px] text-[#6140D2] underline">
+										{link.label}
+									</span>
+									<img src="/ballotready/new-tab.svg" alt="new-tab-icon" />
+								</a>
+							);
+						})}
+						{/* <a
 							className="flex justify-between md:justify-start"
 							target="_blank"
 							href=""
@@ -142,7 +179,7 @@ export default function PartyCard({
 								เว็บไซต์
 							</span>
 							<img src="/ballotready/new-tab.svg" alt="new-tab-icon" />
-						</a>
+						</a> */}
 					</div>
 				</div>
 			)}
