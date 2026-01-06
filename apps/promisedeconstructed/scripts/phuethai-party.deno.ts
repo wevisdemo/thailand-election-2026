@@ -1,6 +1,7 @@
 // %%
 import { DOMParser } from 'jsr:@b-fuze/deno-dom';
 import { stringify } from 'jsr:@std/csv';
+import { fetchJson } from './fetch';
 
 interface PolicySummary {
 	id: number;
@@ -24,23 +25,10 @@ export interface Policy {
 	provinces: unknown[];
 }
 
-async function fetchJson<T>(url: string): Promise<{
-	success: boolean;
-	data: T;
-}> {
-	const policiesRes = await fetch(url);
-
-	if (!policiesRes.ok) {
-		throw policiesRes.statusText;
-	}
-
-	return policiesRes.json();
-}
-
 // %%
-const policies = await fetchJson<PolicySummary[]>(
-	'https://election.ptp.or.th/api/v1/policies',
-);
+const policies = await fetchJson<{
+	data: PolicySummary[];
+}>('https://election.ptp.or.th/api/v1/policies');
 const policyIds = policies.data.map((p) => p.id);
 
 console.log(policyIds);
@@ -52,9 +40,9 @@ const output: {
 }[] = [];
 
 for (const id of policyIds) {
-	const policy = await fetchJson<Policy>(
-		`https://election.ptp.or.th/api/v1/policies/${id}`,
-	);
+	const policy = await fetchJson<{
+		data: Policy;
+	}>(`https://election.ptp.or.th/api/v1/policies/${id}`);
 
 	output.push({
 		url: `https://election.ptp.or.th/policy/${id}`,
@@ -69,7 +57,7 @@ for (const id of policyIds) {
 			).textContent as string
 		)
 			.split('\n')
-			.filter((line) => line.trim())
+			.map((line) => line.trim())
 			.filter((line) => line)
 			.join('\n'),
 	});

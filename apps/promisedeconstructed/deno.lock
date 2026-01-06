@@ -36,6 +36,7 @@
         "npm:embla-carousel@^8.6.0",
         "npm:eslint-config-next@16.0.7",
         "npm:eslint@9",
+        "npm:motion@^12.23.26",
         "npm:next@16.0.7",
         "npm:react-dom@19.2.3",
         "npm:react-markdown@^10.1.0",

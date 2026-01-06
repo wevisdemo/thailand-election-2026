@@ -1,6 +1,7 @@
 // %%
 import { DOMParser } from 'jsr:@b-fuze/deno-dom';
 import { stringify } from 'jsr:@std/csv';
+import { fetchJson } from './fetch';
 
 interface Response {
 	policyLevel3All: PolicyLevelAll[];
@@ -21,15 +22,10 @@ interface ContentBlock {
 }
 
 // %%
-const res = await fetch(
+
+const data = await fetchJson<Response>(
 	'https://election69.peoplesparty.or.th/data/policy.json',
 );
-
-if (!res.ok) {
-	throw res.statusText;
-}
-
-const data: Response = await res.json();
 
 console.log(data.policyLevel3All.length);
 console.log(data.policyLevel4All.length);
