@@ -26,7 +26,7 @@ export default function PartyList({ parties }: PartyListProps) {
 		</div>
 	) : (
 		<div>
-			<p className="text-gray-2 text-[14px]">ไม่พบรายชื่อพรรคการเมืองนี้</p>
+			<p className="text-gray-2 text-[14px]">ไม่พบพรรคการเมืองนี้ลงสมัคร</p>
 		</div>
 	);
 }

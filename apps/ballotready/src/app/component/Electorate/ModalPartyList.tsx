@@ -23,12 +23,16 @@ export default function ModalPartyList({
 		onClose();
 	};
 
+	const hasPositioningPartyList = () => {
+		return party.partyList.filter((p) => p.hasPreviousPosition).length > 0;
+	};
+
 	return (
 		<div
 			className="bg-opacity-50 fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-transparent"
 			onClick={handleBackdropClick}
 		>
-			<div className="relative flex w-full max-w-[292px] flex-col gap-[8px] rounded-[16px] border-[2px] bg-white p-[16px] text-[14px]">
+			<div className="relative flex max-h-[80vh] w-full max-w-[292px] flex-col gap-[8px] rounded-[16px] border-[2px] bg-white p-[16px] text-[14px]">
 				<img
 					className="absolute right-[16px] w-[37px] hover:cursor-pointer"
 					src="/ballotready/cross-icon.svg"
@@ -42,14 +46,17 @@ export default function ModalPartyList({
 						<span className="font-bold"> {party.partyList.length} คน</span>
 					</p>
 				</div>
-				<p className="text-b5 flex text-[#0EA177]">
-					<img
-						className="mr-[4px]"
-						src="/ballotready/green-bookmark.svg"
-						alt="green-bookmark"
-					/>
-					เคยมีตำแหน่งในสภาสมัยที่แล้ว
-				</p>
+				{hasPositioningPartyList() && (
+					<p className="text-b5 flex text-[#0EA177]">
+						<img
+							className="mr-[4px]"
+							src="/ballotready/green-bookmark.svg"
+							alt="green-bookmark"
+						/>
+						เคยมีตำแหน่งในสภาสมัยที่แล้ว
+					</p>
+				)}
+
 				<div className="overflow-x-auto">
 					<table className="w-full border-collapse">
 						<thead>
@@ -59,28 +66,30 @@ export default function ModalPartyList({
 							</tr>
 						</thead>
 						<tbody>
-							{party.partyList.map((candidate, index) => (
-								<tr key={index} className="border-b hover:bg-gray-50">
-									<td className="relative py-[8px] text-center">
-										{candidate.hasPreviousPosition && (
+							{party.partyList
+								.sort((a, b) => a.number - b.number)
+								.map((candidate, index) => (
+									<tr key={index} className="border-b hover:bg-gray-50">
+										<td className="relative py-[8px] text-center">
+											{candidate.hasPreviousPosition && (
+												<img
+													className="absolute top-1/2 left-1/2 z-10 w-[24px] -translate-x-1/2 -translate-y-1/2"
+													src="/ballotready/green-bookmark.svg"
+													alt="green-bookmark"
+												/>
+											)}
+											<span className="relative z-20">{candidate.number}</span>
+										</td>
+										<td className="flex justify-between py-[8px]">
+											<span>{candidate.name}</span>
 											<img
-												className="absolute top-1/2 left-1/2 z-10 w-[24px] -translate-x-1/2 -translate-y-1/2"
-												src="/ballotready/green-bookmark.svg"
-												alt="green-bookmark"
+												className="hover:cursor-pointer"
+												src="/ballotready/new-tab-grey.svg"
+												alt="new-tab-grey-icon"
 											/>
-										)}
-										<span className="relative z-20">{candidate.number}</span>
-									</td>
-									<td className="flex justify-between py-[8px]">
-										<span>{candidate.name}</span>
-										<img
-											className="hover:cursor-pointer"
-											src="/ballotready/new-tab-grey.svg"
-											alt="new-tab-grey-icon"
-										/>
-									</td>
-								</tr>
-							))}
+										</td>
+									</tr>
+								))}
 						</tbody>
 					</table>
 				</div>
