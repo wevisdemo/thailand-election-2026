@@ -3,6 +3,7 @@ export type ConstituencyMap = Record<string, Candidate[]>;
 export interface Candidate {
 	name: string;
 	number: number;
+	image: string | null;
 	birthDate: string | null;
 	education: string;
 	previousOccupation: string;

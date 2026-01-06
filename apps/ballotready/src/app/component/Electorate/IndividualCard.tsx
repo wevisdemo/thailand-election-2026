@@ -27,7 +27,7 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 	}
 
 	return (
-		<div className="flex w-full flex-col">
+		<div className="flex w-full flex-col py-[8px]">
 			<div className="relative flex border-t-[1px]">
 				<div className="flex w-[40px] flex-col items-center justify-center bg-black p-[8px]">
 					<p className="text-[10px] text-white">เบอร์</p>
@@ -39,8 +39,8 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 					<div className="flex">
 						<div className="relative flex h-fit">
 							<img
-								className="w-[40px] rounded-full"
-								src={'/ballotready/dummie-candidate.svg'}
+								className="h-[40px] w-[40px] rounded-full object-contain"
+								src={candidate.image || '/ballotready/dummie-candidate.svg'}
 								alt={candidate.name}
 							/>
 							{candidate.party.image && (
@@ -67,11 +67,13 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 						onClick={() => setExpanded(!expanded)}
 					/>
 				</div>
-				<img
-					className="absolute top-0 right-[24px] w-[15px]"
-					src="/ballotready/green-bookmark.svg"
-					alt="green-bookmark"
-				/>
+				{candidate.hasPreviousPosition && (
+					<img
+						className="absolute top-0 right-[24px] w-[15px]"
+						src="/ballotready/green-bookmark.svg"
+						alt="green-bookmark"
+					/>
+				)}
 			</div>
 			{expanded && (
 				<div className="flex flex-col gap-[16px] py-[8px]">
@@ -79,7 +81,7 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 						<tbody>
 							<tr>
 								<th
-									className="mr-[6px] text-[16px] font-normal text-[#9A9A9A]"
+									className="mr-[6px] w-[72px] text-[16px] font-normal text-[#9A9A9A]"
 									scope="row"
 								>
 									อายุ
@@ -92,7 +94,7 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 							</tr>
 							<tr>
 								<th
-									className="mr-[6px] text-[16px] font-normal text-[#9A9A9A]"
+									className="mr-[6px] w-[72px] text-[16px] font-normal text-[#9A9A9A]"
 									scope="row"
 								>
 									การศึกษา
@@ -103,7 +105,7 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 							</tr>
 							<tr>
 								<th
-									className="mr-[6px] text-[16px] font-normal text-[#9A9A9A]"
+									className="mr-[6px] w-[72px] text-[16px] font-normal text-[#9A9A9A]"
 									scope="row"
 								>
 									อาชีพเดิม
@@ -115,7 +117,25 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 						</tbody>
 					</table>
 					<div>
-						{candidate.hasPreviousPosition ? (
+						{candidate.hasPreviousPosition && (
+							<p className="text-[14px] text-[#0EA177]">เคยมีตำแหน่งในสภา</p>
+						)}
+						{candidate.externalLinks.map((link) => {
+							return (
+								<a
+									key={`${candidate.name}-${link.label}`}
+									className="flex justify-between md:justify-start"
+									target="_blank"
+									href={link.url}
+								>
+									<span className="text-[14px] text-[#6140D2] underline">
+										{link.label}
+									</span>
+									<img src="/ballotready/new-tab.svg" alt="new-tab-icon" />
+								</a>
+							);
+						})}
+						{/* {candidate.hasPreviousPosition ? (
 							<>
 								<p className="text-[14px] text-[#0EA177]">เคยมีตำแหน่งในสภา</p>
 								<a
@@ -140,9 +160,9 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 								</span>
 								<img src="/ballotready/new-tab.svg" alt="new-tab-icon" />
 							</a>
-						)}
+						)} */}
 
-						<a
+						{/* <a
 							className="flex justify-between md:justify-start"
 							target="_blank"
 							href=""
@@ -151,7 +171,7 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 								ส่องนโยบายพรรคที่สังกัด
 							</span>
 							<img src="/ballotready/new-tab.svg" alt="new-tab-icon" />
-						</a>
+						</a> */}
 					</div>
 				</div>
 			)}

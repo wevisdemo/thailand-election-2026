@@ -38,15 +38,18 @@ const PageTemplate = (props: ElectorateTemplateProps): React.ReactElement => {
 			<div className="flex flex-col">
 				<ElectionNavbar />
 				<div className="flex flex-col gap-[16px] px-[16px] py-[16px] md:px-[32px]">
-					<button className="flex items-center gap-[4px] hover:cursor-pointer">
+					<a
+						href="/ballotready"
+						className="flex items-center gap-[4px] hover:cursor-pointer"
+					>
 						<img
 							className="w-[40px]"
 							src="/ballotready/left-arrow.svg"
 							alt="left-arrow"
 						/>
 						<p className="text-[14px] font-bold">กลับไปหน้าแรก</p>
-					</button>
-					<div className="m-auto grid max-w-[600px] justify-center gap-[16px]">
+					</a>
+					<div className="m-auto flex w-full max-w-[600px] flex-col justify-center gap-[16px]">
 						<ElectorateCard electoralDistrict={props.electoralDistrict} />
 						<BallotRemind />
 						<PartyListSection

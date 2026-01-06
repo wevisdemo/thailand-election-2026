@@ -25,6 +25,16 @@ export default function PartyListSection({
 	const [individualSearch, setIndividualSearch] = useState('');
 	const [partySearch, setPartySearch] = useState('');
 	const [openModalPartyList, setOpenModalPartyList] = useState<boolean>(false);
+
+	const getAmountOfPreviousPositionCandidates = () => {
+		return getCandidatesDisplay().filter((c) => c.hasPreviousPosition).length;
+	};
+
+	const getCandidatesDisplay = () => {
+		if (individualSearch === '') return candidates;
+		const regex = new RegExp(`(${individualSearch})`, 'gi');
+		return candidates.filter((c) => c.party.name.match(regex));
+	};
 	return (
 		<div>
 			<div className="flex w-full">
@@ -45,7 +55,10 @@ export default function PartyListSection({
 				<div className="relative top-[-2px] flex w-full flex-col items-center gap-[16px] rounded-tr-[16px] rounded-br-[16px] rounded-bl-[16px] border-[2px] bg-white px-[16px] py-[24px] md:px-[52px]">
 					<div className="text-center">
 						<h5 className="text-h8 font-kondolar">
-							ทั้งหมด <span className="font-bold">xx คน</span>
+							ทั้งหมด{' '}
+							<span className="font-bold">
+								{getCandidatesDisplay().length} คน
+							</span>
 						</h5>
 						<p className="text-b5 flex text-[#0EA177]">
 							<img
@@ -53,17 +66,20 @@ export default function PartyListSection({
 								src="/ballotready/green-bookmark.svg"
 								alt="green-bookmark"
 							/>
-							เคยมีตำแหน่งในสภาสมัยที่แล้ว{' '}
-							<span className="font-bold">xx คน</span>
+							เคยมีตำแหน่งในสภาสมัยที่แล้ว &nbsp;
+							<span className="font-bold">
+								{getAmountOfPreviousPositionCandidates()} คน
+							</span>
 						</p>
 					</div>
 					<SearchInput
 						placeholder="ค้นหาจากชื่อพรรคการเมือง"
 						textInput={individualSearch}
 						onChangeTextInput={(e) => setIndividualSearch(e.target.value)}
+						resetTextInput={() => setIndividualSearch('')}
 					/>
 
-					<IndividualList candidates={candidates} />
+					<IndividualList candidates={getCandidatesDisplay()} />
 				</div>
 			)}
 			{voteType === 'party' && (
@@ -86,6 +102,7 @@ export default function PartyListSection({
 						placeholder="ค้นหาชื่อพรรคการเมือง"
 						textInput={partySearch}
 						onChangeTextInput={(e) => setPartySearch(e.target.value)}
+						resetTextInput={() => setPartySearch('')}
 					/>
 
 					<PartyList parties={parties} />

@@ -6,11 +6,15 @@ interface IndividualListProps {
 }
 
 export default function IndividualList({ candidates }: IndividualListProps) {
-	return (
+	return candidates.length > 0 ? (
 		<div className="w-full">
 			{candidates.map((candidate, index) => (
 				<IndividualCard key={index} candidate={candidate} />
 			))}
+		</div>
+	) : (
+		<div>
+			<p className="text-gray-2 text-[14px]">ไม่พบผู้สมัครจากพรรคการเมืองนี้</p>
 		</div>
 	);
 }

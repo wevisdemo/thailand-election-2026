@@ -8,7 +8,8 @@ import {
 export default function AboutPage() {
 	return (
 		<div>
-			<button
+			<a
+				href="/ballotready"
 				className="flex items-center gap-[4px] p-[10px] hover:cursor-pointer"
 				onClick={() => {
 					window.location.href = '/ballotready';
@@ -20,7 +21,7 @@ export default function AboutPage() {
 					alt="left-arrow"
 				/>
 				<p className="text-[14px]">กลับไปหน้าแรก</p>
-			</button>
+			</a>
 			<h1 className="font-kondolar text-h3 py-[72px] text-center font-bold">
 				เกี่ยวกับโครงการ
 			</h1>

@@ -3,6 +3,7 @@
 interface SearchInputProps {
 	placeholder?: string;
 	textInput: string;
+	resetTextInput: () => void;
 	onFocus?: () => void;
 	onChangeTextInput?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -10,6 +11,7 @@ interface SearchInputProps {
 export default function SearchInput({
 	placeholder,
 	textInput,
+	resetTextInput,
 	onFocus = () => {},
 	onChangeTextInput,
 }: SearchInputProps) {
@@ -24,11 +26,20 @@ export default function SearchInput({
 				onChange={onChangeTextInput}
 				onFocus={onFocus}
 			/>
-			<img
-				className="absolute top-1/2 right-[0px] mr-[8px] w-[40px] -translate-y-1/2"
-				src="/ballotready/search-icon.svg"
-				alt="search-icon"
-			/>
+			{textInput.length === 0 ? (
+				<img
+					className="absolute top-1/2 right-[0px] mr-[8px] w-[40px] -translate-y-1/2"
+					src="/ballotready/search-icon.svg"
+					alt="search-icon"
+				/>
+			) : (
+				<img
+					className="absolute top-1/2 right-[0px] mr-[8px] w-[40px] -translate-y-1/2 hover:cursor-pointer"
+					src="/ballotready/cross-icon.svg"
+					alt="cross-icon"
+					onClick={resetTextInput}
+				/>
+			)}
 		</div>
 	);
 }
