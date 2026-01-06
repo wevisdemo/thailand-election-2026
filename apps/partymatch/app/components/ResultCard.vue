@@ -2,7 +2,7 @@
 import heartMatchImg from '~/assets/images/heart-match.svg';
 import heartUnMatchImg from '~/assets/images/heart-unmatch.svg';
 import heartParty from '~/assets/images/heart-party.svg';
-
+import heartIcon from '~/assets/images/heart-icon.svg';
 const props = defineProps({
 	partyAnswers: { type: Array, required: true },
 	matchAnswers: { type: Object, required: true },
@@ -108,7 +108,7 @@ function calculateScore(partyAnswersArray) {
 			<div class="flex h-full flex-col items-center gap-4">
 				<div class="font-kondolar text-h9 flex flex-row gap-1 font-bold">
 					<h2>มติพรรคที่<span v-if="selectedParty?.id">เลือก</span></h2>
-					<img src="assets/images/heart-icon.svg" class="h-6 w-6" />
+					<img :src="heartIcon" class="h-6 w-6" />
 					<h2>ใจตรงกับ</h2>
 					<svg
 						width="24"
