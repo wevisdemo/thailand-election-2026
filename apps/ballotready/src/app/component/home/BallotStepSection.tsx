@@ -7,7 +7,7 @@ export default function BallotStepSection() {
 					ในวันเลือกตั้ง คุณต้องเข้าคูหา 2 ครั้ง
 				</p>
 			</div>
-			<div className="flex flex-col gap-[25px] md:flex-row md:gap-0">
+			<div className="flex max-w-[880px] flex-col gap-[25px] md:flex-row md:gap-0">
 				<div className="grid max-w-[600px] grid-cols-3 gap-[4px] text-center">
 					<div className="flex flex-col items-center">
 						<p className="font-kondolar h-[24px] w-[24px] rounded-full bg-white text-center text-[18px] font-bold">

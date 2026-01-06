@@ -162,23 +162,27 @@ export default function ElectorateAutoComplete({
 				<ul className="absolute top-[100%] left-0 max-h-[260px] w-full overflow-scroll rounded-[16px] border bg-white text-left">
 					{getElectoralDistrictsFromLabel(districtLabelSelected).map(
 						(option, index) => (
-							<li
+							<a
+								href={`ballotready/electorate/${option.province}-${option.electoralDistrictNumber}`}
 								key={index}
-								className="hover:bg-gray1 relative border-b px-[24px] py-[16px] last:border-0 hover:cursor-pointer hover:bg-[#9A9A9A]"
-								onClick={() => {}}
 							>
-								<p className="font-bold">
-									{option.province} เชตเลือกตั้งที่{' '}
-									{option.electoralDistrictNumber}
-								</p>
-								<ul className="list-inside list-disc">
-									{option.districts.map((d, index) => (
-										<li className="ml-[8px]" key={`d-${index}`}>
-											อำเภอ{d.name} ({d.subDistricts.length} ตำบล)
-										</li>
-									))}
-								</ul>
-							</li>
+								<li
+									className="hover:bg-gray1 relative border-b px-[24px] py-[16px] last:border-0 hover:cursor-pointer hover:bg-[#9A9A9A]"
+									onClick={() => {}}
+								>
+									<p className="font-bold">
+										{option.province} เชตเลือกตั้งที่{' '}
+										{option.electoralDistrictNumber}
+									</p>
+									<ul className="list-inside list-disc">
+										{option.districts.map((d, index) => (
+											<li className="ml-[8px]" key={`d-${index}`}>
+												อำเภอ{d.name} ({d.subDistricts.length} ตำบล)
+											</li>
+										))}
+									</ul>
+								</li>
+							</a>
 						),
 					)}
 				</ul>
