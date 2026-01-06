@@ -22,7 +22,13 @@
 					</div>
 					<div class="flex gap-2">
 						<p>{{ result }}</p>
-						<p class="text-h12 font-kondolar font-bold">{{ resultPct }}%</p>
+						<p
+							v-if="result != 'เสียงแตก'"
+							class="text-h12 font-kondolar font-bold"
+						>
+							{{ resultPct }}%
+						</p>
+						<p v-else class="text-h12 font-kondolar font-bold">50/50%</p>
 					</div>
 				</div>
 				<!-- bar chart -->
