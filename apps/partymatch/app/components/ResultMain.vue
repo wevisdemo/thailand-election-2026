@@ -2,7 +2,7 @@
 import InfoPopup from './InfoPopup.vue';
 import html2canvas from 'html2canvas';
 import ResultCard from './ResultCard.vue';
-import IconButton from './IconButton.vue';
+import ButtonIcon from './ButtonIcon.vue';
 import ogPromise from '~/assets/images/og-promise.png';
 import ogPW from '~/assets/images/og-pw.png';
 
@@ -146,7 +146,7 @@ const handleSaveClick = async () => {
 			<div
 				class="mx-auto flex w-full flex-col items-center justify-center gap-4 self-center md:flex-row"
 			>
-				<IconButton
+				<ButtonIcon
 					:buttonText="saveButtonText"
 					:buttonIcon="saveButtonIcon"
 					@click="handleSaveClick"
