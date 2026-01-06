@@ -2,11 +2,12 @@
 import { marked } from 'marked';
 import QuizChoices from './QuizChoice.vue';
 import PartyVotes from './PartyVotes.vue';
-import arrowNext from '~/assets/images/arrow-next.svg';
-import heartIcon from '~/assets/images/heart-icon.svg';
+import IconNext from './icons/IconNext.vue';
+import IconHeart from './icons/IconHeart.vue';
 import IconAbstain from './icons/IconAbstain.vue';
 import IconAgree from './icons/IconAgree.vue';
 import IconDisagree from './icons/IconDisagree.vue';
+import IconChevron from './icons/IconChevron.vue';
 
 const props = defineProps({
 	questionsData: { type: Array, required: true },
@@ -275,7 +276,7 @@ onUnmounted(() => observer?.disconnect());
 						</h3>
 						<div
 							v-html="renderedDescription"
-							class="markdown-content text-left"
+							class="text-left [&_ul]:ml-6 [&_ul]:list-disc"
 						></div>
 					</div>
 				</div>
@@ -283,7 +284,7 @@ onUnmounted(() => observer?.disconnect());
 					v-if="isOverflowing"
 					class="0% 25% 100% sticky -bottom-6 flex h-14 w-full shrink-0 items-center justify-center bg-gradient-to-t from-white via-white to-transparent"
 				>
-					<img src="/img/chevron-down.svg" class="h-6" />
+					<IconChevron class="h-6" />
 				</div>
 			</div>
 			<img src="/img/card-side.png" class="h-60 py-4 md:h-80" />
@@ -329,10 +330,11 @@ onUnmounted(() => observer?.disconnect());
 			<div class="flex h-8 w-40 items-center justify-start">
 				<button
 					v-if="currentQuestionIndex > 0"
-					class="flex cursor-pointer items-center gap-1 self-center hover:font-bold md:gap-2"
+					class="hover:text-purple-1 flex cursor-pointer items-center gap-1 self-center hover:font-bold md:gap-2"
 					@click="currentQuestionIndex--"
 				>
-					<img :src="arrowNext" class="h-6 scale-x-[-1] md:h-8" /> กลับ
+					<IconNext class="h-6 scale-x-[-1] md:h-8" />
+					กลับ
 				</button>
 			</div>
 
@@ -342,7 +344,7 @@ onUnmounted(() => observer?.disconnect());
 					hasClicked &&
 					explainMessage !== 'ยังไม่มีชื่อตอนโหวต'
 				"
-				class="hover:bg-gray-3 mx-auto cursor-pointer self-center rounded-full border-3 bg-white px-4 py-2 font-bold text-nowrap md:self-end"
+				class="hover:text-purple-1 mx-auto cursor-pointer self-center rounded-full border-3 bg-white px-4 py-2 font-bold text-nowrap hover:bg-[#F5EEE5] md:self-end"
 				@click.stop="showPartyResult = true"
 			>
 				ดูผลลงมติพรรค
@@ -353,13 +355,16 @@ onUnmounted(() => observer?.disconnect());
 				:class="{
 					'font-bold': isLastQuestion,
 					'cursor-not-allowed opacity-50': !hasClicked,
-					'cursor-pointer hover:font-bold': hasClicked,
+					'hover:text-purple-1 cursor-pointer hover:font-bold': hasClicked,
 				}"
 				:disabled="!hasClicked"
 				@click="handleNextClick"
 			>
 				{{ isLastQuestion ? 'ดูผลลัพธ์' : 'ไปต่อ' }}
-				<img :src="isLastQuestion ? heartIcon : arrowNext" class="h-6 md:h-8" />
+				<component
+					:is="isLastQuestion ? IconHeart : IconNext"
+					class="h-6 md:h-8"
+				/>
 			</button>
 		</div>
 
@@ -388,9 +393,3 @@ onUnmounted(() => observer?.disconnect());
 		</Transition>
 	</div>
 </template>
-<style scoped>
-.markdown-content :deep(ul) {
-	list-style-type: disc;
-	margin-left: 1.5rem;
-}
-</style>

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
+import IconClose from './icons/IconClose.vue';
 defineProps({
 	billTitle: String,
 	partyLogo: String,
@@ -27,10 +28,9 @@ onClickOutside(popupContainer, () => {
 				<h3 class="underline">ผลลงมติพรรค</h3>
 				<h4>{{ billTitle }}</h4>
 			</div>
-			<img
-				src="/img/icon-close.svg"
+			<IconClose
+				class="hover:text-purple-1 cursor-pointer self-start"
 				@click="$emit('close')"
-				class="cursor-pointer self-start"
 			/>
 		</div>
 		<div class="flex flex-col gap-6">
@@ -125,7 +125,7 @@ onClickOutside(popupContainer, () => {
 					/>
 				</svg>
 			</a>
-			<p class="text-b6 text-purple-1">
+			<p class="text-b6 text-gray-1">
 				* ข้อมูลการสังกัดพรรคและฝ่ายในสภาฯ ยึดตามข้อมูล ณ วันที่ลงมติ
 				ซึ่งเป็นไปได้ว่าในวันนั้นมีอาจ สส.ที่ไม่มีสังกัดพรรคร่วมลงมติ
 				เพราะอาจอยู่ระหว่างการย้ายพรรคการเมือง หรือเพิ่งโดนขับออกจากพรรค เป็นต้น

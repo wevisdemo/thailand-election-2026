@@ -1,7 +1,7 @@
 <script setup>
 import InfoPopup from './InfoPopup.vue';
-import { onClickOutside } from '@vueuse/core';
 import ProfilePic from '~/assets/images/profile-pic.svg';
+import IconInfo from './icons/IconInfo.vue';
 
 const props = defineProps({
 	buttonClass: {
@@ -92,10 +92,9 @@ const isInfoPopupVisible = ref(false);
 			</div>
 		</button>
 		<span class="mt-2">{{ label }}</span>
-		<img
+		<IconInfo
 			v-if="showInfoIcon"
-			src="/img/icon-info.svg"
-			class="z-1 h-6 cursor-pointer opacity-50 hover:opacity-100"
+			class="hover:text-purple-1 z-1 h-6 cursor-pointer"
 			@click.stop="isInfoPopupVisible = true"
 		/>
 		<Teleport to="body">

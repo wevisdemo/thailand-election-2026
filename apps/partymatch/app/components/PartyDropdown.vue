@@ -1,4 +1,6 @@
 <script setup>
+import IconChevron from './icons/IconChevron.vue';
+
 const props = defineProps({
 	options: {
 		type: Array,
@@ -37,7 +39,7 @@ const selectOption = (option) => {
 <template>
 	<div class="dropdown-container relative w-full">
 		<div
-			class="flex h-13 w-full cursor-pointer flex-row items-center justify-between rounded-full border-2 border-black bg-white pr-4 pl-6"
+			class="flex h-13 w-full cursor-pointer flex-row items-center justify-between rounded-full border-2 border-black bg-white pr-4 pl-6 hover:border-3"
 			@click="toggleDropdown"
 		>
 			<div class="flex w-full items-center gap-4">
@@ -56,10 +58,9 @@ const selectOption = (option) => {
 					}}
 				</span>
 			</div>
-			<img
-				src="/img/chevron-down.svg"
+			<IconChevron
 				:class="{ 'rotate-180': isOpen }"
-				class="transition-transform"
+				class="hover:text-purple-1 h-8 w-8 transition-transform"
 			/>
 		</div>
 

@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
+import IconClose from './icons/IconClose.vue';
+import IconInfo from './icons/IconInfo.vue';
 const props = defineProps({
 	title: String,
 	content: String,
@@ -25,14 +27,10 @@ const closePopup = () => {
 		>
 			<div class="flex w-full justify-between">
 				<div class="flex flex-row gap-2">
-					<img src="/img/icon-info.svg" class="h-6 w-6" />
+					<IconInfo class="h-6 w-6" />
 					<h3 class="text-h10 font-kondolar font-bold">{{ title }}</h3>
 				</div>
-				<img
-					src="/img/icon-close.svg"
-					class="h-6 w-6 cursor-pointer"
-					@click.stop="closePopup"
-				/>
+				<IconClose class="h-6 w-6 cursor-pointer" @click.stop="closePopup" />
 			</div>
 			<div v-html="content"></div>
 		</div>

@@ -6,6 +6,7 @@ import ButtonIcon from './ButtonIcon.vue';
 import ogPromise from '~/assets/images/og-promise.png';
 import ogPW from '~/assets/images/og-pw.png';
 import IconHeart from './icons/IconHeart.vue';
+import IconInfo from './icons/IconInfo.vue';
 
 const props = defineProps({
 	matchAnswers: Object,
@@ -180,8 +181,7 @@ const hearts = Array.from({ length: 50 }, (_, i) => ({
 					class="font-kondolar hover:bg-green-2 bg-green-3 flex h-12 w-full cursor-pointer flex-row items-center justify-center gap-2 rounded-full border-2 pr-6 pl-4 font-bold text-nowrap hover:border-3 md:w-auto"
 				>
 					<svg
-						width="24"
-						height="24"
+						class="h-6 w-6 hover:-rotate-45"
 						viewBox="0 0 24 24"
 						fill="none"
 						xmlns="http://www.w3.org/2000/svg"
@@ -200,7 +200,7 @@ const hearts = Array.from({ length: 50 }, (_, i) => ({
 				@click="isInfoPopupVisible = true"
 			>
 				<p>ดูวิธีคำนวณคะแนน</p>
-				<img src="/img/icon-info.svg" class="h-4" />
+				<IconInfo class="h-4 w-4" />
 			</div>
 		</div>
 		<InfoPopup
@@ -208,8 +208,10 @@ const hearts = Array.from({ length: 50 }, (_, i) => ({
 			title="วิธีคำนวณคะแนน"
 			class="fixed top-1/2 left-1/2 z-2 -translate-x-1/2 -translate-y-1/2 transform"
 			content="นับคะแนนจากตัวเลือกที่คุณเลือก 10 ข้อ เทียบกับกับมติพรรค<br />
+			<ul class='list-disc pl-4 mt-2'>
 			<li>ถ้าตรงกันจะนับเป็น 1 คะแนน หรือ 10%</li>
-			<li>ยกเว้นในกรณีที่เป็นมติ <b>เสียงแตก</b> ผลการลงมติของคนในพรรคเท่ากัน จะนับเป็น 0.5 คะแนน หรือ 5%</li>"
+			<li>ยกเว้นในกรณีที่เป็นมติ <b>เสียงแตก</b> ผลการลงมติของคนในพรรคเท่ากัน จะนับเป็น 0.5 คะแนน หรือ 5%</li>
+			</ul>"
 			@close="isInfoPopupVisible = false"
 		/>
 	</div>
