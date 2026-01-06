@@ -156,16 +156,6 @@ const handleChoiceClick = (label) => {
 			currentPartyAnswer.value?.party_answer,
 		);
 	}
-
-	// resultMessage.value = isAnswerMatch(label) ? "It's a match!" : 'Not match!';
-
-	// const statusMap = {
-	// 	absent: 'ไม่เข้าประชุมเกินครึ่ง',
-	// 	'agree, disagree': 'เสียงแตก',
-	// 	undefined: 'ยังไม่มีชื่อตอนโหวต',
-	// };
-	// explainMessage.value =
-	// 	statusMap[currentPartyAnswer.value?.party_answer] || '';
 };
 
 const handleNextClick = () => {
@@ -251,7 +241,7 @@ onUnmounted(() => observer?.disconnect());
 </script>
 
 <template>
-	<div class="relative flex h-full flex-col">
+	<div class="relative flex h-full flex-col overflow-hidden">
 		<!-- Progress bar -->
 		<div class="section w-full pt-2 pb-4">
 			<div
@@ -353,7 +343,7 @@ onUnmounted(() => observer?.disconnect());
 					explainMessage !== 'ยังไม่มีชื่อตอนโหวต'
 				"
 				class="hover:bg-gray-3 mx-auto cursor-pointer self-center rounded-full border-3 bg-white px-4 py-2 font-bold text-nowrap md:self-end"
-				@click="showPartyResult = true"
+				@click.stop="showPartyResult = true"
 			>
 				ดูผลลงมติพรรค
 			</button>
@@ -374,19 +364,28 @@ onUnmounted(() => observer?.disconnect());
 		</div>
 
 		<!-- Party Votes Popup -->
-		<PartyVotes
-			v-if="showPartyResult"
-			class="absolute"
-			:billTitle="currentQuestion.title"
-			:partyLogo="partyLogo"
-			:partyName="partyName"
-			:partyCount="currentPartyAnswer?.party_count"
-			:result="partyAnswerLabel"
-			:resultPct="partyAnswerPct"
-			:votes="partyVotes"
-			:pwUrl="currentQuestion.pw_url"
-			@click="handleClose"
-		/>
+		<Transition
+			enter-active-class="transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
+			leave-active-class="transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
+			enter-from-class="translate-y-full"
+			enter-to-class="translate-y-0"
+			leave-from-class="translate-y-0"
+			leave-to-class="translate-y-full"
+		>
+			<PartyVotes
+				v-if="showPartyResult"
+				class="absolute"
+				:billTitle="currentQuestion.title"
+				:partyLogo="partyLogo"
+				:partyName="partyName"
+				:partyCount="currentPartyAnswer?.party_count"
+				:result="partyAnswerLabel"
+				:resultPct="partyAnswerPct"
+				:votes="partyVotes"
+				:pwUrl="currentQuestion.pw_url"
+				@close="handleClose"
+			/>
+		</Transition>
 	</div>
 </template>
 <style scoped>

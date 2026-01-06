@@ -51,8 +51,6 @@ const props = defineProps({
 });
 
 const isInfoPopupVisible = ref(false);
-const popupContainer = ref(null);
-onClickOutside(popupContainer, () => (isInfoPopupVisible.value = false));
 </script>
 
 <template>

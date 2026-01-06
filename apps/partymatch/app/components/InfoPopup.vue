@@ -1,3 +1,20 @@
+<script setup>
+import { ref } from 'vue';
+import { onClickOutside } from '@vueuse/core';
+const props = defineProps({
+	title: String,
+	content: String,
+});
+
+const emit = defineEmits(['close']);
+const popupContainer = ref(null);
+onClickOutside(popupContainer, () => {
+	emit('close');
+});
+const closePopup = () => {
+	emit('close');
+};
+</script>
 <template>
 	<div
 		class="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.5)]"
@@ -21,44 +38,3 @@
 		</div>
 	</div>
 </template>
-<script>
-export default {
-	props: {
-		title: {
-			type: String,
-			required: true,
-		},
-		content: {
-			type: String,
-			required: true,
-		},
-	},
-	setup(props, { emit }) {
-		const popupContainer = ref(null);
-		const closePopup = () => {
-			emit('close');
-		};
-
-		const handleClickOutside = (event) => {
-			if (
-				popupContainer.value &&
-				!popupContainer.value.contains(event.target)
-			) {
-				closePopup();
-			}
-		};
-
-		onMounted(() => {
-			document.addEventListener('mousedown', handleClickOutside);
-		});
-
-		onUnmounted(() => {
-			document.removeEventListener('mousedown', handleClickOutside);
-		});
-		return {
-			popupContainer,
-			closePopup,
-		};
-	},
-};
-</script>
