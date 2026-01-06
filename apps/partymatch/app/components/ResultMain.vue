@@ -1,10 +1,11 @@
 <script setup>
-import InfoPopup from './InfoPopup.vue';
 import html2canvas from 'html2canvas';
+import InfoPopup from './InfoPopup.vue';
 import ResultCard from './ResultCard.vue';
 import ButtonIcon from './ButtonIcon.vue';
 import ogPromise from '~/assets/images/og-promise.png';
 import ogPW from '~/assets/images/og-pw.png';
+import IconHeart from './icons/IconHeart.vue';
 
 const props = defineProps({
 	matchAnswers: Object,
@@ -113,6 +114,15 @@ const handleSaveClick = async () => {
 		isSaving.value = false;
 	}, 2000);
 };
+
+const hearts = Array.from({ length: 50 }, (_, i) => ({
+	id: i,
+	x: Math.random() * 100,
+	y: Math.random() * 100,
+	scale: Math.random() * 4 + 0.5,
+	duration: Math.random() * 3 + 2,
+	delay: Math.random() * 2,
+}));
 </script>
 
 <template>
@@ -120,7 +130,21 @@ const handleSaveClick = async () => {
 	<div
 		class="bg-green-3 relative flex flex-col p-4 md:min-h-[calc(100vh-56px)] md:p-10"
 	>
-		<div class="center flex flex-col items-center">
+		<div class="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+			<IconHeart
+				v-for="heart in hearts"
+				:key="heart.id"
+				class="animate-heart-pop absolute text-white opacity-0"
+				:style="{
+					left: `${heart.x}%`,
+					top: `${heart.y}%`,
+					'--heart-scale': heart.scale,
+					animationDuration: `${heart.duration}s`,
+					animationDelay: `${heart.delay}s`,
+				}"
+			/>
+		</div>
+		<div class="center z-1 flex flex-col items-center">
 			<ResultCard
 				id="capture"
 				:matchLogo="partyLogo"
@@ -141,7 +165,7 @@ const handleSaveClick = async () => {
 		</div>
 
 		<div
-			class="mx-auto flex w-full flex-col items-center gap-4 self-center pt-6"
+			class="z-1 mx-auto flex w-full flex-col items-center gap-4 self-center pt-6"
 		>
 			<div
 				class="mx-auto flex w-full flex-col items-center justify-center gap-4 self-center md:flex-row"
@@ -153,7 +177,7 @@ const handleSaveClick = async () => {
 				/>
 				<button
 					@click="resetQuiz"
-					class="font-kondolar hover:bg-green-2 flex h-12 w-full cursor-pointer flex-row items-center justify-center gap-2 rounded-full border-2 pr-6 pl-4 font-bold text-nowrap hover:border-3 md:w-auto"
+					class="font-kondolar hover:bg-green-2 bg-green-3 flex h-12 w-full cursor-pointer flex-row items-center justify-center gap-2 rounded-full border-2 pr-6 pl-4 font-bold text-nowrap hover:border-3 md:w-auto"
 				>
 					<svg
 						width="24"
@@ -172,7 +196,7 @@ const handleSaveClick = async () => {
 			</div>
 			<div
 				href="#"
-				class="text-b6 flex cursor-pointer flex-row items-center gap-1 underline"
+				class="text-b6 hover:text-purple-1 flex cursor-pointer flex-row items-center gap-1 underline"
 				@click="isInfoPopupVisible = true"
 			>
 				<p>ดูวิธีคำนวณคะแนน</p>
@@ -238,3 +262,25 @@ const handleSaveClick = async () => {
 		</div>
 	</div>
 </template>
+<style scoped>
+.animate-heart-pop {
+	animation-name: heartPop;
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-in-out;
+}
+
+@keyframes heartPop {
+	0% {
+		opacity: 0;
+		transform: translateY(0) scale(0);
+	}
+	50% {
+		opacity: 0.8;
+		transform: translateY(-20px) scale(var(--heart-scale));
+	}
+	100% {
+		opacity: 0;
+		transform: translateY(-40px) scale(var(--heart-scale));
+	}
+}
+</style>
