@@ -1,3 +1,4 @@
+'use client';
 import {
 	ElectionNavbar,
 	ElectionButton,
@@ -36,7 +37,12 @@ export default function Intro() {
 			<BallotStepSection />
 			<div className="flex flex-col items-center gap-[10px] px-[16px] py-[32px]">
 				<ElectionSharer />
-				<ElectionButton className="typo-h9 font-kondolar self-center font-bold">
+				<ElectionButton
+					className="typo-h9 font-kondolar self-center font-bold"
+					onClick={() => {
+						window.location.href = '/ballotready/about';
+					}}
+				>
 					เกี่ยวกับโครงการ
 				</ElectionButton>
 			</div>
