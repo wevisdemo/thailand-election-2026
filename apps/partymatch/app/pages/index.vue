@@ -60,6 +60,7 @@ const startQuiz = () => {
 const resetState = () => {
 	showQuiz.value = false;
 	showResult.value = false;
+	selectedParty.value = null;
 };
 
 const handleShowResult = (answers) => {
