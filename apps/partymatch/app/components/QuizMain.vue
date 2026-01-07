@@ -59,6 +59,7 @@ const ANSWER_MAP = {
 		matchKey: ['เห็นด้วย', 'ไม่เห็นด้วย'],
 	},
 	absent: { label: 'ลา/ขาด', matchKey: null },
+	novote: { label: 'ไม่ลงคะแนน', matchKey: null },
 };
 
 const choiceConfigs = [
@@ -97,6 +98,11 @@ const partyVotes = computed(() => {
 			label: 'งดออกเสียง',
 			count: currentPartyAnswer.value.abstain_count,
 			color: '#9D9D9D',
+		},
+		{
+			label: 'ไม่ลงคะแนน',
+			count: currentPartyAnswer.value.novote_count,
+			color: 'black',
 		},
 		{
 			label: 'ลา/ขาด',

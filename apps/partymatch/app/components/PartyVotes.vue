@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import IconClose from './icons/IconClose.vue';
-defineProps({
+const props = defineProps({
 	billTitle: String,
 	partyLogo: String,
 	partyName: String,
@@ -16,6 +16,9 @@ const emit = defineEmits(['close']);
 const popupContainer = ref(null);
 onClickOutside(popupContainer, () => {
 	emit('close');
+});
+const sortedVotes = computed(() => {
+	return [...props.votes].sort((a, b) => b.count - a.count);
 });
 </script>
 <template>
@@ -52,9 +55,9 @@ onClickOutside(popupContainer, () => {
 					</div>
 				</div>
 				<!-- bar chart -->
-				<div class="flex h-6 w-full shadow">
+				<div class="bar-container flex h-6 w-full shadow">
 					<div
-						v-for="vote in votes"
+						v-for="vote in sortedVotes"
 						:key="vote.label"
 						:style="{
 							width: `${(vote.count / partyCount) * 100}%`,

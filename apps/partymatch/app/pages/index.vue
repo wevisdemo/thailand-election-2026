@@ -14,19 +14,6 @@ import PartyCard from '../components/PartyCard.vue';
 import QuizMain from '../components/QuizMain.vue';
 import ResultMain from '../components/ResultMain.vue';
 
-const logCurrentIds = () => {
-	const currentPartyId = selectedParty.value?.id || 'No party selected';
-	const currentBillId =
-		quizQuestions.value[currentQuestionIndex.value]?.id || 'No bill selected';
-	const currentQuizId =
-		quizQuestions.value[currentQuestionIndex.value]?.quiz_id ||
-		'No quiz selected';
-
-	console.log('Party ID:', currentPartyId);
-	console.log('Bill ID:', currentBillId);
-	console.log('Quiz ID:', currentQuizId);
-};
-
 const selectedParty = ref(null);
 const lottieContainer = ref(null);
 
@@ -149,6 +136,7 @@ const { data: electionData, pending } = await useAsyncData(
 					disagree_count: Column('disagree', asNumber()),
 					abstain_count: Column('abstain', asNumber()),
 					absent_count: Column('absent', asNumber()),
+					novote_count: Column('novote', asNumber()),
 				}),
 			),
 		]);
