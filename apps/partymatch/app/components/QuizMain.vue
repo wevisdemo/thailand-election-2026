@@ -254,13 +254,15 @@ onUnmounted(() => observer?.disconnect());
 		</div>
 
 		<!-- Question -->
-		<div class="mx-auto flex flex-row md:max-w-[40rem]">
+		<div
+			class="mx-auto flex h-80 max-h-[30dvh] flex-row sm:max-h-[60dvh] md:max-w-[40rem]"
+		>
 			<img
 				src="/img/card-side.png"
-				class="h-80 max-h-[30dvh] scale-x-[-1] transform py-4 sm:max-h-[60dvh] md:h-80"
+				class="h-full scale-x-[-1] transform py-4"
 			/>
 			<div
-				class="relative h-80 max-h-[30dvh] overflow-auto rounded-2xl bg-white p-4 text-center shadow-md [-ms-overflow-style:none] [scrollbar-width:none] sm:max-h-[60dvh] md:px-8 md:py-6 [&::-webkit-scrollbar]:hidden"
+				class="relative h-80 overflow-auto rounded-2xl bg-white p-4 text-center shadow-md [-ms-overflow-style:none] [scrollbar-width:none] md:px-8 md:py-6 [&::-webkit-scrollbar]:hidden"
 				ref="descriptionContainer"
 			>
 				<div ref="innerContent" class="flex flex-col gap-4">
@@ -282,15 +284,12 @@ onUnmounted(() => observer?.disconnect());
 				</div>
 				<div
 					v-if="isOverflowing"
-					class="0% 25% 100% sticky -bottom-6 flex h-14 w-full shrink-0 items-center justify-center bg-gradient-to-t from-white via-white to-transparent"
+					class="sticky -bottom-6 flex h-12 w-full shrink-0 items-center justify-center bg-gradient-to-t from-white via-white to-transparent"
 				>
 					<IconChevron class="h-6" />
 				</div>
 			</div>
-			<img
-				src="/img/card-side.png"
-				class="h-80 max-h-[30dvh] py-4 sm:max-h-[60dvh] md:h-80"
-			/>
+			<img src="/img/card-side.png" class="h-full py-4" />
 		</div>
 
 		<!-- Choices -->
