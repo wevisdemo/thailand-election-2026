@@ -257,10 +257,10 @@ onUnmounted(() => observer?.disconnect());
 		<div class="mx-auto flex flex-row md:max-w-[40rem]">
 			<img
 				src="/img/card-side.png"
-				class="h-60 scale-x-[-1] transform py-4 md:h-80"
+				class="h-80 max-h-[30dvh] scale-x-[-1] transform py-4 sm:max-h-[60dvh] md:h-80"
 			/>
 			<div
-				class="relative h-60 overflow-auto rounded-2xl bg-white p-4 text-center shadow-md [-ms-overflow-style:none] [scrollbar-width:none] md:h-80 md:px-8 md:py-6 [&::-webkit-scrollbar]:hidden"
+				class="relative h-80 max-h-[30dvh] overflow-auto rounded-2xl bg-white p-4 text-center shadow-md [-ms-overflow-style:none] [scrollbar-width:none] sm:max-h-[60dvh] md:px-8 md:py-6 [&::-webkit-scrollbar]:hidden"
 				ref="descriptionContainer"
 			>
 				<div ref="innerContent" class="flex flex-col gap-4">
@@ -287,11 +287,16 @@ onUnmounted(() => observer?.disconnect());
 					<IconChevron class="h-6" />
 				</div>
 			</div>
-			<img src="/img/card-side.png" class="h-60 py-4 md:h-80" />
+			<img
+				src="/img/card-side.png"
+				class="h-80 max-h-[30dvh] py-4 sm:max-h-[60dvh] md:h-80"
+			/>
 		</div>
 
 		<!-- Choices -->
-		<div class="section flex w-full flex-col gap-4 pt-3 md:pt-6">
+		<div
+			class="section flex h-full w-full flex-col justify-center gap-2 self-center pt-3 pb-15 md:gap-4 md:pt-6 md:pb-20"
+		>
 			<div class="flex h-10 flex-col items-center justify-center text-center">
 				<p v-if="selectedPartyId" class="font-sriracha text-b2">
 					{{ resultMessage }}
@@ -333,7 +338,7 @@ onUnmounted(() => observer?.disconnect());
 					class="hover:text-purple-1 flex cursor-pointer items-center gap-1 self-center hover:font-bold md:gap-2"
 					@click="currentQuestionIndex--"
 				>
-					<IconNext class="h-6 scale-x-[-1] md:h-8" />
+					<IconNext class="h-6 w-6 scale-x-[-1] md:h-8 md:w-8" />
 					กลับ
 				</button>
 			</div>
@@ -363,7 +368,7 @@ onUnmounted(() => observer?.disconnect());
 				{{ isLastQuestion ? 'ดูผลลัพธ์' : 'ไปต่อ' }}
 				<component
 					:is="isLastQuestion ? IconHeart : IconNext"
-					class="h-6 md:h-8"
+					class="h-6 w-6 md:h-8 md:w-8"
 				/>
 			</button>
 		</div>
