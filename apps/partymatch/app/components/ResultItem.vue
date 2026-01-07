@@ -67,7 +67,7 @@ const barWidth = computed(() => {
 				</p>
 			</div>
 			<div>
-				<p>{{ matchScore }}/10</p>
+				<p>{{ matchScore }}<span class="text-green-2">/10</span></p>
 			</div>
 		</div>
 	</div>

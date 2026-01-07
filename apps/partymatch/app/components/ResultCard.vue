@@ -117,10 +117,7 @@ function calculateScore(partyAnswersArray) {
 				</div>
 
 				<div>
-					<div
-						class="flex flex-row items-center justify-center"
-						:style="{ gap: `${(10 - computedMatchScore) * 8}px` }"
-					>
+					<div class="flex flex-row items-center justify-center">
 						<div v-if="selectedParty?.id" class="relative">
 							<img :src="heartParty" class="z-1 h-20 w-20" />
 							<img
@@ -128,7 +125,11 @@ function calculateScore(partyAnswersArray) {
 								class="absolute top-1/2 left-1/2 z-0 h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform rounded-full"
 							/>
 						</div>
-						<div v-if="selectedParty?.id" class="relative">
+						<div
+							v-if="selectedParty?.id"
+							class="relative"
+							:style="{ marginLeft: `${-4 * computedMatchScore + 24}px` }"
+						>
 							<p
 								class="text-h6 font-kondolar absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform font-black"
 							>
