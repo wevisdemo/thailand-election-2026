@@ -22,7 +22,7 @@ const closePopup = () => {
 		class="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.5)]"
 	>
 		<div
-			class="bg-bg flex w-90 flex-col gap-4 rounded-sm p-8 shadow-lg"
+			class="bg-bg flex h-full w-90 flex-col gap-4 rounded-sm p-8 shadow-lg md:h-100"
 			ref="popupContainer"
 		>
 			<div class="flex w-full justify-between">

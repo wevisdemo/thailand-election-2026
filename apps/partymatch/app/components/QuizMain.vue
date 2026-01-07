@@ -242,9 +242,9 @@ onUnmounted(() => observer?.disconnect());
 </script>
 
 <template>
-	<div class="relative flex h-full flex-col overflow-hidden">
+	<div class="relative flex h-full flex-col items-center overflow-hidden">
 		<!-- Progress bar -->
-		<div class="section w-full pt-2 pb-4">
+		<div class="w-full pt-2 pb-4 md:max-w-[40rem]">
 			<div
 				:style="{
 					width: `${((currentQuestionIndex + 1) / shuffledQuestions.length) * 100}%`,
@@ -262,7 +262,7 @@ onUnmounted(() => observer?.disconnect());
 				class="h-full scale-x-[-1] transform py-4"
 			/>
 			<div
-				class="relative h-80 overflow-auto rounded-2xl bg-white p-4 text-center shadow-md [-ms-overflow-style:none] [scrollbar-width:none] md:px-8 md:py-6 [&::-webkit-scrollbar]:hidden"
+				class="relative h-80 max-h-[30dvh] overflow-auto rounded-2xl bg-white p-4 text-center shadow-md [-ms-overflow-style:none] [scrollbar-width:none] sm:max-h-[60dvh] md:max-w-[40rem] md:px-8 md:py-6 [&::-webkit-scrollbar]:hidden"
 				ref="descriptionContainer"
 			>
 				<div ref="innerContent" class="flex flex-col gap-4">
@@ -367,7 +367,9 @@ onUnmounted(() => observer?.disconnect());
 				{{ isLastQuestion ? 'ดูผลลัพธ์' : 'ไปต่อ' }}
 				<component
 					:is="isLastQuestion ? IconHeart : IconNext"
-					class="h-6 w-6 md:h-8 md:w-8"
+					:class="
+						isLastQuestion ? 'h-4 w-4 md:h-6 md:w-6' : 'h-6 w-6 md:h-8 md:w-8'
+					"
 				/>
 			</button>
 		</div>
