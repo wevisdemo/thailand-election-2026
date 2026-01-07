@@ -237,8 +237,22 @@ onMounted(() => {
 
 	observer = new ResizeObserver(checkOverflow);
 	if (innerContent.value) observer.observe(innerContent.value);
+
+	const handleKeyDown = (event) => {
+		if (event.key === 'ArrowLeft' && currentQuestionIndex.value > 0) {
+			currentQuestionIndex.value--;
+		} else if (event.key === 'ArrowRight' && hasClicked.value) {
+			handleNextClick();
+		}
+	};
+
+	window.addEventListener('keydown', handleKeyDown);
+
+	onUnmounted(() => {
+		observer?.disconnect();
+		window.removeEventListener('keydown', handleKeyDown);
+	});
 });
-onUnmounted(() => observer?.disconnect());
 </script>
 
 <template>
