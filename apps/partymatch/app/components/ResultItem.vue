@@ -30,7 +30,7 @@ const barWidth = computed(() => {
 					stroke-linecap="round"
 				/>
 			</svg>
-			<IconHeart class="-ml-0.5 h-4 w-4 text-black" />
+			<IconHeart class="-ml-px h-4 w-4 text-black" />
 
 			<svg
 				:style="{ width: 264 - barWidth + 'px', height: '3px' }"
@@ -50,7 +50,7 @@ const barWidth = computed(() => {
 					stroke-dasharray="1 4"
 				/>
 			</svg>
-			<IconHeart class="text-green-2 -ml-0.5 h-4 w-4" />
+			<IconHeart class="text-green-2 -ml-px h-4 w-4" />
 		</div>
 		<div class="flex flex-row justify-between">
 			<div class="flex flex-row items-center gap-2">

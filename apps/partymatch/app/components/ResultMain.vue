@@ -24,7 +24,7 @@ const captureResult = async () => {
 	if (!el) return;
 	try {
 		const canvas = await html2canvas(el, {
-			scale: window.devicePixelRatio || 2,
+			scale: 2,
 			useCORS: true,
 			backgroundColor: '#FBF8F4',
 			onclone: (clonedDoc) => {
