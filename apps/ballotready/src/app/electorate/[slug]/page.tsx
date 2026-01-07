@@ -5,13 +5,22 @@ import rawParties from '../../data/parties.json' with { type: 'json' };
 import rawElectoralDistrict from '../../data/electoral_district_table.json' with { type: 'json' };
 import { ElectoralDistrictsMap } from '@/src/type/electoral_district';
 import { Party } from '@/src/type/party';
+import {
+	districtCandidateMap,
+	indexToElectorateMap,
+} from '@/src/constants/electorate';
 
-const districtCandidateMap = rawDistrictCandidate as ConstituencyMap;
-const electorateList = Object.keys(districtCandidateMap);
+// export const dynamicParams = false;
+
 const electoralDistrictMap = rawElectoralDistrict as ElectoralDistrictsMap;
 
 export async function generateStaticParams() {
-	return electorateList.map((electorate) => ({ slug: encodeURI(electorate) }));
+	// const districtCandidateMap = rawDistrictCandidate as ConstituencyMap;
+	// const electorateList = Object.keys(districtCandidateMap);
+	const indexList = Object.keys(indexToElectorateMap);
+	return indexList.map((index) => ({
+		slug: index.toString(),
+	}));
 }
 
 export default async function ElectoratePage({
@@ -20,13 +29,14 @@ export default async function ElectoratePage({
 	params: Promise<{ slug: string }>;
 }) {
 	const { slug } = await params;
-	const decodedSlug = decodeURI(slug);
-	const candidates = districtCandidateMap[decodedSlug] || [];
+	const electorateName = indexToElectorateMap[slug];
+	// const decodedSlug = decodeURI(slug);
+	const candidates = districtCandidateMap[electorateName] || [];
 	const parties = rawParties as Party[];
-	const electoralDistrict = electoralDistrictMap[decodedSlug];
+	const electoralDistrict = electoralDistrictMap[electorateName];
 	return (
 		<>
-			<h2>{decodeURI(slug)}</h2>
+			<h2>{decodeURIComponent(slug)}</h2>
 			<ElectorateTemplate
 				candidates={candidates}
 				parties={parties}

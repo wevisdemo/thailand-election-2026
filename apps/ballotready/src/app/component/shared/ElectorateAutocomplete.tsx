@@ -1,5 +1,6 @@
 'use client';
 
+import { electorateToIndexMap } from '@/src/constants/electorate';
 import { ThailandDistrict } from '@/src/type/district';
 import {
 	ElectoralDistrict,
@@ -107,6 +108,14 @@ export default function ElectorateAutoComplete({
 		);
 	};
 
+	const getElectorateIndexFromNameAndNumber = (
+		province: string,
+		electoralDistrictNumber: number,
+	): number => {
+		const electorate = `${province}-${electoralDistrictNumber}`;
+		return electorateToIndexMap[electorate];
+	};
+
 	return (
 		<div
 			ref={componentRef}
@@ -163,7 +172,7 @@ export default function ElectorateAutoComplete({
 					{getElectoralDistrictsFromLabel(districtLabelSelected).map(
 						(option, index) => (
 							<a
-								href={`/ballotready/electorate/${option.province}-${option.electoralDistrictNumber}`}
+								href={`/ballotready/electorate/${getElectorateIndexFromNameAndNumber(option.province, option.electoralDistrictNumber)}`}
 								key={index}
 							>
 								<li
