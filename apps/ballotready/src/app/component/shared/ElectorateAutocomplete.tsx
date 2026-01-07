@@ -163,7 +163,7 @@ export default function ElectorateAutoComplete({
 					{getElectoralDistrictsFromLabel(districtLabelSelected).map(
 						(option, index) => (
 							<a
-								href={`ballotready/electorate/${option.province}-${option.electoralDistrictNumber}`}
+								href={`/ballotready/electorate/${option.province}-${option.electoralDistrictNumber}`}
 								key={index}
 							>
 								<li
