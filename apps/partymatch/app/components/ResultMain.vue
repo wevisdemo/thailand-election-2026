@@ -19,6 +19,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['reset', 'update:matchScore']);
 
+// Download img
 const captureResult = async () => {
 	const el = document.getElementById('capture');
 	if (!el) return;
@@ -70,6 +71,66 @@ const captureResult = async () => {
 	}
 };
 
+// Share img
+const shareImage = async () => {
+	const el = document.getElementById('capture');
+	const canvas = await html2canvas(el, {
+		scale: 2,
+		useCORS: true,
+		backgroundColor: '#FBF8F4',
+		onclone: (clonedDoc) => {
+			const absoluteElements = clonedDoc.querySelectorAll('.absolute');
+			absoluteElements.forEach((item) => {
+				if (
+					item.classList.contains('-translate-y-1/2') &&
+					item.classList.contains('font-kondolar')
+				) {
+					item.style.transform = 'translate(0, -50%)';
+					item.style.textAlign = 'center';
+					item.style.display = 'flex';
+					item.style.justifyContent = 'center';
+					item.style.alignItems = 'center';
+				}
+			});
+
+			const thaiHead = clonedDoc.querySelectorAll('h2');
+			thaiHead.forEach((t) => {
+				t.style.letterSpacing = '0px';
+				t.style.lineHeight = 0;
+			});
+			const thaiParagraphs = clonedDoc.querySelectorAll('p');
+			thaiParagraphs.forEach((t) => {
+				t.style.marginTop = '-3%';
+				t.style.lineHeight = '1';
+			});
+			const boldText = clonedDoc.querySelectorAll('.font-bold');
+			boldText.forEach((t) => {
+				t.style.fontWeight = 'bold';
+			});
+		},
+	});
+
+	canvas.toBlob(async (blob) => {
+		const file = new File([blob], 'election69-partymatch.png', {
+			type: 'image/png',
+		});
+
+		if (navigator.canShare && navigator.canShare({ files: [file] })) {
+			try {
+				await navigator.share({
+					files: [file],
+					title: 'Party Match!',
+					text: 'มติพรรคไหนใจตรงกับคุณ #เลือกตั้ง69',
+				});
+			} catch (err) {
+				console.error('User cancelled or share failed', err);
+			}
+		} else {
+			downloadImage(canvas);
+		}
+	}, 'image/png');
+};
+
 const resetQuiz = () => {
 	emit('reset');
 };
@@ -108,7 +169,7 @@ const handleSaveClick = async () => {
 	saveButtonText.value = 'Saved';
 	saveButtonIcon.value = savedIcon;
 	try {
-		await captureResult();
+		await shareImage();
 	} catch (e) {}
 	setTimeout(() => {
 		saveButtonText.value = "Save ไป<span class='line-through'>แฉ</span>แชร์ต่อ";
