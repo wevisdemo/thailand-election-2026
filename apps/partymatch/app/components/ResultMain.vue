@@ -38,6 +38,7 @@ const captureResult = async () => {
 						item.style.textAlign = 'center';
 						item.style.display = 'flex';
 						item.style.justifyContent = 'center';
+						item.style.alignItems = 'center';
 					}
 				});
 
