@@ -107,6 +107,9 @@ const shareImage = async () => {
 			boldText.forEach((t) => {
 				t.style.fontWeight = 'bold';
 			});
+			const logo = clonedDoc.getElementById('logo');
+			logo.style.height = '24px';
+			logo.style.marginTop = '8px';
 		},
 	});
 

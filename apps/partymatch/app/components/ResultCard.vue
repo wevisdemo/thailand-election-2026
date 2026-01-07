@@ -107,7 +107,7 @@ function calculateScore(partyAnswersArray) {
 		<div class="bg-bg flex w-full flex-col items-center gap-6">
 			<div class="flex h-full flex-col items-center gap-4">
 				<div
-					class="font-kondolar text-h9 flex flex-row gap-1.5 leading-none font-bold"
+					class="font-kondolar flex flex-row gap-1.5 text-[20px] leading-none font-bold"
 				>
 					<h2>มติพรรคที่<span v-if="selectedParty?.id">เลือก</span></h2>
 					<IconHeart class="h-5 w-5 text-black" />
@@ -119,10 +119,10 @@ function calculateScore(partyAnswersArray) {
 				<div>
 					<div class="flex flex-row items-center justify-center">
 						<div v-if="selectedParty?.id" class="relative">
-							<img :src="heartParty" class="z-1 h-20 w-20" />
+							<img :src="heartParty" class="z-1 h-[80px] w-[80px]" />
 							<img
 								:src="matchLogo"
-								class="absolute top-1/2 left-1/2 z-0 h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform rounded-full"
+								class="absolute top-1/2 left-1/2 z-0 h-[40px] w-[40px] -translate-x-1/2 -translate-y-1/2 transform rounded-full"
 							/>
 						</div>
 						<div
@@ -137,7 +137,7 @@ function calculateScore(partyAnswersArray) {
 							</p>
 							<img
 								:src="matchPercentage > 50 ? heartMatchImg : heartUnMatchImg"
-								class="h-20 w-20"
+								class="h-[80px] w-[80px]"
 							/>
 						</div>
 					</div>
@@ -172,7 +172,7 @@ function calculateScore(partyAnswersArray) {
 
 		<div class="flex flex-col items-center gap-2">
 			<p class="underline">election69.wevis.info/partymatch</p>
-			<img src="/img/wv-election69-logo.svg" class="inline h-6" />
+			<img id="logo" src="/img/wv-election69-logo.svg" class="inline h-6" />
 		</div>
 	</div>
 </template>
