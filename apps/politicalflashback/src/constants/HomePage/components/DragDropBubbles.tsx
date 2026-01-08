@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import * as d3 from 'd3';
+import { useRouter } from 'next/navigation';
 import { useTopicStore, Topic } from '@/src/stores/topicStore';
 
 interface BubbleNode extends Topic {
@@ -28,11 +29,13 @@ const BUBBLE_COLOR = '#CEC2F5';
 const BUBBLE_DRAGGING_COLOR = '#9C81F6';
 const BUBBLE_SELECTED_COLOR = '#5EEAD4';
 const TEXT_COLOR = '#4A3260';
+const LONG_PRESS_DURATION = 500; // milliseconds
 
 export default function DragDropBubbles({
 	width = 800,
 	height = 600,
 }: DragDropBubblesProps) {
+	const router = useRouter();
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [dimensions, setDimensions] = useState({ width, height });
 	const [nodes, setNodes] = useState<BubbleNode[]>([]);
@@ -50,6 +53,13 @@ export default function DragDropBubbles({
 	} | null>(null);
 	const touchDragNodeRef = useRef<BubbleNode | null>(null);
 	const ghostRef = useRef<HTMLDivElement | null>(null);
+
+	// Long press state
+	const longPressTimerRef = useRef<NodeJS.Timeout | null>(null);
+	const longPressNodeRef = useRef<BubbleNode | null>(null);
+	const [isLongPressActive, setIsLongPressActive] = useState(false);
+	const hasMovedRef = useRef(false);
+	const startPosRef = useRef<{ x: number; y: number } | null>(null);
 
 	const {
 		topics,
@@ -200,8 +210,47 @@ export default function DragDropBubbles({
 		setNodes([...initialNodes]);
 	}, [topics, dimensions, radiusScale]);
 
+	// Clear long press timer
+	const clearLongPressTimer = useCallback(() => {
+		if (longPressTimerRef.current) {
+			clearTimeout(longPressTimerRef.current);
+			longPressTimerRef.current = null;
+		}
+		longPressNodeRef.current = null;
+		setIsLongPressActive(false);
+	}, []);
+
+	// Activate drag mode after long press
+	const activateDragMode = useCallback(
+		(node: BubbleNode) => {
+			setIsLongPressActive(true);
+			setDraggedId(node.id);
+			setDraggedTopic(node);
+		},
+		[setDraggedTopic],
+	);
+
+	// Handle click navigation
+	const handleClick = useCallback(
+		(node: BubbleNode) => {
+			if (!isLongPressActive && !hasMovedRef.current) {
+				router.push(`/story?name=${encodeURIComponent(node.label)}`);
+			}
+			clearLongPressTimer();
+			hasMovedRef.current = false;
+			startPosRef.current = null;
+		},
+		[router, clearLongPressTimer, isLongPressActive],
+	);
+
 	// Desktop Drag handlers
 	const handleDragStart = (e: React.DragEvent, node: BubbleNode) => {
+		// Only allow drag if long press was activated
+		if (!isLongPressActive) {
+			e.preventDefault();
+			return;
+		}
+
 		e.stopPropagation();
 		e.dataTransfer.effectAllowed = 'move';
 		e.dataTransfer.setData('text/plain', node.id);
@@ -250,6 +299,46 @@ export default function DragDropBubbles({
 		e.stopPropagation();
 		setDraggedId(null);
 		setDraggedTopic(null);
+		clearLongPressTimer();
+	};
+
+	// Mouse handlers for long press detection
+	const handleBubbleMouseDown = (e: React.MouseEvent, node: BubbleNode) => {
+		e.stopPropagation();
+		if (e.button !== 0) return; // Only handle left click
+
+		hasMovedRef.current = false;
+		startPosRef.current = { x: e.clientX, y: e.clientY };
+		longPressNodeRef.current = node;
+
+		// Start long press timer
+		longPressTimerRef.current = setTimeout(() => {
+			if (longPressNodeRef.current && !hasMovedRef.current) {
+				activateDragMode(node);
+			}
+		}, LONG_PRESS_DURATION);
+	};
+
+	const handleBubbleMouseMove = (e: React.MouseEvent) => {
+		if (startPosRef.current) {
+			const dx = Math.abs(e.clientX - startPosRef.current.x);
+			const dy = Math.abs(e.clientY - startPosRef.current.y);
+			// If moved more than 5px, cancel long press
+			if (dx > 5 || dy > 5) {
+				hasMovedRef.current = true;
+				clearLongPressTimer();
+			}
+		}
+	};
+
+	const handleBubbleMouseUp = (e: React.MouseEvent, node: BubbleNode) => {
+		e.stopPropagation();
+		if (!hasMovedRef.current && !isLongPressActive) {
+			handleClick(node);
+		}
+		clearLongPressTimer();
+		hasMovedRef.current = false;
+		startPosRef.current = null;
 	};
 
 	// Touch handlers for mobile
@@ -257,45 +346,69 @@ export default function DragDropBubbles({
 		e.stopPropagation();
 		const touch = e.touches[0];
 
-		setDraggedId(node.id);
-		setDraggedTopic(node);
-		touchDragNodeRef.current = node;
-		setTouchDragPos({ x: touch.clientX, y: touch.clientY });
+		hasMovedRef.current = false;
+		startPosRef.current = { x: touch.clientX, y: touch.clientY };
+		longPressNodeRef.current = node;
 
-		// Create ghost element
-		const ghost = document.createElement('div');
-		ghost.id = 'touch-drag-ghost';
-		ghost.style.cssText = `
-			width: ${node.targetRadius * 1.8}px;
-			height: ${node.targetRadius * 1.8}px;
-			border-radius: 50%;
-			background: ${BUBBLE_DRAGGING_COLOR};
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 14px;
-			font-weight: bold;
-			color: ${TEXT_COLOR};
-			position: fixed;
-			top: ${touch.clientY - node.targetRadius}px;
-			left: ${touch.clientX - node.targetRadius}px;
-			padding: 8px;
-			text-align: center;
-			pointer-events: none;
-			z-index: 9999;
-			box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-			transform: scale(1.1);
-		`;
-		ghost.textContent = node.label;
-		document.body.appendChild(ghost);
-		ghostRef.current = ghost;
+		// Start long press timer
+		longPressTimerRef.current = setTimeout(() => {
+			if (longPressNodeRef.current && !hasMovedRef.current) {
+				activateDragMode(node);
+				// Start touch drag
+				setDraggedId(node.id);
+				setDraggedTopic(node);
+				touchDragNodeRef.current = node;
+				setTouchDragPos({ x: touch.clientX, y: touch.clientY });
+
+				// Create ghost element
+				const ghost = document.createElement('div');
+				ghost.id = 'touch-drag-ghost';
+				ghost.style.cssText = `
+					width: ${node.targetRadius * 1.8}px;
+					height: ${node.targetRadius * 1.8}px;
+					border-radius: 50%;
+					background: ${BUBBLE_DRAGGING_COLOR};
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					font-size: 14px;
+					font-weight: bold;
+					color: ${TEXT_COLOR};
+					position: fixed;
+					top: ${touch.clientY - node.targetRadius}px;
+					left: ${touch.clientX - node.targetRadius}px;
+					padding: 8px;
+					text-align: center;
+					pointer-events: none;
+					z-index: 9999;
+					box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+					transform: scale(1.1);
+				`;
+				ghost.textContent = node.label;
+				document.body.appendChild(ghost);
+				ghostRef.current = ghost;
+			}
+		}, LONG_PRESS_DURATION);
 	};
 
 	const handleTouchMove = useCallback(
 		(e: TouchEvent) => {
+			const touch = e.touches[0];
+
+			// Check if moved before long press completes
+			if (startPosRef.current && !isLongPressActive) {
+				const dx = Math.abs(touch.clientX - startPosRef.current.x);
+				const dy = Math.abs(touch.clientY - startPosRef.current.y);
+				// If moved more than 5px, cancel long press
+				if (dx > 5 || dy > 5) {
+					hasMovedRef.current = true;
+					clearLongPressTimer();
+				}
+			}
+
+			// Handle drag if active
 			if (!touchDragNodeRef.current || !ghostRef.current) return;
 
-			const touch = e.touches[0];
 			const node = touchDragNodeRef.current;
 
 			// Update ghost position
@@ -316,61 +429,82 @@ export default function DragDropBubbles({
 				setIsOverDropZone(isOver);
 			}
 		},
-		[setIsOverDropZone],
+		[setIsOverDropZone, clearLongPressTimer, isLongPressActive],
 	);
 
 	const handleTouchEnd = useCallback(
 		(e: TouchEvent) => {
-			if (!touchDragNodeRef.current) return;
+			const node = longPressNodeRef.current || touchDragNodeRef.current;
 
-			const node = touchDragNodeRef.current;
+			// If long press was active, handle drag end
+			if (touchDragNodeRef.current) {
+				// Check if dropped on drop zone
+				const dropZone = document.querySelector('[data-dropzone]');
+				if (dropZone && touchDragPos) {
+					const rect = dropZone.getBoundingClientRect();
+					const isOver =
+						touchDragPos.x >= rect.left &&
+						touchDragPos.x <= rect.right &&
+						touchDragPos.y >= rect.top &&
+						touchDragPos.y <= rect.bottom;
 
-			// Check if dropped on drop zone
-			const dropZone = document.querySelector('[data-dropzone]');
-			if (dropZone && touchDragPos) {
-				const rect = dropZone.getBoundingClientRect();
-				const isOver =
-					touchDragPos.x >= rect.left &&
-					touchDragPos.x <= rect.right &&
-					touchDragPos.y >= rect.top &&
-					touchDragPos.y <= rect.bottom;
-
-				if (isOver) {
-					addSelectedTopic(node);
+					if (isOver) {
+						addSelectedTopic(touchDragNodeRef.current);
+					}
 				}
+
+				// Cleanup
+				if (ghostRef.current) {
+					document.body.removeChild(ghostRef.current);
+					ghostRef.current = null;
+				}
+
+				setDraggedId(null);
+				setDraggedTopic(null);
+				setIsOverDropZone(false);
+				touchDragNodeRef.current = null;
+				setTouchDragPos(null);
+			} else if (node && !hasMovedRef.current && !isLongPressActive) {
+				// Handle click navigation
+				handleClick(node);
 			}
 
-			// Cleanup
-			if (ghostRef.current) {
-				document.body.removeChild(ghostRef.current);
-				ghostRef.current = null;
-			}
-
-			setDraggedId(null);
-			setDraggedTopic(null);
-			setIsOverDropZone(false);
-			touchDragNodeRef.current = null;
-			setTouchDragPos(null);
+			clearLongPressTimer();
+			hasMovedRef.current = false;
+			startPosRef.current = null;
 		},
-		[touchDragPos, addSelectedTopic, setDraggedTopic, setIsOverDropZone],
+		[
+			touchDragPos,
+			addSelectedTopic,
+			setDraggedTopic,
+			setIsOverDropZone,
+			handleClick,
+			clearLongPressTimer,
+			isLongPressActive,
+		],
 	);
 
 	// Add global touch event listeners
 	useEffect(() => {
-		if (draggedId && touchDragNodeRef.current) {
-			document.addEventListener('touchmove', handleTouchMove, {
-				passive: false,
-			});
-			document.addEventListener('touchend', handleTouchEnd);
-			document.addEventListener('touchcancel', handleTouchEnd);
+		document.addEventListener('touchmove', handleTouchMove, {
+			passive: false,
+		});
+		document.addEventListener('touchend', handleTouchEnd);
+		document.addEventListener('touchcancel', handleTouchEnd);
 
-			return () => {
-				document.removeEventListener('touchmove', handleTouchMove);
-				document.removeEventListener('touchend', handleTouchEnd);
-				document.removeEventListener('touchcancel', handleTouchEnd);
-			};
-		}
-	}, [draggedId, handleTouchMove, handleTouchEnd]);
+		return () => {
+			document.removeEventListener('touchmove', handleTouchMove);
+			document.removeEventListener('touchend', handleTouchEnd);
+			document.removeEventListener('touchcancel', handleTouchEnd);
+		};
+	}, [handleTouchMove, handleTouchEnd]);
+
+	// Cleanup long press timer on unmount
+	useEffect(() => {
+		return () => {
+			clearLongPressTimer();
+		};
+	}, [clearLongPressTimer]);
 
 	// Wheel zoom handler
 	const handleWheel = (e: React.WheelEvent) => {
@@ -479,16 +613,27 @@ export default function DragDropBubbles({
 					return (
 						<div
 							key={node.id}
-							draggable={true}
+							data-node-id={node.id}
+							draggable={isLongPressActive && node.id === draggedId}
 							onDragStart={(e) => handleDragStart(e, node)}
 							onDrag={handleDrag}
 							onDragEnd={handleDragEnd}
-							onMouseDown={(e) => e.stopPropagation()}
+							onMouseDown={(e) => handleBubbleMouseDown(e, node)}
+							onMouseMove={handleBubbleMouseMove}
+							onMouseUp={(e) => handleBubbleMouseUp(e, node)}
+							onMouseLeave={(e) => {
+								// Cancel long press if mouse leaves
+								if (longPressNodeRef.current?.id === node.id) {
+									clearLongPressTimer();
+									hasMovedRef.current = false;
+									startPosRef.current = null;
+								}
+							}}
 							onTouchStart={(e) => handleTouchStart(e, node)}
-							className={`absolute flex cursor-grab touch-none items-center justify-center rounded-full p-2 text-center transition-all duration-200 select-none ${
-								isDragging
-									? 'outline-purple-3 bg-white! outline-2 outline-offset-0 outline-dashed'
-									: 'opacity-100 hover:scale-105 hover:shadow-lg active:scale-95'
+							className={`absolute flex touch-none items-center justify-center rounded-full p-2 text-center transition-all duration-200 select-none ${
+								isDragging || (isLongPressActive && node.id === draggedId)
+									? 'outline-purple-3 cursor-grab bg-white! outline-2 outline-offset-0 outline-dashed'
+									: 'cursor-pointer opacity-100 hover:scale-105 hover:shadow-lg active:scale-95'
 							} ${selected ? 'ring-4 ring-[#2DD4BF] ring-offset-2' : ''}`}
 							style={
 								{
@@ -502,7 +647,10 @@ export default function DragDropBubbles({
 											? BUBBLE_DRAGGING_COLOR
 											: BUBBLE_COLOR,
 									zIndex: isDragging ? 100 : selected ? 50 : 1,
-									WebkitUserDrag: 'element',
+									WebkitUserDrag:
+										isLongPressActive && node.id === draggedId
+											? 'element'
+											: 'none',
 								} as React.CSSProperties
 							}
 						>
@@ -510,7 +658,7 @@ export default function DragDropBubbles({
 								className="pointer-events-none line-clamp-3 text-sm leading-tight font-bold"
 								style={{ color: isDragging ? '#fff' : TEXT_COLOR }}
 							>
-								#{node.label}
+								{node.label}
 							</span>
 						</div>
 					);
