@@ -109,6 +109,7 @@ const shareImage = async () => {
 			});
 			const logo = clonedDoc.getElementById('logo');
 			logo.style.height = '24px';
+			logo.style.width = '156px';
 			logo.style.marginTop = '8px';
 		},
 	});

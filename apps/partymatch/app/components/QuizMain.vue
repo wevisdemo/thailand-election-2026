@@ -264,7 +264,7 @@ onMounted(() => {
 <template>
 	<div class="relative flex h-full flex-col items-center overflow-hidden">
 		<!-- Progress bar -->
-		<div class="w-full pt-2 pb-4 md:max-w-[40rem]">
+		<div class="w-full pt-2 pb-4 md:max-w-160">
 			<div
 				:style="{
 					width: `${((currentQuestionIndex + 1) / shuffledQuestions.length) * 100}%`,
@@ -275,14 +275,14 @@ onMounted(() => {
 
 		<!-- Question -->
 		<div
-			class="mx-auto flex h-80 max-h-[30dvh] flex-row sm:max-h-[60dvh] md:max-w-[40rem]"
+			class="mx-auto flex h-80 max-h-[30dvh] flex-row sm:max-h-[60dvh] md:max-w-160"
 		>
 			<img
 				src="/img/card-side.png"
 				class="h-full scale-x-[-1] transform py-4"
 			/>
 			<div
-				class="relative h-80 max-h-[30dvh] overflow-auto rounded-2xl bg-white p-4 text-center shadow-md [-ms-overflow-style:none] [scrollbar-width:none] sm:max-h-[60dvh] md:max-w-[40rem] md:px-8 md:py-6 [&::-webkit-scrollbar]:hidden"
+				class="relative h-80 max-h-[30dvh] overflow-auto rounded-2xl bg-white p-4 text-center shadow-md [-ms-overflow-style:none] [scrollbar-width:none] sm:max-h-[60dvh] md:max-w-160 md:px-8 md:py-6 [&::-webkit-scrollbar]:hidden"
 				ref="descriptionContainer"
 			>
 				<div ref="innerContent" class="flex flex-col gap-4">
