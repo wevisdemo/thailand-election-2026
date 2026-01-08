@@ -19,8 +19,13 @@ const props = defineProps({
 });
 const emit = defineEmits(['reset', 'update:matchScore']);
 
+const isSafari = () => {
+	const ua = navigator.userAgent.toLowerCase();
+	return ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1;
+};
+
 // Download img
-const captureResult = async () => {
+const downloadImage = async () => {
 	const el = document.getElementById('capture');
 	if (!el) return;
 	try {
@@ -111,6 +116,13 @@ const shareImage = async () => {
 			logo.style.height = '24px';
 			logo.style.width = '156px';
 			logo.style.marginTop = '8px';
+			logo.style.display = 'block';
+			logo.style.objectFit = 'contain';
+			if (isSafari()) {
+				const heartPartyLogo = clonedDoc.getElementById('heart-party-logo');
+				heartPartyLogo.style.marginLeft = '-4px';
+				heartPartyLogo.style.marginTop = '-2px';
+			}
 		},
 	});
 

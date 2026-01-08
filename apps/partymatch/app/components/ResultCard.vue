@@ -122,7 +122,8 @@ function calculateScore(partyAnswersArray) {
 							<img :src="heartParty" class="z-1 h-[80px] w-[80px]" />
 							<img
 								:src="matchLogo"
-								class="absolute top-1/2 left-1/2 z-0 h-[38px] w-[38px] -translate-x-1/2 -translate-y-1/2 transform rounded-full"
+								class="absolute top-1/2 left-1/2 z-0 h-[40px] w-[40px] -translate-x-1/2 -translate-y-1/2 transform rounded-full"
+								id="heart-party-logo"
 							/>
 						</div>
 						<div
