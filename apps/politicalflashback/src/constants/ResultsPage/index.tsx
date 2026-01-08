@@ -82,22 +82,21 @@ const ResultsPage = () => {
 
 	return (
 		<div className="bg-green-3 flex h-full min-h-screen flex-col justify-between">
-			<div className="flex items-center justify-start gap-4 px-4 pt-4">
+			<div className="fixed top-14 z-10 mx-4 w-full max-w-[600px] sm:mx-auto">
 				<button
 					onClick={() => router.back()}
-					className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-white text-black transition-all hover:border-black hover:bg-white/30"
+					className="flex items-center gap-2 rounded-full border-2 border-black bg-white text-black transition-opacity hover:opacity-80"
 				>
 					<Image
 						src="/politicalflashback/icon/chevron-left.svg"
-						alt="Remove"
-						width={28}
-						height={28}
-						className="h-auto w-12"
+						alt="Back"
+						width={40}
+						height={40}
 					/>
 				</button>
 			</div>
 
-			<div className="mx-auto flex w-full max-w-[600px] flex-col items-center justify-center gap-6 px-4 py-10">
+			<div className="mx-auto flex w-full max-w-[600px] flex-col items-center justify-center gap-6 px-4 py-10 pt-30">
 				<div className="flex flex-col items-center justify-center text-center">
 					<p className="text-b4 font-ibmplex">สรุปผล</p>
 					<p className="text-h4 font-kondolar font-black">
@@ -139,7 +138,7 @@ const ResultsPage = () => {
 										Top 5 ประเด็นสุดพีคของฉัน
 									</p>
 								</div>
-								<div className="flex w-full flex-col items-center justify-center rounded-b-2xl bg-white">
+								<div className="flex min-h-80 w-full flex-col items-center rounded-b-2xl bg-white">
 									{selectedTopics.slice(0, 5).map((topic, index) => (
 										<div
 											key={topic.id}
@@ -153,7 +152,7 @@ const ResultsPage = () => {
 											<p
 												className={`font-kondolar font-bold text-black ${index === 0 ? 'text-h7' : 'text-h9'}`}
 											>
-												#{topic.label}
+												{topic.label}
 											</p>
 										</div>
 									))}

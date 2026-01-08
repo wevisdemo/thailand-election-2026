@@ -13,7 +13,11 @@ function StoryContent() {
 
 export default function StoryPage() {
 	return (
-		<Suspense fallback={<div>Loading...</div>}>
+		<Suspense
+			fallback={
+				<div className="text-h7 font-kondolar pt-20 text-black">Loading...</div>
+			}
+		>
 			<StoryContent />
 		</Suspense>
 	);

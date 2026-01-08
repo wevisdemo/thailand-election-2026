@@ -443,7 +443,7 @@ const ListviewPage = () => {
 	return (
 		<div className="bg-bg relative flex h-screen w-full flex-col overflow-hidden">
 			{/* Navigation bar */}
-			<div className="mt-2 mb-2 w-full shrink-0 pt-6 md:mt-8">
+			<div className="mt-2 mb-2 w-full shrink-0 pt-10 md:mt-8">
 				<div className="mx-auto flex h-12 max-w-[600px] items-center gap-2 px-4 sm:gap-4 md:px-6">
 					{/* Center - Filter buttons */}
 
@@ -469,7 +469,7 @@ const ListviewPage = () => {
 							รายเดือน
 						</button>
 						<button
-							className={`text-h9 font-kondolar rounded-tr-full rounded-br-full border-2 border-black px-5 py-3 font-bold text-black transition-colors hover:bg-gray-100 sm:w-full ${
+							className={`text-h9 font-kondolar w-full rounded-tr-full rounded-br-full border-2 border-black px-5 py-3 font-bold text-black transition-colors hover:bg-gray-100 sm:w-full ${
 								isListviewPath
 									? 'text-green-2 bg-black'
 									: 'bg-white text-black hover:bg-gray-100'

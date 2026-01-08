@@ -62,7 +62,7 @@ const HomePage = () => {
 	return (
 		<div className="bg-pattern relative max-h-screen w-full overflow-hidden">
 			{/* Gradient overlay from top */}
-			<div className="absolute top-5 right-0 left-0 z-20 h-[64px] w-full md:h-[80px]">
+			<div className="absolute top-10 right-0 left-0 z-20 h-[64px] w-full md:h-[80px]">
 				{/* Gradient background */}
 				<div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#FBF8F4] to-transparent"></div>
 

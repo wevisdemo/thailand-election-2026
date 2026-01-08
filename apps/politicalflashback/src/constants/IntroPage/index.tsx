@@ -1,7 +1,6 @@
 'use client';
 
 import Footer from '@/src/components/Footer';
-import { ElectionNavbar } from '@election/ui/react';
 import Image from 'next/image';
 import { useState } from 'react';
 import StepContainer from './components/StepContainer';
@@ -38,7 +37,7 @@ const IntroPage = () => {
 	if (currentStep === 0) {
 		return (
 			<div className="bg-bg flex h-screen min-h-screen flex-col justify-between">
-				<div className="mx-auto flex max-w-[600px] flex-col items-center justify-center gap-6 px-4 py-10">
+				<div className="mx-auto flex max-w-[600px] flex-col items-center justify-center gap-6 px-4 py-10 pt-30">
 					<Image
 						src="/politicalflashback/img/intro-img.svg"
 						alt="intro-page"

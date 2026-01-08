@@ -313,14 +313,14 @@ const MonthlyDetailPage = () => {
 			{/* Main Content Area */}
 			<main className="relative z-10 min-h-0 flex-1 overflow-hidden">
 				<div
-					className="h-full overflow-y-auto overscroll-contain"
+					className="mx-auto h-full max-w-[600px] overflow-y-auto overscroll-contain"
 					style={{ WebkitOverflowScrolling: 'touch' }}
 				>
 					{/* Back button */}
-					<div className="mx-4 mt-4 mb-2">
+					<div className="fixed top-14 z-10 mx-4 w-full max-w-[600px] sm:mx-auto">
 						<button
 							onClick={handleBackClick}
-							className="flex items-center gap-2 rounded-full border-2 border-black bg-white p-1 text-black transition-opacity hover:opacity-80"
+							className="flex items-center gap-2 rounded-full border-2 border-black bg-white text-black transition-opacity hover:opacity-80"
 						>
 							<Image
 								src="/politicalflashback/icon/chevron-left.svg"
@@ -344,7 +344,7 @@ const MonthlyDetailPage = () => {
 					)}
 
 					{!loading && !error && monthlyData && (
-						<div className="mx-auto mb-12 max-w-[600px]">
+						<div className="mx-auto mb-12 max-w-[600px] pt-32">
 							{/* Header Section */}
 							<div className="mx-4 mb-6 text-center">
 								<p className="text-b4 font-ibmplex text-black">

@@ -360,7 +360,7 @@ export default function DropZone({
 												className={`min-w-0 flex-1 ${index >= 5 ? 'opacity-50' : ''}`}
 											>
 												<div className="text-h9 font-kondolar truncate font-bold text-black">
-													#{topic.label}
+													{topic.label}
 												</div>
 												<div className="flex items-center gap-1 text-xs text-gray-500">
 													<FireRating value={topic.score} />

@@ -26,7 +26,7 @@ export default function RootLayout({
 			</head>
 
 			<body>
-				<ElectionNavbar className="sticky top-0 z-50" />
+				<ElectionNavbar className="fixed top-0 z-[9999] w-full" />
 				{children}
 			</body>
 		</html>
