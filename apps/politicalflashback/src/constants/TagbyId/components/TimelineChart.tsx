@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import React, {
 	useState,
 	useEffect,
@@ -31,10 +32,27 @@ interface Chart {
 	events: ChartEvent[];
 }
 
-const StoryChart = ({ chart }: { chart: Chart }) => {
-	const [knobPosition, setKnobPosition] = useState(0);
+interface StoryChartProps {
+	chart: Chart;
+	knobPosition?: number;
+	onKnobPositionChange?: (position: number) => void;
+}
+
+const StoryChart = ({
+	chart,
+	knobPosition: externalKnobPosition,
+	onKnobPositionChange,
+}: StoryChartProps) => {
+	const [internalKnobPosition, setInternalKnobPosition] = useState(0);
 	const [isDragging, setIsDragging] = useState(false);
+	const [hoverPosition, setHoverPosition] = useState<number | null>(null);
 	const timelineRef = useRef<HTMLDivElement>(null);
+
+	// Use external position if provided, otherwise use internal state
+	const knobPosition =
+		externalKnobPosition !== undefined
+			? externalKnobPosition
+			: internalKnobPosition;
 
 	const chartData = useMemo(() => {
 		const monthNames = [
@@ -156,14 +174,43 @@ const StoryChart = ({ chart }: { chart: Chart }) => {
 		return month ? month.label : '';
 	};
 
-	const updatePosition = useCallback((clientX: number) => {
-		if (timelineRef.current) {
+	const updatePosition = useCallback(
+		(clientX: number) => {
+			if (timelineRef.current) {
+				const rect = timelineRef.current.getBoundingClientRect();
+				const x = clientX - rect.left;
+				const position = Math.max(0, Math.min(100, (x / rect.width) * 100));
+
+				if (externalKnobPosition === undefined) {
+					setInternalKnobPosition(position);
+				}
+
+				if (onKnobPositionChange) {
+					onKnobPositionChange(position);
+				}
+			}
+		},
+		[externalKnobPosition, onKnobPositionChange],
+	);
+
+	const handleMouseMove = (e: React.MouseEvent) => {
+		if (!isDragging && timelineRef.current) {
 			const rect = timelineRef.current.getBoundingClientRect();
-			const x = clientX - rect.left;
+			const x = e.clientX - rect.left;
 			const position = Math.max(0, Math.min(100, (x / rect.width) * 100));
-			setKnobPosition(position);
+			setHoverPosition(position);
 		}
-	}, []);
+	};
+
+	const handleMouseEnter = () => {
+		// Hover position will be set by handleMouseMove
+	};
+
+	const handleMouseLeave = () => {
+		if (!isDragging) {
+			setHoverPosition(null);
+		}
+	};
 
 	const handleMouseDown = (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -173,7 +220,55 @@ const StoryChart = ({ chart }: { chart: Chart }) => {
 
 	const handleMouseUp = () => {
 		setIsDragging(false);
+		// Scroll to the selected position when released
+		scrollToPosition(knobPosition);
 	};
+
+	const scrollToPosition = useCallback(
+		(position: number) => {
+			if (timelineRef.current && chartData.allMonths.length > 0) {
+				// Calculate the position in pixels
+				const rect = timelineRef.current.getBoundingClientRect();
+				const targetX = (position / 100) * rect.width;
+				const centerX = rect.left + targetX;
+
+				// Try to scroll parent containers to center the selected position
+				let element: HTMLElement | null = timelineRef.current;
+				while (element) {
+					const parent: HTMLElement | null = element.parentElement;
+					if (!parent) break;
+
+					const parentRect = parent.getBoundingClientRect();
+					const scrollableWidth = parent.scrollWidth - parent.clientWidth;
+
+					if (scrollableWidth > 0) {
+						const relativeX = centerX - parentRect.left;
+						const scrollLeft =
+							parent.scrollLeft + (relativeX - parentRect.width / 2);
+
+						parent.scrollTo({
+							left: Math.max(0, Math.min(scrollLeft, scrollableWidth)),
+							behavior: 'smooth',
+						});
+					}
+
+					// Also try window scroll if needed
+					if (parent === document.body || parent === document.documentElement) {
+						const windowCenter = window.innerWidth / 2;
+						const scrollX = centerX - windowCenter;
+						window.scrollTo({
+							left: Math.max(0, window.scrollX + scrollX),
+							behavior: 'smooth',
+						});
+						break;
+					}
+
+					element = parent;
+				}
+			}
+		},
+		[chartData.allMonths.length],
+	);
 
 	// Handle global mouse move and up for dragging
 	useEffect(() => {
@@ -184,6 +279,14 @@ const StoryChart = ({ chart }: { chart: Chart }) => {
 
 			const handleGlobalMouseUp = () => {
 				setIsDragging(false);
+				// Scroll to the selected position when released
+				const currentPosition =
+					externalKnobPosition !== undefined
+						? externalKnobPosition
+						: internalKnobPosition;
+				scrollToPosition(currentPosition);
+				// Reset hover position after dragging
+				setHoverPosition(null);
 			};
 
 			window.addEventListener('mousemove', handleGlobalMouseMove);
@@ -194,10 +297,28 @@ const StoryChart = ({ chart }: { chart: Chart }) => {
 				window.removeEventListener('mouseup', handleGlobalMouseUp);
 			};
 		}
-	}, [isDragging, updatePosition]);
+	}, [
+		isDragging,
+		updatePosition,
+		externalKnobPosition,
+		internalKnobPosition,
+		scrollToPosition,
+	]);
+
+	// console.log(`hoverPosition: ${hoverPosition}%`);
 
 	return (
-		<div className="mt-3 rounded-2xl border-2 border-black bg-white p-4">
+		<div className="relative mt-3 rounded-2xl border-2 border-black bg-white p-4">
+			{/* Full-height hover indicator */}
+			{hoverPosition !== null && (
+				<div
+					className="absolute inset-y-0 left-0 z-0 rounded-l-2xl bg-black/20"
+					style={{
+						width: `${hoverPosition - 1}%`,
+					}}
+				/>
+			)}
+
 			{/* Bars */}
 			<div className="flex items-end" style={{ height: `${MAX_BAR_HEIGHT}px` }}>
 				{chartData.values.map((value, index) => {
@@ -224,8 +345,53 @@ const StoryChart = ({ chart }: { chart: Chart }) => {
 				ref={timelineRef}
 				onMouseDown={handleMouseDown}
 				onMouseUp={handleMouseUp}
+				onMouseMove={handleMouseMove}
+				onMouseEnter={handleMouseEnter}
+				onMouseLeave={handleMouseLeave}
+				onClick={(e) => {
+					// Make entire box clickable
+					if (!isDragging) {
+						updatePosition(e.clientX);
+						// Scroll to clicked position
+						if (timelineRef.current) {
+							const rect = timelineRef.current.getBoundingClientRect();
+							const x = e.clientX - rect.left;
+							const position = Math.max(
+								0,
+								Math.min(100, (x / rect.width) * 100),
+							);
+							scrollToPosition(position);
+						}
+					}
+				}}
 			>
-				<div className="absolute top-0 right-0 left-0 h-[2px] bg-black"></div>
+				<div className="absolute top-0 right-0 left-0 z-0 h-[2px] bg-black"></div>
+
+				{/* Gray bar that moves with knob */}
+				{hoverPosition !== null && (
+					<>
+						<div
+							className="bg-green-1 absolute top-0 z-50 h-[2px]"
+							style={{
+								left: '0%',
+								width: `${hoverPosition}%`,
+							}}
+						/>
+						<div
+							className="absolute top-0 z-50"
+							style={{
+								left: `${hoverPosition - 2}%`,
+							}}
+						>
+							<Image
+								src="/politicalflashback/icon/node-chart.svg"
+								alt="Timeline Chart Hover"
+								width={16}
+								height={16}
+							/>
+						</div>
+					</>
+				)}
 
 				<div className="relative flex items-start gap-1 pt-[2px]">
 					{chartData.values.map((value, index) => {
@@ -255,14 +421,20 @@ const StoryChart = ({ chart }: { chart: Chart }) => {
 					})}
 				</div>
 
-				{/* Tooltip - only show when dragging */}
-				{isDragging && (
+				{/* Tooltip - show when hovering or dragging */}
+				{(hoverPosition !== null || isDragging) && (
 					<div
-						className="absolute -top-8 z-10 -translate-x-1/2 transform"
-						style={{ left: `${knobPosition}%` }}
+						className="absolute -top-14 z-10 -translate-x-1/2 transform"
+						style={{
+							left: `${
+								isDragging ? knobPosition : hoverPosition || knobPosition
+							}%`,
+						}}
 					>
-						<div className="bg-green-1 text-b5 font-ibmplex rounded-lg px-2 py-1 whitespace-nowrap text-white">
-							{getCurrentMonthLabel(knobPosition)}
+						<div className="bg-green-1 text-h11 font-sriracha rounded-full px-2 py-1 whitespace-nowrap text-white">
+							{getCurrentMonthLabel(
+								isDragging ? knobPosition : hoverPosition || knobPosition,
+							)}
 						</div>
 					</div>
 				)}

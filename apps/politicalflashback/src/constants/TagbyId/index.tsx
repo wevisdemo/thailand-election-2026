@@ -1,6 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, {
+	useState,
+	useEffect,
+	useRef,
+	useMemo,
+	useCallback,
+} from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import FireRating from '@/src/components/FireRating';
@@ -111,7 +117,7 @@ const getSourceName = (url: string): string => {
 		const urlObj = new URL(url);
 		const hostname = urlObj.hostname;
 
-		if (hostname.includes('thairath.co.th')) return 'ไทยราษฎร์';
+		if (hostname.includes('thairath.co.th')) return 'ไทยรัฐ';
 		if (hostname.includes('thaipbs.or.th') || hostname.includes('news.thaipbs'))
 			return 'ไทยพีบีเอส';
 		if (hostname.includes('thestandard.co')) return 'The Standard';
@@ -134,6 +140,12 @@ const TagbyId = ({ name }: { name: string | null }) => {
 	const [expandedNewsCount, setExpandedNewsCount] = useState<
 		Map<string, number>
 	>(new Map());
+	const [knobPosition, setKnobPosition] = useState(0);
+	const newsDateRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+	const newsContainerRef = useRef<HTMLDivElement>(null);
+	const isScrollingFromKnob = useRef(false);
+	const isScrollingFromPage = useRef(false);
+	const hasUserScrolled = useRef(false);
 
 	const INITIAL_NEWS_DISPLAY = 3; // Show first 3 news items per date
 
@@ -217,6 +229,147 @@ const TagbyId = ({ name }: { name: string | null }) => {
 			});
 		}
 	};
+
+	// Handle knob position change - scroll to corresponding news
+	const handleKnobPositionChange = useCallback(
+		(position: number) => {
+			if (!tagData || isScrollingFromPage.current) return;
+
+			isScrollingFromKnob.current = true;
+			setKnobPosition(position);
+
+			// Use position percentage to find corresponding news item by index
+			if (tagData.tag_news.length === 0) {
+				isScrollingFromKnob.current = false;
+				return;
+			}
+
+			const newsIndex = Math.round(
+				(position / 100) * (tagData.tag_news.length - 1),
+			);
+			const targetNews = tagData.tag_news[newsIndex];
+
+			if (targetNews && newsDateRefs.current.has(targetNews.date)) {
+				const element = newsDateRefs.current.get(targetNews.date);
+				if (element) {
+					const elementRect = element.getBoundingClientRect();
+					const scrollTop = window.scrollY + elementRect.top - 150; // Offset for header
+
+					window.scrollTo({
+						top: Math.max(0, scrollTop),
+						behavior: 'smooth',
+					});
+				}
+			}
+
+			setTimeout(() => {
+				isScrollingFromKnob.current = false;
+			}, 500);
+		},
+		[tagData],
+	);
+
+	// Handle page scroll - update knob position
+	useEffect(() => {
+		if (!tagData || isScrollingFromKnob.current) return;
+
+		const handleScroll = () => {
+			if (isScrollingFromKnob.current) return;
+
+			// Mark that user has scrolled
+			hasUserScrolled.current = true;
+
+			isScrollingFromPage.current = true;
+
+			// Find which news date is currently in view
+			const viewportCenter = window.scrollY + window.innerHeight / 2;
+
+			let closestDate: string | null = null;
+			let closestDistance = Infinity;
+
+			newsDateRefs.current.forEach((element, date) => {
+				if (!element) return;
+
+				const rect = element.getBoundingClientRect();
+				const elementTop = window.scrollY + rect.top;
+				const elementCenter = elementTop + rect.height / 2;
+
+				const distance = Math.abs(viewportCenter - elementCenter);
+				if (distance < closestDistance) {
+					closestDistance = distance;
+					closestDate = date;
+				}
+			});
+
+			if (closestDate && tagData.tag_news.length > 0) {
+				// Find the index of this news date
+				const newsIndex = tagData.tag_news.findIndex(
+					(tagNews) => tagNews.date === closestDate,
+				);
+
+				if (newsIndex !== -1) {
+					const position =
+						tagData.tag_news.length > 1
+							? (newsIndex / (tagData.tag_news.length - 1)) * 100
+							: 0;
+
+					setKnobPosition(Math.max(0, Math.min(100, position)));
+				}
+			}
+
+			setTimeout(() => {
+				isScrollingFromPage.current = false;
+			}, 100);
+		};
+
+		// Calculate initial position only after a short delay to ensure refs are set
+		// and only if user hasn't scrolled yet
+		const initialTimeout = setTimeout(() => {
+			if (!hasUserScrolled.current && newsDateRefs.current.size > 0) {
+				// Only set initial position if user hasn't scrolled yet
+				const viewportCenter = window.scrollY + window.innerHeight / 2;
+				let closestDate: string | null = null;
+				let closestDistance = Infinity;
+
+				newsDateRefs.current.forEach((element, date) => {
+					if (!element) return;
+					const rect = element.getBoundingClientRect();
+					const elementTop = window.scrollY + rect.top;
+					const elementCenter = elementTop + rect.height / 2;
+					const distance = Math.abs(viewportCenter - elementCenter);
+					if (distance < closestDistance) {
+						closestDistance = distance;
+						closestDate = date;
+					}
+				});
+
+				if (closestDate && tagData.tag_news.length > 0) {
+					const newsIndex = tagData.tag_news.findIndex(
+						(tagNews) => tagNews.date === closestDate,
+					);
+					if (newsIndex !== -1) {
+						const position =
+							tagData.tag_news.length > 1
+								? (newsIndex / (tagData.tag_news.length - 1)) * 100
+								: 0;
+						// Only set if it's not at the end (avoid setting to 100 on initial load)
+						// Set to 0 if we're at the top, otherwise use calculated position
+						if (window.scrollY < 100) {
+							setKnobPosition(0);
+						} else if (position < 100) {
+							setKnobPosition(Math.max(0, Math.min(99, position)));
+						}
+					}
+				}
+			}
+		}, 200);
+
+		window.addEventListener('scroll', handleScroll, { passive: true });
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+			clearTimeout(initialTimeout);
+		};
+	}, [tagData]);
 
 	if (loading) {
 		return (
@@ -380,7 +533,7 @@ const TagbyId = ({ name }: { name: string | null }) => {
 
 			{/* News Timeline Section */}
 			<div className="mx-auto w-full max-w-[600px] flex-1 px-4 py-6">
-				<div className="relative flex flex-col gap-4">
+				<div ref={newsContainerRef} className="relative flex flex-col gap-4">
 					{/* Vertical Timeline Line */}
 					<div className="bg-purple-3 absolute top-0 bottom-0 left-4 w-0.5"></div>
 
@@ -400,7 +553,16 @@ const TagbyId = ({ name }: { name: string | null }) => {
 						return (
 							<div key={index} className="relative flex w-full flex-col gap-3">
 								{/* Date Header */}
-								<div className="relative z-10 inline-flex w-full items-center">
+								<div
+									ref={(el) => {
+										if (el) {
+											newsDateRefs.current.set(tagNews.date, el);
+										} else {
+											newsDateRefs.current.delete(tagNews.date);
+										}
+									}}
+									className="relative z-10 inline-flex w-full items-center"
+								>
 									<span className="bg-purple-3 text-h9 font-kondolar w-full rounded-2xl px-4 py-2 font-bold text-black">
 										{tagNews.date}
 									</span>
@@ -501,7 +663,11 @@ const TagbyId = ({ name }: { name: string | null }) => {
 					)}
 
 					{/* Chart */}
-					<StoryChart chart={tagData.chart} />
+					<StoryChart
+						chart={tagData.chart}
+						knobPosition={knobPosition}
+						onKnobPositionChange={handleKnobPositionChange}
+					/>
 
 					<div className="h-32 pb-4"></div>
 				</div>
