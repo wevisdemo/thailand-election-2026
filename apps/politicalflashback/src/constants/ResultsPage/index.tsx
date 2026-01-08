@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Button from '@/src/components/Button';
 import { useRouter } from 'next/navigation';
 import { toPng } from 'html-to-image';
+import Footer from '@/src/components/Footer';
 dayjs.locale(th);
 
 const ResultsPage = () => {
@@ -227,6 +228,8 @@ const ResultsPage = () => {
 					</div>
 				</div>
 			</div>
+
+			<Footer />
 		</div>
 	);
 };

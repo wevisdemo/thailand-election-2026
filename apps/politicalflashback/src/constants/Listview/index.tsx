@@ -532,7 +532,7 @@ const ListviewPage = () => {
 						<div className="mx-auto mb-12 max-w-[600px]">
 							{/* Summary Bar */}
 							<div className="mx-4 mb-6">
-								<div className="border-t-2 border-black p-4">
+								<div className="border-t-2 border-black px-0 py-4 sm:px-4">
 									<p className="text-h9 font-kondolar text-center text-black">
 										{filteredAndSortedData.length} ประเด็น จาก{' '}
 										{totalNews.toLocaleString()} ข่าว

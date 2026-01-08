@@ -174,6 +174,22 @@ const StoryChart = ({
 		return month ? month.label : '';
 	};
 
+	// Get events for a given month index
+	const getEventsForMonthIndex = (monthIndex: number) => {
+		if (chartData.allMonths.length === 0 || !chart.events) return [];
+		const month =
+			chartData.allMonths[
+				Math.max(0, Math.min(monthIndex, chartData.allMonths.length - 1))
+			];
+		if (!month) return [];
+
+		// Find all events that match this month (compare by month key YYYY-MM)
+		return chart.events.filter((event) => {
+			const eventMonthKey = event.date.substring(0, 7);
+			return eventMonthKey === month.date;
+		});
+	};
+
 	const updatePosition = useCallback(
 		(clientX: number) => {
 			if (timelineRef.current) {
@@ -305,8 +321,6 @@ const StoryChart = ({
 		scrollToPosition,
 	]);
 
-	// console.log(`hoverPosition: ${hoverPosition}%`);
-
 	return (
 		<div className="relative mt-3 rounded-2xl border-2 border-black bg-white p-4">
 			{/* Full-height hover indicator */}
@@ -421,10 +435,50 @@ const StoryChart = ({
 					})}
 				</div>
 
-				{/* Tooltip - show when hovering or dragging */}
+				{/* Tooltip for Prime Minister Changes - show all events */}
+				{hoverPosition !== null &&
+					chartData.allMonths.map((month, monthIndex) => {
+						// Get all events for this month
+						const events = getEventsForMonthIndex(monthIndex);
+						if (events.length === 0) return null;
+
+						// Calculate position of the month
+						const monthPosition =
+							chartData.allMonths.length > 1
+								? (monthIndex / (chartData.allMonths.length - 1)) * 100
+								: 0;
+
+						return (
+							<div
+								key={monthIndex}
+								className="absolute -top-20 z-10 -translate-x-1/2 transform"
+								style={{
+									left: `${monthPosition}%`,
+								}}
+							>
+								{events.map((event, index) => (
+									<div
+										key={event.id}
+										className="mb-1 last:mb-0"
+										style={{
+											marginBottom: index < events.length - 1 ? '4px' : '0',
+										}}
+									>
+										<div className="bg-green-3 text-h11 font-sriracha rounded-full px-2 py-1 whitespace-nowrap text-black">
+											{event.label}
+										</div>
+									</div>
+								))}
+								<div className="border-t-green-3 mx-auto h-0 w-0 border-t-8 border-r-[6px] border-l-[6px] border-r-transparent border-l-transparent"></div>
+								<div className="bg-green-3 mx-auto h-11 w-[1px]"></div>
+							</div>
+						);
+					})}
+
+				{/* Tooltip for Month Label - show when hovering or dragging */}
 				{(hoverPosition !== null || isDragging) && (
 					<div
-						className="absolute -top-14 z-10 -translate-x-1/2 transform"
+						className="absolute -top-14 z-20 -translate-x-1/2 transform"
 						style={{
 							left: `${
 								isDragging ? knobPosition : hoverPosition || knobPosition
@@ -436,6 +490,7 @@ const StoryChart = ({
 								isDragging ? knobPosition : hoverPosition || knobPosition,
 							)}
 						</div>
+						<div className="border-t-green-1 mx-auto h-0 w-0 border-t-8 border-r-[6px] border-l-[6px] border-r-transparent border-l-transparent"></div>
 					</div>
 				)}
 			</div>

@@ -574,7 +574,7 @@ const TagbyId = ({ name }: { name: string | null }) => {
 										.slice(0, displayedCount)
 										.map((news, newsIndex) => (
 											<div
-												key={news.id}
+												key={`${tagNews.date}-${news.id}-${newsIndex}`}
 												className="relative flex flex-col gap-1"
 											>
 												{/* Timeline Marker */}

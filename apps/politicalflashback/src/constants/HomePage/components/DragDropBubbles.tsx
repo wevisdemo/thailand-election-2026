@@ -343,7 +343,8 @@ export default function DragDropBubbles({
 
 	// Touch handlers for mobile
 	const handleTouchStart = (e: React.TouchEvent, node: BubbleNode) => {
-		e.stopPropagation();
+		// Don't stop propagation - allow panning gestures to work
+		// The movement detection will determine if it's panning or dragging
 		const touch = e.touches[0];
 
 		hasMovedRef.current = false;
@@ -399,7 +400,21 @@ export default function DragDropBubbles({
 			if (startPosRef.current && !isLongPressActive) {
 				const dx = Math.abs(touch.clientX - startPosRef.current.x);
 				const dy = Math.abs(touch.clientY - startPosRef.current.y);
-				// If moved more than 5px, cancel long press
+
+				// If horizontal movement is dominant (panning gesture), cancel long press immediately
+				if (dx > 10 && dx > dy * 1.5) {
+					hasMovedRef.current = true;
+					clearLongPressTimer();
+					// Allow panning to take over
+					if (!isPanning) {
+						setIsPanning(true);
+						panStartRef.current = { x: touch.clientX, y: touch.clientY };
+						panPosRef.current = pan;
+					}
+					return; // Let panning handle this
+				}
+
+				// If moved more than 5px in any direction, cancel long press
 				if (dx > 5 || dy > 5) {
 					hasMovedRef.current = true;
 					clearLongPressTimer();
@@ -429,7 +444,7 @@ export default function DragDropBubbles({
 				setIsOverDropZone(isOver);
 			}
 		},
-		[setIsOverDropZone, clearLongPressTimer, isLongPressActive],
+		[setIsOverDropZone, clearLongPressTimer, isLongPressActive, isPanning, pan],
 	);
 
 	const handleTouchEnd = useCallback(
@@ -545,25 +560,50 @@ export default function DragDropBubbles({
 		setIsPanning(false);
 	};
 
-	// Touch pan handlers
+	// Touch pan handlers - allow panning on mobile even when touching bubbles
 	const handleContainerTouchStart = (e: React.TouchEvent) => {
 		const target = e.target as HTMLElement;
-		if (
-			target === containerRef.current ||
-			target.classList.contains('pan-layer')
-		) {
-			const touch = e.touches[0];
-			setIsPanning(true);
-			panStartRef.current = { x: touch.clientX, y: touch.clientY };
-			panPosRef.current = pan;
-		}
+		// Don't start panning if actively dragging a bubble
+		if (touchDragNodeRef.current) return;
+
+		const touch = e.touches[0];
+		// Store initial touch position for panning detection
+		// Panning will be activated in handleContainerTouchMove if horizontal movement detected
+		panStartRef.current = { x: touch.clientX, y: touch.clientY };
+		panPosRef.current = pan;
 	};
 
 	const handleContainerTouchMove = (e: React.TouchEvent) => {
-		if (isPanning && !touchDragNodeRef.current) {
-			const touch = e.touches[0];
-			const dx = touch.clientX - panStartRef.current.x;
-			const dy = touch.clientY - panStartRef.current.y;
+		// Don't pan if actively dragging a bubble
+		if (touchDragNodeRef.current) return;
+
+		const touch = e.touches[0];
+		const dx = touch.clientX - panStartRef.current.x;
+		const dy = touch.clientY - panStartRef.current.y;
+		const absDx = Math.abs(dx);
+		const absDy = Math.abs(dy);
+
+		// On mobile, detect horizontal panning gesture
+		// If horizontal movement is dominant, enable panning
+		if (absDx > 10 && absDx > absDy * 1.5) {
+			// Cancel any pending long press if we're panning horizontally
+			if (longPressNodeRef.current && !isLongPressActive) {
+				hasMovedRef.current = true;
+				clearLongPressTimer();
+			}
+
+			// Enable panning if not already active
+			if (!isPanning) {
+				setIsPanning(true);
+			}
+
+			// Apply panning with priority to horizontal movement
+			setPan({
+				x: panPosRef.current.x + dx,
+				y: panPosRef.current.y + dy * 0.3, // Allow some vertical movement but prioritize horizontal
+			});
+		} else if (isPanning && (absDx > 5 || absDy > 5)) {
+			// Continue panning if already active
 			setPan({
 				x: panPosRef.current.x + dx,
 				y: panPosRef.current.y + dy,
