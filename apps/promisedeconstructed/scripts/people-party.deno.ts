@@ -1,7 +1,7 @@
 // %%
 import { DOMParser } from 'jsr:@b-fuze/deno-dom';
 import { stringify } from 'jsr:@std/csv';
-import { fetchJson } from './fetch';
+import { fetchJson } from './fetch.ts';
 
 interface Response {
 	policyLevel3All: PolicyLevelAll[];
