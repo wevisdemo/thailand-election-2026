@@ -47,15 +47,104 @@ const MonthlyPage = () => {
 			});
 	}, []);
 
-	const handleYearUp = () => {
-		if (selectedYearIndex > 0) {
-			setSelectedYearIndex(selectedYearIndex - 1);
+	// Scroll detection to update selectedYearIndex
+	useEffect(() => {
+		if (monthlyData.length === 0) return;
+
+		const scrollContainer = document.querySelector(
+			'[data-scroll-container]',
+		) as HTMLElement;
+		if (!scrollContainer) return;
+
+		const handleScroll = () => {
+			const scrollTop = scrollContainer.scrollTop;
+			const containerRect = scrollContainer.getBoundingClientRect();
+			const viewportTop = scrollTop;
+			const stickyHeaderHeight = 50; // Approximate height of sticky header
+
+			// Find which section is most visible in the viewport
+			let currentIndex = 0;
+			let maxVisibility = 0;
+
+			monthlyData.forEach((_, index) => {
+				const element = document.getElementById(`year-section-${index}`);
+				if (element) {
+					const elementTop = element.offsetTop;
+					const elementBottom = elementTop + element.offsetHeight;
+
+					// Calculate how much of the section is visible
+					const visibleTop = Math.max(viewportTop, elementTop);
+					const visibleBottom = Math.min(
+						viewportTop + containerRect.height,
+						elementBottom,
+					);
+					const visibleHeight = Math.max(
+						0,
+						visibleBottom - visibleTop - stickyHeaderHeight,
+					);
+
+					if (visibleHeight > maxVisibility) {
+						maxVisibility = visibleHeight;
+						currentIndex = index;
+					}
+				}
+			});
+
+			setSelectedYearIndex(currentIndex);
+		};
+
+		// Use IntersectionObserver for better performance
+		const observerOptions = {
+			root: scrollContainer,
+			rootMargin: '-100px 0px -50% 0px', // Account for sticky header
+			threshold: 0.1,
+		};
+
+		const observers: IntersectionObserver[] = [];
+		monthlyData.forEach((_, index) => {
+			const element = document.getElementById(`year-section-${index}`);
+			if (element) {
+				const observer = new IntersectionObserver((entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							setSelectedYearIndex(index);
+						}
+					});
+				}, observerOptions);
+				observer.observe(element);
+				observers.push(observer);
+			}
+		});
+
+		// Fallback to scroll event for initial state
+		scrollContainer.addEventListener('scroll', handleScroll);
+		handleScroll(); // Initial check
+
+		return () => {
+			scrollContainer.removeEventListener('scroll', handleScroll);
+			observers.forEach((observer) => observer.disconnect());
+		};
+	}, [monthlyData]);
+
+	const handleYearUp = (currentIndex: number) => {
+		if (currentIndex > 0) {
+			const targetIndex = currentIndex - 1;
+			const element = document.getElementById(`year-section-${targetIndex}`);
+			if (element) {
+				element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+				setSelectedYearIndex(targetIndex);
+			}
 		}
 	};
 
-	const handleYearDown = () => {
-		if (selectedYearIndex < monthlyData.length - 1) {
-			setSelectedYearIndex(selectedYearIndex + 1);
+	const handleYearDown = (currentIndex: number) => {
+		if (currentIndex < monthlyData.length - 1) {
+			const targetIndex = currentIndex + 1;
+			const element = document.getElementById(`year-section-${targetIndex}`);
+			if (element) {
+				element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+				setSelectedYearIndex(targetIndex);
+			}
 		}
 	};
 
@@ -103,8 +192,6 @@ const MonthlyPage = () => {
 			router.push(`/monthly/${routeId}`);
 		}
 	};
-
-	const currentYearData = monthlyData[selectedYearIndex];
 
 	return (
 		<div className="bg-bg relative flex h-screen w-full flex-col overflow-hidden">
@@ -157,6 +244,7 @@ const MonthlyPage = () => {
 			{/* Main Chart Area */}
 			<main className="relative z-10 min-h-0 flex-1 overflow-hidden">
 				<div
+					data-scroll-container
 					className="h-full overflow-y-auto overscroll-contain"
 					style={{ WebkitOverflowScrolling: 'touch' }}
 				>
@@ -178,113 +266,126 @@ const MonthlyPage = () => {
 					</div>
 
 					{/* Monthly View UI */}
-					{!loading && currentYearData && (
+					{!loading && monthlyData.length > 0 && (
 						<div className="mx-auto mb-12 max-w-[600px]">
-							{/* Purple Header Bar - Sticky on scroll */}
-							<div className="bg-purple-2 sticky top-0 z-20 flex items-center justify-between px-4 py-2">
-								<div className="flex items-center gap-2">
-									<Image
-										src="/politicalflashback/icon/icon-calenda.svg"
-										alt="Calendar"
-										width={24}
-										height={24}
-										className=""
-									/>
-									<p className="text-h9 font-kondolar font-bold text-white">
-										{currentYearData.year}
-									</p>
-								</div>
-								<div className="flex gap-0.5">
-									<button
-										onClick={handleYearUp}
-										disabled={selectedYearIndex === 0}
-										className={`${selectedYearIndex === 0 ? 'cursor-not-allowed opacity-50' : 'hover:opacity-80'}`}
-									>
-										<Image
-											src="/politicalflashback/icon/chevron-up.svg"
-											alt="Up"
-											width={24}
-											height={24}
-											className="brightness-0 invert"
-										/>
-									</button>
-									<button
-										onClick={handleYearDown}
-										disabled={selectedYearIndex === monthlyData.length - 1}
-										className={`${selectedYearIndex === monthlyData.length - 1 ? 'cursor-not-allowed opacity-50' : 'hover:opacity-80'}`}
-									>
-										<Image
-											src="/politicalflashback/icon/chevron-up.svg"
-											alt="Up"
-											width={24}
-											height={24}
-											className="rotate-180 brightness-0 invert"
-										/>
-									</button>
-								</div>
-							</div>
-
-							{/* Month Cards */}
-							<div className="mx-4 mt-4 flex flex-col gap-4">
-								{currentYearData.months.map((month) => (
-									<button
-										key={month.id}
-										onClick={() =>
-											handleMonthClick(month, currentYearData.year)
-										}
-										className="cursor-pointer rounded-2xl border-2 border-black bg-white p-4 text-left transition-colors hover:bg-gray-50"
-									>
-										{/* Month Header */}
-										<div className="mb-3 flex items-center justify-between">
-											<h3 className="text-h6 font-kondolar font-bold text-black">
-												{month.name}
-											</h3>
+							{/* All Year Sections */}
+							{monthlyData.map((yearData, yearIndex) => (
+								<div
+									key={yearData.year}
+									id={`year-section-${yearIndex}`}
+									className="mb-6 scroll-mt-0"
+								>
+									{/* Purple Header Bar - Sticky on scroll for each year */}
+									<div className="bg-purple-2 sticky top-0 z-20 flex items-center justify-between px-4 py-2">
+										<div className="flex items-center gap-2">
 											<Image
-												src="/politicalflashback/icon/chevron-left.svg"
-												alt="Arrow"
+												src="/politicalflashback/icon/icon-calenda.svg"
+												alt="Calendar"
 												width={24}
 												height={24}
-												className="rotate-180"
+												className=""
 											/>
+											<p className="text-h9 font-kondolar font-bold text-white">
+												{yearData.year}
+											</p>
 										</div>
+										<div className="flex gap-0.5">
+											<button
+												onClick={() => handleYearUp(yearIndex)}
+												disabled={yearIndex === 0}
+												className={`${yearIndex === 0 ? 'cursor-not-allowed opacity-50' : 'hover:opacity-80'}`}
+											>
+												<Image
+													src="/politicalflashback/icon/chevron-up.svg"
+													alt="Up"
+													width={24}
+													height={24}
+													className="brightness-0 invert"
+												/>
+											</button>
+											<button
+												onClick={() => handleYearDown(yearIndex)}
+												disabled={yearIndex === monthlyData.length - 1}
+												className={`${yearIndex === monthlyData.length - 1 ? 'cursor-not-allowed opacity-50' : 'hover:opacity-80'}`}
+											>
+												<Image
+													src="/politicalflashback/icon/chevron-up.svg"
+													alt="Up"
+													width={24}
+													height={24}
+													className="rotate-180 brightness-0 invert"
+												/>
+											</button>
+										</div>
+									</div>
 
-										{/* Divider */}
-										<div className="mb-3 border-t-2 border-black"></div>
-
-										{/* Tags */}
-										<div className="flex flex-col gap-2">
-											{month.tags.map((tag, index) => (
-												<div key={tag.id} className="flex items-center gap-1">
-													<p className="text-b4 font-ibmplex font-bold text-black">
-														{index + 1}.
-													</p>
-													<button
-														className="bg-purple-3 hover:bg-purple-2 rounded-full px-4 py-2 transition-colors"
-														onClick={(e) => {
-															e.stopPropagation();
-															router.push(
-																`/story?name=${encodeURIComponent(tag.name)}`,
-															);
-														}}
-													>
-														<p className="text-h9 font-kondolar font-bold text-black">
-															{tag.name}
-														</p>
-													</button>
+									{/* Month Cards */}
+									<div className="mx-4 mt-4 flex flex-col gap-4">
+										{yearData.months.map((month) => (
+											<button
+												key={month.id}
+												onClick={() => handleMonthClick(month, yearData.year)}
+												className="cursor-pointer rounded-2xl border-2 border-black bg-white p-4 text-left transition-colors hover:bg-gray-50"
+											>
+												{/* Month Header */}
+												<div className="mb-3 flex items-center justify-between">
+													<h3 className="text-h6 font-kondolar font-bold text-black">
+														{month.name}
+													</h3>
+													<Image
+														src="/politicalflashback/icon/chevron-left.svg"
+														alt="Arrow"
+														width={24}
+														height={24}
+														className="rotate-180"
+													/>
 												</div>
-											))}
-										</div>
-									</button>
-								))}
-							</div>
 
-							<div className="mx-4 mt-6 mb-12 md:mx-0">
-								<div className="border-purple-2 flex w-full items-center justify-center rounded-full border-2 bg-white px-4 py-2">
-									<p className="text-h9 font-sriracha text-purple-2">
-										เริ่มต้น: #ประยุทธ์ยุบสภา66 20 มี.ค 66
-									</p>
+												{/* Divider */}
+												<div className="mb-3 border-t-2 border-black"></div>
+
+												{/* Tags */}
+												<div className="flex flex-col gap-2">
+													{month.tags.map((tag, index) => (
+														<div
+															key={tag.id}
+															className="flex items-center gap-1"
+														>
+															<p className="text-b4 font-ibmplex font-bold text-black">
+																{index + 1}.
+															</p>
+															<button
+																className="bg-purple-3 hover:bg-purple-2 rounded-full px-4 py-2 transition-colors"
+																onClick={(e) => {
+																	e.stopPropagation();
+																	router.push(
+																		`/story?name=${encodeURIComponent(tag.name)}`,
+																	);
+																}}
+															>
+																<p className="text-h9 font-kondolar font-bold text-black">
+																	{tag.name}
+																</p>
+															</button>
+														</div>
+													))}
+												</div>
+											</button>
+										))}
+									</div>
+
+									{/* Year Footer - Only show on last year */}
+									{yearIndex === monthlyData.length - 1 && (
+										<div className="mx-4 mt-6 mb-12 md:mx-0">
+											<div className="border-purple-2 flex w-full items-center justify-center rounded-full border-2 bg-white px-4 py-2">
+												<p className="text-h9 font-sriracha text-purple-2">
+													เริ่มต้น: #ประยุทธ์ยุบสภา66 20 มี.ค 66
+												</p>
+											</div>
+										</div>
+									)}
 								</div>
-							</div>
+							))}
 						</div>
 					)}
 
