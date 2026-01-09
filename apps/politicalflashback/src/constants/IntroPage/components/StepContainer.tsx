@@ -42,7 +42,7 @@ const StepContainer = ({ currentStep, onNext, onBack }: StepContainerProps) => {
 								className="w-full"
 							/>
 							<p className="text-h5 font-kondolar font-bold">
-								จำได้มั้ย ตั้งแต่
+								จำกันได้มั้ย? จาก
 								<br className="block md:hidden" />
 								<span className="text-purple-1">#ประยุทธ์ยุบสภา66</span>
 								<br className="block md:hidden" /> ถึง{' '}
@@ -84,8 +84,10 @@ const StepContainer = ({ currentStep, onNext, onBack }: StepContainerProps) => {
 							<p className="text-h5 font-kondolar font-bold">
 								WeVis รวบรวม
 								<br className="block md:hidden" />
-								<span className="text-purple-1">7X,XXX ข่าวการเมือง</span>
-								<br className="block md:hidden" /> มาเป็น XXX ประเด็นร้อน
+								<span className="text-purple-1">
+									#ข่าวการเมือง ตลอดสมัยสภาผู้แทนฯ
+								</span>
+								<br className="block md:hidden" /> ชุดที่ 26 จำนวน 100 ประเด็น
 								<br className="block md:hidden" /> ให้คุณได้ระลึกชาติ
 							</p>
 							<div className="flex flex-col items-center justify-center gap-4">
@@ -93,8 +95,8 @@ const StepContainer = ({ currentStep, onNext, onBack }: StepContainerProps) => {
 									ทีมงานได้รวบรวมพาดหัวข่าวทั้งหมดในหมวด
 									<br className="block md:hidden" />
 									“ข่าวการเมือง” จาก 4 สำนักข่าวออนไลน์
-									<br className="block md:hidden" />
-									ที่____ ที่สุด อ้างอิงจาก____________
+									{/* <br className="block md:hidden" />
+									ที่____ ที่สุด อ้างอิงจาก____________ */}
 									<br className="block md:hidden" />
 									ได้แก่ ไทยรัฐออนไลน์, ThaiPBS,
 									<br className="block md:hidden" />
@@ -142,7 +144,7 @@ const StepContainer = ({ currentStep, onNext, onBack }: StepContainerProps) => {
 									<br className="block md:hidden" />
 									เพื่อให้ครอบคลุมเหตุการณ์ตั้งแต่ช่วงเลือกตั้ง
 									<br className="block md:hidden" />
-									ครั้งที่แล้ว จนถึงจุดสิ้นสุดของรัฐสภาชุดล่าสุด
+									ครั้งที่แล้ว จนถึงจุดสิ้นสุดของสภาผู้แทนฯ ชุดล่าสุด
 								</p>
 								<p>
 									จากนั้น เรานำข่าวที่ได้มาจัดกลุ่มตามประเด็น
@@ -157,7 +159,7 @@ const StepContainer = ({ currentStep, onNext, onBack }: StepContainerProps) => {
 									</span>
 									<br className="block md:hidden" />
 									<span className="bg-green-3 w-fit font-bold">
-										ทั้งหมด XXX ประเด็น
+										ทั้งหมด 100 ประเด็น
 									</span>
 								</p>
 							</div>
@@ -175,7 +177,7 @@ const StepContainer = ({ currentStep, onNext, onBack }: StepContainerProps) => {
 							<p className="text-h5 font-kondolar font-bold">
 								อ่านอย่างเดียวไม่พอ!
 								<br className="block md:hidden" />
-								ลองจัดลำดับ
+								ชวนมาจัดลำดับ
 								<span className="text-purple-1">ประเด็นสุดพีค</span>
 								<br className="block md:hidden" /> ของคุณ แล้วบันทึกไปแชร์ต่อ
 							</p>

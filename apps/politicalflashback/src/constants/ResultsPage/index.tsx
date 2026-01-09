@@ -8,6 +8,8 @@ import Button from '@/src/components/Button';
 import { useRouter } from 'next/navigation';
 import { toPng } from 'html-to-image';
 import Footer from '@/src/components/Footer';
+import Ranking from './components/Ranking';
+import { addExportCount } from '@/src/lib/firestoreActions';
 dayjs.locale(th);
 
 const ResultsPage = () => {
@@ -19,7 +21,9 @@ const ResultsPage = () => {
 		cardRef: React.RefObject<HTMLDivElement | null>,
 	) => {
 		if (!cardRef.current) return;
-
+		await addExportCount(
+			selectedTopics.slice(0, 5).map((topic) => topic.label),
+		);
 		await document.fonts.ready;
 
 		// Wait for all images to load
@@ -82,19 +86,21 @@ const ResultsPage = () => {
 	};
 
 	return (
-		<div className="bg-green-3 flex h-full min-h-screen flex-col justify-between">
-			<div className="fixed top-14 z-10 mx-4 w-full max-w-[600px] sm:mx-auto">
-				<button
-					onClick={() => router.back()}
-					className="flex items-center gap-2 rounded-full border-2 border-black bg-white text-black transition-opacity hover:opacity-80"
-				>
-					<Image
-						src="/politicalflashback/icon/chevron-left.svg"
-						alt="Back"
-						width={40}
-						height={40}
-					/>
-				</button>
+		<div className="bg-green-3 flex h-full min-h-screen w-full flex-col justify-between">
+			<div className="flex items-center justify-center">
+				<div className="fixed top-14 z-10 mx-4 flex w-full max-w-[600px] sm:mx-auto md:top-20">
+					<button
+						onClick={() => router.back()}
+						className="mx-4 flex items-center gap-2 rounded-full border-2 border-black bg-white text-black transition-opacity hover:opacity-80"
+					>
+						<Image
+							src="/politicalflashback/icon/chevron-left.svg"
+							alt="Back"
+							width={40}
+							height={40}
+						/>
+					</button>
+				</div>
 			</div>
 
 			<div className="mx-auto flex w-full max-w-[600px] flex-col items-center justify-center gap-6 px-4 py-10 pt-30">
@@ -151,7 +157,7 @@ const ResultsPage = () => {
 												</p>
 											</div>
 											<p
-												className={`font-kondolar font-bold text-black ${index === 0 ? 'text-h7' : 'text-h9'}`}
+												className={`font-kondolar font-bold text-black ${index === 0 ? 'text-h8' : 'text-h9'}`}
 											>
 												{topic.label}
 											</p>
@@ -227,6 +233,10 @@ const ResultsPage = () => {
 						</button>
 					</div>
 				</div>
+
+				<div className="my-10 w-full rounded-full border-2 border-black"></div>
+
+				<Ranking />
 			</div>
 
 			<Footer />

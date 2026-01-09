@@ -14,12 +14,14 @@
 		"@stencil/react-output-target": "^1.2.0",
 		"@tailwindcss/postcss": "^4",
 		"@types/d3": "^7.4.3",
+		"@types/dom-to-image": "^2.6.7",
 		"@types/node": "^20",
 		"@types/react": "^19.2.0",
 		"@types/react-dom": "^19.2.0",
 		"d3": "^7.9.0",
 		"dayjs": "^1.11.19",
 		"dom-to-image-more": "^3.7.2",
+		"firebase": "^12.7.0",
 		"html-to-image": "^1.11.13",
 		"konva": "^10.0.12",
 		"next": "16.0.7",
@@ -29,8 +31,7 @@
 		"tailwind-merge": "^3.4.0",
 		"tailwindcss": "^4",
 		"typescript": "^5",
-		"zustand": "^5.0.9",
-		"@types/dom-to-image": "^2.6.7"
+		"zustand": "^5.0.9"
 	},
 	"devDependencies": {
 		"eslint": "^9",

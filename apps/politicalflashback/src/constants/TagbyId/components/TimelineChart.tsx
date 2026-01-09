@@ -464,7 +464,7 @@ const StoryChart = ({
 											marginBottom: index < events.length - 1 ? '4px' : '0',
 										}}
 									>
-										<div className="bg-green-3 text-h11 font-sriracha rounded-full px-2 py-1 whitespace-nowrap text-black">
+										<div className="bg-green-3 text-h11 font-sriracha rounded-full px-2 py-1 text-black">
 											{event.label}
 										</div>
 									</div>
