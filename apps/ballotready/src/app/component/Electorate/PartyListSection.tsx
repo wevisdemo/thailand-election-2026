@@ -121,7 +121,7 @@ export default function PartyListSection({
 								src="/ballotready/green-bookmark.svg"
 								alt="green-bookmark"
 							/>
-							เคยมีตำแหน่งในสภาสมัยที่แล้ว{' '}
+							เคยมีตำแหน่งในสภาสมัยที่แล้ว &nbsp;
 							<span className="font-bold">
 								{getAmountOfPreviousPositionParties()} พรรค
 							</span>

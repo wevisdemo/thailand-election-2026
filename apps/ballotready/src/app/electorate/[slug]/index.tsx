@@ -1,6 +1,10 @@
 'use client';
 import { ElectoralDistrict } from '@/src/type/electoral_district';
-import { ElectionNavbar } from '@election/ui/react';
+import {
+	ElectionFooter,
+	ElectionNavbar,
+	ElectionSharer,
+} from '@election/ui/react';
 import ElectorateCard from '../../component/shared/ElectorateCard';
 import BallotRemind from '../../component/Electorate/BallotRemind';
 import PartyListSection from '../../component/Electorate/PartyListSection';
@@ -64,6 +68,8 @@ const PageTemplate = (props: ElectorateTemplateProps): React.ReactElement => {
 				onClose={() => modalPartyList.dispatch({ type: 'CLOSE_MODAL' })}
 				party={modalPartyList.state.party}
 			/>
+			<ElectionSharer className="py-[40px]" />
+			<ElectionFooter />
 		</>
 	);
 };

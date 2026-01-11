@@ -36,7 +36,7 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 					</p>
 				</div>
 				<div className="flex w-full items-center justify-between gap-[16px] p-[16px]">
-					<div className="flex">
+					<div className="flex gap-[8px]">
 						<div className="relative flex h-fit">
 							<img
 								className="h-[40px] w-[40px] rounded-full object-contain"

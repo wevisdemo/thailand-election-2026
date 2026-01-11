@@ -36,7 +36,6 @@ export default async function ElectoratePage({
 	const electoralDistrict = electoralDistrictMap[electorateName];
 	return (
 		<>
-			<h2>{decodeURIComponent(slug)}</h2>
 			<ElectorateTemplate
 				candidates={candidates}
 				parties={parties}

@@ -11,18 +11,20 @@ export default function PartyList({ parties }: PartyListProps) {
 	const { modalPartyList } = useContext(ElectorateStoreContext);
 	return parties.length > 0 ? (
 		<div className="w-full">
-			{parties.map((party, index) => (
-				<PartyCard
-					key={index}
-					party={party}
-					onClickViewPartyList={() => {
-						modalPartyList.dispatch({
-							type: 'OPEN_MODAL',
-							payload: { party: party },
-						});
-					}}
-				/>
-			))}
+			{parties
+				.sort((a, b) => a.number - b.number)
+				.map((party, index) => (
+					<PartyCard
+						key={index}
+						party={party}
+						onClickViewPartyList={() => {
+							modalPartyList.dispatch({
+								type: 'OPEN_MODAL',
+								payload: { party: party },
+							});
+						}}
+					/>
+				))}
 		</div>
 	) : (
 		<div>

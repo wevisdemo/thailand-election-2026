@@ -29,10 +29,10 @@ export default function ModalPartyList({
 
 	return (
 		<div
-			className="bg-opacity-50 fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-transparent"
+			className="fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-[#00000080]"
 			onClick={handleBackdropClick}
 		>
-			<div className="relative flex max-h-[80vh] w-full max-w-[292px] flex-col gap-[8px] rounded-[16px] border-[2px] bg-white p-[16px] text-[14px]">
+			<div className="relative flex max-h-[80vh] w-full max-w-[292px] flex-col gap-[8px] rounded-[16px] border-[2px] bg-white p-[16px] text-[14px] md:max-w-[400px]">
 				<img
 					className="absolute right-[16px] w-[37px] hover:cursor-pointer"
 					src="/ballotready/cross-icon.svg"

@@ -2,6 +2,7 @@ import { Party } from '@/src/type/party';
 import { ElectionButton } from '@election/ui/react';
 import { useContext, useState } from 'react';
 import { ElectorateStoreContext } from '../../store/ElectorateStore';
+import PlusButtonIcon from '../shared/PlusButtonIcon';
 
 interface PartyCardProps {
 	party: Party;
@@ -48,7 +49,9 @@ export default function PartyCard({
 								alt={party.name}
 							/>
 						</div>
-						<p className="text-h8 font-kondolar font-bold">{party.name}</p>
+						<p className="text-h8 font-kondolar ml-[4px] font-bold">
+							{party.name}
+						</p>
 					</div>
 					<img
 						className={`w-[30px] transform transition-transform duration-300 ease-in-out ${expanded ? '' : 'rotate-180'} hover:cursor-pointer`}
@@ -67,13 +70,13 @@ export default function PartyCard({
 			</div>
 			{expanded && (
 				<div className="flex flex-col gap-[8px] py-[8px]">
-					{party.pmCandidates.length > 0 && (
+					{party.pmCandidates.length > 0 ? (
 						<div>
 							<p className="mb-[4px] text-[14px] text-[#9A9A9A]">
 								แคนดิเดตนายก
 							</p>
 							{party.pmCandidates.map((candidate, index) => (
-								<div className="flex items-center" key={index}>
+								<div className="flex items-center gap-[4px]" key={index}>
 									<div className="relative flex h-fit">
 										{/* TODO: candidate photo */}
 										<img
@@ -97,12 +100,14 @@ export default function PartyCard({
 								</div>
 							))}
 						</div>
+					) : (
+						<p className="text-gray-2 text-[14px]">ไม่มีแคนดิเดตนายก</p>
 					)}
 					<button
-						className="flex gap-[8px] rounded-[16px] bg-[#CEC2F5] px-[8px] py-[10px] hover:cursor-pointer"
+						className="group flex items-center gap-[8px] rounded-[16px] bg-[#CEC2F5] px-[8px] py-[10px] hover:cursor-pointer hover:bg-[#9C81F6]"
 						onClick={onClickViewPartyList}
 					>
-						<img src="/ballotready/plus-cotton.svg" alt="plus-cotton" />
+						<PlusButtonIcon />
 						<p className="text-[14px]">ดูบัญชีรายชื่อ</p>
 					</button>
 					{party.previousPositions && party.previousPositions.length > 0 && (
