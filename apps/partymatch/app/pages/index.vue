@@ -229,13 +229,13 @@ watch(lottieContainer, (newVal) => {
 						@update:isUnselected="isUnselected = $event"
 					/>
 
-					<ElectionButton
-						class="typo-h9 font-kondolar self-center border-black font-bold text-nowrap"
+					<button
+						class="typo-h9 font-kondolar border-gray-2 hover:bg-purple-2 hover:border-purple-2 disabled:text-gray-2 h-12 w-full cursor-pointer self-center rounded-full border-2 px-6 font-bold text-nowrap disabled:cursor-not-allowed md:w-auto"
 						:disabled="isUnselected"
 						@click="toggleState"
 					>
 						ยังไม่แน่ใจ
-					</ElectionButton>
+					</button>
 				</div>
 				<PartyCard
 					v-if="isUnselected || selectedParty"
