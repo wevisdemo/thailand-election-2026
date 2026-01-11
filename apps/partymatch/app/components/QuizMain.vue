@@ -377,7 +377,7 @@ onMounted(() => {
 					hasClicked &&
 					explainMessage !== 'ยังไม่มีชื่อตอนโหวต'
 				"
-				class="hover:text-purple-1 mx-auto cursor-pointer self-center rounded-full border-3 bg-white px-4 py-2 font-bold text-nowrap hover:bg-[#F5EEE5] md:self-end"
+				class="hover:text-purple-1 mx-auto cursor-pointer self-center rounded-full border-3 bg-white px-4 py-2 font-bold text-nowrap hover:bg-[#F5EEE5] md:absolute md:right-6 md:bottom-20"
 				@click.stop="showPartyResult = true"
 			>
 				ดูผลลงมติพรรค
