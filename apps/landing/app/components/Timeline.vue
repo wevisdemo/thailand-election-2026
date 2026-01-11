@@ -164,21 +164,32 @@ const onSelect = () => {
 	selectedIndex.value = emblaApi.value.selectedScrollSnap();
 };
 
-onMounted(() => {
-	if (emblaApi.value) {
-		const firstActiveIndex = cards.value.findIndex(
-			(card) => !isExpired(card.endDate),
-		);
+watch(
+	[emblaApi, cards],
+	([api, currentCards]) => {
+		if (!api || !currentCards || currentCards.length === 0) return;
 
-		if (firstActiveIndex !== -1) {
-			emblaApi.value.scrollTo(firstActiveIndex, true);
-			selectedIndex.value = firstActiveIndex;
-		}
+		requestAnimationFrame(() => {
+			api.reInit();
 
-		emblaApi.value.on('select', onSelect);
-		emblaApi.value.on('reInit', onSelect);
-	}
-});
+			const firstActiveIndex = currentCards.findIndex(
+				(card) => !isExpired(card.endDate),
+			);
+
+			if (firstActiveIndex !== -1) {
+				api.scrollTo(firstActiveIndex, true);
+				selectedIndex.value = firstActiveIndex;
+			}
+
+			api.off('select', onSelect);
+			api.off('reInit', onSelect);
+
+			api.on('select', onSelect);
+			api.on('reInit', onSelect);
+		});
+	},
+	{ immediate: true },
+);
 
 const currentMonth = computed(() => {
 	return cards.value[selectedIndex.value]?.month || '';
