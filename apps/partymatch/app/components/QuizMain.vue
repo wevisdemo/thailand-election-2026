@@ -152,6 +152,12 @@ function getExplainMessage(partyAnswer) {
 	return statusMap[partyAnswer] || '';
 }
 
+const scrollDescription = () => {
+	if (descriptionContainer.value) {
+		descriptionContainer.value.scrollBy({ top: 100, behavior: 'smooth' });
+	}
+};
+
 const handleChoiceClick = (label) => {
 	if (selectedAnswer.value) return;
 	selectedAnswer.value = label;
@@ -306,7 +312,7 @@ onMounted(() => {
 					v-if="isOverflowing"
 					class="sticky -bottom-6 flex h-12 w-full shrink-0 items-center justify-center bg-gradient-to-t from-white via-white to-transparent"
 				>
-					<IconChevron class="h-6" />
+					<IconChevron class="h-6" @click="scrollDescription" />
 				</div>
 			</div>
 			<img src="/img/card-side.png" class="h-full py-4" />
