@@ -179,8 +179,8 @@ watch(lottieContainer, (newVal) => {
 			<!-- Title -->
 			<div class="section flex flex-col gap-8">
 				<h1 class="text-h4 font-kondolar text-center font-bold">
-					Party <span class="font-sriracha text-green-1">Match</span> or Red
-					Flag Alert?
+					Party <span class="font-sriracha text-green-1">Match</span> <br />
+					or Red Flag Alert?
 				</h1>
 				<img src="/img/hero-img.svg" alt="" />
 				<h1 class="text-h4 font-kondolar text-center font-bold">
