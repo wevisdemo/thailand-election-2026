@@ -246,13 +246,18 @@ const isExpired = (endDateString: string) => {
 							:href="card.url"
 							target="_blank"
 							rel="noopener noreferrer"
-							:class="card.urlText === 'รอประกาศ' && 'pointer-events-none'"
+							:class="
+								card.urlText === 'รอประกาศ' || isExpired(card.endDate)
+									? 'pointer-events-none'
+									: ''
+							"
 						>
 							<div class="mt-2 flex items-center gap-1 md:mt-3">
 								<p class="text-gray-2 text-b6 hover:text-gray-1">
 									{{ card.urlText }}
 								</p>
 								<img
+									v-if="!isExpired(card.endDate) && card.urlText !== 'รอประกาศ'"
 									src="/assets/images/external-icon.svg"
 									alt="External Link Icon"
 								/>
