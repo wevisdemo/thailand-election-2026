@@ -33,6 +33,18 @@ export class ElectionNavbar {
 
 	private lastScrollY = 0;
 
+	private checkIsLaunched(dateString?: string): boolean {
+		if (!dateString) return true;
+
+		const today = new Date();
+		const launchDate = new Date(dateString);
+
+		today.setHours(0, 0, 0, 0);
+		launchDate.setHours(0, 0, 0, 0);
+
+		return today >= launchDate;
+	}
+
 	@Listen('scroll', { target: 'window' })
 	handleScroll() {
 		const currentScrollY = window.scrollY;
@@ -194,7 +206,9 @@ export class ElectionNavbar {
 										</span>
 									</a>
 									{group.children.map((project) => {
-										const isLaunched = !project.willLaunchedOn;
+										const isLaunched = this.checkIsLaunched(
+											project.willLaunchedOn,
+										);
 										const isExternal = project.url.startsWith('http');
 										return (
 											<a
@@ -210,7 +224,7 @@ export class ElectionNavbar {
 													<span
 														class={`text-b6 transition-colors ${isLaunched ? 'text-green-1 group-hover:text-bg font-semibold' : ''}`}
 													>
-														{project.willLaunchedOn
+														{!isLaunched && project.willLaunchedOn
 															? `เนื้อหาจะมาในวันที่ ${new Date(project.willLaunchedOn).toLocaleDateString('TH-th', { dateStyle: 'medium' })}`
 															: project.name.en}
 													</span>
