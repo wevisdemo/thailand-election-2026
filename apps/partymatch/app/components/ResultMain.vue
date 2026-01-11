@@ -338,6 +338,8 @@ const hearts = Array.from({ length: 50 }, (_, i) => ({
 			<a
 				href="https://lis.parliament.go.th/index/search_advance.php"
 				class="underline"
+				target="_blank"
+				rel="noopener noreferrer"
 				>ระบบสารสนเทศด้านนิติบัญญัติ</a
 			>
 		</p>

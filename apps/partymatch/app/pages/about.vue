@@ -57,6 +57,8 @@ const team = [
 				<a
 					href="https://parliamentwatch.wevis.info/"
 					class="hover:text-purple-1 underline"
+					target="_blank"
+					rel="noopener noreferrer"
 					>Parliament Watch</a
 				>
 				เพื่อให้ประชาชนได้ตรวจสอบการทำงานของ สส.
@@ -78,15 +80,21 @@ const team = [
 					<a
 						class="hover:text-purple-1 underline"
 						href="https://politigraph.wevis.info/"
+						target="_blank"
+						rel="noopener noreferrer"
 						>ฐานข้อมูลการเมืองไทย</a
 					>
 					พัฒนาโดย <a
 						class="hover:text-purple-1 underline"
 						href="https://wevis.info/"
+						target="_blank"
+						rel="noopener noreferrer"
 						>WeVis</a
 					> กลุ่มเทคโนโลยีเพื่อประชาสังคม ซึ่งเก็บรวบรวมและวิเคราะห์จาก<a
 						class="hover:text-purple-1 underline"
 						href="https://msbis.parliament.go.th/ewtadmin/ewt/parliament_report/main.php?filename=index"
+						target="_blank"
+						rel="noopener noreferrer"
 						>ระบบฐานข้อมูลรายงานและบันทึกการประชุม</a
 					>
 					สำนักงานเลขาธิการสภาผู้แทนราษฎร
@@ -96,6 +104,8 @@ const team = [
 					<a
 						class="hover:text-purple-1 underline"
 						href="https://lis.parliament.go.th/index/search_advance.php"
+						target="_blank"
+						rel="noopener noreferrer"
 						>ระบบสารสนเทศด้านนิติบัญญัติ</a
 					>
 					สำนักงานเลขาธิการสภาผู้แทนราษฎร
