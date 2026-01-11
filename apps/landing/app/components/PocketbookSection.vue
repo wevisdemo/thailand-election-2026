@@ -45,6 +45,18 @@ const setActive = (key: TabKey) => {
 	activeTab.value = key;
 };
 
+const isProjectLaunched = (dateString?: string) => {
+	if (!dateString) return true;
+
+	const today = new Date();
+	const launchDate = new Date(dateString);
+
+	today.setHours(0, 0, 0, 0);
+	launchDate.setHours(0, 0, 0, 0);
+
+	return today >= launchDate;
+};
+
 const filteredProjects = computed(() => {
 	let result = projects;
 	if (activeTab.value !== 'all') {
@@ -57,7 +69,7 @@ const filteredProjects = computed(() => {
 	}
 	return result.map((p) => ({
 		...p,
-		isLaunched: !p.willLaunchedOn,
+		isLaunched: isProjectLaunched(p.willLaunchedOn),
 		isExternal: p.url.startsWith('http'),
 	}));
 });
@@ -174,7 +186,10 @@ const getAnimation = (id: number) => {
 									{{ project.theme }}
 								</p>
 							</div>
-							<div v-if="project.willLaunchedOn" class="pt-2">
+							<div
+								v-if="!project.isLaunched && project.willLaunchedOn"
+								class="pt-2"
+							>
 								<p class="text-b6">
 									เนื้อหาจะมาในวันที่ {{ formatDate(project.willLaunchedOn) }}
 								</p>
