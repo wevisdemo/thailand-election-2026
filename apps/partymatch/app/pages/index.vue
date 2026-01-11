@@ -161,32 +161,20 @@ watch(
 		lottieContainer: lottieContainer.value,
 		lottieLandingContainer: lottieLandingContainer.value,
 	}),
-	({ lottieContainer, lottieLandingContainer }) => {
-		if (lottieContainer && !showQuiz.value && !showResult.value) {
-			if (!lottieContainer._lottieInitialized) {
+	(containers) => {
+		Object.entries(containers).forEach(([key, container]) => {
+			if (container && !container._lottieInitialized) {
 				lottie.loadAnimation({
-					container: lottieContainer,
+					container,
 					renderer: 'svg',
 					loop: true,
 					autoplay: true,
-					animationData: loadingAnimation,
+					animationData:
+						key === 'lottieContainer' ? loadingAnimation : landingAnimation,
 				});
-				lottieContainer._lottieInitialized = true;
+				container._lottieInitialized = true;
 			}
-		}
-
-		if (lottieLandingContainer) {
-			if (!lottieLandingContainer._lottieInitialized) {
-				lottie.loadAnimation({
-					container: lottieLandingContainer,
-					renderer: 'svg',
-					loop: true,
-					autoplay: true,
-					animationData: landingAnimation,
-				});
-				lottieLandingContainer._lottieInitialized = true;
-			}
-		}
+		});
 	},
 	{ immediate: true },
 );
