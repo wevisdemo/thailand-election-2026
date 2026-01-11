@@ -8,6 +8,7 @@ import {
 } from '@election/ui/vue';
 import lottie from 'lottie-web';
 import loadingAnimation from '~/assets/lotties/loading.json';
+import landingAnimation from '~/assets/lotties/landing.json';
 
 import PartyDropdown from '../components/PartyDropdown.vue';
 import PartyCard from '../components/PartyCard.vue';
@@ -16,6 +17,7 @@ import ResultMain from '../components/ResultMain.vue';
 
 const selectedParty = ref(null);
 const lottieContainer = ref(null);
+const lottieLandingContainer = ref(null);
 
 const isUnselected = ref(false);
 const showQuiz = ref(false);
@@ -154,17 +156,40 @@ watchEffect(() => {
 		partyAnswers.value = electionData.value.answers;
 	}
 });
-watch(lottieContainer, (newVal) => {
-	if (newVal && !showQuiz.value) {
-		lottie.loadAnimation({
-			container: newVal,
-			renderer: 'svg',
-			loop: true,
-			autoplay: true,
-			animationData: loadingAnimation,
-		});
-	}
-});
+watch(
+	() => ({
+		lottieContainer: lottieContainer.value,
+		lottieLandingContainer: lottieLandingContainer.value,
+	}),
+	({ lottieContainer, lottieLandingContainer }) => {
+		if (lottieContainer && !showQuiz.value && !showResult.value) {
+			if (!lottieContainer._lottieInitialized) {
+				lottie.loadAnimation({
+					container: lottieContainer,
+					renderer: 'svg',
+					loop: true,
+					autoplay: true,
+					animationData: loadingAnimation,
+				});
+				lottieContainer._lottieInitialized = true;
+			}
+		}
+
+		if (lottieLandingContainer) {
+			if (!lottieLandingContainer._lottieInitialized) {
+				lottie.loadAnimation({
+					container: lottieLandingContainer,
+					renderer: 'svg',
+					loop: true,
+					autoplay: true,
+					animationData: landingAnimation,
+				});
+				lottieLandingContainer._lottieInitialized = true;
+			}
+		}
+	},
+	{ immediate: true },
+);
 </script>
 
 <template>
@@ -182,7 +207,9 @@ watch(lottieContainer, (newVal) => {
 					Party <span class="font-sriracha text-green-1">Match</span> <br />
 					or Red Flag Alert?
 				</h1>
-				<img src="/img/hero-img.svg" alt="" />
+				<!-- <img src="/img/hero-img.svg" alt="" /> -->
+				<div ref="lottieLandingContainer"></div>
+
 				<h1 class="text-h4 font-kondolar text-center font-bold">
 					พรรคที่คุณจะเลือก ทำงานตรงใจคุณแค่ไหน ?
 				</h1>
