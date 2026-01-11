@@ -1,7 +1,7 @@
 <template>
 	<div
 		@click="$emit('click')"
-		class="hover:bg-purple-1 font-kondolar flex h-12 w-full cursor-pointer flex-row items-center justify-center gap-2 self-center rounded-full bg-black px-6 font-bold text-white shadow-lg hover:shadow-none md:w-56"
+		class="hover:bg-purple-1 font-kondolar flex h-12 w-full cursor-pointer flex-row items-center justify-center gap-2 self-center rounded-full bg-black px-6 font-bold shadow-lg hover:shadow-none md:w-56"
 	>
 		<div
 			v-if="buttonIcon"

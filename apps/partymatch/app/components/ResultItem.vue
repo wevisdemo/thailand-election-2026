@@ -63,7 +63,7 @@ const barWidth = computed(() => {
 					/>
 				</div>
 				<p class="max-w-50 self-start">
-					{{ parties.map((p) => p.name).join(', ') }}
+					{{ parties.map((p) => p.name).join(' | ') }}
 				</p>
 			</div>
 			<div>

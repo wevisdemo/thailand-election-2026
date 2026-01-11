@@ -267,6 +267,7 @@ const hearts = Array.from({ length: 50 }, (_, i) => ({
 					:buttonText="saveButtonText"
 					:buttonIcon="saveButtonIcon"
 					@click="handleImageAction"
+					class="text-white"
 				/>
 				<button
 					@click="resetQuiz"

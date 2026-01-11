@@ -158,7 +158,7 @@ function calculateScore(partyAnswersArray) {
 					<ResultItem
 						:parties="[{ name: matchName, logo: matchLogo }]"
 						:matchScore="computedMatchScore"
-						class="rounded-lg bg-white p-2"
+						class="rounded-lg bg-white p-2 font-bold"
 					/>
 				</div>
 			</div>

@@ -39,7 +39,7 @@ const emit = defineEmits(['start-quiz']);
 		</div>
 		<ButtonIcon
 			id="start-quiz"
-			class="typo-h8 font-kondolar m-auto w-full font-bold"
+			class="typo-h8 font-kondolar text-green-3 m-auto w-full font-bold"
 			@click="emit('start-quiz')"
 			:buttonText="'เริ่มเล่น'"
 		/>
