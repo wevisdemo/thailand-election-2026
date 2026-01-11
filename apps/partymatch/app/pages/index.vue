@@ -290,9 +290,6 @@ watch(lottieContainer, (newVal) => {
 
 		<!-- Info -->
 		<section id="info" v-if="!showQuiz" class="flex flex-col gap-6 py-12">
-			<ElectionAboutActions
-				dataUrl="https://docs.google.com/spreadsheets/d/1cg85RsWVrSTDgRsVMTsmbkABbDk8Y84kIU_SsRl_smQ/edit?usp=sharing"
-			/>
 			<ElectionSharer />
 			<ElectionButton class="typo-h9 font-kondolar self-center font-bold"
 				><NuxtLink to="/about">เกี่ยวกับโครงการ</NuxtLink></ElectionButton
