@@ -92,7 +92,7 @@ export default function AboutPage() {
 					</div>
 					<div className="mb-[15px] md:mb-[30px]">
 						<p className="mb-[5px] font-bold md:mb-[10px]">จัดการข้อมูล</p>
-						<p>xxxxx</p>
+						<p>ดลภาค สุวรรณปัญญา</p>
 					</div>
 					<div className="mb-[15px] md:mb-[30px]">
 						<p className="mb-[5px] font-bold md:mb-[10px]">
@@ -111,22 +111,31 @@ export default function AboutPage() {
 						หมายเหตุ
 					</h2>
 					<p>
-						ทางทีมมีความตั้งใจที่พัฒนาทุกโปรเจกต์ให้เป็น Open Source
-						และเปิดข้อมูลเป็น Open Data ภายใต้ข้อตกลงในการใช้งาน (
+						<a className="underline" href="https://wevis.info/" target="_blank">
+							WeVis
+						</a>
+						 ได้รับการสนับสนุนทุนในการดำเนินงานจาก{' '}
 						<a
 							className="underline"
-							href="https://wevis.info/terms-of-use/"
+							href="https://www.ned.org/"
 							target="_blank"
 						>
-							Terms of Use
+							National Endowment for Democracy (NED)
 						</a>
-						)
-						หากมีข้อสงสัยต้องการสอบถามเพิ่มเติมประสงค์แจ้งเปลี่ยนแปลงหรือเพิ่มเติมข้อมูลเพื่อความถูกต้อง
-						หรือมีข้อเสนอแนะใด ๆ สามารถติดต่อได้ที่ team@wevis.info
+						 และ
+						<a
+							className="underline"
+							href="https://www.iri.org/"
+							target="_blank"
+						>
+							International Republican Institute
+						</a>
+						ซึ่งนำมาใช้เป็นต้นทุนในการรวมรวมข้อมูล ออกแบบ พัฒนาเว็บไซต์
+						ประสานงาน บริหารจัดการ ตลอดจนการจัดประชุมเพื่อดำเนินโครงการ
 					</p>
 				</div>
 			</div>
-			<div className="flex flex-col justify-center gap-[10px] py-[20px] md:flex-row md:py-[50px]">
+			<div className="flex flex-col items-center justify-center gap-[10px] py-[20px] md:flex-row md:py-[50px]">
 				<a
 					href="https://drive.google.com/drive/folders/171KdzhbsE-x2k9HNFioWBnnHVUk7xXEN"
 					target="_blank"
