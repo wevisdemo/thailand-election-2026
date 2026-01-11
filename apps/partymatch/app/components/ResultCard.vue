@@ -107,11 +107,15 @@ function calculateScore(partyAnswersArray) {
 		<div class="bg-bg flex w-full flex-col items-center gap-6">
 			<div class="flex h-full flex-col items-center gap-4">
 				<div
-					class="font-kondolar flex flex-row gap-1.5 text-[20px] leading-none font-bold"
+					class="font-kondolar flex flex-row gap-1.5 text-[20px] leading-none"
 				>
-					<h2>มติพรรคที่<span v-if="selectedParty?.id">เลือก</span></h2>
+					<h2 class="font-bold">
+						มติพรรค<span v-if="selectedParty?.id">ที่เลือก</span>
+					</h2>
 					<IconHeart class="h-5 w-5 text-black" />
-					<h2>ใจตรงกับ</h2>
+					<h2 class="font-regular">
+						<span v-if="!selectedParty?.id">ที่</span>ใจตรงกับ
+					</h2>
 					<IconHeart class="text-green-2 h-5 w-5" />
 					<h2 class="text-green-2 font-bold">คุณ</h2>
 				</div>
