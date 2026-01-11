@@ -1,3 +1,6 @@
+import Lottie from 'lottie-react';
+import animationData from '../../../lottie/Ballot-ok.json';
+
 export default function IntroSection() {
 	return (
 		<div className="flex flex-col items-center px-[16px]">
@@ -7,11 +10,20 @@ export default function IntroSection() {
 					เข้าคูหารอบนี้ ต้องเลือกอะไรบ้าง ?
 				</h4>
 			</div>
-			<img
+			<div className="flex h-[140px] md:h-[200px]">
+				<Lottie
+					animationData={animationData}
+					loop={true}
+					autoplay={true}
+					// You can add other props here
+				/>
+			</div>
+
+			{/* <img
 				className="w-[140px] md:w-[200px]"
 				src="/ballotready/intro-1.svg"
 				alt="intro-1"
-			/>
+			/> */}
 			<div className="font-kondolar flex flex-col py-[32px] text-center">
 				<p className="text-[24px] font-bold">
 					เตรียมตัว #เลือกตั้งพร้อมประชามติ

@@ -27,7 +27,14 @@ export default function SearchSection({
 				placeholder="พิมพ์ชื่อตำบล/เขต/แขวง"
 			/>
 			<p className="text-b5">
-				ถ้ายังไม่แน่ใจเรื่องเขตเลือกตั้ง ตรวจสอบสิทธิได้ที่นี่
+				ถ้ายังไม่แน่ใจเรื่องเขตเลือกตั้ง ตรวจสอบสิทธิได้
+				<a
+					className="underline"
+					target="_blank"
+					href="https://boraservices.bora.dopa.go.th/election/enqelection/"
+				>
+					ที่นี่
+				</a>
 			</p>
 		</div>
 	);

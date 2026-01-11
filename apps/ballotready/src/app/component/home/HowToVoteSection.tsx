@@ -33,39 +33,47 @@ export default function HowToVoteSection() {
 						</h5>
 						<div className="flex flex-col md:flex-row md:justify-between">
 							<div className="mb-[16px] flex w-full flex-col items-center rounded-[16px] border-[2px] p-[16px] md:mr-[8px] md:mb-0">
-								<img src="/ballotready/ballot-green.svg" alt="ballot-green" />
+								<img
+									className="w-[80px] md:w-[120px]"
+									src="/ballotready/ballot-green.svg"
+									alt="ballot-green"
+								/>
 								<p className="text-h8 font-kondolar mt-[10px] font-bold">
 									บัตรใบแรก
 								</p>
 								<p className="text-b5 mt-[6px]">
-									ใช้เลือกผู้สมัคร สส. เขต 1 คนที่ใช่
-									ให้เป็นผู้แทนเขตเลือกตั้งของตัวเอง
+									ใช้เลือกผู้สมัคร สส. เขต 1 <br className="hidden md:block" />
+									คนที่ใช่ ให้เป็นผู้แทนเขตเลือกตั้งของตัวเอง
 								</p>
 							</div>
 							<div className="mb-[16px] flex w-full flex-col items-center rounded-[16px] border-[2px] p-[16px] md:mr-[8px] md:mb-0">
-								<img src="/ballotready/ballot-purple.svg" alt="ballot-purple" />
+								<img
+									className="w-[80px] md:w-[120px]"
+									src="/ballotready/ballot-purple.svg"
+									alt="ballot-purple"
+								/>
 								<p className="text-h8 font-kondolar mt-[10px] font-bold">
 									บัตรใบที่สอง
 								</p>
 								<p className="text-b5 mt-[6px]">
 									ใช้เลือกพรรคการเมืองที่ชอบ โดยคะแนนที่แต่ละพรรคได้
-									จะถูกคิดคำนวณตามสัดส่วน เพื่อจัดสรรที่นั่ง สส. บัญชีรายชื่อ
+									จะถูกคิดคำนวณตามสัดส่วน เพื่อจัดสรรที่นั่ง{' '}
+									<br className="hidden md:block" />
+									สส. บัญชีรายชื่อ
 								</p>
 							</div>
 						</div>
 						<div className="flex flex-col gap-[14px] rounded-[16px] bg-[#FBF8F4] px-[14px] py-[24px]">
-							<p className="font-kondolar text-h9">
+							<p className="font-kondolar text-h10">
 								ระวังจะสับสน !{' '}
 								<span className="font-bold">
 									เบอร์คนที่เรารักในบัตรใบแรกกับเบอร์ของพรรคในบัตรใบที่สอง
 									อาจไม่เหมือนกันแม้จะอยู่พรรคเดียวกัน
 								</span>
 							</p>
-							<p>
+							<p className="text-[14px]">
 								และบัตรทั้งสองใบ ต้องเลือกผ่านการทำ{' '}
-								<span className="text-[14px] font-bold">
-									เครื่องหมายกากบาทเท่านั้น
-								</span>
+								<span className="font-bold">เครื่องหมายกากบาทเท่านั้น</span>
 								หากพบเครื่องหมายอื่นจะถือว่าเป็นบัตรเสียโดยทันที
 							</p>
 							<div className="flex justify-center gap-[14px]">
@@ -100,14 +108,19 @@ export default function HowToVoteSection() {
 						</h5>
 						<div className="flex flex-col md:flex-row md:justify-between">
 							<div className="mb-[16px] flex w-full flex-col items-center rounded-[16px] border-[2px] p-[16px] md:mr-[8px] md:mb-0">
-								<img src="/ballotready/ballot-yellow.svg" alt="ballot-yellow" />
+								<img
+									className="w-[80px] md:w-[120px]"
+									src="/ballotready/ballot-yellow.svg"
+									alt="ballot-yellow"
+								/>
 								<p className="text-h8 font-kondolar mt-[10px] font-bold">
 									ประชามติแก้รัฐธรรมนูญคืออะไร ?
 								</p>
 								<p className="text-b5 mt-[6px]">
 									การสอบถามประชาชนว่าเห็นชอบหรือไม่กับการจัดทำรัฐธรรมนูญฉบับใหม่
 									ซึ่งหากประชาชนเสียงข้างมากลงมติว่า “เห็นชอบ”
-									จะเป็นการเริ่มต้นกระบวนการร่างรัฐธรรมนูญใหม่ต่อไป
+									จะเป็นการเริ่มต้นกระบวนการร่างรัฐธรรมนูญใหม่
+									<span className="whitespace-pre">ต่อไป</span>
 								</p>
 								<p className="text-b5 mt-[8px]">อ่านเนื้อหาเพิ่มเติมได้ที่</p>
 								<a
@@ -120,20 +133,16 @@ export default function HowToVoteSection() {
 							</div>
 						</div>
 						<div className="py-[24px]">
-							<p className="font-kondolar text-[15px] font-bold">
-								ในบัตรออกเสียงประชามติ
-							</p>
-							<p className="font-kondolar text-[18px] font-bold">
-								จะมีคำถาม 1 ข้อ
-							</p>
-							<p className="mt-[8px] text-[14px]">
+							<p className="text-[18px]">ในบัตรออกเสียงประชามติ</p>
+							<p className="text-[18px]">จะมีคำถาม 1 ข้อ</p>
+							<p className="font-kondolar mt-[8px] text-[28px] font-bold">
 								ท่านเห็นชอบว่าสมควรมีรัฐธรรมนูญฉบับใหม่หรือไม่
 							</p>
 						</div>
 						<div className="flex flex-col gap-[14px] rounded-[16px] bg-[#FBF8F4] px-[14px] py-[24px] md:px-[32px]">
 							<div className="text-[14px]">
 								<p>
-									คุณต้องเลือกตอบว่า <span className="font-bold">เห็นชอบ</span>
+									คุณต้องเลือกตอบว่า <span className="font-bold">เห็นชอบ</span>{' '}
 									หรือ <span className="font-bold">ไม่เห็นชอบ</span>
 								</p>
 								<p>
@@ -147,8 +156,8 @@ export default function HowToVoteSection() {
 									</p>
 									<img
 										className="h-[32px] md:h-[60px]"
-										src="/ballotready/vote-icon.svg"
-										alt="vote-icon"
+										src="/ballotready/blank-ballot-block.svg"
+										alt="blank-ballot-block"
 									/>
 								</div>
 								<div className="flex items-center justify-center">
@@ -170,8 +179,8 @@ export default function HowToVoteSection() {
 									</p>
 									<img
 										className="h-[32px] md:h-[60px]"
-										src="/ballotready/vote-icon.svg"
-										alt="vote-icon"
+										src="/ballotready/blank-ballot-block.svg"
+										alt="blank-ballot-block"
 									/>
 								</div>
 							</div>
@@ -192,8 +201,8 @@ export default function HowToVoteSection() {
 									</p>
 									<img
 										className="h-[32px] md:h-[60px]"
-										src="/ballotready/vote-icon.svg"
-										alt="vote-icon"
+										src="/ballotready/blank-ballot-block.svg"
+										alt="blank-ballot-block"
 									/>
 								</div>
 							</div>

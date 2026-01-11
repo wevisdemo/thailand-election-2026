@@ -20,10 +20,12 @@ export default function Intro() {
 	const electoralDistrictMap = rawElectoralDistrict as ElectoralDistrictsMap;
 
 	const districtMapLabel = new Map(
-		districtList.map((d) => [
-			`ต.${d.subDistrict} อ.${d.district} จ.${d.province}`,
-			d,
-		]),
+		districtList.map((d) => {
+			if (d.province === 'กรุงเทพมหานคร') {
+				return [`แขวง${d.subDistrict} เขต${d.district} กรุงเทพมหานคร`, d];
+			}
+			return [`ต.${d.subDistrict} อ.${d.district} จ.${d.province}`, d];
+		}),
 	);
 	return (
 		<div className="flex flex-col">

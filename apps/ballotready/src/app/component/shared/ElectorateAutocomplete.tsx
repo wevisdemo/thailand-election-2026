@@ -7,6 +7,7 @@ import {
 	ElectoralDistrictsMap,
 } from '@/src/type/electoral_district';
 import React, { useEffect, useRef, useState } from 'react';
+import ArrowRightIcon from './ArrowRightIcon';
 
 interface ElectorateAutoCompleteProps {
 	mapThaiDistrict: Map<string, ThailandDistrict>;
@@ -152,17 +153,21 @@ export default function ElectorateAutoComplete({
 					{filterOptions(textInput).map((option, index) => (
 						<li
 							key={index}
-							className="hover:bg-gray1 relative border-b px-[24px] py-[16px] last:border-0 hover:cursor-pointer hover:bg-[#9A9A9A]"
+							className="group hover:bg-purple-2 relative border-b px-[24px] py-[16px] last:border-0 hover:cursor-pointer hover:bg-[#9A9A9A] hover:text-white"
 							onClick={() => {
 								handleSelectDistrict(option);
 							}}
 						>
 							{getHighlightedText(option, textInput)}
-							<img
+							<ArrowRightIcon
+								className="absolute top-1/2 right-[16px] -translate-y-1/2"
+								color="black"
+							/>
+							{/* <img
 								className="absolute top-1/2 right-[16px] -translate-y-1/2"
 								src="/ballotready/right-arrow.svg"
 								alt="right-arrow"
-							/>
+							/> */}
 						</li>
 					))}
 				</ul>
@@ -176,11 +181,11 @@ export default function ElectorateAutoComplete({
 								key={index}
 							>
 								<li
-									className="hover:bg-gray1 relative border-b px-[24px] py-[16px] last:border-0 hover:cursor-pointer hover:bg-[#9A9A9A]"
+									className="hover:bg-purple-2 relative border-b px-[24px] py-[16px] last:border-0 hover:cursor-pointer hover:text-white"
 									onClick={() => {}}
 								>
 									<p className="font-bold">
-										{option.province} เชตเลือกตั้งที่{' '}
+										{option.province} เขตเลือกตั้งที่{' '}
 										{option.electoralDistrictNumber}
 									</p>
 									<ul className="list-inside list-disc">

@@ -14,7 +14,7 @@ export default function BallotStepSection() {
 							1
 						</p>
 						<img
-							className="h-[80px]"
+							className="h-[80px] md:h-[120px]"
 							src="/ballotready/ballot-step-1.svg"
 							alt="ballot-step-1"
 						/>
@@ -27,22 +27,27 @@ export default function BallotStepSection() {
 							2
 						</p>
 						<img
-							className="h-[80px]"
+							className="h-[80px] md:h-[120px]"
 							src="/ballotready/ballot-step-2.svg"
 							alt="ballot-step-2"
 						/>
-						<p className="text-b6">เค้าคูหา กาบัตรเลือกตั้ง</p>
+						<p className="text-b6">
+							เค้าคูหา <span className="whitespace-pre">กาบัตรเลือกตั้ง</span>
+						</p>
 					</div>
 					<div className="flex flex-col items-center">
 						<p className="font-kondolar h-[24px] w-[24px] rounded-full bg-white text-center text-[18px] font-bold">
 							3
 						</p>
 						<img
-							className="h-[80px]"
+							className="h-[80px] md:h-[120px]"
 							src="/ballotready/ballot-step-3.svg"
 							alt="ballot-step-3"
 						/>
-						<p className="text-b6">หย่อนบัตรทั้ง2 ใบลงหีบที่กำหนดแยกกัน</p>
+						<p className="text-b6">
+							หย่อนบัตรทั้ง 2 ใบ
+							<span className="whitespace-pre">ลงหีบที่กำหนดแยกกัน</span>
+						</p>
 					</div>
 				</div>
 				<div className="grid max-w-[600px] grid-cols-3 gap-[4px] text-center">
@@ -50,11 +55,13 @@ export default function BallotStepSection() {
 						<p className="font-kondolar h-[24px] w-[24px] rounded-full bg-white text-center text-[18px] font-bold">
 							4
 						</p>
-						<img
-							className="h-[80px]"
-							src="/ballotready/ballot-step-4.svg"
-							alt="ballot-step-4"
-						/>
+						<div className="m-auto flex h-[80px] md:h-[120px]">
+							<img
+								className="w-[60px] md:w-[80px]"
+								src="/ballotready/ballot-step-4.svg"
+								alt="ballot-step-4"
+							/>
+						</div>
 						<p className="text-b6">เดินออกมาอีกรอบรับบัตรออกเสียงประชามติ</p>
 					</div>
 					<div className="flex flex-col items-center">
@@ -62,7 +69,7 @@ export default function BallotStepSection() {
 							5
 						</p>
 						<img
-							className="h-[80px]"
+							className="h-[80px] md:h-[120px]"
 							src="/ballotready/ballot-step-5.svg"
 							alt="ballot-step-5"
 						/>
@@ -73,7 +80,7 @@ export default function BallotStepSection() {
 							6
 						</p>
 						<img
-							className="h-[80px]"
+							className="h-[80px] md:h-[120px]"
 							src="/ballotready/ballot-step-6.svg"
 							alt="ballot-step-6"
 						/>
