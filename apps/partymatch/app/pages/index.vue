@@ -264,6 +264,7 @@ watch(lottieContainer, (newVal) => {
 			class="h-[calc(100dvh-92px)] md:h-[calc(100vh-133px)]"
 		>
 			<QuizMain
+				@reset="resetState"
 				:questionsData="quizQuestions"
 				:party-answers="partyAnswers"
 				:selected-party-id="selectedParty?.id"

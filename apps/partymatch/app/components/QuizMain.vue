@@ -17,7 +17,7 @@ const props = defineProps({
 	partyName: String,
 });
 
-const emit = defineEmits(['show-result']);
+const emit = defineEmits(['show-result', 'reset']);
 
 const currentQuestionIndex = ref(0);
 const shuffledQuestions = ref([]);
@@ -361,14 +361,17 @@ onMounted(() => {
 			class="font-kondolar gap-auto absolute bottom-0 z-0 flex h-16 w-full flex-row items-center justify-between px-4 md:h-20 md:p-6"
 		>
 			<div class="flex h-8 w-40 items-center justify-start">
-				<button
-					v-if="currentQuestionIndex > 0"
-					class="hover:text-purple-1 flex cursor-pointer items-center gap-1 self-center hover:font-bold md:gap-2"
-					@click="currentQuestionIndex--"
-				>
-					<IconNext class="h-6 w-6 scale-x-[-1] md:h-8 md:w-8" />
-					กลับ
-				</button>
+				<div class="flex h-8 w-40 items-center">
+					<button
+						@click="
+							currentQuestionIndex > 0 ? currentQuestionIndex-- : $emit('reset')
+						"
+						class="hover:text-purple-1 flex cursor-pointer items-center gap-1 hover:font-bold md:gap-2"
+					>
+						<IconNext class="h-6 w-6 scale-x-[-1] md:h-8 md:w-8" />
+						<span>กลับ</span>
+					</button>
+				</div>
 			</div>
 
 			<button
