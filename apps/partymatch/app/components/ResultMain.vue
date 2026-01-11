@@ -147,6 +147,20 @@ const shareImage = async () => {
 	}, 'image/png');
 };
 
+// Utility function to detect mobile devices
+const isMobileDevice = () => {
+	return /Mobi|Android/i.test(navigator.userAgent);
+};
+
+// Function to handle image actions based on device type
+const handleImageAction = async () => {
+	if (isMobileDevice()) {
+		await shareImage();
+	} else {
+		await downloadImage();
+	}
+};
+
 const resetQuiz = () => {
 	emit('reset');
 };
@@ -252,7 +266,7 @@ const hearts = Array.from({ length: 50 }, (_, i) => ({
 				<ButtonIcon
 					:buttonText="saveButtonText"
 					:buttonIcon="saveButtonIcon"
-					@click="handleSaveClick"
+					@click="handleImageAction"
 				/>
 				<button
 					@click="resetQuiz"
