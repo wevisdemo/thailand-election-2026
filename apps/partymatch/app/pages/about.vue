@@ -30,7 +30,7 @@ const team = [
 	},
 	{
 		role: 'บรรณาธิการ',
-		names: ['ธนิสรา เรืองเดช', 'น้ําใส ศุภวงศ์'],
+		names: ['ธนิสรา เรืองเดช', 'น้ำใส ศุภวงศ์'],
 		links: [
 			'https://www.linkedin.com/in/thanisara-r/',
 			'https://www.instagram.com/namsaisupavong/',
@@ -66,7 +66,7 @@ const team = [
 				และดำเนินนโยบายตามที่ได้สัญญาไว้กับประชาชนหรือไม่ ก่อนเข้าคูหาในสนาม
 				#เลือกตั้ง69 WeVis ขอชวนประชาชนผู้มีสิทธิเลือกตั้ง
 				ย้อนดูว่าพรรคที่คุณเคยเลือกให้ทำงานในสภาชุดก่อนหน้า ทำงานตรงใจคุณแค่ไหน
-				? แม้ประเด็นที่เคัดเลือกมาให้โหวต
+				? แม้ประเด็นที่คัดเลือกมาให้โหวต
 				อาจเป็นเพียงส่วนหนึ่งของประเด็นที่ถูกผลักดันในสภาตลอด 3 ปีที่ผ่านมา
 				แต่ก็ชวนคิดว่าพรรคการเมืองที่เราเคยเลือก
 				ได้ทำหน้าที่อย่างที่เราคาดหวังไว้หรือไม่ และการเลือกตั้งครั้งหน้า
@@ -74,7 +74,7 @@ const team = [
 			</p>
 			<br /><br />
 			<h2 class="text-h5 font-kondolar font-bold">ที่มาของข้อมูล</h2>
-			<ul>
+			<ul class="flex list-disc flex-col gap-2 pl-4">
 				<li>
 					ข้อมูลการลงมติจาก
 					<a
@@ -171,14 +171,6 @@ const team = [
 			<h2 class="text-h5 font-kondolar font-bold">หมายเหตุ</h2>
 			<p>
 				<a
-					href="https://punchup.world/"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="hover:text-purple-1 underline"
-					>Punch Up</a
-				>
-				และ
-				<a
 					href="https://wevis.info/"
 					target="_blank"
 					rel="noopener noreferrer"
@@ -193,8 +185,15 @@ const team = [
 					class="hover:text-purple-1 underline"
 					>National Endowment for Democracy (NED)</a
 				>
+				และ<a
+					href="https://www.iri.org/"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="hover:text-purple-1 underline"
+					>International Republican Institute</a
+				>
 				ซึ่งนำมาใช้เป็นต้นทุนในการรวมรวมข้อมูล ออกแบบ พัฒนาเว็บไซต์ ประสานงาน
-				บริหารจัดการ ตลอดจนการจัด Meetup เพื่อดำเนินโครงการ
+				บริหารจัดการ ตลอดจนการจัดประชุมเพื่อดำเนินโครงการ
 			</p>
 		</div>
 		<ElectionAboutActions
@@ -202,7 +201,7 @@ const team = [
 		/>
 		<ElectionSharer />
 		<ElectionButton class="m-auto"
-			><NuxtLink to="/">กลับ</NuxtLink></ElectionButton
+			><NuxtLink to="/">กลับไปหน้าแรก</NuxtLink></ElectionButton
 		>
 		<ElectionFooter />
 	</div>
