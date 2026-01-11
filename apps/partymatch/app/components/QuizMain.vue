@@ -180,6 +180,9 @@ const handleNextClick = () => {
 		emit('show-result', userAnswers.value);
 	} else {
 		currentQuestionIndex.value++;
+		if (descriptionContainer.value) {
+			descriptionContainer.value.scrollTo({ top: 0 });
+		}
 	}
 };
 
