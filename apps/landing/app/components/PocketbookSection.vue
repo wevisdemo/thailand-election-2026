@@ -1,5 +1,12 @@
 <script setup lang="ts">
 import projectsData from '@election/constants/projects.json';
+import projectCover1 from '~/assets/animations/project-cover-1.json';
+import projectCover2 from '~/assets/animations/project-cover-2.json';
+import projectCover3 from '~/assets/animations/project-cover-3.json';
+import projectCover4 from '~/assets/animations/project-cover-4.json';
+import projectCover5 from '~/assets/animations/project-cover-5.json';
+import projectCover6 from '~/assets/animations/project-cover-6.json';
+import projectCover7 from '~/assets/animations/project-cover-7.json';
 
 type TabKey = 'all' | 'prepare' | 'review';
 
@@ -66,6 +73,20 @@ const formatDate = (dateString: string) => {
 	const thaiYear = parseInt(year) + 543;
 	return `${day}/${month}/${thaiYear}`;
 };
+
+const animationMap: Record<number, any> = {
+	1: projectCover1,
+	2: projectCover2,
+	3: projectCover3,
+	4: projectCover4,
+	5: projectCover5,
+	6: projectCover6,
+	7: projectCover7,
+};
+
+const getAnimation = (id: number) => {
+	return animationMap[id];
+};
 </script>
 
 <template>
@@ -105,10 +126,23 @@ const formatDate = (dateString: string) => {
 						<div
 							:class="`flex h-full w-[265px] flex-col ${project.isLaunched ? 'bg-white text-black' : 'bg-gray-1 text-white'} p-2 text-left`"
 						>
-							<img
-								:src="`${project.isLaunched ? `/images/project-cover-${project.id}.png` : '/images/project-cover.png'}`"
-								alt=""
-							/>
+							<ClientOnly>
+								<div v-if="project.isLaunched" class="lottie-container">
+									<Vue3Lottie
+										:animationData="getAnimation(project.id)"
+										:loop="true"
+										:autoplay="true"
+									/>
+								</div>
+
+								<img
+									v-else
+									src="/images/project-cover.png"
+									alt="Project Cover"
+									class="h-[140px]"
+								/>
+							</ClientOnly>
+
 							<img src="/assets/images/rough-line.svg" class="py-4" alt="" />
 							<p
 								class="text-h10 font-kondolar h-[50px] font-bold text-pretty md:h-[75px]"
