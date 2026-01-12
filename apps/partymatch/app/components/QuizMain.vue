@@ -361,17 +361,15 @@ onMounted(() => {
 			class="font-kondolar gap-auto absolute bottom-0 z-0 flex h-16 w-full flex-row items-center justify-between px-4 md:h-20 md:p-6"
 		>
 			<div class="flex h-8 w-40 items-center justify-start">
-				<div class="flex h-8 w-40 items-center">
-					<button
-						@click="
-							currentQuestionIndex > 0 ? currentQuestionIndex-- : $emit('reset')
-						"
-						class="hover:text-purple-1 flex cursor-pointer items-center gap-1 hover:font-bold md:gap-2"
-					>
-						<IconNext class="h-6 w-6 scale-x-[-1] md:h-8 md:w-8" />
-						<span>กลับ</span>
-					</button>
-				</div>
+				<button
+					@click="
+						currentQuestionIndex > 0 ? currentQuestionIndex-- : $emit('reset')
+					"
+					class="hover:text-purple-1 flex cursor-pointer items-center gap-1 hover:font-bold md:gap-2"
+				>
+					<IconNext class="h-6 w-6 scale-x-[-1] md:h-8 md:w-8" />
+					<span>กลับ</span>
+				</button>
 			</div>
 
 			<button
@@ -380,7 +378,7 @@ onMounted(() => {
 					hasClicked &&
 					explainMessage !== 'ยังไม่มีชื่อตอนโหวต'
 				"
-				class="hover:text-purple-1 mx-auto cursor-pointer self-center rounded-full border-3 bg-white px-4 py-2 font-bold text-nowrap hover:bg-[#F5EEE5] md:absolute md:right-6 md:bottom-20"
+				class="hover:text-purple-1 relative mx-auto cursor-pointer self-center rounded-full border-3 bg-white px-4 py-2 font-bold text-nowrap hover:bg-[#F5EEE5] md:absolute md:right-6 md:bottom-20"
 				@click.stop="showPartyResult = true"
 			>
 				ดูผลลงมติพรรค
