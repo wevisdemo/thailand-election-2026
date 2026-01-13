@@ -23,6 +23,11 @@ export default function RootLayout({
 					href="https://design-systems.wevis.info/typography.css"
 					rel="stylesheet"
 				/>
+				<script
+					defer
+					data-domain="election69.wevis.info"
+					src="https://analytics.punchup.world/js/script.js"
+				></script>
 			</head>
 
 			<body>

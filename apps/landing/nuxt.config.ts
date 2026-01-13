@@ -21,6 +21,13 @@ export default defineNuxtConfig({
 					rel: 'stylesheet',
 				},
 			],
+			script: [
+				{
+					src: 'https://analytics.punchup.world/js/script.js',
+					'data-domain': 'election69.wevis.info',
+					defer: true,
+				},
+			],
 		},
 	},
 	compatibilityDate: '2025-07-15',

@@ -28,6 +28,11 @@ export default function RootLayout({
 					name="apple-mobile-web-app-title"
 					content="Promise Deconstructed"
 				/>
+				<script
+					defer
+					data-domain="election69.wevis.info"
+					src="https://analytics.punchup.world/js/script.js"
+				></script>
 			</head>
 			<body>
 				<ElectionNavbar
