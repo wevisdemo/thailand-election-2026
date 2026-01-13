@@ -17,7 +17,7 @@ const Sparkle: React.FC<Sparkle> = ({ id, x, y, color, delay, scale }) => {
 	return (
 		<motion.svg
 			key={id}
-			className="pointer-events-none absolute z-20"
+			className="pointer-events-none absolute z-10"
 			initial={{ opacity: 0, left: x, top: y }}
 			animate={{
 				opacity: [0, 1, 0],
@@ -127,7 +127,7 @@ export const SparklesText: React.FC<SparklesTextProps> = ({
 
 	return (
 		<div className={className} {...props}>
-			<span className="relative inline-block">
+			<span className="relative z-0 inline-block">
 				{sparkles.map((sparkle) => (
 					<Sparkle key={sparkle.id} {...sparkle} />
 				))}
