@@ -7,7 +7,7 @@ import IconHeart from './icons/IconHeart.vue';
 import IconAbstain from './icons/IconAbstain.vue';
 import IconAgree from './icons/IconAgree.vue';
 import IconDisagree from './icons/IconDisagree.vue';
-import IconChevron from './icons/IconChevron.vue';
+import IconScroll from './icons/IconScroll.vue';
 
 const props = defineProps({
 	questionsData: { type: Array, required: true },
@@ -291,7 +291,7 @@ onMounted(() => {
 				class="h-full scale-x-[-1] transform py-4"
 			/>
 			<div
-				class="relative h-80 max-h-[30dvh] overflow-auto rounded-2xl bg-white p-4 text-center shadow-md [-ms-overflow-style:none] [scrollbar-width:none] sm:max-h-[60dvh] md:max-w-160 md:px-8 md:py-6 [&::-webkit-scrollbar]:hidden"
+				class="relative h-80 max-h-[30dvh] overflow-auto rounded-2xl bg-white p-4 text-center shadow-md [-ms-overflow-style:none] [scrollbar-width:none] sm:max-h-[60dvh] md:max-w-160 md:p-6 [&::-webkit-scrollbar]:hidden"
 				ref="descriptionContainer"
 			>
 				<div ref="innerContent" class="flex flex-col gap-4">
@@ -313,9 +313,9 @@ onMounted(() => {
 				</div>
 				<div
 					v-if="isOverflowing"
-					class="sticky -bottom-6 flex h-12 w-full shrink-0 items-center justify-center bg-gradient-to-t from-white via-white to-transparent"
+					class="sticky -right-2 -bottom-6 flex h-14 w-full shrink-0 items-center justify-end bg-gradient-to-t from-white via-white to-transparent"
 				>
-					<IconChevron class="h-6" @click="scrollDescription" />
+					<IconScroll class="h-8 w-8" @click="scrollDescription" />
 				</div>
 			</div>
 			<img src="/img/card-side.png" class="h-full py-4" />
