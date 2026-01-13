@@ -85,6 +85,41 @@ const ResultsPage = () => {
 		}
 	};
 
+	const getShareUrl = () => {
+		if (typeof window !== 'undefined') {
+			return window.location.href;
+		}
+		return '';
+	};
+
+	const getShareText = () => {
+		const topTopics = selectedTopics
+			.slice(0, 5)
+			.map((topic) => topic.label)
+			.join(', ');
+		return `ประเด็นสุดพีคของฉัน: ${topTopics} - Political Flashbacks`;
+	};
+
+	const handleShareFacebook = () => {
+		const url = encodeURIComponent(getShareUrl());
+		const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+		window.open(shareUrl, '_blank', 'width=600,height=400');
+	};
+
+	const handleShareX = () => {
+		const url = encodeURIComponent(getShareUrl());
+		const text = encodeURIComponent(getShareText());
+		const shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
+		window.open(shareUrl, '_blank', 'width=600,height=400');
+	};
+
+	const handleShareLine = () => {
+		const url = encodeURIComponent(getShareUrl());
+		const text = encodeURIComponent(getShareText());
+		const shareUrl = `https://social-plugins.line.me/lineit/share?url=${url}&text=${text}`;
+		window.open(shareUrl, '_blank', 'width=600,height=400');
+	};
+
 	return (
 		<div className="bg-green-3 flex h-full min-h-screen w-full flex-col justify-between">
 			<div className="flex items-center justify-center">
@@ -196,36 +231,39 @@ const ResultsPage = () => {
 					<p className="text-h9 font-sriracha text-black">แชร์รูปนี้</p>
 					<div className="flex items-center justify-center gap-4">
 						<button
-							// onClick={() => router.back()}
+							onClick={handleShareFacebook}
 							className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-black text-black transition-all hover:border-black hover:bg-white/30"
+							aria-label="Share on Facebook"
 						>
 							<Image
 								src="/politicalflashback/icon/facebook-icon.svg"
-								alt="Remove"
+								alt="Share on Facebook"
 								width={28}
 								height={28}
 								className="h-auto w-12"
 							/>
 						</button>
 						<button
-							// onClick={() => router.back()}
+							onClick={handleShareX}
 							className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-black text-black transition-all hover:border-black hover:bg-white/30"
+							aria-label="Share on X"
 						>
 							<Image
 								src="/politicalflashback/icon/x-icon.svg"
-								alt="Remove"
+								alt="Share on X"
 								width={28}
 								height={28}
 								className="h-auto w-12"
 							/>
 						</button>
 						<button
-							// onClick={() => router.back()}
+							onClick={handleShareLine}
 							className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-black text-black transition-all hover:border-black hover:bg-white/30"
+							aria-label="Share on LINE"
 						>
 							<Image
 								src="/politicalflashback/icon/line-icon.svg"
-								alt="Remove"
+								alt="Share on LINE"
 								width={28}
 								height={28}
 								className="h-auto w-12"

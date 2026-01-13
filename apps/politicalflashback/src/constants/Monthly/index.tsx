@@ -6,6 +6,7 @@ import { useTopicStore, Topic } from '@/src/stores/topicStore';
 import { useRouter } from 'next/navigation';
 import DropZone from '@/src/components/DropZone';
 import Image from 'next/image';
+import SearchModal from '@/src/components/SearchModal';
 
 interface MonthlyData {
 	year: string;
@@ -21,8 +22,37 @@ interface MonthlyData {
 	}>;
 }
 
+interface NewsItem {
+	id: number;
+	name: string;
+	link: string;
+	date?: string;
+}
+
+interface SearchModalTagData {
+	id: number;
+	name: string;
+	sum_new: number;
+	score: number;
+	date: string;
+	sub_tag: Array<{
+		id: number;
+		name: string;
+	}>;
+	chart: unknown;
+	tag_news: Array<{
+		date: string;
+		news: NewsItem[];
+	}>;
+	photo: unknown[];
+}
+
+interface SearchModalStoryDetailsData {
+	all_tag: SearchModalTagData[];
+}
+
 const MonthlyPage = () => {
-	const { setTopics, selectedTopics } = useTopicStore();
+	const { setTopics, selectedTopics, topics } = useTopicStore();
 	const pathname = usePathname();
 	const isHomePath =
 		pathname === '/home' || pathname === '/politicalflashback/home';
@@ -33,7 +63,10 @@ const MonthlyPage = () => {
 	const [monthlyData, setMonthlyData] = useState<MonthlyData[]>([]);
 	const [selectedYearIndex, setSelectedYearIndex] = useState(0);
 	const [loading, setLoading] = useState(true);
-
+	const [isSearchOpen, setIsSearchOpen] = useState(false);
+	const [searchQuery, setSearchQuery] = useState('');
+	const [storyData, setStoryData] =
+		useState<SearchModalStoryDetailsData | null>(null);
 	useEffect(() => {
 		fetch('/politicalflashback/home_monthly_view.json')
 			.then((res) => res.json())
@@ -193,6 +226,20 @@ const MonthlyPage = () => {
 		}
 	};
 
+	const handleSearchClick = () => {
+		setIsSearchOpen(true);
+	};
+
+	const handleCloseSearch = () => {
+		setIsSearchOpen(false);
+		setSearchQuery('');
+	};
+
+	const handleTopicClick = (topic: Topic) => {
+		router.push(`/story?name=${encodeURIComponent(topic.label)}`);
+		handleCloseSearch();
+	};
+
 	return (
 		<div className="bg-bg relative flex h-screen w-full flex-col overflow-hidden">
 			{/* Navigation bar */}
@@ -230,7 +277,10 @@ const MonthlyPage = () => {
 					</div>
 
 					{/* Right side - Search button */}
-					<button className="flex items-center justify-center rounded-full border-2 border-black bg-white p-1 transition-colors hover:bg-gray-100">
+					<button
+						className="flex items-center justify-center rounded-full border-2 border-black bg-white p-1 transition-colors hover:bg-gray-100"
+						onClick={handleSearchClick}
+					>
 						<Image
 							src="/politicalflashback/icon/icon-search.svg"
 							alt="Search"
@@ -402,6 +452,16 @@ const MonthlyPage = () => {
 
 			{/* Drop Zone - DropZone component handles its own fixed positioning */}
 			<DropZone />
+
+			<SearchModal
+				isOpen={isSearchOpen}
+				searchQuery={searchQuery}
+				setSearchQuery={setSearchQuery}
+				onClose={handleCloseSearch}
+				topics={topics}
+				storyData={storyData}
+				onTopicClick={handleTopicClick}
+			/>
 		</div>
 	);
 };

@@ -471,7 +471,9 @@ const TagbyId = ({ name }: { name: string | null }) => {
 						<h1 className="text-h4 font-kondolar font-black text-black">
 							{tagData.name}
 						</h1>
-						<p className="text-b5 font-ibmplex mb-1 text-black">สมัยรัฐบาล</p>
+						{tagData.photo && tagData.photo.length > 0 && (
+							<p className="text-b5 font-ibmplex mb-1 text-black">สมัยรัฐบาล</p>
+						)}
 
 						{/* Profile Pictures */}
 						{tagData.photo && tagData.photo.length > 0 && (

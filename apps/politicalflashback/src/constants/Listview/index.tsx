@@ -2,11 +2,12 @@
 
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import { useTopicStore } from '@/src/stores/topicStore';
+import { Topic, useTopicStore } from '@/src/stores/topicStore';
 import { useRouter } from 'next/navigation';
 import DropZone from '@/src/components/DropZone';
 import FireRating from '@/src/components/FireRating';
 import Image from 'next/image';
+import SearchModal from '@/src/components/SearchModal';
 
 interface TagData {
 	id: number;
@@ -36,6 +37,40 @@ interface Category {
 
 interface CategoryData {
 	data: Category[];
+}
+
+interface NewsItem {
+	id: number;
+	name: string;
+	link: string;
+	date?: string;
+}
+
+interface StoryDetailsData {
+	all_tag: TagData[];
+}
+
+// Type for SearchModal's story data (different structure from Listview's TagData)
+interface SearchModalTagData {
+	id: number;
+	name: string;
+	sum_new: number;
+	score: number;
+	date: string;
+	sub_tag: Array<{
+		id: number;
+		name: string;
+	}>;
+	chart: unknown;
+	tag_news: Array<{
+		date: string;
+		news: NewsItem[];
+	}>;
+	photo: unknown[];
+}
+
+interface SearchModalStoryDetailsData {
+	all_tag: SearchModalTagData[];
 }
 
 type SortOption =
@@ -242,7 +277,7 @@ const TrendChart = ({
 };
 
 const ListviewPage = () => {
-	const { selectedTopics, addSelectedTopic, removeSelectedTopic } =
+	const { selectedTopics, addSelectedTopic, removeSelectedTopic, topics } =
 		useTopicStore();
 	const pathname = usePathname();
 	const isHomePath =
@@ -265,6 +300,10 @@ const ListviewPage = () => {
 	const sortButtonRef = useRef<HTMLDivElement>(null);
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 	const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+	const [isSearchOpen, setIsSearchOpen] = useState(false);
+	const [searchQuery, setSearchQuery] = useState('');
+	const [storyData, setStoryData] =
+		useState<SearchModalStoryDetailsData | null>(null);
 
 	useEffect(() => {
 		// Load categories
@@ -288,6 +327,16 @@ const ListviewPage = () => {
 				console.error('Failed to load list data:', error);
 				setError('ไม่สามารถโหลดข้อมูลได้');
 				setLoading(false);
+			});
+
+		// Load story_details.json for news search
+		fetch('/politicalflashback/story_details.json')
+			.then((res) => res.json())
+			.then((data: SearchModalStoryDetailsData) => {
+				setStoryData(data);
+			})
+			.catch((error) => {
+				console.error('Failed to load story data:', error);
 			});
 	}, []);
 
@@ -440,6 +489,20 @@ const ListviewPage = () => {
 		}
 	};
 
+	const handleSearchClick = () => {
+		setIsSearchOpen(true);
+	};
+
+	const handleCloseSearch = () => {
+		setIsSearchOpen(false);
+		setSearchQuery('');
+	};
+
+	const handleTopicClick = (topic: Topic) => {
+		router.push(`/story?name=${encodeURIComponent(topic.label)}`);
+		handleCloseSearch();
+	};
+
 	return (
 		<div className="bg-bg relative flex h-screen w-full flex-col overflow-hidden">
 			{/* Navigation bar */}
@@ -481,7 +544,10 @@ const ListviewPage = () => {
 					</div>
 
 					{/* Right side - Search button */}
-					<button className="flex items-center justify-center rounded-full border-2 border-black bg-white p-1 transition-colors hover:bg-gray-100">
+					<button
+						className="flex items-center justify-center rounded-full border-2 border-black bg-white p-1 transition-colors hover:bg-gray-100"
+						onClick={handleSearchClick}
+					>
 						<Image
 							src="/politicalflashback/icon/icon-search.svg"
 							alt="Search"
@@ -805,6 +871,16 @@ const ListviewPage = () => {
 					</button>
 				</div>
 			)}
+
+			<SearchModal
+				isOpen={isSearchOpen}
+				searchQuery={searchQuery}
+				setSearchQuery={setSearchQuery}
+				onClose={handleCloseSearch}
+				topics={topics}
+				storyData={storyData}
+				onTopicClick={handleTopicClick}
+			/>
 		</div>
 	);
 };

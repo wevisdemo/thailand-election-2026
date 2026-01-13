@@ -7,6 +7,7 @@ import DropZone from '../../components/DropZone';
 import { useTopicStore, Topic } from '@/src/stores/topicStore';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import SearchModal from '@/src/components/SearchModal';
 
 interface RawBubbleData {
 	id: number;
@@ -22,9 +23,43 @@ interface RawBubbleData {
 	}>;
 }
 
+interface NewsItem {
+	id: number;
+	name: string;
+	link: string;
+	date?: string;
+}
+
+interface TagNews {
+	date: string;
+	news: NewsItem[];
+}
+
+interface TagData {
+	id: number;
+	name: string;
+	sum_new: number;
+	score: number;
+	date: string;
+	sub_tag: Array<{
+		id: number;
+		name: string;
+	}>;
+	chart: unknown;
+	tag_news: TagNews[];
+	photo: unknown[];
+}
+
+interface StoryDetailsData {
+	all_tag: TagData[];
+}
+
 const HomePage = () => {
 	const [loading, setLoading] = useState(true);
-	const { setTopics, selectedTopics } = useTopicStore();
+	const [isSearchOpen, setIsSearchOpen] = useState(false);
+	const [searchQuery, setSearchQuery] = useState('');
+	const [storyData, setStoryData] = useState<StoryDetailsData | null>(null);
+	const { setTopics, selectedTopics, topics } = useTopicStore();
 	const pathname = usePathname();
 	const isHomePath =
 		pathname === '/home' || pathname === '/politicalflashback/home';
@@ -50,6 +85,32 @@ const HomePage = () => {
 				setLoading(false);
 			});
 	}, [setTopics]);
+
+	// Load story_details.json for news search
+	useEffect(() => {
+		fetch('/politicalflashback/story_details.json')
+			.then((res) => res.json())
+			.then((data: StoryDetailsData) => {
+				setStoryData(data);
+			})
+			.catch((error) => {
+				console.error('Failed to load story data:', error);
+			});
+	}, []);
+
+	const handleSearchClick = () => {
+		setIsSearchOpen(true);
+	};
+
+	const handleCloseSearch = () => {
+		setIsSearchOpen(false);
+		setSearchQuery('');
+	};
+
+	const handleTopicClick = (topic: Topic) => {
+		router.push(`/story?name=${encodeURIComponent(topic.label)}`);
+		handleCloseSearch();
+	};
 
 	if (loading) {
 		return (
@@ -99,7 +160,10 @@ const HomePage = () => {
 					</div>
 
 					{/* Right side - Search button */}
-					<button className="flex items-center justify-center rounded-full border-2 border-black bg-white p-1 transition-colors hover:bg-gray-100">
+					<button
+						onClick={handleSearchClick}
+						className="flex items-center justify-center rounded-full border-2 border-black bg-white p-1 transition-colors hover:bg-gray-100"
+					>
 						<Image
 							src="/politicalflashback/icon/icon-search.svg"
 							alt="Search"
@@ -117,6 +181,17 @@ const HomePage = () => {
 
 			{/* Drop Zone */}
 			<DropZone />
+
+			{/* Search Overlay */}
+			<SearchModal
+				isOpen={isSearchOpen}
+				searchQuery={searchQuery}
+				setSearchQuery={setSearchQuery}
+				onClose={handleCloseSearch}
+				topics={topics}
+				storyData={storyData}
+				onTopicClick={handleTopicClick}
+			/>
 		</div>
 	);
 };

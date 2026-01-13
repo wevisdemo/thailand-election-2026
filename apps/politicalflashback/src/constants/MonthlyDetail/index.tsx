@@ -7,6 +7,12 @@ import DropZone from '@/src/components/DropZone';
 import FireRating from '@/src/components/FireRating';
 import Image from 'next/image';
 
+interface Photo {
+	id: number;
+	img: string;
+	color?: string;
+}
+
 interface Tag {
 	id: number;
 	name: string;
@@ -33,6 +39,7 @@ interface MonthlyDetailData {
 		next_month: string;
 		prev_month: string;
 		tags: Tag[];
+		photo: Photo[];
 	};
 }
 
@@ -353,7 +360,35 @@ const MonthlyDetailPage = () => {
 								<h1 className="text-h4 font-kondolar font-black text-black">
 									{monthlyData.by_month.name}
 								</h1>
-								<p className="text-b5 font-ibmplex text-black">สมัยรัฐบาล</p>
+								{monthlyData.by_month.photo &&
+									monthlyData.by_month.photo.length > 0 && (
+										<p className="text-b5 font-ibmplex text-black">
+											สมัยรัฐบาล
+										</p>
+									)}
+
+								{monthlyData.by_month.photo &&
+									monthlyData.by_month.photo.length > 0 && (
+										<div className="mb-1 flex items-center justify-center">
+											{monthlyData.by_month.photo
+												.slice(0, 3)
+												.map((photo, index) => (
+													<div
+														key={photo.id}
+														className={`h-12 w-12 overflow-hidden rounded-full border-2 bg-white ${
+															index > 0 ? '-ml-3' : ''
+														}`}
+														style={{ borderColor: photo.color }}
+													>
+														<img
+															src={photo.img}
+															alt="Profile"
+															className="h-full w-full object-cover"
+														/>
+													</div>
+												))}
+										</div>
+									)}
 							</div>
 
 							{/* Summary Bar */}

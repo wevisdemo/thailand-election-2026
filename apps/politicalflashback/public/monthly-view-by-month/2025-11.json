@@ -1,0 +1,61 @@
+{
+	"by_month": {
+		"id": 1,
+		"name": "พฤศจิกายน 68",
+		"sum_tag": 1,
+		"sum_news": 17,
+		"next_month": "2025-12",
+		"prev_month": "2025-10",
+		"tags": [
+			{
+				"id": 55,
+				"name": "#เรือนจำพิเศษกรุงเทพ",
+				"sum_news": 17,
+				"score": 1,
+				"chart": {
+					"range": {
+						"start": "2025-11-21",
+						"end": "2025-12-01"
+					},
+					"bars": [
+						{
+							"date": "2025-11-21",
+							"value": 5
+						},
+						{
+							"date": "2025-11-22",
+							"value": 4
+						},
+						{
+							"date": "2025-11-23",
+							"value": 1
+						},
+						{
+							"date": "2025-11-24",
+							"value": 1
+						},
+						{
+							"date": "2025-11-25",
+							"value": 3
+						},
+						{
+							"date": "2025-11-28",
+							"value": 2
+						},
+						{
+							"date": "2025-12-01",
+							"value": 1
+						}
+					]
+				}
+			}
+		],
+		"photo": [
+			{
+				"id": 0,
+				"img": "https://politigraph.wevis.info/assets/people/%E0%B9%81%E0%B8%9E%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%98%E0%B8%B2%E0%B8%A3-%E0%B8%8A%E0%B8%B4%E0%B8%99%E0%B8%A7%E0%B8%B1%E0%B8%95%E0%B8%A3.webp",
+				"color": "#7CECC5"
+			}
+		]
+	}
+}
