@@ -1,9 +1,9 @@
 {
 	"by_month": {
-		"id": 7,
+		"id": 11,
 		"name": "สิงหาคม 67",
-		"sum_tag": 2,
-		"sum_news": 78,
+		"sum_tag": 3,
+		"sum_news": 79,
 		"next_month": "2024-9",
 		"prev_month": "2024-7",
 		"tags": [
@@ -159,6 +159,24 @@
 						{
 							"date": "2025-07-01",
 							"value": 3
+						}
+					]
+				}
+			},
+			{
+				"id": 84,
+				"name": "#ประวิตรตบนักข่าว",
+				"sum_news": 1,
+				"score": 1,
+				"chart": {
+					"range": {
+						"start": "2024-08-22",
+						"end": "2024-08-22"
+					},
+					"bars": [
+						{
+							"date": "2024-08-22",
+							"value": 1
 						}
 					]
 				}

@@ -1,0 +1,73 @@
+{
+	"by_month": {
+		"id": 5,
+		"name": "พฤษภาคม 68",
+		"sum_tag": 1,
+		"sum_news": 14,
+		"next_month": "2025-6",
+		"prev_month": "2025-4",
+		"tags": [
+			{
+				"id": 71,
+				"name": "#สารพิษแม่น้ำกก",
+				"sum_news": 14,
+				"score": 1,
+				"chart": {
+					"range": {
+						"start": "2025-05-07",
+						"end": "2025-10-12"
+					},
+					"bars": [
+						{
+							"date": "2025-05-07",
+							"value": 2
+						},
+						{
+							"date": "2025-05-21",
+							"value": 2
+						},
+						{
+							"date": "2025-05-22",
+							"value": 1
+						},
+						{
+							"date": "2025-05-23",
+							"value": 1
+						},
+						{
+							"date": "2025-05-26",
+							"value": 3
+						},
+						{
+							"date": "2025-06-06",
+							"value": 1
+						},
+						{
+							"date": "2025-06-11",
+							"value": 1
+						},
+						{
+							"date": "2025-06-29",
+							"value": 1
+						},
+						{
+							"date": "2025-10-09",
+							"value": 1
+						},
+						{
+							"date": "2025-10-12",
+							"value": 1
+						}
+					]
+				}
+			}
+		],
+		"photo": [
+			{
+				"id": 0,
+				"img": "https://politigraph.wevis.info/assets/people/%E0%B9%81%E0%B8%9E%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%98%E0%B8%B2%E0%B8%A3-%E0%B8%8A%E0%B8%B4%E0%B8%99%E0%B8%A7%E0%B8%B1%E0%B8%95%E0%B8%A3.webp",
+				"color": "#7CECC5"
+			}
+		]
+	}
+}

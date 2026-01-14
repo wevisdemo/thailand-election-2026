@@ -1,0 +1,49 @@
+{
+	"by_month": {
+		"id": 7,
+		"name": "มกราคม 68",
+		"sum_tag": 1,
+		"sum_news": 5,
+		"next_month": "2025-2",
+		"prev_month": "2024-12",
+		"tags": [
+			{
+				"id": 97,
+				"name": "#เที่ยวดีมีคืน",
+				"sum_news": 5,
+				"score": 1,
+				"chart": {
+					"range": {
+						"start": "2025-01-15",
+						"end": "2025-12-05"
+					},
+					"bars": [
+						{
+							"date": "2025-01-15",
+							"value": 1
+						},
+						{
+							"date": "2025-10-30",
+							"value": 1
+						},
+						{
+							"date": "2025-11-22",
+							"value": 2
+						},
+						{
+							"date": "2025-12-05",
+							"value": 1
+						}
+					]
+				}
+			}
+		],
+		"photo": [
+			{
+				"id": 0,
+				"img": "https://politigraph.wevis.info/assets/people/%E0%B9%81%E0%B8%9E%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%98%E0%B8%B2%E0%B8%A3-%E0%B8%8A%E0%B8%B4%E0%B8%99%E0%B8%A7%E0%B8%B1%E0%B8%95%E0%B8%A3.webp",
+				"color": "#7CECC5"
+			}
+		]
+	}
+}
