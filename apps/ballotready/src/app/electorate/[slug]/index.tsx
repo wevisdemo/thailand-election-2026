@@ -14,10 +14,11 @@ import {
 	ElectorateStoreContext,
 	ElectorateStoreProvider,
 } from '../../store/ElectorateStore';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ModalPartyList from '../../component/Electorate/ModalPartyList';
 import districtCandidateMap from '../../data/district_candidates.json' with { type: 'json' };
 import rawParties from '../../data/parties.json' with { type: 'json' };
+import ArrowRightIcon from '../../component/shared/ArrowRightIcon';
 
 interface ElectorateTemplateProps {
 	candidates: Candidate[];
@@ -36,10 +37,42 @@ export default function ElectorateTemplate(props: ElectorateTemplateProps) {
 
 const PageTemplate = (props: ElectorateTemplateProps): React.ReactElement => {
 	const { modalPartyList } = useContext(ElectorateStoreContext);
+	const [showJump, setShowJump] = useState(false);
+
+	useEffect(() => {
+		const px = window.innerWidth > 320 ? 48 : 24;
+		const onScroll = () => {
+			setShowJump(window.scrollY > px);
+		};
+
+		window.addEventListener('scroll', onScroll, { passive: true });
+		return () => window.removeEventListener('scroll', onScroll);
+	}, []);
+
+	function scrollToTop() {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
+	}
+
 	if (!props.electoralDistrict) return <></>;
 	return (
 		<>
 			<div className="flex flex-col">
+				{showJump && (
+					<div
+						onClick={() => scrollToTop()}
+						className="fixed bottom-[24px] left-[50%] z-50 flex h-[48px] w-[48px] items-center justify-center rounded-[100%] bg-[#D9D9D9] hover:cursor-pointer"
+					>
+						<img
+							className="w-[25px] rotate-270"
+							src="/ballotready/right-arrow.svg"
+							alt="right-arrow"
+						/>
+					</div>
+				)}
+
 				<ElectionNavbar />
 				<div className="flex flex-col gap-[16px] px-[16px] py-[16px] md:px-[32px]">
 					<a

@@ -18,6 +18,31 @@ function isDateInYear(dateToCheck: Date, targetYear: number): boolean {
 	return dateYear === targetYear;
 }
 
+function toThaiDate(dateInput: Date | string): string {
+	const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
+
+	const thaiMonths = [
+		'ม.ค.',
+		'ก.พ.',
+		'มี.ค.',
+		'เม.ย.',
+		'พ.ค.',
+		'มิ.ย.',
+		'ก.ค.',
+		'ส.ค.',
+		'ก.ย.',
+		'ต.ค.',
+		'พ.ย.',
+		'ธ.ค.',
+	];
+
+	const day = date.getDate();
+	const month = thaiMonths[date.getMonth()];
+	const year = date.getFullYear() + 543;
+
+	return `${day} ${month} พ.ศ.${year}`;
+}
+
 export default function PartyCard({
 	party,
 	onClickViewPartyList,
@@ -130,7 +155,8 @@ export default function PartyCard({
 											<p>{position.label}</p>
 											{/* TODO: convert date to thai date */}
 											<li className="ml-[4px]">
-												{position.from} - {position.to}{' '}
+												{toThaiDate(position.from)} -{' '}
+												{toThaiDate(position.to)}{' '}
 											</li>
 										</ul>
 									</div>

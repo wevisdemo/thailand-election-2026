@@ -15,7 +15,7 @@ export default function BallotStepSection() {
 						</p>
 						<img
 							className="h-[80px] md:h-[120px]"
-							src="/ballotready/ballot-step-1.svg"
+							src="/ballotready/ballot-step-1.png"
 							alt="ballot-step-1"
 						/>
 						<p className="text-b6">
@@ -57,8 +57,8 @@ export default function BallotStepSection() {
 						</p>
 						<div className="m-auto flex h-[80px] md:h-[120px]">
 							<img
-								className="w-[60px] md:w-[80px]"
-								src="/ballotready/ballot-step-4.svg"
+								className="h-[80px] md:h-[120px]"
+								src="/ballotready/ballot-step-4.png"
 								alt="ballot-step-4"
 							/>
 						</div>

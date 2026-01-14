@@ -130,7 +130,9 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 									href={link.url}
 								>
 									<span className="text-[14px] text-[#6140D2] underline group-hover:text-[#9C81F6]">
-										{link.label}
+										{link.label === `ส่องประวัติ`
+											? 'ส่องประวัติใน Google'
+											: link.label}
 									</span>
 									<NewTabIcon />
 								</a>
