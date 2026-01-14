@@ -25,14 +25,14 @@ export default function PlusButtonIcon({
 			/>
 			<path
 				d="M7.74512 4V11.5"
-				stroke-width="2"
-				stroke-linecap="round"
+				strokeWidth="2"
+				strokeLinecap="round"
 				className="stroke-[#CEC2F5] group-hover:stroke-[#9C81F6]"
 			/>
 			<path
 				d="M11.5 7.74512L4 7.74512"
-				stroke-width="2"
-				stroke-linecap="round"
+				strokeWidth="2"
+				strokeLinecap="round"
 				className="stroke-[#CEC2F5] group-hover:stroke-[#9C81F6]"
 			/>
 		</svg>

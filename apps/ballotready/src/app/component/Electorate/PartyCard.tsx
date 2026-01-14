@@ -3,6 +3,7 @@ import { ElectionButton } from '@election/ui/react';
 import { useContext, useState } from 'react';
 import { ElectorateStoreContext } from '../../store/ElectorateStore';
 import PlusButtonIcon from '../shared/PlusButtonIcon';
+import NewTabIcon from '../shared/NewTabIcon';
 
 interface PartyCardProps {
 	party: Party;
@@ -142,14 +143,14 @@ export default function PartyCard({
 							return (
 								<a
 									key={`${party}-${link.label}`}
-									className="flex justify-between md:justify-start"
+									className="group flex justify-between md:justify-start"
 									target="_blank"
 									href={link.url}
 								>
-									<span className="text-[14px] text-[#6140D2] underline">
+									<span className="text-[14px] text-[#6140D2] underline group-hover:text-[#9C81F6]">
 										{link.label}
 									</span>
-									<img src="/ballotready/new-tab.svg" alt="new-tab-icon" />
+									<NewTabIcon />
 								</a>
 							);
 						})}
