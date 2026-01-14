@@ -42,7 +42,7 @@ export default function HowToVoteSection() {
 									บัตรใบแรก
 								</p>
 								<p className="text-b5 mt-[6px]">
-									ใช้เลือกผู้สมัคร สส. เขต 1 <br className="hidden md:block" />
+									ใช้เลือกผู้สมัคร สส. เขต <br className="hidden md:block" />1
 									คนที่ใช่ ให้เป็นผู้แทนเขตเลือกตั้งของตัวเอง
 								</p>
 							</div>
@@ -73,7 +73,7 @@ export default function HowToVoteSection() {
 							</p>
 							<p className="text-[14px]">
 								และบัตรทั้งสองใบ ต้องเลือกผ่านการทำ{' '}
-								<span className="font-bold">เครื่องหมายกากบาทเท่านั้น</span>
+								<span className="font-bold">เครื่องหมายกากบาทเท่านั้น</span>{' '}
 								หากพบเครื่องหมายอื่นจะถือว่าเป็นบัตรเสียโดยทันที
 							</p>
 							<div className="flex justify-center gap-[14px]">
@@ -136,7 +136,8 @@ export default function HowToVoteSection() {
 							<p className="text-[18px]">ในบัตรออกเสียงประชามติ</p>
 							<p className="text-[18px]">จะมีคำถาม 1 ข้อ</p>
 							<p className="font-kondolar mt-[8px] text-[28px] font-bold">
-								ท่านเห็นชอบว่าสมควรมีรัฐธรรมนูญฉบับใหม่หรือไม่
+								ท่านเห็นชอบว่าสมควรมีรัฐธรรมนูญ
+								<span className="whitespace-pre">ฉบับใหม่หรือไม่</span>
 							</p>
 						</div>
 						<div className="flex flex-col gap-[14px] rounded-[16px] bg-[#FBF8F4] px-[14px] py-[24px] md:px-[32px]">

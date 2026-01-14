@@ -69,7 +69,7 @@ export default function ModalPartyList({
 							{party.partyList
 								.sort((a, b) => a.number - b.number)
 								.map((candidate, index) => (
-									<tr key={index} className="border-b hover:bg-gray-50">
+									<tr key={index} className="hover:bg-purple-3 border-b">
 										<td className="relative py-[8px] text-center">
 											{candidate.hasPreviousPosition && (
 												<img

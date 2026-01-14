@@ -1,5 +1,6 @@
 import { Candidate } from '@/src/type/candidate';
 import { useState } from 'react';
+import NewTabIcon from '../shared/NewTabIcon';
 
 interface IndividualCardProps {
 	candidate: Candidate;
@@ -124,14 +125,14 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 							return (
 								<a
 									key={`${candidate.name}-${link.label}`}
-									className="flex justify-between md:justify-start"
+									className="group flex justify-between md:justify-start"
 									target="_blank"
 									href={link.url}
 								>
-									<span className="text-[14px] text-[#6140D2] underline">
+									<span className="text-[14px] text-[#6140D2] underline group-hover:text-[#9C81F6]">
 										{link.label}
 									</span>
-									<img src="/ballotready/new-tab.svg" alt="new-tab-icon" />
+									<NewTabIcon />
 								</a>
 							);
 						})}

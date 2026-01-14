@@ -1,2 +1,6 @@
 @import 'tailwindcss';
 @import '@election/tailwind/index.css';
+
+body {
+	background: #fbf8f4;
+}

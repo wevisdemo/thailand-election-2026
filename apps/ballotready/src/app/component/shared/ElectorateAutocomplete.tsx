@@ -137,11 +137,23 @@ export default function ElectorateAutoComplete({
 						}
 					}}
 				/>
-				<img
-					className="absolute top-1/2 right-[0px] mr-[8px] w-[40px] -translate-y-1/2"
-					src="/ballotready/search-icon.svg"
-					alt="search-icon"
-				/>
+				{textInput.length === 0 ? (
+					<img
+						className="absolute top-1/2 right-[0px] mr-[8px] w-[40px] -translate-y-1/2"
+						src="/ballotready/search-icon.svg"
+						alt="search-icon"
+					/>
+				) : (
+					<img
+						className="absolute top-1/2 right-[0px] mr-[8px] w-[40px] -translate-y-1/2 hover:cursor-pointer"
+						src="/ballotready/cross-icon.svg"
+						alt="cross-icon"
+						onClick={() => {
+							setTextInput('');
+							setDistrictLabelSelected('');
+						}}
+					/>
+				)}
 			</div>
 			{isOpenDistrictOptions && filterOptions(textInput).length === 0 && (
 				<div className="absolute top-[100%] left-0 w-full overflow-hidden rounded-[16px] bg-[#9A9A9A] px-[24px] py-[16px] text-left">
@@ -191,7 +203,9 @@ export default function ElectorateAutoComplete({
 									<ul className="list-inside list-disc">
 										{option.districts.map((d, index) => (
 											<li className="ml-[8px]" key={`d-${index}`}>
-												อำเภอ{d.name} ({d.subDistricts.length} ตำบล)
+												{option.province == 'กรุงเทพมหานคร' ? 'เขต' : 'อำเภอ'}
+												{d.name} ({d.subDistricts.length}{' '}
+												{option.province == 'กรุงเทพมหานคร' ? 'แขวง' : 'ตำบล'})
 											</li>
 										))}
 									</ul>
