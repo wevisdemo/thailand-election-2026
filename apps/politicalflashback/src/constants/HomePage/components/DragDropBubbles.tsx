@@ -24,7 +24,7 @@ interface DragDropBubblesProps {
 const MIN_RADIUS = 48;
 const MAX_RADIUS = 80;
 const COLLISION_PADDING = 4;
-const CENTER_BUBBLE_LABEL = 'จัดตั้งรัฐบาล 2566';
+const CENTER_BUBBLE_LABEL = '#เลือกตั้ง 2566';
 const BUBBLE_COLOR = '#CEC2F5';
 const BUBBLE_DRAGGING_COLOR = '#9C81F6';
 const BUBBLE_SELECTED_COLOR = '#5EEAD4';
@@ -299,6 +299,7 @@ export default function DragDropBubbles({
 		e.stopPropagation();
 		setDraggedId(null);
 		setDraggedTopic(null);
+		setIsLongPressActive(false);
 		clearLongPressTimer();
 	};
 
@@ -327,12 +328,26 @@ export default function DragDropBubbles({
 			if (dx > 5 || dy > 5) {
 				hasMovedRef.current = true;
 				clearLongPressTimer();
+				// If drag mode was activated but user moved without dragging, reset it
+				if (isLongPressActive) {
+					setIsLongPressActive(false);
+					setDraggedId(null);
+					setDraggedTopic(null);
+				}
 			}
 		}
 	};
 
 	const handleBubbleMouseUp = (e: React.MouseEvent, node: BubbleNode) => {
 		e.stopPropagation();
+
+		// If long press was activated but no actual drag occurred, reset drag state
+		if (isLongPressActive && !hasMovedRef.current) {
+			setIsLongPressActive(false);
+			setDraggedId(null);
+			setDraggedTopic(null);
+		}
+
 		if (!hasMovedRef.current && !isLongPressActive) {
 			handleClick(node);
 		}
@@ -514,6 +529,13 @@ export default function DragDropBubbles({
 		};
 	}, [handleTouchMove, handleTouchEnd]);
 
+	// Sync panPosRef with pan state when not panning
+	useEffect(() => {
+		if (!isPanning) {
+			panPosRef.current = pan;
+		}
+	}, [pan, isPanning]);
+
 	// Cleanup long press timer on unmount
 	useEffect(() => {
 		return () => {
@@ -534,8 +556,10 @@ export default function DragDropBubbles({
 	const handleMouseDown = (e: React.MouseEvent) => {
 		const target = e.target as HTMLElement;
 		// Only start panning if clicking on container or the inner transform div
+		// Don't start panning if clicking on a bubble
 		if (
 			e.button === 0 &&
+			!target.closest('[data-node-id]') &&
 			(target === containerRef.current ||
 				target.classList.contains('pan-layer'))
 		) {
@@ -545,71 +569,98 @@ export default function DragDropBubbles({
 		}
 	};
 
-	const handleMouseMove = (e: React.MouseEvent) => {
-		if (isPanning) {
-			const dx = e.clientX - panStartRef.current.x;
-			const dy = e.clientY - panStartRef.current.y;
-			setPan({
-				x: panPosRef.current.x + dx,
-				y: panPosRef.current.y + dy,
-			});
-		}
-	};
+	// Global mouse move handler for smooth panning
+	const handleGlobalMouseMove = useCallback(
+		(e: MouseEvent) => {
+			if (isPanning) {
+				const dx = e.clientX - panStartRef.current.x;
+				const dy = e.clientY - panStartRef.current.y;
+				setPan({
+					x: panPosRef.current.x + dx,
+					y: panPosRef.current.y + dy,
+				});
+			}
+		},
+		[isPanning],
+	);
 
-	const handleMouseUp = () => {
+	// Global mouse up handler
+	const handleGlobalMouseUp = useCallback(() => {
 		setIsPanning(false);
-	};
+	}, []);
+
+	// Add global mouse event listeners for smooth panning
+	useEffect(() => {
+		if (isPanning) {
+			document.addEventListener('mousemove', handleGlobalMouseMove);
+			document.addEventListener('mouseup', handleGlobalMouseUp);
+			document.body.style.cursor = 'grabbing';
+			document.body.style.userSelect = 'none';
+		} else {
+			document.body.style.cursor = '';
+			document.body.style.userSelect = '';
+		}
+
+		return () => {
+			document.removeEventListener('mousemove', handleGlobalMouseMove);
+			document.removeEventListener('mouseup', handleGlobalMouseUp);
+			document.body.style.cursor = '';
+			document.body.style.userSelect = '';
+		};
+	}, [isPanning, handleGlobalMouseMove, handleGlobalMouseUp]);
 
 	// Touch pan handlers - allow panning on mobile even when touching bubbles
 	const handleContainerTouchStart = (e: React.TouchEvent) => {
-		const target = e.target as HTMLElement;
 		// Don't start panning if actively dragging a bubble
 		if (touchDragNodeRef.current) return;
 
 		const touch = e.touches[0];
 		// Store initial touch position for panning detection
-		// Panning will be activated in handleContainerTouchMove if horizontal movement detected
 		panStartRef.current = { x: touch.clientX, y: touch.clientY };
 		panPosRef.current = pan;
 	};
 
-	const handleContainerTouchMove = (e: React.TouchEvent) => {
-		// Don't pan if actively dragging a bubble
-		if (touchDragNodeRef.current) return;
+	const handleContainerTouchMove = useCallback(
+		(e: React.TouchEvent) => {
+			// Don't pan if actively dragging a bubble
+			if (touchDragNodeRef.current) return;
 
-		const touch = e.touches[0];
-		const dx = touch.clientX - panStartRef.current.x;
-		const dy = touch.clientY - panStartRef.current.y;
-		const absDx = Math.abs(dx);
-		const absDy = Math.abs(dy);
+			const touch = e.touches[0];
+			if (!touch) return;
 
-		// On mobile, detect horizontal panning gesture
-		// If horizontal movement is dominant, enable panning
-		if (absDx > 10 && absDx > absDy * 1.5) {
-			// Cancel any pending long press if we're panning horizontally
-			if (longPressNodeRef.current && !isLongPressActive) {
-				hasMovedRef.current = true;
-				clearLongPressTimer();
+			const dx = touch.clientX - panStartRef.current.x;
+			const dy = touch.clientY - panStartRef.current.y;
+			const absDx = Math.abs(dx);
+			const absDy = Math.abs(dy);
+
+			// If movement is significant, enable panning
+			if (absDx > 3 || absDy > 3) {
+				// Cancel any pending long press if we're panning
+				if (longPressNodeRef.current && !isLongPressActive) {
+					hasMovedRef.current = true;
+					clearLongPressTimer();
+				}
+
+				// Prevent default scrolling for smoother panning
+				e.preventDefault();
+
+				// Enable panning if not already active
+				if (!isPanning) {
+					setIsPanning(true);
+					// Reset pan start position when first activating
+					panStartRef.current = { x: touch.clientX, y: touch.clientY };
+					panPosRef.current = pan;
+				}
+
+				// Apply smooth panning using delta from start position
+				setPan({
+					x: panPosRef.current.x + dx,
+					y: panPosRef.current.y + dy,
+				});
 			}
-
-			// Enable panning if not already active
-			if (!isPanning) {
-				setIsPanning(true);
-			}
-
-			// Apply panning with priority to horizontal movement
-			setPan({
-				x: panPosRef.current.x + dx,
-				y: panPosRef.current.y + dy * 0.3, // Allow some vertical movement but prioritize horizontal
-			});
-		} else if (isPanning && (absDx > 5 || absDy > 5)) {
-			// Continue panning if already active
-			setPan({
-				x: panPosRef.current.x + dx,
-				y: panPosRef.current.y + dy,
-			});
-		}
-	};
+		},
+		[isPanning, isLongPressActive, clearLongPressTimer],
+	);
 
 	const handleContainerTouchEnd = () => {
 		setIsPanning(false);
@@ -632,9 +683,6 @@ export default function DragDropBubbles({
 			style={{ minHeight: '500px', cursor: isPanning ? 'grabbing' : 'grab' }}
 			onWheel={handleWheel}
 			onMouseDown={handleMouseDown}
-			onMouseMove={handleMouseMove}
-			onMouseUp={handleMouseUp}
-			onMouseLeave={handleMouseUp}
 			onTouchStart={handleContainerTouchStart}
 			onTouchMove={handleContainerTouchMove}
 			onTouchEnd={handleContainerTouchEnd}
@@ -644,6 +692,7 @@ export default function DragDropBubbles({
 				style={{
 					transform: `translate(${pan.x}px, ${pan.y}px) scale(${scale})`,
 					transformOrigin: 'center center',
+					willChange: isPanning ? 'transform' : 'auto',
 				}}
 			>
 				{sortedNodes.map((node) => {
@@ -670,10 +719,10 @@ export default function DragDropBubbles({
 								}
 							}}
 							onTouchStart={(e) => handleTouchStart(e, node)}
-							className={`absolute flex touch-none items-center justify-center rounded-full p-2 text-center transition-all duration-200 select-none ${
+							className={`absolute flex touch-none items-center justify-center rounded-full p-2 text-center select-none ${
 								isDragging || (isLongPressActive && node.id === draggedId)
 									? 'outline-purple-3 cursor-grab bg-white! outline-2 outline-offset-0 outline-dashed'
-									: 'cursor-pointer opacity-100 hover:scale-105 hover:shadow-lg active:scale-95'
+									: 'cursor-pointer opacity-100 transition-all duration-200 hover:scale-105 hover:shadow-lg active:scale-95'
 							} ${selected ? 'ring-4 ring-[#2DD4BF] ring-offset-2' : ''}`}
 							style={
 								{

@@ -13,7 +13,7 @@ interface StepContainerProps {
 const StepContainer = ({ currentStep, onNext, onBack }: StepContainerProps) => {
 	return (
 		<div className="bg-bg flex h-screen min-h-screen flex-col">
-			<div className="mx-auto flex w-full max-w-[600px] flex-1 flex-col items-center justify-between gap-6 px-4 py-6 pt-20">
+			<div className="bg-bg mx-auto flex w-full max-w-[600px] flex-1 flex-col items-center justify-between gap-6 px-4 py-6 pt-20 pb-16">
 				{/* Step indicator */}
 				<div className="flex items-center gap-2">
 					{[1, 2, 3].map((step) => (
@@ -178,8 +178,10 @@ const StepContainer = ({ currentStep, onNext, onBack }: StepContainerProps) => {
 								อ่านอย่างเดียวไม่พอ!
 								<br className="block md:hidden" />
 								ชวนมาจัดลำดับ
-								<span className="text-purple-1">ประเด็นสุดพีค</span>
-								<br className="block md:hidden" /> ของคุณ แล้วบันทึกไปแชร์ต่อ
+								<br className="block md:hidden" />
+								<span className="text-purple-1">ประเด็นสุดพีค ของคุณ</span>
+								<br className="block md:hidden" />
+								แล้วบันทึกไปแชร์ต่อ
 							</p>
 							<div className="flex flex-col items-center justify-center gap-4">
 								<p className="text-b4 text-center">

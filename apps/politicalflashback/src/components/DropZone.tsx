@@ -4,7 +4,7 @@ import Button from '@/src/components/Button';
 import { useTopicStore } from '@/src/stores/topicStore';
 import Image from 'next/image';
 import { useCallback, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import FireRating from './FireRating';
 import Footer from './Footer';
 
@@ -92,6 +92,7 @@ export default function DropZone({
 		reorderSelectedTopics,
 	} = useTopicStore();
 	const router = useRouter();
+	const pathname = usePathname();
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
 	const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
@@ -425,7 +426,9 @@ export default function DropZone({
 						<div className="flex items-center gap-2">
 							{isEmpty ? (
 								<span className="text-h9 font-sriracha text-black">
-									ลากประเด็นสุดพีคของคุณมาที่นี่
+									{pathname !== '/home'
+										? 'จัดอันดับประเด็นสุดพีค (0/5)'
+										: 'ลากประเด็นสุดพีคของคุณมาที่นี่'}
 								</span>
 							) : (
 								<div className="flex items-center gap-2">

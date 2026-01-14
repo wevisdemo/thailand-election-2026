@@ -1,11 +1,9 @@
 {
 	"by_month": {
-		"id": 12,
+		"id": 17,
 		"name": "กรกฎาคม 67",
 		"sum_tag": 2,
 		"sum_news": 86,
-		"next_month": "2024-8",
-		"prev_month": "2024-6",
 		"tags": [
 			{
 				"id": 58,
@@ -164,6 +162,8 @@
 				}
 			}
 		],
+		"next_month": "2024-8",
+		"prev_month": "2024-6",
 		"photo": [
 			{
 				"id": 0,
