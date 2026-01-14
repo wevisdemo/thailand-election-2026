@@ -121,25 +121,28 @@ const shareImage = async () => {
 		},
 	});
 
-	canvas.toBlob(async (blob) => {
-		const file = new File([blob], 'election69-partymatch.png', {
-			type: 'image/png',
-		});
+	const blob = await new Promise((resolve) =>
+		canvas.toBlob(resolve, 'image/png'),
+	);
 
-		if (navigator.canShare && navigator.canShare({ files: [file] })) {
-			try {
-				await navigator.share({
-					files: [file],
-					title: 'Party Match!',
-					text: 'มติพรรคไหนใจตรงกับคุณ #เลือกตั้ง69',
-				});
-			} catch (err) {
-				console.error('User cancelled or share failed', err);
-			}
-		} else {
-			downloadImage(canvas);
+	const file = new File([blob], 'election69-partymatch.png', {
+		type: 'image/png',
+	});
+
+	if (navigator.canShare && navigator.canShare({ files: [file] })) {
+		try {
+			await navigator.share({
+				files: [file],
+				title: 'Party Match!',
+				text: 'มติพรรคไหนใจตรงกับคุณ #เลือกตั้ง69',
+			});
+		} catch (err) {
+			console.error('Share failed', err);
+			downloadImage();
 		}
-	}, 'image/png');
+	} else {
+		downloadImage();
+	}
 };
 
 const isSafari = () => {
@@ -185,10 +188,6 @@ const saveButtonIcon = ref(saveIcon);
 const isSaving = ref(false);
 
 const handleImageAction = async () => {
-	if (isSaving.value) return;
-	isSaving.value = true;
-	saveButtonText.value = 'Saved';
-	saveButtonIcon.value = savedIcon;
 	try {
 		if (isMobileDevice()) {
 			await shareImage();
@@ -196,6 +195,10 @@ const handleImageAction = async () => {
 			await downloadImage();
 		}
 	} catch (e) {}
+	if (isSaving.value) return;
+	isSaving.value = true;
+	saveButtonText.value = 'Saved';
+	saveButtonIcon.value = savedIcon;
 	setTimeout(() => {
 		saveButtonText.value = "Save ไป<span class='line-through'>แฉ</span>แชร์ต่อ";
 		saveButtonIcon.value = saveIcon;
