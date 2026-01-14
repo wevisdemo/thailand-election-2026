@@ -63,7 +63,7 @@ const PageTemplate = (props: ElectorateTemplateProps): React.ReactElement => {
 				{showJump && (
 					<div
 						onClick={() => scrollToTop()}
-						className="fixed bottom-[24px] left-[50%] z-50 flex h-[48px] w-[48px] items-center justify-center rounded-[100%] bg-[#D9D9D9] hover:cursor-pointer"
+						className="fixed bottom-[24px] left-[50%] z-50 flex h-[48px] w-[48px] items-center justify-center rounded-[100%] bg-[#D9D9D9] hover:cursor-pointer md:bottom-[48px]"
 					>
 						<img
 							className="w-[25px] rotate-270"
