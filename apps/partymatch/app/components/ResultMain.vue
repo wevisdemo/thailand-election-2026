@@ -20,11 +20,11 @@ const props = defineProps({
 const emit = defineEmits(['reset', 'update:matchScore']);
 
 // Download img
-const downloadImage = async () => {
-	const el = document.getElementById('capture');
-	if (!el) return;
-	try {
-		const canvas = await html2canvas(el, {
+const downloadImage = async (existingCanvas = null) => {
+	let canvas = existingCanvas;
+	if (!canvas) {
+		const el = document.getElementById('capture');
+		canvas = await html2canvas(el, {
 			scale: 2,
 			useCORS: true,
 			backgroundColor: '#FBF8F4',
@@ -59,16 +59,14 @@ const downloadImage = async () => {
 				});
 			},
 		});
-		const dataUrl = canvas.toDataURL('image/png');
-		const link = document.createElement('a');
-		link.href = dataUrl;
-		link.download = 'election69-partymatch.png';
-		document.body.appendChild(link);
-		link.click();
-		link.remove();
-	} catch (err) {
-		console.error('capture failed', err);
 	}
+	const dataUrl = canvas.toDataURL('image/png');
+	const link = document.createElement('a');
+	link.href = dataUrl;
+	link.download = 'election69-partymatch.png';
+	document.body.appendChild(link);
+	link.click();
+	link.remove();
 };
 
 // Share img
