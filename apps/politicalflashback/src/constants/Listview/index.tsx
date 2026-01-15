@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { Topic, useTopicStore } from '@/src/stores/topicStore';
 import { useRouter } from 'next/navigation';
 import DropZone from '@/src/components/DropZone';
@@ -95,8 +95,10 @@ const calculateScore = (sumNews: number): number => {
 
 const TrendChart = ({
 	bars,
+	globalDateRange,
 }: {
 	bars: Array<{ date: string; value: number }>;
+	globalDateRange?: { start: string; end: string };
 }) => {
 	// Group bars by month and calculate max value
 	const chartData = useMemo(() => {
@@ -125,19 +127,27 @@ const TrendChart = ({
 			dataMap.set(monthKey, currentValue + bar.value);
 		});
 
-		// Find first and last date
-		if (bars.length === 0) {
+		// Determine first and last date - use global range if provided, otherwise use bars data
+		let firstDate: string;
+		let lastDate: string;
+
+		if (globalDateRange) {
+			// Use global date range
+			firstDate = globalDateRange.start;
+			lastDate = globalDateRange.end;
+		} else if (bars.length === 0) {
 			return {
 				labels: [],
 				values: [],
 				maxValue: 1,
 				dates: [],
 			};
+		} else {
+			// Fall back to bars data
+			const sortedBars = [...bars].sort((a, b) => a.date.localeCompare(b.date));
+			firstDate = sortedBars[0].date;
+			lastDate = sortedBars[sortedBars.length - 1].date;
 		}
-
-		const sortedBars = [...bars].sort((a, b) => a.date.localeCompare(b.date));
-		const firstDate = sortedBars[0].date;
-		const lastDate = sortedBars[sortedBars.length - 1].date;
 
 		// Parse dates (extract YYYY-MM from YYYY-MM-DD)
 		const firstMonthKey = firstDate.substring(0, 7);
@@ -210,10 +220,13 @@ const TrendChart = ({
 			maxValue,
 			dates: allMonths.map((m) => m.date),
 		};
-	}, [bars]);
+	}, [bars, globalDateRange]);
 
 	// Max bar height is 24px
 	const MAX_BAR_HEIGHT = 24;
+
+	const totalMonths = chartData.values.length;
+	const widthPercent = totalMonths > 0 ? 100 / totalMonths : 0;
 
 	return (
 		<div className="mt-3">
@@ -225,7 +238,14 @@ const TrendChart = ({
 							? (value / chartData.maxValue) * MAX_BAR_HEIGHT
 							: 0;
 					return (
-						<div key={index} className="flex flex-1 flex-col items-center">
+						<div
+							key={index}
+							className="flex flex-col items-center"
+							style={{
+								width: `${widthPercent}%`,
+								flexShrink: 0,
+							}}
+						>
 							{value > 0 && height > 0 && (
 								<div
 									className="bg-green-3 w-full transition-all"
@@ -243,22 +263,25 @@ const TrendChart = ({
 				<div className="absolute top-0 right-0 left-0 h-[2px] bg-black"></div>
 
 				{/* Tick marks and labels */}
-				<div className="relative flex items-start gap-1 pt-[2px]">
+				<div className="relative flex pt-[2px]">
 					{chartData.values.map((value, index) => {
 						const hasLabel = !!chartData.labels[index];
 
 						return (
 							<div
 								key={index}
-								className="relative flex flex-1 flex-col items-center"
+								className="relative flex flex-col items-center"
+								style={{
+									width: `${widthPercent}%`,
+									flexShrink: 0,
+								}}
 							>
-								{/* Tick mark extending upward - same height for all */}
+								{/* Tick mark extending upward - positioned at center */}
 								<div
 									className="bg-black"
 									style={{
 										width: '1px',
 										height: '4px',
-										marginTop: '0',
 									}}
 								/>
 								{/* Label */}
@@ -280,6 +303,7 @@ const ListviewPage = () => {
 	const { selectedTopics, addSelectedTopic, removeSelectedTopic, topics } =
 		useTopicStore();
 	const pathname = usePathname();
+	const searchParams = useSearchParams();
 	const isHomePath =
 		pathname === '/home' || pathname === '/politicalflashback/home';
 	const router = useRouter();
@@ -292,10 +316,39 @@ const ListviewPage = () => {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [categories, setCategories] = useState<Category[]>([]);
-	const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
-		new Set(),
-	);
-	const [sortOption, setSortOption] = useState<SortOption>('most_news');
+
+	// Initialize state from URL params
+	const getInitialSortOption = (): SortOption => {
+		const sortParam = searchParams.get('sort');
+		if (
+			sortParam &&
+			[
+				'most_news',
+				'least_news',
+				'longest_news',
+				'shortest_news',
+				'oldest',
+				'newest',
+				'random',
+			].includes(sortParam)
+		) {
+			return sortParam as SortOption;
+		}
+		return 'most_news';
+	};
+
+	const getInitialCategories = (): Set<string> => {
+		const categoryParam = searchParams.get('category');
+		if (categoryParam) {
+			return new Set([categoryParam]);
+		}
+		return new Set();
+	};
+
+	const [selectedCategories, setSelectedCategories] =
+		useState<Set<string>>(getInitialCategories);
+	const [sortOption, setSortOption] =
+		useState<SortOption>(getInitialSortOption);
 	const [showSortDropdown, setShowSortDropdown] = useState(false);
 	const sortButtonRef = useRef<HTMLDivElement>(null);
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -304,6 +357,46 @@ const ListviewPage = () => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [storyData, setStoryData] =
 		useState<SearchModalStoryDetailsData | null>(null);
+
+	// Sync state from URL params when they change
+	useEffect(() => {
+		const sortParam = searchParams.get('sort');
+		const categoryParam = searchParams.get('category');
+
+		if (sortParam) {
+			if (
+				[
+					'most_news',
+					'least_news',
+					'longest_news',
+					'shortest_news',
+					'oldest',
+					'newest',
+					'random',
+				].includes(sortParam)
+			) {
+				const newSort = sortParam as SortOption;
+				if (newSort !== sortOption) {
+					setSortOption(newSort);
+				}
+			}
+		} else if (sortOption !== 'most_news') {
+			setSortOption('most_news');
+		}
+
+		if (categoryParam) {
+			const newCategories = new Set([categoryParam]);
+			if (
+				selectedCategories.size !== newCategories.size ||
+				!selectedCategories.has(categoryParam)
+			) {
+				setSelectedCategories(newCategories);
+			}
+		} else if (selectedCategories.size > 0) {
+			setSelectedCategories(new Set());
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [searchParams]);
 
 	useEffect(() => {
 		// Load categories
@@ -457,15 +550,52 @@ const ListviewPage = () => {
 		return filteredAndSortedData.reduce((sum, tag) => sum + tag.sum_news, 0);
 	}, [filteredAndSortedData]);
 
+	// Calculate global date range - fixed to "มี.ค. 66-ธ.ค. 68" (March 2023 - December 2025)
+	const globalDateRange = useMemo(() => {
+		// มี.ค. 66 = March 2566 = 2023-03
+		// ธ.ค. 68 = December 2568 = 2025-12
+		return {
+			start: '2023-03-01',
+			end: '2025-12-31',
+		};
+	}, []);
+
+	// Update URL when sort or category changes
+	const updateURL = (sort: SortOption, category: Set<string>) => {
+		const params = new URLSearchParams();
+		if (sort !== 'most_news') {
+			params.set('sort', sort);
+		}
+		if (category.size > 0) {
+			params.set('category', Array.from(category)[0]);
+		}
+		const queryString = params.toString();
+		const newUrl = queryString ? `${pathname}?${queryString}` : pathname;
+
+		// Only update if URL is different from current
+		const currentUrl = searchParams.toString()
+			? `${pathname}?${searchParams.toString()}`
+			: pathname;
+		if (newUrl !== currentUrl) {
+			router.replace(newUrl, { scroll: false });
+		}
+	};
+
 	const handleCategoryToggle = (categoryName: string) => {
 		setSelectedCategories((prev) => {
 			// If clicking the same category, deselect it
-			if (prev.has(categoryName)) {
-				return new Set<string>();
-			}
-			// Otherwise, select only this category (single selection)
-			return new Set([categoryName]);
+			const newCategories = prev.has(categoryName)
+				? new Set<string>()
+				: new Set([categoryName]);
+			// Update URL
+			updateURL(sortOption, newCategories);
+			return newCategories;
 		});
+	};
+
+	const handleSortChange = (newSort: SortOption) => {
+		setSortOption(newSort);
+		updateURL(newSort, selectedCategories);
 	};
 
 	const getSortLabel = (option: SortOption): string => {
@@ -604,36 +734,36 @@ const ListviewPage = () => {
 										{totalNews.toLocaleString()} ข่าว
 									</p>
 									{/* Filter UI */}
-									<div className="mt-4 flex items-center gap-2 overflow-x-auto pb-2">
-										{/* Sort Button */}
-										<div
-											ref={sortButtonRef}
-											className="sort-dropdown-container relative shrink-0"
-										>
-											<button
-												onClick={() => setShowSortDropdown(!showSortDropdown)}
-												className={`text-h9 font-kondolar flex items-center gap-2 rounded-full border-2 border-black px-4 py-2 font-bold text-black transition-opacity hover:opacity-90 ${showSortDropdown ? 'text-green-2 bg-black' : 'bg-white text-black hover:bg-gray-100'}`}
-											>
-												<span>{getSortLabel(sortOption)}</span>
-												{showSortDropdown ? (
-													<Image
-														src="/politicalflashback/icon/down-green.svg"
-														alt="Dropdown"
-														width={24}
-														height={24}
-													/>
-												) : (
-													<Image
-														src="/politicalflashback/icon/chevron-up.svg"
-														alt="Dropdown"
-														width={24}
-														height={24}
-													/>
-												)}
-											</button>
-										</div>
+									<div className="mx-[-16px] mt-4 flex items-center gap-2 overflow-x-auto pb-2">
 										{/* Category Buttons */}
 										<div className="flex items-center gap-2 overflow-x-auto">
+											{/* Sort Button */}
+											<div
+												ref={sortButtonRef}
+												className="sort-dropdown-container relative shrink-0"
+											>
+												<button
+													onClick={() => setShowSortDropdown(!showSortDropdown)}
+													className={`text-h9 font-kondolar flex items-center gap-2 rounded-full border-2 border-black px-4 py-2 font-bold text-black transition-opacity hover:opacity-90 ${showSortDropdown ? 'text-green-2 bg-black' : 'bg-white text-black hover:bg-gray-100'}`}
+												>
+													<span>{getSortLabel(sortOption)}</span>
+													{showSortDropdown ? (
+														<Image
+															src="/politicalflashback/icon/down-green.svg"
+															alt="Dropdown"
+															width={24}
+															height={24}
+														/>
+													) : (
+														<Image
+															src="/politicalflashback/icon/chevron-up.svg"
+															alt="Dropdown"
+															width={24}
+															height={24}
+														/>
+													)}
+												</button>
+											</div>
 											{categories.map((category) => {
 												const isSelected = selectedCategories.has(
 													category.name,
@@ -710,7 +840,8 @@ const ListviewPage = () => {
 												{/* Action Icons */}
 												<div className="flex shrink-0 items-center gap-2">
 													<button
-														onClick={() => {
+														onClick={(e) => {
+															e.stopPropagation();
 															const tagId = String(tag.id);
 															const isSelected = selectedTopics.some(
 																(t) => t.id === tagId,
@@ -729,7 +860,7 @@ const ListviewPage = () => {
 																});
 															}
 														}}
-														className="flex h-8 w-8 items-center justify-center transition-opacity hover:opacity-80"
+														className="flex h-8 w-8 cursor-pointer items-center justify-center transition-opacity hover:opacity-80"
 													>
 														{selectedTopics.some(
 															(t) => t.id === String(tag.id),
@@ -749,7 +880,7 @@ const ListviewPage = () => {
 															/>
 														)}
 													</button>
-													<button className="flex h-8 w-8 items-center justify-center transition-opacity hover:opacity-80">
+													<button className="flex h-8 w-8 cursor-pointer items-center justify-center transition-opacity hover:opacity-80">
 														<Image
 															src="/politicalflashback/icon/chevron-left.svg"
 															alt="View details"
@@ -763,7 +894,10 @@ const ListviewPage = () => {
 
 											{/* Trend Chart Section */}
 											<div className="p-4">
-												<TrendChart bars={tag.chart.bars} />
+												<TrendChart
+													bars={tag.chart.bars}
+													globalDateRange={globalDateRange}
+												/>
 											</div>
 										</div>
 									);
@@ -791,7 +925,7 @@ const ListviewPage = () => {
 				>
 					<button
 						onClick={() => {
-							setSortOption('most_news');
+							handleSortChange('most_news');
 							setShowSortDropdown(false);
 						}}
 						className={`text-h9 font-kondolar w-full border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-100 ${
@@ -802,7 +936,7 @@ const ListviewPage = () => {
 					</button>
 					<button
 						onClick={() => {
-							setSortOption('least_news');
+							handleSortChange('least_news');
 							setShowSortDropdown(false);
 						}}
 						className={`text-h9 font-kondolar w-full border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-100 ${
@@ -813,7 +947,7 @@ const ListviewPage = () => {
 					</button>
 					<button
 						onClick={() => {
-							setSortOption('longest_news');
+							handleSortChange('longest_news');
 							setShowSortDropdown(false);
 						}}
 						className={`text-h9 font-kondolar flex w-full items-center justify-between border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-100 ${
@@ -825,7 +959,7 @@ const ListviewPage = () => {
 					</button>
 					<button
 						onClick={() => {
-							setSortOption('shortest_news');
+							handleSortChange('shortest_news');
 							setShowSortDropdown(false);
 						}}
 						className={`text-h9 font-kondolar w-full border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-100 ${
@@ -836,7 +970,7 @@ const ListviewPage = () => {
 					</button>
 					<button
 						onClick={() => {
-							setSortOption('oldest');
+							handleSortChange('oldest');
 							setShowSortDropdown(false);
 						}}
 						className={`text-h9 font-kondolar flex w-full items-center justify-between border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-100 ${
@@ -848,7 +982,7 @@ const ListviewPage = () => {
 					</button>
 					<button
 						onClick={() => {
-							setSortOption('newest');
+							handleSortChange('newest');
 							setShowSortDropdown(false);
 						}}
 						className={`text-h9 font-kondolar w-full border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-100 ${
@@ -859,7 +993,7 @@ const ListviewPage = () => {
 					</button>
 					<button
 						onClick={() => {
-							setSortOption('random');
+							handleSortChange('random');
 							setShowSortDropdown(false);
 						}}
 						className={`text-h9 font-kondolar flex w-full items-center justify-between px-4 py-2 text-left hover:bg-gray-100 ${

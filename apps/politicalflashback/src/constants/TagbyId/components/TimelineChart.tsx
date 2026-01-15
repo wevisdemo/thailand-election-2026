@@ -36,16 +36,19 @@ interface StoryChartProps {
 	chart: Chart;
 	knobPosition?: number;
 	onKnobPositionChange?: (position: number) => void;
+	globalDateRange?: { start: string; end: string };
 }
 
 const StoryChart = ({
 	chart,
 	knobPosition: externalKnobPosition,
 	onKnobPositionChange,
+	globalDateRange,
 }: StoryChartProps) => {
 	const [internalKnobPosition, setInternalKnobPosition] = useState(0);
 	const [isDragging, setIsDragging] = useState(false);
 	const [hoverPosition, setHoverPosition] = useState<number | null>(null);
+	const [hasInteracted, setHasInteracted] = useState(false);
 	const timelineRef = useRef<HTMLDivElement>(null);
 
 	// Use external position if provided, otherwise use internal state
@@ -77,7 +80,15 @@ const StoryChart = ({
 			dataMap.set(monthKey, currentValue + bar.value);
 		});
 
-		if (chart.bars.length === 0) {
+		// Determine first and last date - use global range if provided, otherwise use bars data
+		let firstDate: string;
+		let lastDate: string;
+
+		if (globalDateRange) {
+			// Use global date range
+			firstDate = globalDateRange.start;
+			lastDate = globalDateRange.end;
+		} else if (chart.bars.length === 0) {
 			return {
 				labels: [],
 				values: [],
@@ -85,13 +96,14 @@ const StoryChart = ({
 				dates: [],
 				allMonths: [],
 			};
+		} else {
+			// Fall back to bars data
+			const sortedBars = [...chart.bars].sort((a, b) =>
+				a.date.localeCompare(b.date),
+			);
+			firstDate = sortedBars[0].date;
+			lastDate = sortedBars[sortedBars.length - 1].date;
 		}
-
-		const sortedBars = [...chart.bars].sort((a, b) =>
-			a.date.localeCompare(b.date),
-		);
-		const firstDate = sortedBars[0].date;
-		const lastDate = sortedBars[sortedBars.length - 1].date;
 
 		const firstMonthKey = firstDate.substring(0, 7);
 		const lastMonthKey = lastDate.substring(0, 7);
@@ -157,9 +169,12 @@ const StoryChart = ({
 			dates: allMonths.map((m) => m.date),
 			allMonths,
 		};
-	}, [chart.bars]);
+	}, [chart.bars, globalDateRange]);
 
 	const MAX_BAR_HEIGHT = 24;
+
+	const totalMonths = chartData.values.length;
+	const widthPercent = totalMonths > 0 ? 100 / totalMonths : 0;
 
 	// Get current month label based on position
 	const getCurrentMonthLabel = (position: number) => {
@@ -204,6 +219,31 @@ const StoryChart = ({
 				if (onKnobPositionChange) {
 					onKnobPositionChange(position);
 				}
+
+				// Update hover position during mouse drag
+				setHoverPosition(position);
+			}
+		},
+		[externalKnobPosition, onKnobPositionChange],
+	);
+
+	const updatePositionFromTouch = useCallback(
+		(clientX: number) => {
+			if (timelineRef.current) {
+				const rect = timelineRef.current.getBoundingClientRect();
+				const x = clientX - rect.left;
+				const position = Math.max(0, Math.min(100, (x / rect.width) * 100));
+
+				if (externalKnobPosition === undefined) {
+					setInternalKnobPosition(position);
+				}
+
+				if (onKnobPositionChange) {
+					onKnobPositionChange(position);
+				}
+
+				// Update hover position during touch
+				setHoverPosition(position);
 			}
 		},
 		[externalKnobPosition, onKnobPositionChange],
@@ -223,7 +263,9 @@ const StoryChart = ({
 	};
 
 	const handleMouseLeave = () => {
-		if (!isDragging) {
+		// Only reset hover position if user hasn't interacted (clicked/dragged)
+		// Keep knob visible if user has interacted
+		if (!isDragging && !hasInteracted) {
 			setHoverPosition(null);
 		}
 	};
@@ -231,13 +273,60 @@ const StoryChart = ({
 	const handleMouseDown = (e: React.MouseEvent) => {
 		e.preventDefault();
 		setIsDragging(true);
+		setHasInteracted(true);
 		updatePosition(e.clientX);
 	};
 
 	const handleMouseUp = () => {
 		setIsDragging(false);
-		// Scroll to the selected position when released
-		scrollToPosition(knobPosition);
+		setHasInteracted(true);
+		// Only scroll horizontally if not controlled externally
+		// External control will handle vertical scrolling
+		if (externalKnobPosition === undefined) {
+			scrollToPosition(knobPosition);
+		}
+		// Keep knob visible at current position after mouse release
+		setHoverPosition(knobPosition);
+	};
+
+	const handleTouchStart = (e: React.TouchEvent) => {
+		e.preventDefault();
+		if (e.touches.length > 0) {
+			setIsDragging(true);
+			updatePositionFromTouch(e.touches[0].clientX);
+		}
+	};
+
+	const handleTouchMove = (e: React.TouchEvent) => {
+		if (isDragging && e.touches.length > 0) {
+			e.preventDefault();
+			updatePositionFromTouch(e.touches[0].clientX);
+		}
+	};
+
+	const handleTouchEnd = () => {
+		if (isDragging) {
+			setIsDragging(false);
+			// Only scroll horizontally if not controlled externally
+			// External control will handle vertical scrolling
+			if (externalKnobPosition === undefined) {
+				const currentPosition =
+					externalKnobPosition !== undefined
+						? externalKnobPosition
+						: internalKnobPosition;
+				scrollToPosition(currentPosition);
+				// Keep knob visible at current position after touch ends
+				setHoverPosition(currentPosition);
+			} else {
+				// Keep knob visible at current position after touch ends
+				setHoverPosition(knobPosition);
+			}
+		}
+	};
+
+	const handleTouchCancel = () => {
+		setIsDragging(false);
+		setHoverPosition(null);
 	};
 
 	const scrollToPosition = useCallback(
@@ -272,9 +361,13 @@ const StoryChart = ({
 					if (parent === document.body || parent === document.documentElement) {
 						const windowCenter = window.innerWidth / 2;
 						const scrollX = centerX - windowCenter;
-						window.scrollTo({
-							left: Math.max(0, window.scrollX + scrollX),
-							behavior: 'smooth',
+
+						// Use requestAnimationFrame for better mobile scroll performance
+						requestAnimationFrame(() => {
+							window.scrollTo({
+								left: Math.max(0, window.scrollX + scrollX),
+								behavior: 'smooth',
+							});
 						});
 						break;
 					}
@@ -295,27 +388,73 @@ const StoryChart = ({
 
 			const handleGlobalMouseUp = () => {
 				setIsDragging(false);
-				// Scroll to the selected position when released
-				const currentPosition =
-					externalKnobPosition !== undefined
-						? externalKnobPosition
-						: internalKnobPosition;
-				scrollToPosition(currentPosition);
-				// Reset hover position after dragging
+				setHasInteracted(true);
+				// Only scroll horizontally if not controlled externally
+				// External control will handle vertical scrolling
+				if (externalKnobPosition === undefined) {
+					const currentPosition =
+						externalKnobPosition !== undefined
+							? externalKnobPosition
+							: internalKnobPosition;
+					scrollToPosition(currentPosition);
+					// Keep knob visible at current position after mouse release
+					setHoverPosition(currentPosition);
+				} else {
+					// Keep knob visible at current position after mouse release
+					setHoverPosition(knobPosition);
+				}
+			};
+
+			const handleGlobalTouchMove = (e: TouchEvent) => {
+				if (e.touches.length > 0) {
+					e.preventDefault();
+					updatePositionFromTouch(e.touches[0].clientX);
+				}
+			};
+
+			const handleGlobalTouchEnd = () => {
+				setIsDragging(false);
+				// Only scroll horizontally if not controlled externally
+				// External control will handle vertical scrolling
+				if (externalKnobPosition === undefined) {
+					const currentPosition =
+						externalKnobPosition !== undefined
+							? externalKnobPosition
+							: internalKnobPosition;
+					scrollToPosition(currentPosition);
+					// Keep knob visible at current position after touch ends
+					setHoverPosition(currentPosition);
+				} else {
+					// Keep knob visible at current position after touch ends
+					setHoverPosition(knobPosition);
+				}
+			};
+
+			const handleGlobalTouchCancel = () => {
+				setIsDragging(false);
 				setHoverPosition(null);
 			};
 
 			window.addEventListener('mousemove', handleGlobalMouseMove);
 			window.addEventListener('mouseup', handleGlobalMouseUp);
+			window.addEventListener('touchmove', handleGlobalTouchMove, {
+				passive: false,
+			});
+			window.addEventListener('touchend', handleGlobalTouchEnd);
+			window.addEventListener('touchcancel', handleGlobalTouchCancel);
 
 			return () => {
 				window.removeEventListener('mousemove', handleGlobalMouseMove);
 				window.removeEventListener('mouseup', handleGlobalMouseUp);
+				window.removeEventListener('touchmove', handleGlobalTouchMove);
+				window.removeEventListener('touchend', handleGlobalTouchEnd);
+				window.removeEventListener('touchcancel', handleGlobalTouchCancel);
 			};
 		}
 	}, [
 		isDragging,
 		updatePosition,
+		updatePositionFromTouch,
 		externalKnobPosition,
 		internalKnobPosition,
 		scrollToPosition,
@@ -341,7 +480,14 @@ const StoryChart = ({
 							? (value / chartData.maxValue) * MAX_BAR_HEIGHT
 							: 0;
 					return (
-						<div key={index} className="flex flex-1 flex-col items-center">
+						<div
+							key={index}
+							className="flex flex-col items-center"
+							style={{
+								width: `${widthPercent}%`,
+								flexShrink: 0,
+							}}
+						>
 							{value > 0 && height > 0 && (
 								<div
 									className="bg-green-3 w-full transition-all"
@@ -355,16 +501,21 @@ const StoryChart = ({
 
 			{/* Timeline with horizontal line and tick marks */}
 			<div
-				className="relative cursor-pointer"
+				className="relative cursor-pointer touch-none"
 				ref={timelineRef}
 				onMouseDown={handleMouseDown}
 				onMouseUp={handleMouseUp}
 				onMouseMove={handleMouseMove}
 				onMouseEnter={handleMouseEnter}
 				onMouseLeave={handleMouseLeave}
+				onTouchStart={handleTouchStart}
+				onTouchMove={handleTouchMove}
+				onTouchEnd={handleTouchEnd}
+				onTouchCancel={handleTouchCancel}
 				onClick={(e) => {
 					// Make entire box clickable
 					if (!isDragging) {
+						setHasInteracted(true);
 						updatePosition(e.clientX);
 						// Scroll to clicked position
 						if (timelineRef.current) {
@@ -375,6 +526,8 @@ const StoryChart = ({
 								Math.min(100, (x / rect.width) * 100),
 							);
 							scrollToPosition(position);
+							// Keep knob visible at clicked position
+							setHoverPosition(position);
 						}
 					}
 				}}
@@ -407,7 +560,7 @@ const StoryChart = ({
 					</>
 				)}
 
-				<div className="relative flex items-start gap-1 pt-[2px]">
+				<div className="relative flex pt-[2px]">
 					{chartData.values.map((value, index) => {
 						const hasLabel = !!chartData.labels[index];
 						const position = (index / (chartData.values.length - 1)) * 100;
@@ -415,14 +568,17 @@ const StoryChart = ({
 						return (
 							<div
 								key={index}
-								className="relative flex flex-1 flex-col items-center"
+								className="relative flex flex-col items-center"
+								style={{
+									width: `${widthPercent}%`,
+									flexShrink: 0,
+								}}
 							>
 								<div
 									className="bg-black"
 									style={{
 										width: '1px',
 										height: '4px',
-										marginTop: '0',
 									}}
 								/>
 								{hasLabel && (
@@ -470,7 +626,7 @@ const StoryChart = ({
 									</div>
 								))}
 								<div className="border-t-green-3 mx-auto h-0 w-0 border-t-8 border-r-[6px] border-l-[6px] border-r-transparent border-l-transparent"></div>
-								<div className="bg-green-3 mx-auto h-11 w-[1px]"></div>
+								<div className="bg-green-3 mx-auto h-11 w-px"></div>
 							</div>
 						);
 					})}

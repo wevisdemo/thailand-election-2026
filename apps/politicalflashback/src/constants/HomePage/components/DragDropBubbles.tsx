@@ -30,6 +30,7 @@ const BUBBLE_DRAGGING_COLOR = '#9C81F6';
 const BUBBLE_SELECTED_COLOR = '#5EEAD4';
 const TEXT_COLOR = '#4A3260';
 const LONG_PRESS_DURATION = 500; // milliseconds
+const STORAGE_KEY = 'bubble-view-state';
 
 export default function DragDropBubbles({
 	width = 800,
@@ -69,9 +70,12 @@ export default function DragDropBubbles({
 		setIsOverDropZone,
 	} = useTopicStore();
 
-	// Calculate radius based on value
-	const radiusScale = useCallback((value: number, maxValue: number) => {
-		return MIN_RADIUS + (value / maxValue) * (MAX_RADIUS - MIN_RADIUS);
+	// Calculate radius based on value (1-10 scale to 48-80px)
+	const radiusScale = useCallback((radius: number) => {
+		// radius is 1-10, map to 48-80px
+		// Normalize: (radius - 1) / (10 - 1) = (radius - 1) / 9
+		const normalized = (radius - 1) / 9; // 0 to 1
+		return MIN_RADIUS + normalized * (MAX_RADIUS - MIN_RADIUS);
 	}, []);
 
 	// Handle dimensions
@@ -91,6 +95,58 @@ export default function DragDropBubbles({
 		return () => window.removeEventListener('resize', updateDimensions);
 	}, [width, height]);
 
+	// Save state to sessionStorage
+	const saveState = useCallback(
+		(
+			nodesToSave: BubbleNode[],
+			panState: { x: number; y: number },
+			scaleState: number,
+		) => {
+			try {
+				const state = {
+					nodes: nodesToSave.map((n) => ({
+						id: n.id,
+						x: n.x,
+						y: n.y,
+					})),
+					pan: panState,
+					scale: scaleState,
+					topicIds: topics.map((t) => t.id), // Store topic IDs to validate
+				};
+				sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+			} catch (error) {
+				console.warn('Failed to save state to sessionStorage:', error);
+			}
+		},
+		[topics],
+	);
+
+	// Load state from sessionStorage
+	const loadState = useCallback(() => {
+		try {
+			const saved = sessionStorage.getItem(STORAGE_KEY);
+			if (!saved) return null;
+
+			const state = JSON.parse(saved);
+			// Validate that saved topic IDs match current topics
+			const currentTopicIds = new Set(topics.map((t) => t.id));
+			const savedTopicIds = new Set(state.topicIds || []);
+
+			// Check if topics match
+			if (
+				currentTopicIds.size !== savedTopicIds.size ||
+				[...currentTopicIds].some((id) => !savedTopicIds.has(id))
+			) {
+				return null; // Topics changed, don't restore
+			}
+
+			return state;
+		} catch (error) {
+			console.warn('Failed to load state from sessionStorage:', error);
+			return null;
+		}
+	}, [topics]);
+
 	// Initialize simulation when topics change
 	useEffect(() => {
 		if (!topics.length) return;
@@ -98,117 +154,188 @@ export default function DragDropBubbles({
 		const { width: w, height: h } = dimensions;
 		const centerX = w / 2;
 		const centerY = h / 2;
-		const maxValue = Math.max(...topics.map((d) => d.value));
 
-		// Initialize nodes in a circular pattern
-		const initialNodes: BubbleNode[] = topics.map((d, i) => {
-			const angle = (i / topics.length) * 2 * Math.PI;
-			const radius = Math.min(w, h) * 0.3;
-			return {
-				...d,
-				x: centerX + Math.cos(angle) * radius * (0.5 + Math.random() * 0.5),
-				y: centerY + Math.sin(angle) * radius * (0.5 + Math.random() * 0.5),
-				targetRadius: radiusScale(d.value, maxValue),
-			};
-		});
+		// Try to restore saved state
+		const savedState = loadState();
+		let initialNodes: BubbleNode[];
 
-		// Create a map for quick node lookup
-		const nodeMap = new Map(initialNodes.map((n) => [n.id, n]));
+		if (savedState && savedState.nodes) {
+			// Restore from saved state
+			type SavedNode = { id: string; x: number; y: number };
+			const savedNodeMap = new Map<string, SavedNode>(
+				(savedState.nodes as SavedNode[]).map((n) => [n.id, n]),
+			);
 
-		// Create links from relatedIds
-		const links: BubbleLink[] = [];
-		const linkSet = new Set<string>();
+			initialNodes = topics.map((d) => {
+				const saved = savedNodeMap.get(d.id);
+				return {
+					...d,
+					x: saved?.x ?? centerX,
+					y: saved?.y ?? centerY,
+					targetRadius: radiusScale(d.value),
+				};
+			});
 
-		topics.forEach((d) => {
-			if (d.relatedIds) {
-				d.relatedIds.forEach((relatedId) => {
-					if (nodeMap.has(relatedId)) {
-						const linkKey =
-							d.id < relatedId
-								? `${d.id}-${relatedId}`
-								: `${relatedId}-${d.id}`;
-						if (!linkSet.has(linkKey)) {
-							linkSet.add(linkKey);
-							links.push({ source: d.id, target: relatedId });
-						}
-					}
-				});
+			// Restore pan and scale
+			if (savedState.pan) {
+				setPan(savedState.pan);
 			}
-		});
+			if (savedState.scale !== undefined) {
+				setScale(savedState.scale);
+			}
+		} else {
+			// Sort topics by date: oldest first (will be placed outside), newest last (will be placed inside)
+			const sortedTopics = [...topics].sort((a, b) => {
+				// If no date, treat as oldest (put at end of array, so outside)
+				if (!a.date && !b.date) return 0;
+				if (!a.date) return 1; // a goes to end (outside)
+				if (!b.date) return -1; // b goes to end (outside)
+				// Compare dates: older dates first (will be placed outside)
+				return a.date.localeCompare(b.date);
+			});
 
-		// Find center bubble and fix it
-		const centerNode = initialNodes.find(
-			(n) => n.label === CENTER_BUBBLE_LABEL,
-		);
+			// Calculate date range for radius mapping
+			const datesWithValues = sortedTopics
+				.filter((t) => t.date)
+				.map((t) => new Date(t.date!).getTime());
+			const minDate =
+				datesWithValues.length > 0 ? Math.min(...datesWithValues) : 0;
+			const maxDate =
+				datesWithValues.length > 0 ? Math.max(...datesWithValues) : 0;
+			const dateRange = maxDate - minDate || 1; // Avoid division by zero
 
-		// Force-directed simulation
-		const simulation = d3
-			.forceSimulation(initialNodes)
-			.force(
-				'link',
-				d3
-					.forceLink<BubbleNode, BubbleLink>(links)
-					.id((d) => d.id)
-					.distance((d) => {
-						const source = nodeMap.get(
-							typeof d.source === 'string'
-								? d.source
-								: (d.source as BubbleNode).id,
-						);
-						const target = nodeMap.get(
-							typeof d.target === 'string'
-								? d.target
-								: (d.target as BubbleNode).id,
-						);
-						if (source && target) {
-							return (
-								source.targetRadius +
-								target.targetRadius +
-								COLLISION_PADDING * 2
-							);
+			// Initialize nodes: older dates outside, newer dates inside
+			initialNodes = sortedTopics.map((d, i) => {
+				const angle = (i / sortedTopics.length) * 2 * Math.PI;
+
+				// Calculate radius based on date: older = further out, newer = closer in
+				let distanceFromCenter: number;
+				if (d.date) {
+					const dateValue = new Date(d.date).getTime();
+					// Normalize: 0 (oldest) to 1 (newest)
+					const normalized = (dateValue - minDate) / dateRange;
+					// Invert: 1 (oldest) to 0 (newest) for distance
+					// Oldest (1) = far out, Newest (0) = close in
+					const invertedNormalized = 1 - normalized;
+					// Map to radius: 0.5 (close) to 0.8 (far) of available space
+					const baseRadius = Math.min(w, h) * 0.35;
+					distanceFromCenter = baseRadius * (0.5 + invertedNormalized * 0.3);
+				} else {
+					// No date: place outside
+					const baseRadius = Math.min(w, h) * 0.35;
+					distanceFromCenter = baseRadius * 0.8;
+				}
+
+				// Add some randomness to avoid perfect circles
+				const randomOffset = (Math.random() - 0.5) * 0.2;
+				const finalDistance = distanceFromCenter * (1 + randomOffset);
+
+				return {
+					...d,
+					x: centerX + Math.cos(angle) * finalDistance,
+					y: centerY + Math.sin(angle) * finalDistance,
+					targetRadius: radiusScale(d.value), // d.value is now radius (1-10)
+				};
+			});
+
+			// Create a map for quick node lookup
+			const nodeMap = new Map(initialNodes.map((n) => [n.id, n]));
+
+			// Create links from relatedIds
+			const links: BubbleLink[] = [];
+			const linkSet = new Set<string>();
+
+			topics.forEach((d) => {
+				if (d.relatedIds) {
+					d.relatedIds.forEach((relatedId) => {
+						if (nodeMap.has(relatedId)) {
+							const linkKey =
+								d.id < relatedId
+									? `${d.id}-${relatedId}`
+									: `${relatedId}-${d.id}`;
+							if (!linkSet.has(linkKey)) {
+								linkSet.add(linkKey);
+								links.push({ source: d.id, target: relatedId });
+							}
 						}
-						return 100;
-					})
-					.strength(1),
-			)
-			.force(
-				'charge',
-				d3
-					.forceManyBody<BubbleNode>()
-					.strength((d) => -d.targetRadius * 2)
-					.distanceMin(10)
-					.distanceMax(300),
-			)
-			.force(
-				'collision',
-				d3
-					.forceCollide<BubbleNode>()
-					.radius((d) => d.targetRadius + COLLISION_PADDING)
-					.strength(1)
-					.iterations(3),
-			)
-			.force('center', d3.forceCenter(centerX, centerY))
-			.force('x', d3.forceX(centerX).strength(0.02))
-			.force('y', d3.forceY(centerY).strength(0.02))
-			.stop();
+					});
+				}
+			});
 
-		if (centerNode) {
-			(centerNode as any).fx = centerX;
-			(centerNode as any).fy = centerY;
-		}
+			// Find center bubble and fix it
+			const centerNode = initialNodes.find(
+				(n) => n.label === CENTER_BUBBLE_LABEL,
+			);
 
-		simulation.alpha(1);
-		for (let i = 0; i < 500; i++) {
-			simulation.tick();
-		}
+			// Force-directed simulation
+			const simulation = d3
+				.forceSimulation(initialNodes)
+				.force(
+					'link',
+					d3
+						.forceLink<BubbleNode, BubbleLink>(links)
+						.id((d) => d.id)
+						.distance((d) => {
+							const source = nodeMap.get(
+								typeof d.source === 'string'
+									? d.source
+									: (d.source as BubbleNode).id,
+							);
+							const target = nodeMap.get(
+								typeof d.target === 'string'
+									? d.target
+									: (d.target as BubbleNode).id,
+							);
+							if (source && target) {
+								return (
+									source.targetRadius +
+									target.targetRadius +
+									COLLISION_PADDING * 2
+								);
+							}
+							return 100;
+						})
+						.strength(1),
+				)
+				.force(
+					'charge',
+					d3
+						.forceManyBody<BubbleNode>()
+						.strength((d) => -d.targetRadius * 2)
+						.distanceMin(10)
+						.distanceMax(300),
+				)
+				.force(
+					'collision',
+					d3
+						.forceCollide<BubbleNode>()
+						.radius((d) => d.targetRadius + COLLISION_PADDING)
+						.strength(1)
+						.iterations(3),
+				)
+				.force('center', d3.forceCenter(centerX, centerY))
+				.force('x', d3.forceX(centerX).strength(0.02))
+				.force('y', d3.forceY(centerY).strength(0.02))
+				.stop();
 
-		if (centerNode) {
-			centerNode.x = centerX;
-			centerNode.y = centerY;
+			if (centerNode) {
+				(centerNode as any).fx = centerX;
+				(centerNode as any).fy = centerY;
+			}
+
+			simulation.alpha(1);
+			for (let i = 0; i < 500; i++) {
+				simulation.tick();
+			}
+
+			if (centerNode) {
+				centerNode.x = centerX;
+				centerNode.y = centerY;
+			}
 		}
 
 		setNodes([...initialNodes]);
-	}, [topics, dimensions, radiusScale]);
+	}, [topics, dimensions, radiusScale, loadState]);
 
 	// Clear long press timer
 	const clearLongPressTimer = useCallback(() => {
@@ -536,6 +663,17 @@ export default function DragDropBubbles({
 		}
 	}, [pan, isPanning]);
 
+	// Save state when nodes change (after simulation or manual drag)
+	useEffect(() => {
+		if (nodes.length > 0 && !isPanning) {
+			// Debounce saves to avoid too many writes
+			const timeoutId = setTimeout(() => {
+				saveState(nodes, pan, scale);
+			}, 300);
+			return () => clearTimeout(timeoutId);
+		}
+	}, [nodes, pan, scale, isPanning, saveState]);
+
 	// Cleanup long press timer on unmount
 	useEffect(() => {
 		return () => {
@@ -548,8 +686,15 @@ export default function DragDropBubbles({
 		e.preventDefault();
 		const direction = e.deltaY > 0 ? -1 : 1;
 		const zoomSpeed = 1.1;
-		const newScale = direction > 0 ? scale * zoomSpeed : scale / zoomSpeed;
-		setScale(Math.max(0.2, Math.min(3, newScale)));
+		const newScale = Math.max(
+			0.2,
+			Math.min(3, direction > 0 ? scale * zoomSpeed : scale / zoomSpeed),
+		);
+		setScale(newScale);
+		// Save state after zoom
+		if (nodes.length > 0) {
+			saveState(nodes, pan, newScale);
+		}
 	};
 
 	// Pan handlers - only pan when clicking on the background, not bubbles
@@ -575,13 +720,18 @@ export default function DragDropBubbles({
 			if (isPanning) {
 				const dx = e.clientX - panStartRef.current.x;
 				const dy = e.clientY - panStartRef.current.y;
-				setPan({
+				const newPan = {
 					x: panPosRef.current.x + dx,
 					y: panPosRef.current.y + dy,
-				});
+				};
+				setPan(newPan);
+				// Save state after pan
+				if (nodes.length > 0) {
+					saveState(nodes, newPan, scale);
+				}
 			}
 		},
-		[isPanning],
+		[isPanning, nodes, scale, saveState],
 	);
 
 	// Global mouse up handler
@@ -653,13 +803,25 @@ export default function DragDropBubbles({
 				}
 
 				// Apply smooth panning using delta from start position
-				setPan({
+				const newPan = {
 					x: panPosRef.current.x + dx,
 					y: panPosRef.current.y + dy,
-				});
+				};
+				setPan(newPan);
+				// Save state after pan
+				if (nodes.length > 0) {
+					saveState(nodes, newPan, scale);
+				}
 			}
 		},
-		[isPanning, isLongPressActive, clearLongPressTimer],
+		[
+			isPanning,
+			isLongPressActive,
+			clearLongPressTimer,
+			nodes,
+			scale,
+			saveState,
+		],
 	);
 
 	const handleContainerTouchEnd = () => {

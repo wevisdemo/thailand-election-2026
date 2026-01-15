@@ -75,11 +75,13 @@ function DeleteButton({
 interface DropZoneProps {
 	onHelpClick?: () => void;
 	onExpandClick?: () => void;
+	hideHelpButton?: boolean;
 }
 
 export default function DropZone({
 	onHelpClick,
 	onExpandClick,
+	hideHelpButton = false,
 }: DropZoneProps) {
 	const {
 		selectedTopics,
@@ -448,17 +450,19 @@ export default function DropZone({
 
 						{/* Action Buttons */}
 						<div className="absolute top-[-10px] right-4 -translate-y-1/2 items-center gap-2">
-							<button
-								onClick={handleHelpClick}
-								className="mb-2 flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-white text-black transition-all hover:border-black hover:bg-white/30"
-							>
-								<Image
-									src="/politicalflashback/icon/icon-question-mark.svg"
-									alt="Question"
-									width={40}
-									height={40}
-								/>
-							</button>
+							{!hideHelpButton && (
+								<button
+									onClick={handleHelpClick}
+									className="mb-2 flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-white text-black transition-all hover:border-black hover:bg-white/30"
+								>
+									<Image
+										src="/politicalflashback/icon/icon-question-mark.svg"
+										alt="Question"
+										width={40}
+										height={40}
+									/>
+								</button>
+							)}
 
 							<button
 								onClick={handleExpandClick}

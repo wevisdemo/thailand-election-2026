@@ -19,11 +19,11 @@ const StepContainer = ({ currentStep, onNext, onBack }: StepContainerProps) => {
 					{[1, 2, 3].map((step) => (
 						<div
 							key={step}
-							className={`h-2 w-8 rounded-full transition-colors ${
+							className={`border-purple-1 h-2 w-8 rounded-full border-2 bg-white transition-colors ${
 								step === currentStep
-									? 'bg-purple-1'
+									? 'bg-purple-1!'
 									: step < currentStep
-										? 'bg-purple-1/50'
+										? 'border-purple-1 border-2 bg-white'
 										: 'bg-gray-300'
 							}`}
 						/>
@@ -60,10 +60,11 @@ const StepContainer = ({ currentStep, onNext, onBack }: StepContainerProps) => {
 									จนจำกันแทบไม่ไหว
 								</p>
 								<p>
-									ดังนั้น ก่อนจะไปถึง #เลือกตั้ง69 WeVis
+									ดังนั้น ก่อนจะไปถึง #เลือกตั้ง69
 									<br className="block md:hidden" />
-									ขอชวนคุณมาระลึกชาติ จะได้ไม่เป็น
+									WeVis ขอชวนคุณมาระลึกชาติ
 									<br className="block md:hidden" />
+									จะได้ไม่เป็น{' '}
 									<span className="bg-green-3 w-fit font-bold">
 										“คนไทยลืมง่าย”
 									</span>{' '}
@@ -83,7 +84,7 @@ const StepContainer = ({ currentStep, onNext, onBack }: StepContainerProps) => {
 							/>
 							<p className="text-h5 font-kondolar font-bold">
 								WeVis รวบรวม
-								<br className="block md:hidden" />
+								{/* <br className="block md:hidden" /> */}{' '}
 								<span className="text-purple-1">
 									#ข่าวการเมือง ตลอดสมัยสภาผู้แทนฯ
 								</span>

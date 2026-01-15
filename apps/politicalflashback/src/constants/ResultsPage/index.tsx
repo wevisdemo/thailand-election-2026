@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { toPng } from 'html-to-image';
 import Footer from '@/src/components/Footer';
 import Ranking from './components/Ranking';
+import ExportCard from './components/ExportCard';
 import { addExportCount } from '@/src/lib/firestoreActions';
 dayjs.locale(th);
 
@@ -46,7 +47,6 @@ const ResultsPage = () => {
 		await new Promise((resolve) => setTimeout(resolve, 100));
 
 		const node = cardRef.current;
-		const rect = node.getBoundingClientRect();
 
 		// Suppress console errors for CORS issues with external fonts
 		const originalError = console.error;
@@ -63,11 +63,15 @@ const ResultsPage = () => {
 		};
 
 		try {
+			// Use 9:16 aspect ratio (portrait) with larger dimensions for better text quality
+			const exportWidth = 540; // Portrait width for 9:16 aspect ratio
+			const exportHeight = Math.round(exportWidth * (16 / 9)); // 9:16 aspect ratio (1920px)
+
 			const dataUrl = await toPng(node, {
-				width: 500,
-				height: rect.height,
+				width: exportWidth,
+				height: exportHeight,
 				backgroundColor: '#FBF8F4',
-				pixelRatio: 2,
+				pixelRatio: 3, // Higher pixel ratio for sharper text
 				cacheBust: true,
 				filter: (node) => {
 					if ((node as HTMLElement).tagName === 'LINK') return false;
@@ -148,13 +152,24 @@ const ResultsPage = () => {
 						เลื่อนต่อไปเพื่อดูประเด็นร้อนจากคนอื่นๆ
 					</p>
 				</div>
-				<div className="w-full max-w-[540px] rounded-2xl border-2 border-black">
+				<div className="fixed top-0 -left-[9999px]">
 					<div
-						ref={visibleCardRef}
-						className="bg-pattern flex flex-col items-center justify-center rounded-2xl px-6 py-14 text-center"
+						style={{
+							width: 1080,
+							height: 1920,
+							background: '#FBF8F4',
+						}}
 					>
+						<ExportCard
+							ref={visibleCardRef}
+							selectedTopics={selectedTopics.slice(0, 5)}
+						/>
+					</div>
+				</div>
+				<div className="w-full max-w-[540px] rounded-2xl border-2 border-black">
+					<div className="bg-pattern flex flex-col items-center justify-center rounded-2xl px-6 py-14 text-center">
 						<div className="flex w-full flex-col items-center justify-center gap-4">
-							<div className="bg-white px-2 py-1">
+							<div className="bg-bg px-2 py-1">
 								<p className="text-b5 font-kondolar">
 									{dayjs().format('DD MMM YY HH:mm')}
 								</p>
@@ -180,7 +195,7 @@ const ResultsPage = () => {
 										Top 5 ประเด็นสุดพีคของฉัน
 									</p>
 								</div>
-								<div className="flex min-h-80 w-full flex-col items-center rounded-b-2xl bg-white">
+								<div className="flex min-h-[408px] w-full flex-col items-center rounded-b-2xl bg-white">
 									{selectedTopics.slice(0, 5).map((topic, index) => (
 										<div
 											key={topic.id}

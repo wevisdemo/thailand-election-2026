@@ -396,29 +396,32 @@ const MonthlyPage = () => {
 
 												{/* Tags */}
 												<div className="flex flex-col gap-2">
-													{month.tags.map((tag, index) => (
-														<div
-															key={tag.id}
-															className="flex items-center gap-1"
-														>
-															<p className="text-b4 font-ibmplex font-bold text-black">
-																{index + 1}.
-															</p>
-															<button
-																className="bg-purple-3 hover:bg-purple-2 rounded-full px-4 py-2 transition-colors"
-																onClick={(e) => {
-																	e.stopPropagation();
-																	router.push(
-																		`/story?name=${encodeURIComponent(tag.name)}`,
-																	);
-																}}
+													{month.tags
+														.sort((a, b) => b.sum_news - a.sum_news)
+														.slice(0, 3)
+														.map((tag, index) => (
+															<div
+																key={tag.id}
+																className="flex items-center gap-1"
 															>
-																<p className="text-h9 font-kondolar font-bold text-black">
-																	{tag.name}
+																<p className="text-b4 font-ibmplex font-bold text-black">
+																	{index + 1}.
 																</p>
-															</button>
-														</div>
-													))}
+																<button
+																	className="bg-purple-3 hover:bg-purple-2 rounded-full px-4 py-2 transition-colors"
+																	onClick={(e) => {
+																		e.stopPropagation();
+																		router.push(
+																			`/story?name=${encodeURIComponent(tag.name)}`,
+																		);
+																	}}
+																>
+																	<p className="text-h9 font-kondolar font-bold text-black">
+																		{tag.name}
+																	</p>
+																</button>
+															</div>
+														))}
 												</div>
 											</button>
 										))}

@@ -46,8 +46,10 @@ interface MonthlyDetailData {
 // Component to render trend chart
 const TrendChart = ({
 	bars,
+	globalDateRange,
 }: {
 	bars: Array<{ date: string; value: number }>;
+	globalDateRange?: { start: string; end: string };
 }) => {
 	// Group bars by month and calculate max value
 	const chartData = useMemo(() => {
@@ -76,19 +78,27 @@ const TrendChart = ({
 			dataMap.set(monthKey, currentValue + bar.value);
 		});
 
-		// Find first and last date
-		if (bars.length === 0) {
+		// Determine first and last date - use global range if provided, otherwise use bars data
+		let firstDate: string;
+		let lastDate: string;
+
+		if (globalDateRange) {
+			// Use global date range
+			firstDate = globalDateRange.start;
+			lastDate = globalDateRange.end;
+		} else if (bars.length === 0) {
 			return {
 				labels: [],
 				values: [],
 				maxValue: 1,
 				dates: [],
 			};
+		} else {
+			// Fall back to bars data
+			const sortedBars = [...bars].sort((a, b) => a.date.localeCompare(b.date));
+			firstDate = sortedBars[0].date;
+			lastDate = sortedBars[sortedBars.length - 1].date;
 		}
-
-		const sortedBars = [...bars].sort((a, b) => a.date.localeCompare(b.date));
-		const firstDate = sortedBars[0].date;
-		const lastDate = sortedBars[sortedBars.length - 1].date;
 
 		// Parse dates (extract YYYY-MM from YYYY-MM-DD)
 		const firstMonthKey = firstDate.substring(0, 7);
@@ -161,10 +171,13 @@ const TrendChart = ({
 			maxValue,
 			dates: allMonths.map((m) => m.date),
 		};
-	}, [bars]);
+	}, [bars, globalDateRange]);
 
 	// Max bar height is 24px
 	const MAX_BAR_HEIGHT = 24;
+
+	const totalMonths = chartData.values.length;
+	const widthPercent = totalMonths > 0 ? 100 / totalMonths : 0;
 
 	return (
 		<div className="mt-3">
@@ -176,7 +189,14 @@ const TrendChart = ({
 							? (value / chartData.maxValue) * MAX_BAR_HEIGHT
 							: 0;
 					return (
-						<div key={index} className="flex flex-1 flex-col items-center">
+						<div
+							key={index}
+							className="flex flex-col items-center"
+							style={{
+								width: `${widthPercent}%`,
+								flexShrink: 0,
+							}}
+						>
 							{value > 0 && height > 0 && (
 								<div
 									className="bg-green-3 w-full transition-all"
@@ -194,22 +214,25 @@ const TrendChart = ({
 				<div className="absolute top-0 right-0 left-0 h-[2px] bg-black"></div>
 
 				{/* Tick marks and labels */}
-				<div className="relative flex items-start gap-1 pt-[2px]">
+				<div className="relative flex pt-[2px]">
 					{chartData.values.map((value, index) => {
 						const hasLabel = !!chartData.labels[index];
 
 						return (
 							<div
 								key={index}
-								className="relative flex flex-1 flex-col items-center"
+								className="relative flex flex-col items-center"
+								style={{
+									width: `${widthPercent}%`,
+									flexShrink: 0,
+								}}
 							>
-								{/* Tick mark extending upward - same height for all */}
+								{/* Tick mark extending upward - positioned at center */}
 								<div
 									className="bg-black"
 									style={{
 										width: '1px',
 										height: '4px',
-										marginTop: '0',
 									}}
 								/>
 								{/* Label */}
@@ -232,6 +255,15 @@ const MonthlyDetailPage = () => {
 		useTopicStore();
 	const pathname = usePathname();
 	const router = useRouter();
+
+	const globalDateRange = useMemo(() => {
+		// มี.ค. 66 = March 2566 = 2023-03
+		// ธ.ค. 68 = December 2568 = 2025-12
+		return {
+			start: '2023-03-01',
+			end: '2025-12-31',
+		};
+	}, []);
 
 	// Extract ID from pathname (e.g., /monthly/2023-3 or /politicalflashback/monthly/2023-3)
 	const pathSegments = pathname.split('/');
@@ -500,7 +532,10 @@ const MonthlyDetailPage = () => {
 
 										{/* Trend Chart Section */}
 										<div className="p-4">
-											<TrendChart bars={tag.chart.bars} />
+											<TrendChart
+												bars={tag.chart.bars}
+												globalDateRange={globalDateRange}
+											/>
 										</div>
 									</div>
 								))}

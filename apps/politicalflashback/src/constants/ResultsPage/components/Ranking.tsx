@@ -86,7 +86,7 @@ const Ranking = () => {
 						<div className="flex items-center justify-between gap-4">
 							<div className="flex items-center gap-4">
 								<div
-									className={`flex h-12 w-12 items-end justify-center rounded-full ${index === 0 ? 'bg-[#F5E399]!' : ''} ${index === 1 ? 'bg-[#D8DDE0]!' : ''} ${index === 2 ? 'bg-[#E1BBB1]!' : ''} bg-purple-3`}
+									className={`flex h-12 w-12 items-center justify-center rounded-full pt-[5px] md:items-end md:pt-0 ${index === 0 ? 'bg-[#F5E399]!' : ''} ${index === 1 ? 'bg-[#D8DDE0]!' : ''} ${index === 2 ? 'bg-[#E1BBB1]!' : ''} bg-purple-3`}
 								>
 									<p className={`text-h6 font-kondolar font-bold text-black`}>
 										{index + 1}

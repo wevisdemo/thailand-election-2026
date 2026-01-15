@@ -148,7 +148,14 @@ const TagbyId = ({ name }: { name: string | null }) => {
 	const hasUserScrolled = useRef(false);
 
 	const INITIAL_NEWS_DISPLAY = 3; // Show first 3 news items per date
-
+	const globalDateRange = useMemo(() => {
+		// มี.ค. 66 = March 2566 = 2023-03
+		// ธ.ค. 68 = December 2568 = 2025-12
+		return {
+			start: '2023-03-01',
+			end: '2025-12-31',
+		};
+	}, []);
 	useEffect(() => {
 		if (!name) {
 			setError('Please provide a name parameter');
@@ -238,35 +245,171 @@ const TagbyId = ({ name }: { name: string | null }) => {
 			isScrollingFromKnob.current = true;
 			setKnobPosition(position);
 
-			// Use position percentage to find corresponding news item by index
 			if (tagData.tag_news.length === 0) {
-				isScrollingFromKnob.current = false;
+				// No news, scroll to bottom
+				window.scrollTo({
+					top: document.documentElement.scrollHeight,
+					behavior: 'instant',
+				});
+				setTimeout(() => {
+					isScrollingFromKnob.current = false;
+				}, 500);
 				return;
 			}
 
-			const newsIndex = Math.round(
-				(position / 100) * (tagData.tag_news.length - 1),
-			);
-			const targetNews = tagData.tag_news[newsIndex];
+			// Calculate target month from knob position (same logic as TimelineChart)
+			const monthNames = [
+				'ม.ค.',
+				'ก.พ.',
+				'มี.ค.',
+				'เม.ย.',
+				'พ.ค.',
+				'มิ.ย.',
+				'ก.ค.',
+				'ส.ค.',
+				'ก.ย.',
+				'ต.ค.',
+				'พ.ย.',
+				'ธ.ค.',
+			];
 
-			if (targetNews && newsDateRefs.current.has(targetNews.date)) {
-				const element = newsDateRefs.current.get(targetNews.date);
-				if (element) {
-					const elementRect = element.getBoundingClientRect();
-					const scrollTop = window.scrollY + elementRect.top - 150; // Offset for header
+			// Build allMonths array (same as TimelineChart)
+			const firstDate = globalDateRange.start;
+			const lastDate = globalDateRange.end;
+			const firstMonthKey = firstDate.substring(0, 7);
+			const lastMonthKey = lastDate.substring(0, 7);
+			const [firstYear, firstMonth] = firstMonthKey.split('-').map(Number);
+			const [lastYear, lastMonth] = lastMonthKey.split('-').map(Number);
 
+			const allMonths: Array<{
+				date: string;
+				label: string;
+			}> = [];
+
+			let currentYear = firstYear;
+			let currentMonth = firstMonth;
+
+			while (
+				currentYear < lastYear ||
+				(currentYear === lastYear && currentMonth <= lastMonth)
+			) {
+				const dateStr = `${currentYear}-${String(currentMonth).padStart(2, '0')}`;
+				const buddhistYear = currentYear + 543;
+				const monthIndex = currentMonth - 1;
+				const monthAbbr = monthNames[monthIndex] || 'ม.ค.';
+				const yearShort = buddhistYear.toString().slice(-2);
+
+				allMonths.push({
+					date: dateStr,
+					label: `${monthAbbr} ${yearShort}`,
+				});
+
+				currentMonth++;
+				if (currentMonth > 12) {
+					currentMonth = 1;
+					currentYear++;
+				}
+			}
+
+			// Get target month from position (same as TimelineChart.getCurrentMonthLabel)
+			if (allMonths.length === 0) {
+				window.scrollTo({
+					top: document.documentElement.scrollHeight,
+					behavior: 'instant',
+				});
+				setTimeout(() => {
+					isScrollingFromKnob.current = false;
+				}, 500);
+				return;
+			}
+
+			const monthIndex = Math.round((position / 100) * (allMonths.length - 1));
+			const targetMonthData =
+				allMonths[Math.max(0, Math.min(monthIndex, allMonths.length - 1))];
+
+			if (!targetMonthData) {
+				window.scrollTo({
+					top: document.documentElement.scrollHeight,
+					behavior: 'instant',
+				});
+				setTimeout(() => {
+					isScrollingFromKnob.current = false;
+				}, 500);
+				return;
+			}
+
+			// Parse target month to get month name and year
+			const [targetYear, targetMonthNum] = targetMonthData.date
+				.split('-')
+				.map(Number);
+			const targetMonthName = monthNames[targetMonthNum - 1];
+			const buddhistYear = targetYear + 543;
+			const yearShort = buddhistYear.toString().slice(-2);
+
+			// Find news items that match the target month/year
+			let targetNews: TagNews | undefined = undefined;
+
+			tagData.tag_news.forEach((tagNews) => {
+				// Parse Thai date format (e.g., "21 พ.ย. 68")
+				const dateMatch = tagNews.date.match(/(\d+)\s+(\S+)\s+(\d+)/);
+				if (dateMatch) {
+					const newsMonthName = dateMatch[2];
+					const newsYearShort = parseInt(dateMatch[3]);
+
+					// Check if month and year match
+					if (
+						newsMonthName === targetMonthName &&
+						newsYearShort.toString() === yearShort
+					) {
+						if (!targetNews) {
+							targetNews = tagNews;
+						}
+					}
+				}
+			});
+
+			// Use targetNews if found (exact date match only)
+			// If not found, scroll to bottom
+			if (targetNews) {
+				const foundNews: TagNews = targetNews;
+				const targetDate = foundNews.date;
+				if (newsDateRefs.current.has(targetDate)) {
+					const element = newsDateRefs.current.get(targetDate);
+					if (element) {
+						const elementRect = element.getBoundingClientRect();
+						const scrollTop = window.scrollY + elementRect.top - 150; // Offset for header
+
+						window.scrollTo({
+							top: Math.max(0, scrollTop),
+							behavior: 'instant',
+						});
+					} else {
+						// Element not found in refs, scroll to bottom
+						window.scrollTo({
+							top: document.documentElement.scrollHeight,
+							behavior: 'instant',
+						});
+					}
+				} else {
+					// Date not found in refs, scroll to bottom
 					window.scrollTo({
-						top: Math.max(0, scrollTop),
-						behavior: 'smooth',
+						top: document.documentElement.scrollHeight,
+						behavior: 'instant',
 					});
 				}
+			} else {
+				// No matching news found, scroll to bottom
+				window.scrollTo({
+					top: document.documentElement.scrollHeight,
+					behavior: 'instant',
+				});
 			}
 
 			setTimeout(() => {
 				isScrollingFromKnob.current = false;
 			}, 500);
 		},
-		[tagData],
+		[tagData, globalDateRange],
 	);
 
 	// Handle page scroll - update knob position
@@ -374,7 +517,7 @@ const TagbyId = ({ name }: { name: string | null }) => {
 	if (loading) {
 		return (
 			<div className="bg-green-3 flex h-full min-h-screen flex-col justify-between">
-				<div className="mx-auto flex max-w-[600px] flex-col items-center justify-center gap-6 px-4 py-10">
+				<div className="mx-auto flex h-screen max-w-[600px] flex-col items-center justify-center gap-6 px-4 py-10">
 					<p className="text-h9 font-sriracha text-black">Loading...</p>
 				</div>
 			</div>
@@ -384,7 +527,7 @@ const TagbyId = ({ name }: { name: string | null }) => {
 	if (error) {
 		return (
 			<div className="bg-green-3 flex h-full min-h-screen flex-col justify-between">
-				<div className="mx-auto flex max-w-[600px] flex-col items-center justify-center gap-6 px-4 py-10">
+				<div className="mx-auto flex h-screen max-w-[600px] flex-col items-center justify-center gap-6 px-4 py-10">
 					<p className="text-h9 font-sriracha text-black">{error}</p>
 				</div>
 			</div>
@@ -394,7 +537,7 @@ const TagbyId = ({ name }: { name: string | null }) => {
 	if (!tagData) {
 		return (
 			<div className="bg-green-3 flex h-full min-h-screen flex-col justify-between">
-				<div className="mx-auto flex max-w-[600px] flex-col items-center justify-center gap-6 px-4 py-10">
+				<div className="mx-auto flex h-screen max-w-[600px] flex-col items-center justify-center gap-6 px-4 py-10">
 					<p className="text-h9 font-sriracha text-black">Tag not found</p>
 				</div>
 			</div>
@@ -522,7 +665,12 @@ const TagbyId = ({ name }: { name: string | null }) => {
 								{tagData.sub_tag.slice(0, 6).map((subTag) => (
 									<span
 										key={subTag.id}
-										className="text-h9 font-kondolar inline-flex items-center rounded-full border-2 border-black bg-white px-3 py-1.5 font-bold whitespace-nowrap text-black"
+										onClick={() =>
+											router.push(
+												`/story?name=${encodeURIComponent('#' + subTag.name)}`,
+											)
+										}
+										className="text-h9 font-kondolar inline-flex cursor-pointer items-center rounded-full border-2 border-black bg-white px-3 py-1.5 font-bold whitespace-nowrap text-black"
 									>
 										#{subTag.name}
 									</span>
@@ -655,7 +803,12 @@ const TagbyId = ({ name }: { name: string | null }) => {
 								{tagData.sub_tag.slice(0, 6).map((subTag) => (
 									<span
 										key={subTag.id}
-										className="text-h9 font-kondolar inline-flex items-center rounded-full border-2 border-black bg-white px-3 py-1.5 font-bold whitespace-nowrap text-black"
+										onClick={() =>
+											router.push(
+												`/story?name=${encodeURIComponent('#' + subTag.name)}`,
+											)
+										}
+										className="text-h9 font-kondolar inline-flex cursor-pointer items-center rounded-full border-2 border-black bg-white px-3 py-1.5 font-bold whitespace-nowrap text-black"
 									>
 										#{subTag.name}
 									</span>
@@ -665,17 +818,22 @@ const TagbyId = ({ name }: { name: string | null }) => {
 					)}
 
 					{/* Chart */}
-					<StoryChart
-						chart={tagData.chart}
-						knobPosition={knobPosition}
-						onKnobPositionChange={handleKnobPositionChange}
-					/>
 
-					<div className="h-32 pb-4"></div>
+					<div className="h-44 pb-4"></div>
 				</div>
 			</div>
 
-			<DropZone />
+			{/* Fixed Seeker above DropZone */}
+			<div className="fixed bottom-[120px] left-1/2 z-40 w-full max-w-[600px] -translate-x-1/2 transform px-4 md:px-0">
+				<StoryChart
+					chart={tagData.chart}
+					knobPosition={knobPosition}
+					onKnobPositionChange={handleKnobPositionChange}
+					globalDateRange={globalDateRange}
+				/>
+			</div>
+
+			<DropZone hideHelpButton={true} />
 		</div>
 	);
 };

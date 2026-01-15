@@ -74,8 +74,9 @@ const HomePage = () => {
 					id: String(item.id),
 					label: item.name,
 					score: item.score,
-					value: item.sum_new,
+					value: item.radius, // Use radius (1-10) instead of sum_new
 					relatedIds: item.sub_tag.map((sub) => String(sub.id)),
+					date: item.date, // Include date for sorting
 				}));
 				setTopics(transformedData);
 				setLoading(false);

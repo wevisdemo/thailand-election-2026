@@ -8,6 +8,7 @@ export interface Topic {
 	value: number;
 	score: number;
 	relatedIds: string[];
+	date?: string; // Optional date field for sorting
 }
 
 interface TopicState {
