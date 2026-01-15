@@ -1,11 +1,12 @@
 'use client';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import {
 	ElectionAboutActions,
 	ElectionFooter,
 	ElectionSharer,
 } from '@election/ui/react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
 const AboutPage = () => {
 	const router = useRouter();
 	return (

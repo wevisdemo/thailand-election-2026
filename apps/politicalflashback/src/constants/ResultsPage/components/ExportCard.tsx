@@ -39,7 +39,7 @@ const ExportCard = forwardRef<HTMLDivElement, { selectedTopics: Topic[] }>(
 								Top 5 ประเด็นสุดพีคของฉัน
 							</p>
 						</div>
-						<div className="flex min-h-[408px] w-full flex-col items-center justify-center rounded-b-2xl bg-white">
+						<div className="flex min-h-[408px] w-full flex-col items-center rounded-b-2xl bg-white">
 							{selectedTopics.map((topic, index) => (
 								<div
 									key={topic.id}
