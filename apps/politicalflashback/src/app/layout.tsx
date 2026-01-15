@@ -3,6 +3,7 @@ import './globals.css';
 import { ElectionNavbar } from '@election/ui/react';
 
 export const metadata: Metadata = {
+	icons: '/favicon.png',
 	metadataBase: new URL('https://election69.wevis.info'),
 	title: 'ประเด็นสุดพีคของฉัน | Political Flashbacks',
 	description:

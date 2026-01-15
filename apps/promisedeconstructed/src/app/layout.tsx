@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
+	icons: '/favicon.png',
 	title: 'Promise Deconstructed: ถอดโครงสร้างสัญญาพรรคการเมือง',
 	description: 'ดูให้ชัดก่อนตัดสินใจ พรรคไหนจะทำอะไร เมื่อไหร่ และเพื่อใคร',
 	metadataBase: new URL('https://election69.wevis.info'),

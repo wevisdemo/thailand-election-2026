@@ -5,6 +5,7 @@ export default defineNuxtConfig({
 		baseURL: '/partymatch/',
 		head: {
 			link: [
+				{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
 				{
 					href: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@400;600;700&family=Sriracha&display=swap',
 					rel: 'stylesheet',

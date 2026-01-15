@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
+	icons: '/favicon.png',
 	title: 'Ballot Ready เข้าคูหารอบนี้ ต้องเลือกอะไรบ้าง ?',
 	description:
 		'หนึ่งในโปรเจกต์ของ Campaign #WeVisElection69 ที่ให้คุณได้เตรียมตัวเลือกตั้งอย่างมั่น เริ่มจากทำความรู้จักผู้สมัคร ส.ส. และพรรคการเมืองในตำบลหรือเขตเลือกตั้งของคุณว่ามีใครให้เลือกบ้าง พร้อมเข้าใจบัตรเลือกตั้งว่ามีกี่ใบและต้องกาอย่างไรให้ไม่เสียสิทธิ',
