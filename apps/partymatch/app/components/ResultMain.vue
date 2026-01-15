@@ -57,6 +57,21 @@ const downloadImage = async (existingCanvas = null) => {
 				boldText.forEach((t) => {
 					t.style.fontWeight = 'bold';
 				});
+				const logo = clonedDoc.getElementById('logo');
+				if (logo) {
+					logo.style.height = '24px';
+					logo.style.width = '156px';
+					logo.style.marginTop = '8px';
+					logo.style.display = 'block';
+					logo.style.objectFit = 'contain';
+					if (isSafari()) {
+						const heartPartyLogo = clonedDoc.getElementById('heart-party-logo');
+						if (heartPartyLogo) {
+							heartPartyLogo.style.marginLeft = '-4px';
+							heartPartyLogo.style.marginTop = '-2px';
+						}
+					}
+				}
 			},
 		});
 	}
@@ -106,15 +121,19 @@ const shareImage = async () => {
 				t.style.fontWeight = 'bold';
 			});
 			const logo = clonedDoc.getElementById('logo');
-			logo.style.height = '24px';
-			logo.style.width = '156px';
-			logo.style.marginTop = '8px';
-			logo.style.display = 'block';
-			logo.style.objectFit = 'contain';
-			if (isSafari()) {
-				const heartPartyLogo = clonedDoc.getElementById('heart-party-logo');
-				heartPartyLogo.style.marginLeft = '-4px';
-				heartPartyLogo.style.marginTop = '-2px';
+			if (logo) {
+				logo.style.height = '24px';
+				logo.style.width = '156px';
+				logo.style.marginTop = '8px';
+				logo.style.display = 'block';
+				logo.style.objectFit = 'contain';
+				if (isSafari()) {
+					const heartPartyLogo = clonedDoc.getElementById('heart-party-logo');
+					if (heartPartyLogo) {
+						heartPartyLogo.style.marginLeft = '-4px';
+						heartPartyLogo.style.marginTop = '-2px';
+					}
+				}
 			}
 		},
 	});
