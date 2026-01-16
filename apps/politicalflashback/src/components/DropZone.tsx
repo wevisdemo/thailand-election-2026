@@ -449,7 +449,9 @@ export default function DropZone({
 						</div>
 
 						{/* Action Buttons */}
-						<div className="absolute top-[-10px] right-4 -translate-y-1/2 items-center gap-2">
+						<div
+							className={`absolute right-4 -translate-y-1/2 items-center gap-2 ${hideHelpButton ? 'top-[18px]' : 'top-[-10px]'}`}
+						>
 							{!hideHelpButton && (
 								<button
 									onClick={handleHelpClick}
@@ -521,7 +523,7 @@ export default function DropZone({
 
 							{/* Main Content */}
 
-							<Footer />
+							<Footer showBackHomeButton={true} />
 						</div>
 					</div>
 				</>

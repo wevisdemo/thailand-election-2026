@@ -492,9 +492,25 @@ const ListviewPage = () => {
 
 		// Filter by selected categories
 		if (selectedCategories.size > 0) {
-			filtered = filtered.filter((tag) =>
-				tag.category.some((cat) => selectedCategories.has(cat)),
-			);
+			filtered = filtered.filter((tag) => {
+				// Category mappings for combined categories
+				const categoryMappings: Record<string, string[]> = {
+					'สภา/ครม.': ['จัดตั้งรัฐบาล', 'ครม.', 'รัฐสภา'],
+					นโยบาย: ['นโยบาย', 'เศรษฐกิจ'],
+					'การเมือง/สังคม': ['ประเด็นทางการเมือง', 'สังคม'],
+					สิ่งแวดล้อม: ['สิ่งแวดล้อม', 'ภัยพิบัติ'],
+				};
+
+				return Array.from(selectedCategories).some((selectedCat) => {
+					// Check if this is a combined category
+					const mappedCategories = categoryMappings[selectedCat];
+					if (mappedCategories) {
+						return tag.category.some((cat) => mappedCategories.includes(cat));
+					}
+					// For other categories, check direct match
+					return tag.category.includes(selectedCat);
+				});
+			});
 		}
 
 		// Calculate date range duration in days

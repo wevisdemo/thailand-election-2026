@@ -824,7 +824,7 @@ const TagbyId = ({ name }: { name: string | null }) => {
 			</div>
 
 			{/* Fixed Seeker above DropZone */}
-			<div className="fixed bottom-[120px] left-1/2 z-40 w-full max-w-[600px] -translate-x-1/2 transform px-4 md:px-0">
+			<div className="fixed bottom-[72px] left-1/2 z-40 w-full max-w-[600px] -translate-x-1/2 transform overflow-visible px-4 md:px-0">
 				<StoryChart
 					chart={tagData.chart}
 					knobPosition={knobPosition}

@@ -47,7 +47,7 @@ const StoryChart = ({
 }: StoryChartProps) => {
 	const [internalKnobPosition, setInternalKnobPosition] = useState(0);
 	const [isDragging, setIsDragging] = useState(false);
-	const [hoverPosition, setHoverPosition] = useState<number | null>(null);
+	const [hoverPosition, setHoverPosition] = useState<number>(0);
 	const [hasInteracted, setHasInteracted] = useState(false);
 	const timelineRef = useRef<HTMLDivElement>(null);
 
@@ -249,26 +249,9 @@ const StoryChart = ({
 		[externalKnobPosition, onKnobPositionChange],
 	);
 
-	const handleMouseMove = (e: React.MouseEvent) => {
-		if (!isDragging && timelineRef.current) {
-			const rect = timelineRef.current.getBoundingClientRect();
-			const x = e.clientX - rect.left;
-			const position = Math.max(0, Math.min(100, (x / rect.width) * 100));
-			setHoverPosition(position);
-		}
-	};
-
-	const handleMouseEnter = () => {
-		// Hover position will be set by handleMouseMove
-	};
-
-	const handleMouseLeave = () => {
-		// Only reset hover position if user hasn't interacted (clicked/dragged)
-		// Keep knob visible if user has interacted
-		if (!isDragging && !hasInteracted) {
-			setHoverPosition(null);
-		}
-	};
+	// Note: handleMouseMove, handleMouseEnter, handleMouseLeave removed
+	// to prevent hoverPosition updates during scroll which caused displayPosition to change
+	// hoverPosition is now only updated during active dragging via updatePosition
 
 	const handleMouseDown = (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -280,11 +263,6 @@ const StoryChart = ({
 	const handleMouseUp = () => {
 		setIsDragging(false);
 		setHasInteracted(true);
-		// Only scroll horizontally if not controlled externally
-		// External control will handle vertical scrolling
-		if (externalKnobPosition === undefined) {
-			scrollToPosition(knobPosition);
-		}
 		// Keep knob visible at current position after mouse release
 		setHoverPosition(knobPosition);
 	};
@@ -307,77 +285,19 @@ const StoryChart = ({
 	const handleTouchEnd = () => {
 		if (isDragging) {
 			setIsDragging(false);
-			// Only scroll horizontally if not controlled externally
-			// External control will handle vertical scrolling
-			if (externalKnobPosition === undefined) {
-				const currentPosition =
-					externalKnobPosition !== undefined
-						? externalKnobPosition
-						: internalKnobPosition;
-				scrollToPosition(currentPosition);
-				// Keep knob visible at current position after touch ends
-				setHoverPosition(currentPosition);
-			} else {
-				// Keep knob visible at current position after touch ends
-				setHoverPosition(knobPosition);
-			}
+			const currentPosition =
+				externalKnobPosition !== undefined
+					? externalKnobPosition
+					: internalKnobPosition;
+			// Keep knob visible at current position after touch ends
+			setHoverPosition(currentPosition);
 		}
 	};
 
 	const handleTouchCancel = () => {
 		setIsDragging(false);
-		setHoverPosition(null);
+		setHoverPosition(knobPosition);
 	};
-
-	const scrollToPosition = useCallback(
-		(position: number) => {
-			if (timelineRef.current && chartData.allMonths.length > 0) {
-				// Calculate the position in pixels
-				const rect = timelineRef.current.getBoundingClientRect();
-				const targetX = (position / 100) * rect.width;
-				const centerX = rect.left + targetX;
-
-				// Try to scroll parent containers to center the selected position
-				let element: HTMLElement | null = timelineRef.current;
-				while (element) {
-					const parent: HTMLElement | null = element.parentElement;
-					if (!parent) break;
-
-					const parentRect = parent.getBoundingClientRect();
-					const scrollableWidth = parent.scrollWidth - parent.clientWidth;
-
-					if (scrollableWidth > 0) {
-						const relativeX = centerX - parentRect.left;
-						const scrollLeft =
-							parent.scrollLeft + (relativeX - parentRect.width / 2);
-
-						parent.scrollTo({
-							left: Math.max(0, Math.min(scrollLeft, scrollableWidth)),
-							behavior: 'smooth',
-						});
-					}
-
-					// Also try window scroll if needed
-					if (parent === document.body || parent === document.documentElement) {
-						const windowCenter = window.innerWidth / 2;
-						const scrollX = centerX - windowCenter;
-
-						// Use requestAnimationFrame for better mobile scroll performance
-						requestAnimationFrame(() => {
-							window.scrollTo({
-								left: Math.max(0, window.scrollX + scrollX),
-								behavior: 'smooth',
-							});
-						});
-						break;
-					}
-
-					element = parent;
-				}
-			}
-		},
-		[chartData.allMonths.length],
-	);
 
 	// Handle global mouse move and up for dragging
 	useEffect(() => {
@@ -389,20 +309,12 @@ const StoryChart = ({
 			const handleGlobalMouseUp = () => {
 				setIsDragging(false);
 				setHasInteracted(true);
-				// Only scroll horizontally if not controlled externally
-				// External control will handle vertical scrolling
-				if (externalKnobPosition === undefined) {
-					const currentPosition =
-						externalKnobPosition !== undefined
-							? externalKnobPosition
-							: internalKnobPosition;
-					scrollToPosition(currentPosition);
-					// Keep knob visible at current position after mouse release
-					setHoverPosition(currentPosition);
-				} else {
-					// Keep knob visible at current position after mouse release
-					setHoverPosition(knobPosition);
-				}
+				const currentPosition =
+					externalKnobPosition !== undefined
+						? externalKnobPosition
+						: internalKnobPosition;
+				// Keep knob visible at current position after mouse release
+				setHoverPosition(currentPosition);
 			};
 
 			const handleGlobalTouchMove = (e: TouchEvent) => {
@@ -414,25 +326,17 @@ const StoryChart = ({
 
 			const handleGlobalTouchEnd = () => {
 				setIsDragging(false);
-				// Only scroll horizontally if not controlled externally
-				// External control will handle vertical scrolling
-				if (externalKnobPosition === undefined) {
-					const currentPosition =
-						externalKnobPosition !== undefined
-							? externalKnobPosition
-							: internalKnobPosition;
-					scrollToPosition(currentPosition);
-					// Keep knob visible at current position after touch ends
-					setHoverPosition(currentPosition);
-				} else {
-					// Keep knob visible at current position after touch ends
-					setHoverPosition(knobPosition);
-				}
+				const currentPosition =
+					externalKnobPosition !== undefined
+						? externalKnobPosition
+						: internalKnobPosition;
+				// Keep knob visible at current position after touch ends
+				setHoverPosition(currentPosition);
 			};
 
 			const handleGlobalTouchCancel = () => {
 				setIsDragging(false);
-				setHoverPosition(null);
+				setHoverPosition(knobPosition);
 			};
 
 			window.addEventListener('mousemove', handleGlobalMouseMove);
@@ -457,17 +361,21 @@ const StoryChart = ({
 		updatePositionFromTouch,
 		externalKnobPosition,
 		internalKnobPosition,
-		scrollToPosition,
+		knobPosition,
 	]);
 
+	// Calculate display position - always use knobPosition which is stable and not affected by scroll
+	// knobPosition updates in real-time during drag via updatePosition/setInternalKnobPosition
+	const displayPosition = knobPosition;
+
 	return (
-		<div className="relative mt-3 rounded-2xl border-2 border-black bg-white p-4">
+		<div className="relative mt-3 overflow-visible rounded-2xl border-2 border-black bg-white p-4">
 			{/* Full-height hover indicator */}
-			{hoverPosition !== null && (
+			{hoverPosition >= 0 && (
 				<div
 					className="absolute inset-y-0 left-0 z-0 rounded-l-2xl bg-black/20"
 					style={{
-						width: `${hoverPosition - 1}%`,
+						width: `${Math.max(5, hoverPosition - 1)}%`,
 					}}
 				/>
 			)}
@@ -501,13 +409,10 @@ const StoryChart = ({
 
 			{/* Timeline with horizontal line and tick marks */}
 			<div
-				className="relative cursor-pointer touch-none"
+				className="relative cursor-pointer touch-none overflow-visible"
 				ref={timelineRef}
 				onMouseDown={handleMouseDown}
 				onMouseUp={handleMouseUp}
-				onMouseMove={handleMouseMove}
-				onMouseEnter={handleMouseEnter}
-				onMouseLeave={handleMouseLeave}
 				onTouchStart={handleTouchStart}
 				onTouchMove={handleTouchMove}
 				onTouchEnd={handleTouchEnd}
@@ -517,7 +422,7 @@ const StoryChart = ({
 					if (!isDragging) {
 						setHasInteracted(true);
 						updatePosition(e.clientX);
-						// Scroll to clicked position
+						// Keep knob visible at clicked position
 						if (timelineRef.current) {
 							const rect = timelineRef.current.getBoundingClientRect();
 							const x = e.clientX - rect.left;
@@ -525,8 +430,6 @@ const StoryChart = ({
 								0,
 								Math.min(100, (x / rect.width) * 100),
 							);
-							scrollToPosition(position);
-							// Keep knob visible at clicked position
 							setHoverPosition(position);
 						}
 					}
@@ -535,7 +438,7 @@ const StoryChart = ({
 				<div className="absolute top-0 right-0 left-0 z-0 h-[2px] bg-black"></div>
 
 				{/* Gray bar that moves with knob */}
-				{hoverPosition !== null && (
+				{hoverPosition >= 0 && (
 					<>
 						<div
 							className="bg-green-1 absolute top-0 z-50 h-[2px]"
@@ -547,7 +450,7 @@ const StoryChart = ({
 						<div
 							className="absolute top-0 z-50"
 							style={{
-								left: `${hoverPosition - 2}%`,
+								left: `${Math.max(0, hoverPosition - 2)}%`,
 							}}
 						>
 							<Image
@@ -591,25 +494,32 @@ const StoryChart = ({
 					})}
 				</div>
 
-				{/* Tooltip for Prime Minister Changes - show all events */}
-				{hoverPosition !== null &&
+				{/* Tooltip for Prime Minister Changes - show all events only when dragging or hovering */}
+				{isDragging &&
+					hoverPosition > 0 &&
 					chartData.allMonths.map((month, monthIndex) => {
 						// Get all events for this month
 						const events = getEventsForMonthIndex(monthIndex);
 						if (events.length === 0) return null;
 
 						// Calculate position of the month
+						// Use (length - 2) if any event has label "นายก แพทองธาร", otherwise use (length - 1)
+						const hasPaetongtarnEvent = events.some(
+							(event) => event.label === 'นายก แพทองธาร',
+						);
+						const divisor = hasPaetongtarnEvent
+							? chartData.allMonths.length - 2
+							: chartData.allMonths.length - 1;
 						const monthPosition =
-							chartData.allMonths.length > 1
-								? (monthIndex / (chartData.allMonths.length - 1)) * 100
-								: 0;
+							chartData.allMonths.length > 1 ? (monthIndex / divisor) * 100 : 0;
 
 						return (
 							<div
 								key={monthIndex}
-								className="absolute -top-20 z-10 -translate-x-1/2 transform"
+								className="pointer-events-none absolute -top-20 z-10 -translate-x-1/2 transform"
 								style={{
 									left: `${monthPosition}%`,
+									position: 'absolute',
 								}}
 							>
 								{events.map((event, index) => (
@@ -632,19 +542,16 @@ const StoryChart = ({
 					})}
 
 				{/* Tooltip for Month Label - show when hovering or dragging */}
-				{(hoverPosition !== null || isDragging) && (
+				{hoverPosition > 0 && (
 					<div
-						className="absolute -top-14 z-20 -translate-x-1/2 transform"
+						className="pointer-events-none absolute -top-14 z-20 -translate-x-1/2 transform"
 						style={{
-							left: `${
-								isDragging ? knobPosition : hoverPosition || knobPosition
-							}%`,
+							left: `${hoverPosition}%`,
+							position: 'absolute',
 						}}
 					>
 						<div className="bg-green-1 text-h11 font-sriracha rounded-full px-2 py-1 whitespace-nowrap text-white">
-							{getCurrentMonthLabel(
-								isDragging ? knobPosition : hoverPosition || knobPosition,
-							)}
+							{getCurrentMonthLabel(hoverPosition)}
 						</div>
 						<div className="border-t-green-1 mx-auto h-0 w-0 border-t-8 border-r-[6px] border-l-[6px] border-r-transparent border-l-transparent"></div>
 					</div>
