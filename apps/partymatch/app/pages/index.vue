@@ -15,6 +15,26 @@ import PartyCard from '../components/PartyCard.vue';
 import QuizMain from '../components/QuizMain.vue';
 import ResultMain from '../components/ResultMain.vue';
 
+const baseUrl = 'https://election69.wevis.info/partymatch';
+const imageUrl = `${baseUrl}/og-partymatch.png`;
+const title =
+	'Party Match or Red Flag Alert พรรคที่คุณจะเลือก ทำงานตรงใจคุณแค่ไหน ?';
+const description =
+	'Party Match or Red Flag Alert พรรคที่คุณจะเลือก ทำงานตรงใจคุณแค่ไหน ? หนึ่งในโปรเจกต์ของ Campaign #WeVisElection69 ที่อยากชวนคุณมาตรวจการบ้านการลงมติร่างกฎหมายของ 16 พรรคการเมืองที่เคยทำงานในสภาชุดก่อนหน้า เพื่อดูว่าในช่วง 3 ปีที่ผ่านมานี้ พวกเขาทำงานตรงใจคุณแค่ไหน และให้ไอเดียต่อว่า ‘เลือกตั้งครั้งนี้จะเลือกสนับสนุนพรรคไหนเพื่อทำหน้าที่ให้ตรงใจคุณมากขึ้น’';
+
+useSeoMeta({
+	title: title,
+	ogTitle: title,
+	description: description,
+	ogDescription: description,
+	ogType: 'website',
+	ogLocale: 'th_TH',
+	ogUrl: baseUrl,
+	ogImage: imageUrl,
+	twitterImage: imageUrl,
+	twitterCard: 'summary_large_image',
+});
+
 const selectedParty = ref(null);
 const lottieContainer = ref(null);
 const lottieLandingContainer = ref(null);
