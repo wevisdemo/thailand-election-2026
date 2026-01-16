@@ -147,6 +147,13 @@ const TagbyId = ({ name }: { name: string | null }) => {
 	const isScrollingFromPage = useRef(false);
 	const hasUserScrolled = useRef(false);
 
+	const scrollToTop = () => {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
+	};
+
 	const INITIAL_NEWS_DISPLAY = 3; // Show first 3 news items per date
 	const globalDateRange = useMemo(() => {
 		// มี.ค. 66 = March 2566 = 2023-03
@@ -214,15 +221,15 @@ const TagbyId = ({ name }: { name: string | null }) => {
 		return expandedNewsCount.get(date) || INITIAL_NEWS_DISPLAY;
 	};
 
-	const isTopicSelected = (tagName: string): boolean => {
-		return selectedTopics.some((topic) => topic.label === tagName);
+	const isTopicSelected = (topicId: string): boolean => {
+		return selectedTopics.some((topic) => topic.id === topicId);
 	};
 
 	const handleSaveClick = () => {
 		if (!tagData) return;
 
 		const topicId = tagData.id.toString();
-		const isSelected = isTopicSelected(tagData.name);
+		const isSelected = isTopicSelected(topicId);
 
 		if (isSelected) {
 			removeSelectedTopic(topicId);
@@ -412,6 +419,76 @@ const TagbyId = ({ name }: { name: string | null }) => {
 		[tagData, globalDateRange],
 	);
 
+	// Helper function to convert Thai date to position on timeline
+	const calculatePositionFromThaiDate = useCallback(
+		(thaiDate: string): number | null => {
+			const monthNames = [
+				'ม.ค.',
+				'ก.พ.',
+				'มี.ค.',
+				'เม.ย.',
+				'พ.ค.',
+				'มิ.ย.',
+				'ก.ค.',
+				'ส.ค.',
+				'ก.ย.',
+				'ต.ค.',
+				'พ.ย.',
+				'ธ.ค.',
+			];
+
+			// Parse Thai date format (e.g., "21 พ.ย. 68")
+			const dateMatch = thaiDate.match(/(\d+)\s+(\S+)\s+(\d+)/);
+			if (!dateMatch) return null;
+
+			const newsMonthName = dateMatch[2];
+			const newsYearShort = parseInt(dateMatch[3]);
+
+			// Find month index from Thai month name
+			const monthIndex = monthNames.findIndex((m) => m === newsMonthName);
+			if (monthIndex === -1) return null;
+
+			// Convert Buddhist year short to full year (e.g., 68 -> 2025)
+			const fullYear = newsYearShort + 2500 - 543;
+
+			// Build allMonths array (same as TimelineChart)
+			const firstDate = globalDateRange.start;
+			const lastDate = globalDateRange.end;
+			const firstMonthKey = firstDate.substring(0, 7);
+			const lastMonthKey = lastDate.substring(0, 7);
+			const [firstYear, firstMonth] = firstMonthKey.split('-').map(Number);
+			const [lastYear, lastMonth] = lastMonthKey.split('-').map(Number);
+
+			const allMonths: string[] = [];
+			let currentYear = firstYear;
+			let currentMonth = firstMonth;
+
+			while (
+				currentYear < lastYear ||
+				(currentYear === lastYear && currentMonth <= lastMonth)
+			) {
+				const dateStr = `${currentYear}-${String(currentMonth).padStart(2, '0')}`;
+				allMonths.push(dateStr);
+
+				currentMonth++;
+				if (currentMonth > 12) {
+					currentMonth = 1;
+					currentYear++;
+				}
+			}
+
+			// Find the target month in allMonths array
+			const targetMonthStr = `${fullYear}-${String(monthIndex + 1).padStart(2, '0')}`;
+			const targetMonthIndex = allMonths.findIndex((m) => m === targetMonthStr);
+
+			if (targetMonthIndex === -1 || allMonths.length <= 1) return null;
+
+			// Calculate position
+			return (targetMonthIndex / (allMonths.length - 1)) * 100;
+		},
+		[globalDateRange],
+	);
+
 	// Handle page scroll - update knob position
 	useEffect(() => {
 		if (!tagData || isScrollingFromKnob.current) return;
@@ -445,17 +522,10 @@ const TagbyId = ({ name }: { name: string | null }) => {
 			});
 
 			if (closestDate && tagData.tag_news.length > 0) {
-				// Find the index of this news date
-				const newsIndex = tagData.tag_news.findIndex(
-					(tagNews) => tagNews.date === closestDate,
-				);
+				// Calculate position from the actual date (not index)
+				const position = calculatePositionFromThaiDate(closestDate);
 
-				if (newsIndex !== -1) {
-					const position =
-						tagData.tag_news.length > 1
-							? (newsIndex / (tagData.tag_news.length - 1)) * 100
-							: 0;
-
+				if (position !== null) {
 					setKnobPosition(Math.max(0, Math.min(100, position)));
 				}
 			}
@@ -487,14 +557,8 @@ const TagbyId = ({ name }: { name: string | null }) => {
 				});
 
 				if (closestDate && tagData.tag_news.length > 0) {
-					const newsIndex = tagData.tag_news.findIndex(
-						(tagNews) => tagNews.date === closestDate,
-					);
-					if (newsIndex !== -1) {
-						const position =
-							tagData.tag_news.length > 1
-								? (newsIndex / (tagData.tag_news.length - 1)) * 100
-								: 0;
+					const position = calculatePositionFromThaiDate(closestDate);
+					if (position !== null) {
 						// Only set if it's not at the end (avoid setting to 100 on initial load)
 						// Set to 0 if we're at the top, otherwise use calculated position
 						if (window.scrollY < 100) {
@@ -512,7 +576,7 @@ const TagbyId = ({ name }: { name: string | null }) => {
 			window.removeEventListener('scroll', handleScroll);
 			clearTimeout(initialTimeout);
 		};
-	}, [tagData]);
+	}, [tagData, calculatePositionFromThaiDate]);
 
 	if (loading) {
 		return (
@@ -578,17 +642,17 @@ const TagbyId = ({ name }: { name: string | null }) => {
 						<button
 							onClick={handleSaveClick}
 							className={`flex items-center gap-2 rounded-full border-2 border-black px-4 py-2 transition-colors ${
-								isTopicSelected(tagData.name)
+								isTopicSelected(tagData.id.toString())
 									? 'text-green-2 bg-black'
 									: 'bg-green-3 text-black hover:bg-gray-100'
 							}`}
 						>
-							{isTopicSelected(tagData.name) ? (
+							{isTopicSelected(tagData.id.toString()) ? (
 								<p className="text-h9 font-sriracha">บันทึกแล้ว</p>
 							) : (
 								<p className="text-h9 font-sriracha">บันทึกประเด็น</p>
 							)}
-							{isTopicSelected(tagData.name) ? (
+							{isTopicSelected(tagData.id.toString()) ? (
 								<Image
 									src="/politicalflashback/icon/button-unfav-green.svg"
 									alt="Save"
@@ -803,11 +867,12 @@ const TagbyId = ({ name }: { name: string | null }) => {
 								{tagData.sub_tag.slice(0, 6).map((subTag) => (
 									<span
 										key={subTag.id}
-										onClick={() =>
-											router.push(
+										onClick={async () => {
+											await router.push(
 												`/story?name=${encodeURIComponent('#' + subTag.name)}`,
-											)
-										}
+											);
+											scrollToTop();
+										}}
 										className="text-h9 font-kondolar inline-flex cursor-pointer items-center rounded-full border-2 border-black bg-white px-3 py-1.5 font-bold whitespace-nowrap text-black"
 									>
 										#{subTag.name}

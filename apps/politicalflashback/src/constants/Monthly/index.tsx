@@ -51,6 +51,8 @@ interface SearchModalStoryDetailsData {
 	all_tag: SearchModalTagData[];
 }
 
+const SCROLL_POSITION_KEY = 'monthly-scroll-position';
+
 const MonthlyPage = () => {
 	const { setTopics, selectedTopics, topics } = useTopicStore();
 	const pathname = usePathname();
@@ -67,6 +69,38 @@ const MonthlyPage = () => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [storyData, setStoryData] =
 		useState<SearchModalStoryDetailsData | null>(null);
+
+	// Save scroll position before navigating away
+	const saveScrollPosition = () => {
+		const scrollContainer = document.querySelector(
+			'[data-scroll-container]',
+		) as HTMLElement;
+		if (scrollContainer) {
+			sessionStorage.setItem(
+				SCROLL_POSITION_KEY,
+				scrollContainer.scrollTop.toString(),
+			);
+		}
+	};
+
+	// Restore scroll position after data is loaded
+	useEffect(() => {
+		if (!loading && monthlyData.length > 0) {
+			const savedPosition = sessionStorage.getItem(SCROLL_POSITION_KEY);
+			if (savedPosition) {
+				const scrollContainer = document.querySelector(
+					'[data-scroll-container]',
+				) as HTMLElement;
+				if (scrollContainer) {
+					// Use requestAnimationFrame to ensure DOM is ready
+					requestAnimationFrame(() => {
+						scrollContainer.scrollTop = parseInt(savedPosition, 10);
+					});
+				}
+			}
+		}
+	}, [loading, monthlyData]);
+
 	useEffect(() => {
 		fetch('/politicalflashback/home_monthly_view.json')
 			.then((res) => res.json())
@@ -222,6 +256,7 @@ const MonthlyPage = () => {
 	) => {
 		const routeId = getMonthRouteId(month.name, year);
 		if (routeId) {
+			saveScrollPosition();
 			router.push(`/monthly/${routeId}`);
 		}
 	};
@@ -249,7 +284,7 @@ const MonthlyPage = () => {
 
 					<div className="flex w-full items-center gap-1 sm:gap-2">
 						<button
-							className={`text-h9 font-kondolar w-full rounded-tl-full rounded-bl-full border-2 border-black px-5 py-3 font-bold transition-colors ${
+							className={`text-h9 font-kondolar w-full rounded-tl-full rounded-bl-full border-2 border-black px-1.5 py-3 font-bold transition-colors sm:px-5 ${
 								isHomePath
 									? 'text-green-2 bg-black'
 									: 'bg-white text-black hover:bg-gray-100'
@@ -259,7 +294,7 @@ const MonthlyPage = () => {
 							สำรวจ
 						</button>
 						<button
-							className={`text-h9 font-kondolar w-full rounded-sm border-2 border-black px-2 py-3 font-bold transition-colors sm:px-3 ${
+							className={`text-h9 font-kondolar w-full rounded-sm border-2 border-black px-1.5 py-3 font-bold transition-colors sm:px-3 ${
 								isMonthlyPath
 									? 'text-green-2 bg-black'
 									: 'bg-white text-black hover:bg-gray-100'
@@ -269,7 +304,7 @@ const MonthlyPage = () => {
 							รายเดือน
 						</button>
 						<button
-							className="text-h9 font-kondolar w-full rounded-tr-full rounded-br-full border-2 border-black bg-white px-5 py-3 font-bold text-black transition-colors hover:bg-gray-100"
+							className="text-h9 font-kondolar w-full rounded-tr-full rounded-br-full border-2 border-black bg-white px-1.5 py-3 font-bold text-black transition-colors hover:bg-gray-100 sm:px-5"
 							onClick={() => router.push('/listview')}
 						>
 							ทั้งหมด
@@ -411,6 +446,7 @@ const MonthlyPage = () => {
 																	className="bg-purple-3 hover:bg-purple-2 rounded-full px-4 py-2 transition-colors"
 																	onClick={(e) => {
 																		e.stopPropagation();
+																		saveScrollPosition();
 																		router.push(
 																			`/story?name=${encodeURIComponent(tag.name)}`,
 																		);

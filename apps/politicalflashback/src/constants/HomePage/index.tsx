@@ -133,7 +133,7 @@ const HomePage = () => {
 					{/* Center - Filter buttons */}
 					<div className="flex w-full items-center gap-1 sm:gap-2">
 						<button
-							className={`text-h9 font-kondolar w-full rounded-tl-full rounded-bl-full border-2 border-black px-5 py-3 font-bold transition-colors ${
+							className={`text-h9 font-kondolar w-full rounded-tl-full rounded-bl-full border-2 border-black px-1.5 py-3 font-bold transition-colors sm:px-5 ${
 								isHomePath
 									? 'text-green-2 bg-black'
 									: 'bg-white text-black hover:bg-gray-100'
@@ -143,7 +143,7 @@ const HomePage = () => {
 							สำรวจ
 						</button>
 						<button
-							className={`text-h9 font-kondolar w-full rounded-sm border-2 border-black px-2 py-3 font-bold transition-colors sm:px-3 ${
+							className={`text-h9 font-kondolar w-full rounded-sm border-2 border-black px-1.5 py-3 font-bold transition-colors sm:px-3 ${
 								isMonthlyPath
 									? 'text-green-2 bg-black'
 									: 'bg-white text-black hover:bg-gray-100'
@@ -153,7 +153,7 @@ const HomePage = () => {
 							รายเดือน
 						</button>
 						<button
-							className="text-h9 font-kondolar w-full rounded-tr-full rounded-br-full border-2 border-black bg-white px-5 py-3 font-bold text-black transition-colors hover:bg-gray-100"
+							className="text-h9 font-kondolar w-full rounded-tr-full rounded-br-full border-2 border-black bg-white px-1.5 py-3 font-bold text-black transition-colors hover:bg-gray-100 sm:px-5"
 							onClick={() => router.push('/listview')}
 						>
 							ทั้งหมด

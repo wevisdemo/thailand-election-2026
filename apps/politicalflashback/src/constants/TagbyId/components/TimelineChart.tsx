@@ -299,6 +299,14 @@ const StoryChart = ({
 		setHoverPosition(knobPosition);
 	};
 
+	// Sync hoverPosition with external knob position when it changes (e.g., from scroll)
+	useEffect(() => {
+		if (externalKnobPosition !== undefined && !isDragging) {
+			setHoverPosition(externalKnobPosition);
+			setHasInteracted(true);
+		}
+	}, [externalKnobPosition, isDragging]);
+
 	// Handle global mouse move and up for dragging
 	useEffect(() => {
 		if (isDragging) {
@@ -370,192 +378,207 @@ const StoryChart = ({
 
 	return (
 		<div className="relative mt-3 overflow-visible rounded-2xl border-2 border-black bg-white p-4">
-			{/* Full-height hover indicator */}
-			{hoverPosition >= 0 && (
-				<div
-					className="absolute inset-y-0 left-0 z-0 rounded-l-2xl bg-black/20"
-					style={{
-						width: `${Math.max(5, hoverPosition - 1)}%`,
-					}}
-				/>
-			)}
+			{/* Wrapper for bars and timeline - overlay is positioned relative to this */}
 
-			{/* Bars */}
-			<div className="flex items-end" style={{ height: `${MAX_BAR_HEIGHT}px` }}>
-				{chartData.values.map((value, index) => {
-					const height =
-						value > 0 && chartData.maxValue > 0
-							? (value / chartData.maxValue) * MAX_BAR_HEIGHT
-							: 0;
-					return (
-						<div
-							key={index}
-							className="flex flex-col items-center"
-							style={{
-								width: `${widthPercent}%`,
-								flexShrink: 0,
-							}}
-						>
-							{value > 0 && height > 0 && (
-								<div
-									className="bg-green-3 w-full transition-all"
-									style={{ height: `${Math.max(height, 2)}px` }}
-								/>
-							)}
-						</div>
-					);
-				})}
-			</div>
-
-			{/* Timeline with horizontal line and tick marks */}
 			<div
-				className="relative cursor-pointer touch-none overflow-visible"
-				ref={timelineRef}
-				onMouseDown={handleMouseDown}
-				onMouseUp={handleMouseUp}
-				onTouchStart={handleTouchStart}
-				onTouchMove={handleTouchMove}
-				onTouchEnd={handleTouchEnd}
-				onTouchCancel={handleTouchCancel}
-				onClick={(e) => {
-					// Make entire box clickable
-					if (!isDragging) {
-						setHasInteracted(true);
-						updatePosition(e.clientX);
-						// Keep knob visible at clicked position
-						if (timelineRef.current) {
-							const rect = timelineRef.current.getBoundingClientRect();
-							const x = e.clientX - rect.left;
-							const position = Math.max(
-								0,
-								Math.min(100, (x / rect.width) * 100),
-							);
-							setHoverPosition(position);
-						}
-					}
+				className="absolute inset-y-0 left-0 z-0 rounded-l-2xl bg-black/20"
+				style={{
+					width: `16px`,
 				}}
-			>
-				<div className="absolute top-0 right-0 left-0 z-0 h-[2px] bg-black"></div>
-
-				{/* Gray bar that moves with knob */}
+			/>
+			<div className="relative">
+				{/* Full-height hover indicator */}
 				{hoverPosition >= 0 && (
-					<>
-						<div
-							className="bg-green-1 absolute top-0 z-50 h-[2px]"
-							style={{
-								left: '0%',
-								width: `${hoverPosition}%`,
-							}}
-						/>
-						<div
-							className="absolute top-0 z-50"
-							style={{
-								left: `${Math.max(0, hoverPosition - 2)}%`,
-							}}
-						>
-							<Image
-								src="/politicalflashback/icon/node-chart.svg"
-								alt="Timeline Chart Hover"
-								width={16}
-								height={16}
-							/>
-						</div>
-					</>
+					<div
+						className="absolute inset-y-0 left-0 z-0 -my-4 bg-black/20"
+						style={{
+							width: `${Math.max(1, hoverPosition - 1)}%`,
+						}}
+					/>
 				)}
 
-				<div className="relative flex pt-[2px]">
+				{/* Bars */}
+				<div
+					className="flex items-end"
+					style={{ height: `${MAX_BAR_HEIGHT}px` }}
+				>
 					{chartData.values.map((value, index) => {
-						const hasLabel = !!chartData.labels[index];
-						const position = (index / (chartData.values.length - 1)) * 100;
-
+						const height =
+							value > 0 && chartData.maxValue > 0
+								? (value / chartData.maxValue) * MAX_BAR_HEIGHT
+								: 0;
 						return (
 							<div
 								key={index}
-								className="relative flex flex-col items-center"
+								className="flex flex-col items-center"
 								style={{
 									width: `${widthPercent}%`,
 									flexShrink: 0,
 								}}
 							>
-								<div
-									className="bg-black"
-									style={{
-										width: '1px',
-										height: '4px',
-									}}
-								/>
-								{hasLabel && (
-									<p className="font-ibmplex mt-1 text-center text-[10px] whitespace-nowrap text-black">
-										{chartData.labels[index]}
-									</p>
+								{value > 0 && height > 0 && (
+									<div
+										className="bg-green-3 w-full transition-all"
+										style={{ height: `${Math.max(height, 2)}px` }}
+									/>
 								)}
 							</div>
 						);
 					})}
 				</div>
 
-				{/* Tooltip for Prime Minister Changes - show all events only when dragging or hovering */}
-				{isDragging &&
-					hoverPosition > 0 &&
-					chartData.allMonths.map((month, monthIndex) => {
-						// Get all events for this month
-						const events = getEventsForMonthIndex(monthIndex);
-						if (events.length === 0) return null;
+				{/* Timeline with horizontal line and tick marks */}
+				<div
+					className="relative cursor-pointer touch-none overflow-visible"
+					ref={timelineRef}
+					onMouseDown={handleMouseDown}
+					onMouseUp={handleMouseUp}
+					onTouchStart={handleTouchStart}
+					onTouchMove={handleTouchMove}
+					onTouchEnd={handleTouchEnd}
+					onTouchCancel={handleTouchCancel}
+					onClick={(e) => {
+						// Make entire box clickable
+						if (!isDragging) {
+							setHasInteracted(true);
+							updatePosition(e.clientX);
+							// Keep knob visible at clicked position
+							if (timelineRef.current) {
+								const rect = timelineRef.current.getBoundingClientRect();
+								const x = e.clientX - rect.left;
+								const position = Math.max(
+									0,
+									Math.min(100, (x / rect.width) * 100),
+								);
+								setHoverPosition(position);
+							}
+						}
+					}}
+				>
+					<div className="absolute top-0 right-0 left-0 z-0 h-[2px] bg-black"></div>
 
-						// Calculate position of the month
-						// Use (length - 2) if any event has label "นายก แพทองธาร", otherwise use (length - 1)
-						const hasPaetongtarnEvent = events.some(
-							(event) => event.label === 'นายก แพทองธาร',
-						);
-						const divisor = hasPaetongtarnEvent
-							? chartData.allMonths.length - 2
-							: chartData.allMonths.length - 1;
-						const monthPosition =
-							chartData.allMonths.length > 1 ? (monthIndex / divisor) * 100 : 0;
-
-						return (
+					{/* Gray bar that moves with knob */}
+					{hoverPosition >= 0 && (
+						<>
 							<div
-								key={monthIndex}
-								className="pointer-events-none absolute -top-20 z-10 -translate-x-1/2 transform"
+								className="bg-green-1 absolute top-0 z-50 h-[2px]"
 								style={{
-									left: `${monthPosition}%`,
-									position: 'absolute',
+									left: '0%',
+									width: `${hoverPosition}%`,
+								}}
+							/>
+							<div
+								className="absolute top-0 z-50"
+								style={{
+									left: `${Math.max(0, hoverPosition - 2)}%`,
 								}}
 							>
-								{events.map((event, index) => (
-									<div
-										key={event.id}
-										className="mb-1 last:mb-0"
-										style={{
-											marginBottom: index < events.length - 1 ? '4px' : '0',
-										}}
-									>
-										<div className="bg-green-3 text-h11 font-sriracha rounded-full px-2 py-1 text-black">
-											{event.label}
-										</div>
-									</div>
-								))}
-								<div className="border-t-green-3 mx-auto h-0 w-0 border-t-8 border-r-[6px] border-l-[6px] border-r-transparent border-l-transparent"></div>
-								<div className="bg-green-3 mx-auto h-11 w-px"></div>
+								<Image
+									src="/politicalflashback/icon/node-chart.svg"
+									alt="Timeline Chart Hover"
+									width={16}
+									height={16}
+								/>
 							</div>
-						);
-					})}
+						</>
+					)}
 
-				{/* Tooltip for Month Label - show when hovering or dragging */}
-				{hoverPosition > 0 && (
-					<div
-						className="pointer-events-none absolute -top-14 z-20 -translate-x-1/2 transform"
-						style={{
-							left: `${hoverPosition}%`,
-							position: 'absolute',
-						}}
-					>
-						<div className="bg-green-1 text-h11 font-sriracha rounded-full px-2 py-1 whitespace-nowrap text-white">
-							{getCurrentMonthLabel(hoverPosition)}
-						</div>
-						<div className="border-t-green-1 mx-auto h-0 w-0 border-t-8 border-r-[6px] border-l-[6px] border-r-transparent border-l-transparent"></div>
+					<div className="relative flex pt-[2px]">
+						{chartData.values.map((value, index) => {
+							const hasLabel = !!chartData.labels[index];
+							const position = (index / (chartData.values.length - 1)) * 100;
+
+							return (
+								<div
+									key={index}
+									className="relative flex flex-col items-center"
+									style={{
+										width: `${widthPercent}%`,
+										flexShrink: 0,
+									}}
+								>
+									<div
+										className="bg-black"
+										style={{
+											width: '1px',
+											height: '4px',
+										}}
+									/>
+									{hasLabel && (
+										<p className="font-ibmplex mt-1 text-center text-[10px] whitespace-nowrap text-black">
+											{chartData.labels[index]}
+										</p>
+									)}
+								</div>
+							);
+						})}
 					</div>
-				)}
+
+					{/* Tooltip for Prime Minister Changes - show all events only when dragging or hovering */}
+					{isDragging &&
+						hoverPosition > 0 &&
+						chartData.allMonths.map((month, monthIndex) => {
+							// Get all events for this month
+							const events = getEventsForMonthIndex(monthIndex);
+							if (events.length === 0) return null;
+
+							// Calculate position of the month
+							// Use (length - 2) if any event has label "นายก แพทองธาร", otherwise use (length - 1)
+							const hasPaetongtarnEvent = events.some(
+								(event) => event.label === 'นายก แพทองธาร',
+							);
+							const divisor = hasPaetongtarnEvent
+								? chartData.allMonths.length - 2
+								: chartData.allMonths.length - 1;
+							const monthPosition =
+								chartData.allMonths.length > 1
+									? (monthIndex / divisor) * 100
+									: 0;
+
+							return (
+								<div
+									key={monthIndex}
+									className="pointer-events-none absolute -top-20 z-10 -translate-x-1/2 transform"
+									style={{
+										left: `${monthPosition}%`,
+										position: 'absolute',
+									}}
+								>
+									{events.map((event, index) => (
+										<div
+											key={event.id}
+											className="mb-1 last:mb-0"
+											style={{
+												marginBottom: index < events.length - 1 ? '4px' : '0',
+											}}
+										>
+											<div className="bg-green-3 text-h11 font-sriracha rounded-full px-2 py-1 text-black">
+												{event.label}
+											</div>
+										</div>
+									))}
+									<div className="border-t-green-3 mx-auto h-0 w-0 border-t-8 border-r-[6px] border-l-[6px] border-r-transparent border-l-transparent"></div>
+									<div className="bg-green-3 mx-auto h-11 w-px"></div>
+								</div>
+							);
+						})}
+
+					{/* Tooltip for Month Label - show when hovering or dragging */}
+					{hoverPosition > 0 && (
+						<div
+							className="pointer-events-none absolute -top-14 z-20 -translate-x-[38px] transform"
+							style={{
+								left: `${hoverPosition}%`,
+								position: 'absolute',
+							}}
+						>
+							<div className="bg-green-1 text-h11 font-sriracha rounded-full px-2 py-1 whitespace-nowrap text-white">
+								{getCurrentMonthLabel(hoverPosition)}
+							</div>
+							<div className="border-t-green-1 mx-auto h-0 w-0 border-t-8 border-r-[6px] border-l-[6px] border-r-transparent border-l-transparent"></div>
+						</div>
+					)}
+				</div>
 			</div>
 		</div>
 	);

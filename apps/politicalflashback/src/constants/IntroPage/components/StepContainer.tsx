@@ -11,6 +11,12 @@ interface StepContainerProps {
 }
 
 const StepContainer = ({ currentStep, onNext, onBack }: StepContainerProps) => {
+	const scrollToTop = () => {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
+	};
 	return (
 		<div className="bg-bg flex h-screen min-h-screen flex-col">
 			<div className="bg-bg mx-auto flex w-full max-w-[600px] flex-1 flex-col items-center justify-between gap-6 px-4 py-6 pt-20 pb-16">
@@ -217,14 +223,20 @@ const StepContainer = ({ currentStep, onNext, onBack }: StepContainerProps) => {
 				{/* Navigation buttons */}
 				<div className="flex w-full gap-3 pb-4">
 					<Button
-						onClick={onBack}
+						onClick={() => {
+							scrollToTop();
+							onBack();
+						}}
 						className="typo-h9 font-kondolar border-gray-2 w-full rounded-full bg-transparent font-bold text-black"
 					>
 						ย้อนกลับ
 					</Button>
 
 					<Button
-						onClick={onNext}
+						onClick={() => {
+							scrollToTop();
+							onNext();
+						}}
 						className="typo-h9 font-kondolar bg-purple-1 border-purple-1 w-full rounded-full font-bold text-white"
 					>
 						{currentStep === 3 ? 'เริ่มเลย!' : 'ต่อไป'}
