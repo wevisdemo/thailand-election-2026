@@ -9,7 +9,7 @@ export const Markdown = ({ content }: { content: string }) => {
 						return {
 							type: 'element',
 							tagName: 'span',
-							properties: { className: 'extendsion' },
+							properties: { className: 'extension' },
 							children: state.all(node),
 						};
 					},

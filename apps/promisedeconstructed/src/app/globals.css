@@ -44,8 +44,14 @@
 			@apply ml-[2ch] list-outside list-decimal;
 		}
 
-		& span.extendsion {
+		& span.extension {
 			@apply text-gray-1;
+		}
+	}
+
+	.about-content {
+		& a {
+			@apply underline;
 		}
 	}
 }
