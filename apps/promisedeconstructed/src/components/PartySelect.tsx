@@ -1,6 +1,7 @@
 'use client';
 
 import { ALL_PARTY_VALUE, ENTH_PARTY_LOOKUP } from '@/constants/party';
+import { NO_PARTY } from '@/constants/sheet';
 import { usePartyStore } from '@/stores/partyStore';
 import { Select } from '@base-ui/react/select';
 import Image from 'next/image';
@@ -102,7 +103,7 @@ export const PartySelect = ({
 	const handleParamPartyUpdate = useCallback(
 		(party: string | null) => {
 			if (!party) return;
-			const thParty = ENTH_PARTY_LOOKUP[party];
+			const thParty = ENTH_PARTY_LOOKUP[party] ?? NO_PARTY;
 			if (thParty && possibleParties.includes(thParty))
 				handleSelectChange([thParty]);
 		},
@@ -144,12 +145,14 @@ export const PartySelect = ({
 						arrowPadding={0}
 						sideOffset={8}
 						collisionAvoidance={{
-							side: 'flip',
-							align: 'shift',
+							side: 'none',
+							align: 'none',
 						}}
 						collisionPadding={0}
+						side="bottom"
+						align="center"
 					>
-						<Select.Popup className="bg-bg-2 w-fit max-w-(--available-width) min-w-(--anchor-width) rounded-2xl border-2 border-black px-4">
+						<Select.Popup className="bg-bg-2 max-h-[calc(var(--available-height)-56px)] w-fit max-w-(--available-width) min-w-(--anchor-width) rounded-2xl border-2 border-black px-4">
 							<Select.Item
 								className="text-b4 group/select-item flex items-center gap-2 border-b border-b-black py-4 select-none last:border-b-0 data-disabled:opacity-30"
 								value={ALL_PARTY_VALUE}

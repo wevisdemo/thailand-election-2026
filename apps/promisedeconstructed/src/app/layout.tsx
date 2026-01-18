@@ -36,12 +36,14 @@ export default function RootLayout({
 				></script>
 			</head>
 			<body>
-				<ElectionNavbar
-					className="bg-bg block h-10 md:h-14"
-					aria-label="Main Navigation"
-				/>
-				{children}
-				<ElectionFooter />
+				<div className="isolate">
+					<ElectionNavbar
+						className="bg-bg block h-10 md:h-14"
+						aria-label="Main Navigation"
+					/>
+					{children}
+					<ElectionFooter />
+				</div>
 			</body>
 		</html>
 	);

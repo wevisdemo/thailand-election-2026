@@ -1,17 +1,12 @@
 'use client';
-import { CategoryGroup } from '@/components/CategoryGroup';
-import {
-	DISPLAY_CATEGORY_CATEGORY,
-	DisplayCategoryToggle,
-} from '@/components/DisplayCategoryToggle';
+import { CategoryGroup, CategoryGroupProps } from '@/components/CategoryGroup';
 import { PartySelect } from '@/components/PartySelect';
 import { ALL_PARTY_VALUE } from '@/constants/party';
-import { NO_PARTY } from '@/constants/sheet';
 import { usePartyStore } from '@/stores/partyStore';
-import { getUnique, HomeData, slugifySubCategory } from '@/utils/data';
+import { HomeData, slugifySubCategory } from '@/utils/data';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { SparklesText } from '../SparklesText';
 
 interface HomeBodyProps {
@@ -21,45 +16,40 @@ interface HomeBodyProps {
 
 export const HomeBody = ({ homeData, buildTime }: HomeBodyProps) => {
 	const selectedParties = usePartyStore((state) => state.selectedParties);
-	const [displayCategory, setDisplayCategory] = useState([
-		DISPLAY_CATEGORY_CATEGORY,
-	]);
 
-	const partyChoices = homeData.parties.map((party) => ({ value: party }));
-	const categories = useMemo(() => {
-		const group = displayCategory.includes(DISPLAY_CATEGORY_CATEGORY)
-			? homeData.dataByProblem
-			: homeData.dataByTarget;
-		return Object.entries(group)
-			.map(([category, subcategories]) => ({
-				name: category,
-				subCategories: Object.entries(subcategories)
-					.map(([subCategory, dataIndex]) => {
-						const realizedData = dataIndex.map((index) => homeData.data[index]);
-						const filteredData = selectedParties.includes(ALL_PARTY_VALUE)
-							? realizedData
-							: realizedData.filter((data) =>
-									selectedParties.includes(data.party || NO_PARTY),
-								);
-						return {
-							href: `/${slugifySubCategory(subCategory)}`,
-							category: subCategory,
-							promiseCount: filteredData.length,
-							parties: getUnique(
-								filteredData.map((data) => data.party || NO_PARTY),
-							).sort((a, z) => a.localeCompare(z)),
-						};
-					})
-					.filter((subCategory) => subCategory.promiseCount > 0),
-			}))
-			.filter((category) => category.subCategories.length > 0);
-	}, [
-		homeData.data,
-		homeData.dataByProblem,
-		homeData.dataByTarget,
-		displayCategory,
-		selectedParties,
-	]);
+	const partyChoices = homeData.allParties.map((party) => ({ value: party }));
+	const categories = useMemo((): CategoryGroupProps[] => {
+		return homeData.categoryData
+			.map((category) => {
+				return {
+					...category,
+					subCategories: category.subCategories
+						.map((subCategory) => {
+							const promiseCountPartyEntries = Object.entries(
+								subCategory.promiseCountByParty,
+							);
+							const filteredParty = selectedParties.includes(ALL_PARTY_VALUE)
+								? promiseCountPartyEntries
+								: promiseCountPartyEntries.filter(([party]) =>
+										selectedParties.includes(party),
+									);
+							return {
+								href: `/${slugifySubCategory(subCategory.category)}`,
+								category: subCategory.category,
+								promiseCount: filteredParty
+									.map(([, count]) => count)
+									.reduce((a, b) => a + b, 0),
+								parties: filteredParty
+									.map(([party]) => party)
+									.sort((a, z) => a.localeCompare(z)),
+							};
+						})
+						.filter((subCategory) => subCategory.promiseCount > 0),
+				};
+			})
+			.filter((category) => category.subCategories.length > 0)
+			.sort((a, z) => a.name.localeCompare(z.name));
+	}, [homeData.categoryData, selectedParties]);
 
 	return (
 		<>
@@ -76,7 +66,7 @@ export const HomeBody = ({ homeData, buildTime }: HomeBodyProps) => {
 						allChoiceText={(count) => `ทั้งหมด ${count} พรรค`}
 					/>
 					<p className="text-b7 text-gray-1">
-						*ฐานข้อมูลมีจำนวนทั้งหมด {homeData.parties.length} พรรค
+						*ฐานข้อมูลมีจำนวนทั้งหมด {homeData.allParties.length} พรรค
 						โดยเลือกเฉพาะพรรคที่มีข้อมูลนโยบายในเว็บไซต์ทางการ
 					</p>
 					<p className="text-b4">
@@ -99,13 +89,6 @@ export const HomeBody = ({ homeData, buildTime }: HomeBodyProps) => {
 						fetchPriority="high"
 					/>
 				</SparklesText>
-				<div className="flex w-full flex-col items-center gap-2">
-					<span className="text-b5 font-bold">แบ่งคำสัญญาตาม</span>
-					<DisplayCategoryToggle
-						displayCategory={displayCategory}
-						setDisplayCategory={setDisplayCategory}
-					/>
-				</div>
 				<div className="text-b6 text-purple-1 flex flex-col items-center gap-[5px] text-center">
 					<p>
 						<strong>คำชี้แจง:</strong> ข้อมูลอัปเดทล่าสุด {buildTime}{' '}
@@ -118,6 +101,9 @@ export const HomeBody = ({ homeData, buildTime }: HomeBodyProps) => {
 						อ่านที่มาและข้อจำกัดข้อมูล
 					</Link>
 				</div>
+				<span className="text-h8 font-kondolar font-bold">
+					สำรวจคำสัญญาตามประเด็น
+				</span>
 			</header>
 			<div className="mx-auto flex flex-col gap-4 md:w-[85svw]">
 				{categories.map((category, index) => (

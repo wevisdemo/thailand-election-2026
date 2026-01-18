@@ -17,13 +17,17 @@ export const SubCatgCard = ({
 	return (
 		<Link
 			href={href}
-			className="hover:bg-green-2 focus:bg-green-2 bg-green-3 flex h-[120px] w-40 flex-col overflow-hidden rounded-[10px] select-none md:h-[180px] md:w-[200px]"
+			className="hover:bg-green-2 focus:bg-green-2 bg-green-3 flex h-[140px] w-40 flex-col overflow-hidden rounded-[10px] select-none md:h-[180px] md:w-[200px]"
 		>
-			<header className="text-b5 text-trim flex min-h-0 flex-1 items-center justify-center font-bold">
-				<span className="text-box-cap">{category}</span>
+			<header className="text-b5 text-trim flex min-h-0 flex-1 items-center justify-center p-2 font-bold">
+				<span className="text-box-cap text-center text-balance">
+					{category}
+				</span>
 			</header>
-			<footer className="text-gray-3 text-b6 flex items-center justify-center gap-1 bg-black p-2 pt-1">
-				<span className="font-bold">{promiseCount}</span> สัญญา จาก{' '}
+			<footer className="text-gray-3 text-b6 flex flex-col items-center justify-center gap-1 bg-black p-2 pt-1">
+				<span>
+					<span className="font-bold">{promiseCount}</span> สัญญา จาก
+				</span>
 				<div className="relative z-0 flex -space-x-[3px]">
 					{parties.map((party, i) => (
 						<PartyLogo

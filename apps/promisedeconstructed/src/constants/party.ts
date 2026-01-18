@@ -1,5 +1,20 @@
 export const ALL_PARTY_VALUE = 'all';
 
+export type Party =
+	| 'people'
+	| 'pheuthai'
+	| 'democrat'
+	| 'thaipeople'
+	| 'prachachart'
+	| 'thaisangthai'
+	| 'forthecountry'
+	| 'economic'
+	| 'okardmai'
+	| 'rakchart'
+	| 'bhumjaithai'
+	| 'unitednation'
+	| 'thaipakdee';
+
 export const ENTH_PARTY_LOOKUP: Record<string, string | undefined> = {
 	people: 'ประชาชน',
 	pheuthai: 'เพื่อไทย',
