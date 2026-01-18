@@ -31,7 +31,7 @@ export const TopicBody = ({ topicData }: TopicBodyProps) => {
 		<>
 			<header className="mx-auto flex w-[85svw] max-w-[600px] flex-col">
 				<p className="text-h7 font-kondolar mt-5 text-center font-bold">
-					ปัญหา
+					ประเด็น
 				</p>
 				<h1 className="text-h3 font-kondolar text-center font-bold">
 					{topicData.subCategoryName}
@@ -42,7 +42,7 @@ export const TopicBody = ({ topicData }: TopicBodyProps) => {
 				<PartySelect
 					className="my-2.5 w-full"
 					choices={partyChoices}
-					allChoiceText={(count) => `${count} พรรคที่พูดถึงปัญหานี้`}
+					allChoiceText={(count) => `${count} พรรคที่พูดถึงประเด็นนี้`}
 				/>
 				<p className="text-b7 text-gray-1 mb-5 text-center">
 					*ฐานข้อมูลมีจำนวนทั้งหมด {topicData.allParties.length} พรรค
@@ -78,7 +78,7 @@ export const TopicBody = ({ topicData }: TopicBodyProps) => {
 			</header>
 			<div className="mx-auto py-5 md:w-[85svw]">
 				<Carousel
-					ariaLabel="คำสัญญาจากพรรคที่พูดถึงปัญหานี้"
+					ariaLabel="คำสัญญาจากพรรคที่พูดถึงประเด็นนี้"
 					slides={filteredTopicData.map((topicData, idx) => (
 						<TopicCard key={idx} topicData={topicData} />
 					))}
