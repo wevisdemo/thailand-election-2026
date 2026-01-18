@@ -22,7 +22,7 @@ export const TopicCard = ({ topicData }: TopicCardProps) => {
 				<span className="text-box-cap">{topicData.party}</span>
 			</header>
 			<div
-				className="text-b4 mx-5 flex min-h-0 flex-1 flex-col gap-5 overflow-x-hidden overflow-y-auto py-2.5"
+				className="text-b4 mx-5 flex min-h-0 flex-1 flex-col gap-5 overflow-x-hidden overflow-y-auto overscroll-y-contain py-2.5"
 				style={{ scrollbarWidth: 'none' }}
 			>
 				{TOPICS.map((topic) => {

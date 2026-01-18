@@ -1,9 +1,8 @@
 'use client';
 
 import useEmblaCarousel from 'embla-carousel-react';
-import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
 import Image from 'next/image';
-import { useCallback, useEffect, useId, useState } from 'react';
+import { useEffect, useEffectEvent, useId, useState } from 'react';
 
 interface CarouselProps {
 	ariaLabel: string;
@@ -16,22 +15,22 @@ export const Carousel = ({ slides, noDots, ariaLabel }: CarouselProps) => {
 	const getSlideId = (index: number) => `${carouselId}-slide-${index}`;
 	const slidesContainerId = `${carouselId}-slides`;
 
-	const [emblaRef, emblaApi] = useEmblaCarousel(
-		{ align: 'start', inViewThreshold: 0.1 },
-		[WheelGesturesPlugin()],
-	);
+	const [emblaRef, emblaApi] = useEmblaCarousel({
+		align: 'start',
+		inViewThreshold: 0.5,
+	});
 	const [shownSlides, setShownSlides] = useState<number[]>([]);
 	const [isAllSlideShown, setIsAllSlideShown] = useState<boolean>(false);
 
-	const onResize = useCallback(() => {
+	const onResize = useEffectEvent(() => {
 		if (!emblaApi) return;
 		setIsAllSlideShown(!emblaApi.canScrollNext() && !emblaApi.canScrollPrev());
-	}, [emblaApi]);
+	});
 
-	const onSlidesInView = useCallback(() => {
+	const onSlidesInView = useEffectEvent(() => {
 		if (!emblaApi) return;
 		setShownSlides(emblaApi.slidesInView());
-	}, [emblaApi]);
+	});
 
 	useEffect(() => {
 		if (!emblaApi) return;
@@ -46,7 +45,7 @@ export const Carousel = ({ slides, noDots, ariaLabel }: CarouselProps) => {
 			.on('slidesInView', onSlidesInView);
 
 		return clear;
-	}, [emblaApi, onResize, onSlidesInView, slides.length]);
+	}, [emblaApi, slides.length]);
 
 	return (
 		<section
