@@ -1,5 +1,6 @@
 import { ENTH_PARTY_LOOKUP, Party } from '@/constants/party';
-import { SHEET_ID, SHEETS, Sheets } from '@/constants/sheet';
+import { NO_PARTY, SHEET_ID, SHEETS, Sheets } from '@/constants/sheet';
+import { Topic } from '@/constants/topic';
 import {
 	asString,
 	Column,
@@ -93,10 +94,7 @@ export type Data = {
 	categoryData: CategorySheetSchema[];
 	allParties: string[];
 	allSubCategories: string[];
-	// dataByProblem: Record<string, Record<string, number[]>>;
-	// dataByTarget: Record<string, Record<string, number[]>>;
-	// dataBySubCategorySlug: Record<string, number[]>;
-	// slugSubCategoriesLookup: Record<string, string>;
+	slugSubCategoriesLookup: Record<string, string>;
 };
 
 export const getUnique = (array: string[]) =>
@@ -104,37 +102,6 @@ export const getUnique = (array: string[]) =>
 
 export const slugifySubCategory = (subCategory: string) =>
 	subCategory.replace(/\s/g, '-').replace(/\//g, '-').toLocaleLowerCase();
-
-// const createCategoryDataLookup = (
-// 	array: PartySheetSchema[],
-// 	group: 'problemCat' | 'targetCat',
-// ) =>
-// 	array.reduce(
-// 		(all, current, currentIndex) => {
-// 			const categories = current[group] || [MISSING_CATEGORY];
-// 			const subCategory = current.problemSubcat || MISSING_CATEGORY;
-// 			categories.forEach((category) => {
-// 				all[category] = all[category] || {};
-// 				all[category][subCategory] = all[category][subCategory] || [];
-// 				all[category][subCategory].push(currentIndex);
-// 			});
-// 			return all;
-// 		},
-// 		{} as Record<string, Record<string, number[]>>,
-// 	);
-
-// const createSubCategorySlugIndexLookup = (array: PartySheetSchema[]) =>
-// 	array.reduce(
-// 		(all, current, currentIndex) => {
-// 			const subCategory = slugifySubCategory(
-// 				current.problemSubcat || MISSING_CATEGORY,
-// 			);
-// 			all[subCategory] = all[subCategory] || [];
-// 			all[subCategory].push(currentIndex);
-// 			return all;
-// 		},
-// 		{} as Record<string, number[]>,
-// 	);
 
 let cachedData: Data | undefined = undefined;
 export const getData = async (): Promise<Data> => {
@@ -156,15 +123,12 @@ export const getData = async (): Promise<Data> => {
 		categoryData: sheets.categorySheet,
 		allParties,
 		allSubCategories,
-		// dataByProblem: createCategoryDataLookup(sheet, 'problemCat'),
-		// dataByTarget: createCategoryDataLookup(sheet, 'targetCat'),
-		// dataBySubCategorySlug: createSubCategorySlugIndexLookup(sheet),
-		// slugSubCategoriesLookup: Object.fromEntries(
-		// 	subCategories.map((subCategory) => [
-		// 		slugifySubCategory(subCategory),
-		// 		subCategory,
-		// 	]),
-		// ),
+		slugSubCategoriesLookup: Object.fromEntries(
+			allSubCategories.map((subCategory) => [
+				slugifySubCategory(subCategory),
+				subCategory,
+			]),
+		),
 	};
 	return cachedData;
 };
@@ -204,25 +168,7 @@ export const getHomeData = async (): Promise<HomeData> => {
 		for (const promise of data.partyData[party as Party]) {
 			if (!promise.problemSubcat) continue;
 			for (const subcat of promise.problemSubcat) {
-				const thaiParty = ENTH_PARTY_LOOKUP[party];
-				if (!thaiParty) continue;
-				// subCategoriesData[subcat] = {
-				// 	...subCategoriesData[subcat],
-				// 	// promiseCount: subCategoriesData[subcat].promiseCount + 1,
-				// 	// parties: thaiParty
-				// 	// 	? [...subCategoriesData[subcat].parties, thaiParty]
-				// 	// 	: subCategoriesData[subcat].parties,
-				// 	promiseCountByParty: {
-				// 		...subCategoriesData[subcat].promiseCountByParty,
-				// 		[thaiParty]: subCategoriesData[subcat].promiseCountByParty[
-				// 			thaiParty
-				// 		]
-				// 			? subCategoriesData[subcat].promiseCountByParty[
-				// 					thaiParty
-				// 			  ] + 1
-				// 			: 1,
-				// 	}
-				// };
+				const thaiParty = ENTH_PARTY_LOOKUP[party] ?? NO_PARTY;
 				subCategoriesData[subcat].promiseCountByParty[thaiParty] =
 					(subCategoriesData[subcat].promiseCountByParty[thaiParty] || 0) + 1;
 			}
@@ -245,21 +191,21 @@ export const getHomeData = async (): Promise<HomeData> => {
  * ------------------------------
  */
 
-// export interface TopicSubCategoryData {
-// 	subCategories: string[];
-// }
+export interface TopicSubCategoryData {
+	subCategories: string[];
+}
 
-// let cachedTopicSubCategoryData: TopicSubCategoryData | undefined = undefined;
-// export const getTopicSubCategoryData =
-// 	async (): Promise<TopicSubCategoryData> => {
-// 		if (cachedTopicSubCategoryData) return cachedTopicSubCategoryData;
-// 		const data = await getData();
+let cachedTopicSubCategoryData: TopicSubCategoryData | undefined = undefined;
+export const getTopicSubCategoryData =
+	async (): Promise<TopicSubCategoryData> => {
+		if (cachedTopicSubCategoryData) return cachedTopicSubCategoryData;
+		const data = await getData();
 
-// 		cachedTopicSubCategoryData = {
-// 			subCategories: data.subCategories,
-// 		};
-// 		return cachedTopicSubCategoryData;
-// 	};
+		cachedTopicSubCategoryData = {
+			subCategories: data.allSubCategories,
+		};
+		return cachedTopicSubCategoryData;
+	};
 
 /**
  * ------------------------------
@@ -267,27 +213,34 @@ export const getHomeData = async (): Promise<HomeData> => {
  * ------------------------------
  */
 
-// export type TopicData = Pick<Data, 'parties'> & {
-// 	data: Pick<PartySheetSchema, 'party' | 'url' | Topic>[];
-// 	subCategoryName: string;
-// };
+export type TopicData = Pick<Data, 'allParties'> & {
+	data: (Pick<PartySheetSchema, 'url' | Topic> & { party: string })[];
+	subCategoryName: string;
+};
 
-// const cachedTopicData: Record<string, TopicData | undefined> = {};
-// export const getTopicData = async (
-// 	slugSubCategory: string,
-// ): Promise<TopicData> => {
-// 	if (cachedTopicData[slugSubCategory]) return cachedTopicData[slugSubCategory];
-// 	const data = await getData();
+const cachedTopicData: Record<string, TopicData | undefined> = {};
+export const getTopicData = async (
+	slugSubCategory: string,
+): Promise<TopicData> => {
+	if (cachedTopicData[slugSubCategory]) return cachedTopicData[slugSubCategory];
+	const data = await getData();
 
-// 	cachedTopicData[slugSubCategory] = {
-// 		subCategoryName: data.slugSubCategoriesLookup[slugSubCategory],
-// 		data: data.dataBySubCategorySlug[slugSubCategory].map((index) => {
-// 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// 			const { originalText, problemSubcat, problemCat, targetCat, ...pick } =
-// 				data.data[index];
-// 			return pick;
-// 		}),
-// 		parties: data.parties,
-// 	};
-// 	return cachedTopicData[slugSubCategory];
-// };
+	const subCategoryName = data.slugSubCategoriesLookup[slugSubCategory];
+
+	cachedTopicData[slugSubCategory] = {
+		subCategoryName,
+		allParties: data.allParties,
+		data: Object.entries(data.partyData)
+			.map(([party, promises]) =>
+				promises
+					.filter((promise) => promise.problemSubcat?.includes(subCategoryName))
+					.map((promise) => ({
+						...promise,
+						party: ENTH_PARTY_LOOKUP[party] ?? NO_PARTY,
+					})),
+			)
+			.flat()
+			.sort((a, z) => a.party.localeCompare(z.party)),
+	};
+	return cachedTopicData[slugSubCategory];
+};

@@ -152,7 +152,7 @@ export const PartySelect = ({
 						side="bottom"
 						align="center"
 					>
-						<Select.Popup className="bg-bg-2 max-h-[calc(var(--available-height)-56px)] w-fit max-w-(--available-width) min-w-(--anchor-width) rounded-2xl border-2 border-black px-4">
+						<Select.Popup className="bg-bg-2 max-h-[calc(var(--available-height)-56px)] w-fit max-w-(--available-width) min-w-(--anchor-width) overflow-y-auto rounded-2xl border-2 border-black px-4">
 							<Select.Item
 								className="text-b4 group/select-item flex items-center gap-2 border-b border-b-black py-4 select-none last:border-b-0 data-disabled:opacity-30"
 								value={ALL_PARTY_VALUE}
