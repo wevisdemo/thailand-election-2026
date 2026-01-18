@@ -9,8 +9,10 @@ export interface CategoryGroupProps {
 export const CategoryGroup = ({ name, subCategories }: CategoryGroupProps) => {
 	return (
 		<article className="flex flex-col gap-2.5">
-			<header className="flex items-center justify-center gap-2">
-				<h2 className="text-h6 font-kondolar font-bold">{name}</h2>
+			<header className="flex flex-wrap items-center justify-center gap-x-2">
+				<h2 className="text-h6 font-kondolar text-center font-bold text-balance">
+					{name}
+				</h2>
 				<p className="text-body4 text-green-1">
 					{subCategories.length} ประเด็น
 				</p>
