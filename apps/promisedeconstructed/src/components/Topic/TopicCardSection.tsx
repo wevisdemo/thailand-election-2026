@@ -48,7 +48,7 @@ export const TopicCardSection = ({
 					</div>
 					<button
 						type="button"
-						className="text-b6 text-purple-1 absolute bottom-0 left-1/2 flex -translate-x-1/2 items-center gap-1 py-2.5 transition-transform duration-300 ease-in-out group-data-expanded/section:-translate-y-2.5 group-data-fit-mobile/section:hidden md:group-data-fit-desktop/section:hidden"
+						className="text-b6 text-purple-1 absolute bottom-0 left-1/2 flex -translate-x-1/2 cursor-pointer items-center gap-1 py-2.5 transition-transform duration-300 ease-in-out group-data-expanded/section:-translate-y-2.5 group-data-fit-mobile/section:hidden md:group-data-fit-desktop/section:hidden"
 						onClick={() => setIsExpanded((s) => !s)}
 					>
 						<span className="underline">{isExpanded ? 'ซ่อน' : 'อ่านต่อ'}</span>

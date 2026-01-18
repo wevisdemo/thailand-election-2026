@@ -79,7 +79,7 @@ export const Carousel = ({ slides, noDots, ariaLabel }: CarouselProps) => {
 			</div>
 
 			<button
-				className={`absolute left-0 -translate-y-1/2 ${noDots ? 'top-1/2' : 'top-[calc(50%-9px)]'} ${isAllSlideShown ? 'hidden' : ''}`}
+				className={`absolute left-0 -translate-y-1/2 cursor-pointer ${noDots ? 'top-1/2' : 'top-[calc(50%-9px)]'} ${isAllSlideShown ? 'hidden' : ''}`}
 				type="button"
 				onClick={() => emblaApi?.scrollPrev()}
 				aria-label="ก่อนหน้า"
@@ -95,7 +95,7 @@ export const Carousel = ({ slides, noDots, ariaLabel }: CarouselProps) => {
 				/>
 			</button>
 			<button
-				className={`absolute right-0 -translate-y-1/2 ${noDots ? 'top-1/2' : 'top-[calc(50%-9px)]'} ${isAllSlideShown ? 'hidden' : ''}`}
+				className={`absolute right-0 -translate-y-1/2 cursor-pointer ${noDots ? 'top-1/2' : 'top-[calc(50%-9px)]'} ${isAllSlideShown ? 'hidden' : ''}`}
 				type="button"
 				onClick={() => emblaApi?.scrollNext()}
 				aria-label="ถัดไป"
@@ -122,7 +122,7 @@ export const Carousel = ({ slides, noDots, ariaLabel }: CarouselProps) => {
 							key={index}
 							type="button"
 							onClick={() => emblaApi?.scrollTo(index)}
-							className="bg-green-3 data-active:bg-green-1 h-1 w-2 rounded-full"
+							className="bg-green-3 data-active:bg-green-1 h-1 w-2 cursor-pointer rounded-full"
 							data-active={shownSlides.includes(index) || undefined}
 							role="tab"
 							aria-label={`Slide ${index + 1}`}

@@ -9,7 +9,7 @@ export default function AboutPage() {
 			<h1 className="text-h3 font-kondolar flex h-[200px] items-center justify-center font-bold">
 				เกี่ยวกับโครงการ
 			</h1>
-			<div className="about-content mx-auto flex max-w-[722px] flex-col gap-12.5 px-9 md:gap-25">
+			<div className="about-content mx-auto flex max-w-[722px] flex-col gap-22.5 px-9 md:gap-25">
 				<section className="text-b4 flex flex-col gap-3.75 md:gap-7.5">
 					<h2
 						id="target"
@@ -48,29 +48,34 @@ export default function AboutPage() {
 					<p>
 						แน่นอนว่า ‘การมีอยู่’ ของรายละเอียด
 						ไม่ได้สะท้อนคุณภาพของคำสัญญาได้ทั้งหมด แต่อย่างน้อย
-						ข้อมูลนี้จะเป็นจุดตั้งต้นในการคิดต่อได้ว่า..
+						ข้อมูลนี้จะเป็นจุดตั้งต้นในการคิดต่อได้ว่า...
 					</p>
-					<ul className="ml-[2ch] list-outside list-disc">
+					<ul className="ml-[2ch] flex list-outside list-disc flex-col gap-2">
 						<li>
-							ปัญหา: พรรคมองเห็นปัญหาอะไรบ้าง
+							<strong>ปัญหา:</strong> พรรคมองเห็นปัญหาอะไรบ้าง
 							จับจุดได้ตรงกับสิ่งที่เราเผชิญมากน้อยแค่ไหน
 						</li>
 						<li>
-							วิธีแก้: พรรคเสนอวิธีแก้อย่างไร เป็นรูปธรรมแค่ไหน เป็นวิธีคิดใหม่
-							หรือวิถีเดิมๆ
+							<strong>วิธีแก้:</strong> พรรคเสนอวิธีแก้อย่างไร เป็นรูปธรรมแค่ไหน
+							เป็นวิธีคิดใหม่ หรือวิถีเดิมๆ
 						</li>
-						<li>ผลลัพธ์: ความสำเร็จมีหน้าตาแบบไหน วัดผลได้หรือไม่</li>
 						<li>
-							กรอบเวลา: สิ่งที่จะทำ เริ่มเมื่อไหร่ ผลลัพธ์ที่จะได้เห็น
-							ต้องรออีกนานมั้ย
+							<strong>ผลลัพธ์:</strong> ความสำเร็จมีหน้าตาแบบไหน วัดผลได้หรือไม่
 						</li>
-						<li>กลุ่มเป้าหมาย: ใครได้ประโยชน์จากคำสัญญานี้</li>
 						<li>
-							งบประมาณ: ใช้เงินเท่าไหร่
+							<strong>กรอบเวลา:</strong> สิ่งที่จะทำ เริ่มเมื่อไหร่
+							ผลลัพธ์ที่จะได้เห็น ต้องรออีกนานมั้ย
+						</li>
+						<li>
+							<strong>กลุ่มเป้าหมาย:</strong> ใครได้ประโยชน์จากคำสัญญานี้
+						</li>
+						<li>
+							<strong>งบประมาณ:</strong> ใช้เงินเท่าไหร่
 							เป็นไปได้จริงกับพื้นที่งบประมาณประเทศที่เหลืออยู่หรือไม่
 						</li>
 						<li>
-							แหล่งงบประมาณ: เงินมาจากไหน ใช้งบของหน่วยงานใด ต้องกู้อีกหรือไม่
+							<strong>แหล่งงบประมาณ:</strong> เงินมาจากไหน ใช้งบของหน่วยงานใด
+							ต้องกู้อีกหรือไม่
 						</li>
 					</ul>
 					<p>
@@ -82,8 +87,22 @@ export default function AboutPage() {
 						ในฐานะ Voter ผู้เลือกผู้แทนเหล่านี้ เข้าไปปฏิบัติหน้าที่ในสภา
 					</p>
 					<p>
-						WeVis ขอขอบคุณ <a href="https://101pub.org/">The101pub</a> และ{' '}
-						<a href="https://theactive.thaipbs.or.th/">The Active</a>{' '}
+						WeVis ขอขอบคุณ{' '}
+						<a
+							href="https://101pub.org/"
+							target="_blank"
+							rel="nofollow noopener noreferrer"
+						>
+							The101pub
+						</a>{' '}
+						และ{' '}
+						<a
+							href="https://theactive.thaipbs.or.th/"
+							target="_blank"
+							rel="nofollow noopener noreferrer"
+						>
+							The Active
+						</a>{' '}
 						สำหรับการให้คำปรึกษาเกี่ยวกับวิธีการจัดการข้อมูลของโครงการนี้
 						ตลอดจนแนวทางสำหรับนำไปใช้ต่อ ไว้ ณ ที่นี้
 					</p>
@@ -100,20 +119,34 @@ export default function AboutPage() {
 						<strong>เว็บไซต์ทางการ</strong> ของแต่ละพรรคการเมือง
 						ตามวันที่ที่สืบค้นข้อมูลต่อไปนี้
 					</p>
-					<ul className="ml-[2ch] list-outside list-disc">
+					<ul className="ml-[2ch] flex list-outside list-disc flex-col gap-2">
 						<li>
 							5 มกราคม 2569
-							<ul className="ml-[2ch] list-outside list-[circle]">
+							<ul className="ml-[2ch] flex list-outside list-[circle] flex-col gap-1">
 								<li>
-									<a href="https://election69.peoplesparty.or.th/policy">
+									<a
+										href="https://election69.peoplesparty.or.th/policy"
+										target="_blank"
+										rel="nofollow noopener noreferrer"
+									>
 										พรรคประชาชน
 									</a>
 								</li>
 								<li>
-									<a href="https://election.ptp.or.th/home">พรรคเพื่อไทย</a>
+									<a
+										href="https://election.ptp.or.th/home"
+										target="_blank"
+										rel="nofollow noopener noreferrer"
+									>
+										พรรคเพื่อไทย
+									</a>
 								</li>
 								<li>
-									<a href="https://election.bhumjaithai.com/policies">
+									<a
+										href="https://election.bhumjaithai.com/policies"
+										target="_blank"
+										rel="nofollow noopener noreferrer"
+									>
 										พรรคภูมิใจไทย
 									</a>
 								</li>
@@ -121,14 +154,22 @@ export default function AboutPage() {
 						</li>
 						<li>
 							6 มกราคม 2569
-							<ul className="ml-[2ch] list-outside list-[circle]">
+							<ul className="ml-[2ch] flex list-outside list-[circle] flex-col gap-1">
 								<li>
-									<a href="https://www.unitedthaination.or.th/policy">
+									<a
+										href="https://www.unitedthaination.or.th/policy"
+										target="_blank"
+										rel="nofollow noopener noreferrer"
+									>
 										พรรครวมไทยสร้างชาติ
 									</a>
 								</li>
 								<li>
-									<a href="https://www.thaipakdee.org/post/motto-politics">
+									<a
+										href="https://www.thaipakdee.org/post/motto-politics"
+										target="_blank"
+										rel="nofollow noopener noreferrer"
+									>
 										พรรคไทยภักดี
 									</a>
 								</li>
@@ -136,43 +177,81 @@ export default function AboutPage() {
 						</li>
 						<li>
 							12 มกราคม 2569
-							<ul className="ml-[2ch] list-outside list-[circle]">
+							<ul className="ml-[2ch] flex list-outside list-[circle] flex-col gap-1">
 								<li>
-									<a href="https://thaipowerparty.com/policy-create-people/">
+									<a
+										href="https://thaipowerparty.com/policy-create-people/"
+										target="_blank"
+										rel="nofollow noopener noreferrer"
+									>
 										พรรคปวงชนไทย
 									</a>
 								</li>
 								<li>
-									<a href="https://prachachat.org/%e0%b8%99%e0%b9%82%e0%b8%a2%e0%b8%9a%e0%b8%b2%e0%b8%a2%e0%b8%9e%e0%b8%a3%e0%b8%a3%e0%b8%84%e0%b8%9b%e0%b8%a3%e0%b8%b0%e0%b8%8a%e0%b8%b2%e0%b8%8a%e0%b8%b2%e0%b8%95%e0%b8%b4/">
+									<a
+										href="https://prachachat.org/%e0%b8%99%e0%b9%82%e0%b8%a2%e0%b8%9a%e0%b8%b2%e0%b8%a2%e0%b8%9e%e0%b8%a3%e0%b8%a3%e0%b8%84%e0%b8%9b%e0%b8%a3%e0%b8%b0%e0%b8%8a%e0%b8%b2%e0%b8%8a%e0%b8%b2%e0%b8%95%e0%b8%b4/"
+										target="_blank"
+										rel="nofollow noopener noreferrer"
+									>
 										พรรคประชาชาติ
 									</a>
 								</li>
 								<li>
-									<a href="https://thaisangthai.org/party-policies/">
+									<a
+										href="https://thaisangthai.org/party-policies/"
+										target="_blank"
+										rel="nofollow noopener noreferrer"
+									>
 										พรรคไทยสร้างไทย
 									</a>
 								</li>
 								<li>
-									<a href="https://www.pfc.or.th/policy/social">
+									<a
+										href="https://www.pfc.or.th/policy/social"
+										target="_blank"
+										rel="nofollow noopener noreferrer"
+									>
 										พรรคเพื่อบ้านเมือง
 									</a>
 								</li>
 								<li>
-									<a href="https://www.economicparty.org/">พรรคเศรษฐกิจ</a>
+									<a
+										href="https://www.economicparty.org/"
+										target="_blank"
+										rel="nofollow noopener noreferrer"
+									>
+										พรรคเศรษฐกิจ
+									</a>
 								</li>
 								<li>
-									<a href="https://okardmai.or.th/policy">พรรคโอกาสใหม่</a>
+									<a
+										href="https://okardmai.or.th/policy"
+										target="_blank"
+										rel="nofollow noopener noreferrer"
+									>
+										พรรคโอกาสใหม่
+									</a>
 								</li>
 								<li>
-									<a href="https://www.rakchart.or.th/">พรรครักชาติ</a>
+									<a
+										href="https://www.rakchart.or.th/"
+										target="_blank"
+										rel="nofollow noopener noreferrer"
+									>
+										พรรครักชาติ
+									</a>
 								</li>
 							</ul>
 						</li>
 						<li>
 							13 มกราคม 2569
-							<ul className="ml-[2ch] list-outside list-[circle]">
+							<ul className="ml-[2ch] flex list-outside list-[circle] flex-col gap-1">
 								<li>
-									<a href="https://www.democrat.or.th/%e0%b8%99%e0%b9%82%e0%b8%a2%e0%b8%9a%e0%b8%b2%e0%b8%a2/">
+									<a
+										href="https://www.democrat.or.th/%e0%b8%99%e0%b9%82%e0%b8%a2%e0%b8%9a%e0%b8%b2%e0%b8%a2/"
+										target="_blank"
+										rel="nofollow noopener noreferrer"
+									>
 										พรรคประชาธิปัตย์
 									</a>
 								</li>
@@ -182,23 +261,23 @@ export default function AboutPage() {
 					<h3 className="text-h7 font-kondolar scroll-mt-8 font-bold md:scroll-mt-14">
 						กระบวนการเรียบเรียงข้อมูล
 					</h3>
-					<ol className="ml-[2ch] list-outside list-decimal">
+					<ol className="ml-[2ch] flex list-outside list-decimal flex-col gap-2">
 						<li>
 							ถอดโครงสร้างนโยบายหาเสียงด้วย{' '}
 							<strong>
 								เทคโนโลยีปัญญาประดิษฐ์ (AI) โมเดล gemini-2.5-flash
 							</strong>{' '}
 							โดยใช้คำสั่งดังนี้
-							<ul className="ml-[2ch] list-outside list-disc">
+							<ul className="ml-[2ch] flex list-outside list-disc flex-col gap-2">
 								<li>คุณคือผู้ช่วยวิเคราะห์นโยบายหาเสียง</li>
 								<li>
-									Goal: วิเคราะห์ original text ของนโยบายหาเสียงให้อยู่ในรูปแบบ
-									JSON Object เดี่ยว (Single Object) ที่รวมทุกประเด็นไว้ใน 7
-									คอลัมน์
+									<strong>Goal:</strong> วิเคราะห์ original text
+									ของนโยบายหาเสียงให้อยู่ในรูปแบบ JSON Object เดี่ยว (Single
+									Object) ที่รวมทุกประเด็นไว้ใน 7 คอลัมน์
 								</li>
 								<li>
-									Rules:{' '}
-									<ol className="ml-[2ch] list-outside list-decimal">
+									<strong>Rules:</strong>{' '}
+									<ol className="ml-[2ch] flex list-outside list-decimal flex-col gap-1">
 										<li>
 											ใช้เฉพาะข้อความที่ปรากฏจริง ห้ามแต่งเพิ่มหรือสรุปเอง
 										</li>
@@ -235,10 +314,10 @@ export default function AboutPage() {
 						13 พรรคการเมืองที่คัดเลือกมาถอดโครงสร้างเพื่อแสดงผลในเว็บไซต์นี้
 						คัดเลือกจากเกณฑ์ต่อไปนี้
 					</p>
-					<ol className="ml-[2ch] list-outside list-decimal">
+					<ol className="ml-[2ch] flex list-outside list-decimal flex-col gap-2">
 						<li>
 							เป็นพรรคที่เข้าข่ายต่อไปนี้ <em>อย่างน้อย 1 ข้อ</em>{' '}
-							<ol className="ml-[2ch] list-outside list-[lower-alpha]">
+							<ol className="ml-[2ch] flex list-outside list-[lower-alpha] flex-col gap-1">
 								<li>พรรคการเมืองที่เป็นที่จับตามองในหน้าสื่อ</li>
 								<li>พรรคการเมืองที่มีผู้สมัครแบบบัญชีรายชื่อมากกว่า 30 คน</li>
 								<li>พรรคการเมืองที่ก่อตั้งใหม่ในการเลือกตั้งปี 2569</li>
@@ -269,13 +348,13 @@ export default function AboutPage() {
 					<p>
 						ทางทีมมีความตั้งใจที่พัฒนาทุกโปรเจกต์ให้เป็น Open Source
 						และเปิดข้อมูลเป็น Open Data ภายใต้ข้อตกลงในการใช้งาน{' '}
-						<a href="https://wevis.info/terms-of-use/">Term of Use</a>
-					</p>
-					<p>
-						หากมีข้อสงสัยต้องการสอบถามเพิ่มเติม
-						ประสงค์แจ้งเปลี่ยนแปลงหรือเพิ่มเติมข้อมูลเพื่อความถูกต้อง
-						หรือมีข้อเสนอแนะใดๆ สามารถติดต่อได้ที่{' '}
-						<strong>team@wevis.info</strong>
+						<a
+							href="https://wevis.info/terms-of-use/"
+							target="_blank"
+							rel="nofollow noopener noreferrer"
+						>
+							Term of Use
+						</a>
 					</p>
 				</section>
 				<section className="text-b4 flex flex-col gap-3.75 md:gap-7.5">
@@ -285,37 +364,57 @@ export default function AboutPage() {
 					>
 						ทีมงานร่วมพัฒนา
 					</h2>
-					<article className="flex flex-col gap-1.25 md:gap-2.5">
+					<article className="flex flex-col gap-2.25 md:gap-2.5">
 						<h3 className="font-bold">พัฒนาเว็บไซต์</h3>
 						<ul>
 							<li>
-								<a href="https://rootenginear.github.io/">สุเทพ จันทร์ชูผล</a>
+								<a
+									href="https://rootenginear.github.io/"
+									target="_blank"
+									rel="nofollow noopener noreferrer"
+								>
+									สุเทพ จันทร์ชูผล
+								</a>
 							</li>
 						</ul>
 					</article>
-					<article className="flex flex-col gap-1.25 md:gap-2.5">
+					<article className="flex flex-col gap-2.25 md:gap-2.5">
 						<h3 className="font-bold">ที่ปรึกษาพัฒนาเว็บไซต์</h3>
 						<ul>
 							<li>
-								<a href="https://github.com/Th1nkK1D">วิถี ภูษิตาสัย</a>
+								<a
+									href="https://github.com/Th1nkK1D"
+									target="_blank"
+									rel="nofollow noopener noreferrer"
+								>
+									วิถี ภูษิตาสัย
+								</a>
 							</li>
 						</ul>
 					</article>
-					<article className="flex flex-col gap-1.25 md:gap-2.5">
+					<article className="flex flex-col gap-2.25 md:gap-2.5">
 						<h3 className="font-bold">ออกแบบเว็บไซต์</h3>
 						<ul>
 							<li>
-								<a href="https://www.instagram.com/namsaisupavong/">
+								<a
+									href="https://www.instagram.com/namsaisupavong/"
+									target="_blank"
+									rel="nofollow noopener noreferrer"
+								>
 									น้ำใส ศุภวงศ์
 								</a>
 							</li>
 						</ul>
 					</article>
-					<article className="flex flex-col gap-1.25 md:gap-2.5">
+					<article className="flex flex-col gap-2.25 md:gap-2.5">
 						<h3 className="font-bold">สืบค้นและเรียบเรียงข้อมูล</h3>
 						<ul>
 							<li>
-								<a href="https://www.instagram.com/namsaisupavong/">
+								<a
+									href="https://www.instagram.com/namsaisupavong/"
+									target="_blank"
+									rel="nofollow noopener noreferrer"
+								>
 									น้ำใส ศุภวงศ์
 								</a>
 							</li>
@@ -326,16 +425,24 @@ export default function AboutPage() {
 							<li>ธีธัช ธารีเวทย์</li>
 						</ul>
 					</article>
-					<article className="flex flex-col gap-1.25 md:gap-2.5">
+					<article className="flex flex-col gap-2.25 md:gap-2.5">
 						<h3 className="font-bold">บรรณาธิการ</h3>
 						<ul>
 							<li>
-								<a href="https://www.linkedin.com/in/thanisara-r/">
+								<a
+									href="https://www.linkedin.com/in/thanisara-r/"
+									target="_blank"
+									rel="nofollow noopener noreferrer"
+								>
 									ธนิสรา เรืองเดช
 								</a>
 							</li>
 							<li>
-								<a href="https://www.instagram.com/namsaisupavong/">
+								<a
+									href="https://www.instagram.com/namsaisupavong/"
+									target="_blank"
+									rel="nofollow noopener noreferrer"
+								>
 									น้ำใส ศุภวงศ์
 								</a>
 							</li>
@@ -350,13 +457,27 @@ export default function AboutPage() {
 						หมายเหตุ
 					</h2>
 					<p>
-						<a href="https://wevis.info/">WeVis</a>{' '}
+						<a
+							href="https://wevis.info/"
+							target="_blank"
+							rel="nofollow noopener noreferrer"
+						>
+							WeVis
+						</a>{' '}
 						ได้รับการสนับสนุนทุนในการดำเนินงานจาก{' '}
-						<a href="https://www.ned.org/">
+						<a
+							href="https://www.ned.org/"
+							target="_blank"
+							rel="nofollow noopener noreferrer"
+						>
 							National Endowment for Democracy (NED)
 						</a>{' '}
 						และ{' '}
-						<a href="https://www.iri.org/">
+						<a
+							href="https://www.iri.org/"
+							target="_blank"
+							rel="nofollow noopener noreferrer"
+						>
 							International Republican Institute
 						</a>{' '}
 						ซึ่งนำมาใช้เป็นต้นทุนในการรวมรวมข้อมูล ออกแบบ พัฒนาเว็บไซต์

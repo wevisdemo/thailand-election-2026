@@ -121,7 +121,7 @@ export const PartySelect = ({
 				multiple
 			>
 				<Select.Trigger
-					className={`text-b4 hover:border-green-1 focus-visible:border-green-1 group/select-trigger flex h-11 min-w-65 items-center gap-2 rounded-full border-2 border-black bg-white pr-4 pl-6 font-bold outline-none ${className}`}
+					className={`text-b4 hover:border-green-1 focus-visible:border-green-1 group/select-trigger flex h-11 min-w-65 cursor-pointer items-center gap-2 rounded-full border-2 border-black bg-white pr-4 pl-6 font-bold outline-none ${className}`}
 					aria-labelledby="partyselect-currentvalue"
 				>
 					<Select.Value>{formatSelectValue}</Select.Value>
@@ -154,7 +154,7 @@ export const PartySelect = ({
 					>
 						<Select.Popup className="bg-bg-2 max-h-[calc(var(--available-height)-56px)] w-fit max-w-(--available-width) min-w-(--anchor-width) overflow-y-auto rounded-2xl border-2 border-black px-4">
 							<Select.Item
-								className="text-b4 group/select-item flex items-center gap-2 border-b border-b-black py-4 select-none last:border-b-0 data-disabled:opacity-30"
+								className="text-b4 group/select-item flex cursor-pointer items-center gap-2 border-b border-b-black py-4 select-none last:border-b-0 data-disabled:opacity-30"
 								value={ALL_PARTY_VALUE}
 							>
 								<div className="size-5 rounded-sm border border-black p-px group-data-selected/select-item:bg-black">
@@ -174,7 +174,7 @@ export const PartySelect = ({
 							{choices.map((choice) => (
 								<Select.Item
 									key={choice.value}
-									className="text-b4 group/select-item flex items-center gap-2 border-b border-b-black py-4 select-none last:border-b-0 data-disabled:opacity-30"
+									className="text-b4 group/select-item flex cursor-pointer items-center gap-2 border-b border-b-black py-4 select-none last:border-b-0 data-disabled:opacity-30"
 									value={choice.value}
 									disabled={choice?.disabled}
 								>
