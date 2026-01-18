@@ -1,6 +1,4 @@
-import { ConstituencyMap } from '@/src/type/candidate';
 import ElectorateTemplate from '.';
-import rawDistrictCandidate from '../../data/district_candidates.json' with { type: 'json' };
 import rawParties from '../../data/parties.json' with { type: 'json' };
 import rawElectoralDistrict from '../../data/electoral_district_table.json' with { type: 'json' };
 import { ElectoralDistrictsMap } from '@/src/type/electoral_district';

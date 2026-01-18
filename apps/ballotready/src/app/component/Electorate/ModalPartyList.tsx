@@ -1,4 +1,4 @@
-import { Party, PartyListCandidate } from '@/src/type/party';
+import { Party } from '@/src/type/party';
 
 interface ModalPartyListProps {
 	party?: Party;

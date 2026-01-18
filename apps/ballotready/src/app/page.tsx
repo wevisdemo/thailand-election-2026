@@ -3,7 +3,6 @@ import {
 	ElectionNavbar,
 	ElectionButton,
 	ElectionSharer,
-	ElectionAboutActions,
 	ElectionFooter,
 } from '@election/ui/react';
 import IntroSection from './component/home/IntroSection';

@@ -15,7 +15,6 @@ export default function AutoComplete({
 }: AutoCompleteProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [textInput, setTextInput] = useState('');
-	const [electoralSelected, setElectoralSelected] = useState('');
 	const componentRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {

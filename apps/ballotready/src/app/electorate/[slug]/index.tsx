@@ -16,9 +16,6 @@ import {
 } from '../../store/ElectorateStore';
 import { useContext, useEffect, useState } from 'react';
 import ModalPartyList from '../../component/Electorate/ModalPartyList';
-import districtCandidateMap from '../../data/district_candidates.json' with { type: 'json' };
-import rawParties from '../../data/parties.json' with { type: 'json' };
-import ArrowRightIcon from '../../component/shared/ArrowRightIcon';
 
 interface ElectorateTemplateProps {
 	candidates: Candidate[];

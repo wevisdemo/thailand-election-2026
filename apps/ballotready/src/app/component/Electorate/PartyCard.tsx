@@ -1,7 +1,5 @@
 import { Party } from '@/src/type/party';
-import { ElectionButton } from '@election/ui/react';
-import { useContext, useState } from 'react';
-import { ElectorateStoreContext } from '../../store/ElectorateStore';
+import { useState } from 'react';
 import PlusButtonIcon from '../shared/PlusButtonIcon';
 import NewTabIcon from '../shared/NewTabIcon';
 

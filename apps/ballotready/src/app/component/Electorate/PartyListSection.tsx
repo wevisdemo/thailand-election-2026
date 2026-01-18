@@ -1,12 +1,10 @@
 'use client';
 import { useState } from 'react';
-import AutoComplete from '../shared/Autocomplete';
 import SearchInput from '../shared/SearchInput';
 import { Candidate } from '@/src/type/candidate';
 import IndividualList from './IndividualList';
 import PartyList from './PartyList';
 import { Party } from '@/src/type/party';
-import ModalPartyList from './ModalPartyList';
 
 // TODO: use props to dynamic variable
 
