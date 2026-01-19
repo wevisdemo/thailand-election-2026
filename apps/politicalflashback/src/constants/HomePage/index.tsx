@@ -143,11 +143,11 @@ const HomePage = () => {
 			.then((res) => res.json())
 			.then((data: RawBubbleData[]) => {
 				const transformedData: Topic[] = data.map((item) => ({
-					id: String(item.id),
+					id: item.name, // Use name as ID for consistency with story_details.json
 					label: item.name,
 					score: item.score,
 					value: item.radius, // Use radius (1-10) instead of sum_new
-					relatedIds: item.sub_tag.map((sub) => String(sub.id)),
+					relatedIds: item.sub_tag.map((sub) => sub.name), // Use name for related IDs too
 					date: item.date, // Include date for sorting
 				}));
 				setTopics(transformedData);

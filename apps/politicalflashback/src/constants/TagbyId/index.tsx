@@ -228,7 +228,8 @@ const TagbyId = ({ name }: { name: string | null }) => {
 	const handleSaveClick = () => {
 		if (!tagData) return;
 
-		const topicId = tagData.id.toString();
+		// Use name as ID for consistency across all pages
+		const topicId = tagData.name;
 		const isSelected = isTopicSelected(topicId);
 
 		if (isSelected) {
@@ -239,7 +240,7 @@ const TagbyId = ({ name }: { name: string | null }) => {
 				label: tagData.name,
 				value: tagData.sum_new,
 				score: tagData.score,
-				relatedIds: tagData.sub_tag.map((st) => st.id.toString()),
+				relatedIds: tagData.sub_tag.map((st) => st.name), // Use name for related IDs
 			});
 		}
 	};
@@ -642,17 +643,17 @@ const TagbyId = ({ name }: { name: string | null }) => {
 						<button
 							onClick={handleSaveClick}
 							className={`flex items-center gap-2 rounded-full border-2 border-black px-4 py-2 transition-colors ${
-								isTopicSelected(tagData.id.toString())
+								isTopicSelected(tagData.name)
 									? 'text-green-2 bg-black'
 									: 'bg-green-3 text-black hover:bg-gray-100'
 							}`}
 						>
-							{isTopicSelected(tagData.id.toString()) ? (
+							{isTopicSelected(tagData.name) ? (
 								<p className="text-h9 font-sriracha">บันทึกแล้ว</p>
 							) : (
 								<p className="text-h9 font-sriracha">บันทึกประเด็น</p>
 							)}
-							{isTopicSelected(tagData.id.toString()) ? (
+							{isTopicSelected(tagData.name) ? (
 								<Image
 									src="/politicalflashback/icon/button-unfav-green.svg"
 									alt="Save"

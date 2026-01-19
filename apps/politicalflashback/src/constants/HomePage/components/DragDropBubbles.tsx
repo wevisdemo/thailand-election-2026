@@ -65,9 +65,8 @@ function DraggableBubble({
 				? BUBBLE_DRAGGING_COLOR
 				: BUBBLE_COLOR,
 		zIndex: isDragging ? 100 : isSelected ? 50 : 1,
-		transform: transform
-			? `translate3d(${transform.x}px, ${transform.y}px, 0)`
-			: undefined,
+		// Hide when dragging - DragOverlay will show it
+		opacity: isDragging ? 0 : 1,
 		touchAction: 'none',
 	};
 

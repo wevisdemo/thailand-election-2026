@@ -480,7 +480,8 @@ const MonthlyDetailPage = () => {
 											<div className="flex shrink-0 items-center gap-2">
 												<button
 													onClick={() => {
-														const tagId = String(tag.id);
+														// Use name as ID for consistency across all pages
+														const tagId = tag.name;
 														const isSelected = selectedTopics.some(
 															(t) => t.id === tagId,
 														);
@@ -500,9 +501,7 @@ const MonthlyDetailPage = () => {
 													}}
 													className="flex h-8 w-8 items-center justify-center transition-opacity hover:opacity-80"
 												>
-													{selectedTopics.some(
-														(t) => t.id === String(tag.id),
-													) ? (
+													{selectedTopics.some((t) => t.id === tag.name) ? (
 														<Image
 															src="/politicalflashback/icon/unfav.svg"
 															alt="Favorite"
