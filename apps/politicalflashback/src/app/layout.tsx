@@ -5,13 +5,13 @@ import { ElectionNavbar } from '@election/ui/react';
 export const metadata: Metadata = {
 	icons: '/favicon.png',
 	metadataBase: new URL('https://election69.wevis.info'),
-	title: 'ประเด็นสุดพีคของฉัน | Political Flashbacks',
+	title: 'ระลึกชาติ การเมืองไทย | Political Flashback',
 	description:
-		'ดูสรุปผลประเด็นสุดพีคของคุณ เปรียบเทียบกับประเด็นร้อนจากผู้ร่วมระลึกชาติคนอื่น',
+		'การเมืองแห่งการเปลี่ยนผ่าน: คุณพลาด "ปมร้อน" อะไรไปบ้างหรือเปล่านะ?',
 	openGraph: {
-		title: 'ประเด็นสุดพีคของฉัน | Political Flashbacks',
+		title: 'ระลึกชาติ การเมืองไทย | Political Flashback',
 		description:
-			'ดูสรุปผลประเด็นสุดพีคของคุณ เปรียบเทียบกับประเด็นร้อนจากผู้ร่วมระลึกชาติคนอื่น',
+			'การเมืองแห่งการเปลี่ยนผ่าน: คุณพลาด "ปมร้อน" อะไรไปบ้างหรือเปล่านะ?',
 		type: 'website',
 		locale: 'th_TH',
 		url: 'https://election69.wevis.info/politicalflashback/',
@@ -20,9 +20,9 @@ export const metadata: Metadata = {
 	},
 	twitter: {
 		card: 'summary_large_image',
-		title: 'ประเด็นสุดพีคของฉัน | Political Flashbacks',
+		title: 'ระลึกชาติ การเมืองไทย | Political Flashback',
 		description:
-			'ดูสรุปผลประเด็นสุดพีคของคุณ เปรียบเทียบกับประเด็นร้อนจากผู้ร่วมระลึกชาติคนอื่น',
+			'การเมืองแห่งการเปลี่ยนผ่าน: คุณพลาด "ปมร้อน" อะไรไปบ้างหรือเปล่านะ?',
 		images: ['/politicalflashback/img/og.png'],
 	},
 };
