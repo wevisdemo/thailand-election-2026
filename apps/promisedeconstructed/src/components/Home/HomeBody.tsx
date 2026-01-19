@@ -44,7 +44,8 @@ export const HomeBody = ({ homeData, buildTime }: HomeBodyProps) => {
 									.sort((a, z) => a.localeCompare(z)),
 							};
 						})
-						.filter((subCategory) => subCategory.promiseCount > 0),
+						.filter((subCategory) => subCategory.promiseCount > 0)
+						.sort((a, z) => z.promiseCount - a.promiseCount),
 				};
 			})
 			.filter((category) => category.subCategories.length > 0)
@@ -70,8 +71,11 @@ export const HomeBody = ({ homeData, buildTime }: HomeBodyProps) => {
 						allChoiceText={(count) => `ทั้งหมด ${count} พรรค`}
 					/>
 					<p className="text-b7 text-gray-1">
-						*ฐานข้อมูลมีจำนวนทั้งหมด {homeData.allParties.length} พรรค
-						โดยเลือกเฉพาะพรรคที่มีข้อมูลนโยบายในเว็บไซต์ทางการ
+						*ฐานข้อมูลมีทั้งหมด {homeData.allParties.length} พรรค
+						โดยเลือกเฉพาะพรรคที่มีข้อมูลนโยบายในเว็บไซต์ทางการ{' '}
+						<Link className="block underline" href="/about#selection-process">
+							อ่านเกณฑ์การคัดเลือกพรรคการเมือง
+						</Link>
 					</p>
 					<p className="text-b4">
 						ดูให้ชัดก่อนตัดสินใจ พรรคไหนจะทำอะไร เมื่อไหร่ และเพื่อใคร
@@ -106,7 +110,7 @@ export const HomeBody = ({ homeData, buildTime }: HomeBodyProps) => {
 						อ่านที่มาและข้อจำกัดข้อมูล
 					</Link>
 				</div>
-				<span className="text-h8 font-kondolar font-bold">
+				<span className="text-h5 font-kondolar font-bold">
 					สำรวจคำสัญญาตามประเด็น
 				</span>
 			</header>

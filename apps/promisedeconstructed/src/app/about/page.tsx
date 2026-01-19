@@ -261,6 +261,14 @@ export default function AboutPage() {
 					<h3 className="text-h7 font-kondolar scroll-mt-8 font-bold md:scroll-mt-14">
 						กระบวนการเรียบเรียงข้อมูล
 					</h3>
+					<p>
+						การถอดโครงสร้างนโยบายต่าง ๆ ให้ออกเป็น 7 หัวข้อ ได้แก่{' '}
+						<strong>
+							ปัญหาคืออะไร, จะทำอะไร, ผลลัพธ์คืออะไร, ใครได้ประโยชน์,
+							ภายในเมื่อไหร่, ใช้งบเท่าไหร่, งบมาจากไหน
+						</strong>{' '}
+						มีกระบวนการดังนี้
+					</p>
 					<ol className="ml-[2ch] flex list-outside list-decimal flex-col gap-2">
 						<li>
 							ถอดโครงสร้างนโยบายหาเสียงด้วย{' '}
@@ -273,7 +281,7 @@ export default function AboutPage() {
 								<li>
 									<strong>Goal:</strong> วิเคราะห์ original text
 									ของนโยบายหาเสียงให้อยู่ในรูปแบบ JSON Object เดี่ยว (Single
-									Object) ที่รวมทุกประเด็นไว้ใน 7 คอลัมน์
+									Object) ที่รวมทุกหัวข้อไว้ใน 7 คอลัมน์
 								</li>
 								<li>
 									<strong>Rules:</strong>{' '}
@@ -299,15 +307,18 @@ export default function AboutPage() {
 							</ul>
 						</li>
 						<li>
-							ตรวจสอบข้อมูลโดยมนุษย์ และแก้ไขกรณีที่ AI ถอดโครงสร้างมาไม่ตรงตาม
-							‘หัวข้อ’ และกรณีปรากฎข้อความซ้ำซ้อน
+							ตรวจสอบข้อมูลโดยมนุษย์ และแก้ไขกรณีที่ AI
+							ถอดโครงสร้างมาไม่ตรงตามหัวข้อ และกรณีปรากฏข้อความซ้ำซ้อน
 						</li>
 						<li>
 							ใช้ AI Gemini ช่วยจัดกลุ่มนโยบายเป็นหัวข้อใหญ่-หัวข้อย่อย
 							และตรวจสอบอีกครั้งโดยมนุษย์ ก่อนนำขึ้นแสดงผลในเว็บไซต์
 						</li>
 					</ol>
-					<h3 className="text-h7 font-kondolar scroll-mt-8 font-bold md:scroll-mt-14">
+					<h3
+						id="selection-process"
+						className="text-h7 font-kondolar scroll-mt-8 font-bold md:scroll-mt-14"
+					>
 						การคัดเลือกพรรคการเมือง
 					</h3>
 					<p>

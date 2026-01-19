@@ -7,6 +7,14 @@ export const metadata: Metadata = {
 	title: 'Promise Deconstructed: ถอดโครงสร้างสัญญาพรรคการเมือง',
 	description: 'ดูให้ชัดก่อนตัดสินใจ พรรคไหนจะทำอะไร เมื่อไหร่ และเพื่อใคร',
 	metadataBase: new URL('https://election69.wevis.info'),
+	openGraph: {
+		title: 'Promise Deconstructed: ถอดโครงสร้างสัญญาพรรคการเมือง',
+		description: 'ดูให้ชัดก่อนตัดสินใจ พรรคไหนจะทำอะไร เมื่อไหร่ และเพื่อใคร',
+	},
+	twitter: {
+		title: 'Promise Deconstructed: ถอดโครงสร้างสัญญาพรรคการเมือง',
+		description: 'ดูให้ชัดก่อนตัดสินใจ พรรคไหนจะทำอะไร เมื่อไหร่ และเพื่อใคร',
+	},
 };
 
 export default function RootLayout({

@@ -6,6 +6,7 @@ import {
 	getTopicSubCategoryData,
 	slugifySubCategory,
 } from '@/utils/data';
+import type { Metadata } from 'next';
 
 export async function generateStaticParams() {
 	const data = await getTopicSubCategoryData();
@@ -18,6 +19,23 @@ export async function generateStaticParams() {
 					: encodeURIComponent(topic),
 		};
 	});
+}
+
+export async function generateMetadata({
+	params,
+}: PageProps<'/[topic]'>): Promise<Metadata> {
+	const { topic } = await params;
+	const decodedTopic = decodeURIComponent(topic);
+
+	return {
+		title: `${decodedTopic} — Promise Deconstructed: ถอดโครงสร้างสัญญาพรรคการเมือง`,
+		openGraph: {
+			title: `${decodedTopic} — Promise Deconstructed: ถอดโครงสร้างสัญญาพรรคการเมือง`,
+		},
+		twitter: {
+			title: `${decodedTopic} — Promise Deconstructed: ถอดโครงสร้างสัญญาพรรคการเมือง`,
+		},
+	};
 }
 
 export default async function TopicPage({ params }: PageProps<'/[topic]'>) {

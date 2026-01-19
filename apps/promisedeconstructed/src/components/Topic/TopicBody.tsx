@@ -45,8 +45,11 @@ export const TopicBody = ({ topicData }: TopicBodyProps) => {
 					allChoiceText={(count) => `${count} พรรคที่พูดถึงประเด็นนี้`}
 				/>
 				<p className="text-b7 text-gray-1 mb-5 text-center">
-					*ฐานข้อมูลมีจำนวนทั้งหมด {topicData.allParties.length} พรรค
-					โดยเลือกเฉพาะพรรคที่มีข้อมูลนโยบายในเว็บไซต์ทางการ
+					*ฐานข้อมูลมีทั้งหมด {topicData.allParties.length} พรรค
+					โดยเลือกเฉพาะพรรคที่มีข้อมูลนโยบายในเว็บไซต์ทางการ{' '}
+					<Link className="block underline" href="/about#selection-process">
+						อ่านเกณฑ์การคัดเลือกพรรคการเมือง
+					</Link>
 				</p>
 				<article className="text-purple-1 my-2.5 flex flex-col gap-[5px] rounded-[10px] bg-white/40 p-[15px]">
 					<h2 className="font-bold">คำชี้แจง</h2>
