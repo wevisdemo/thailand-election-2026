@@ -37,7 +37,7 @@ export const TopicBody = ({ topicData }: TopicBodyProps) => {
 					{topicData.subCategoryName}
 				</h1>
 				<p className="text-b4 text-center font-bold">
-					มี {topicData.data.length} คำสัญญา จาก
+					มี {filteredTopicData.length} คำสัญญา จาก
 				</p>
 				<PartySelect
 					className="my-2.5 w-full"

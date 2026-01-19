@@ -48,7 +48,11 @@ export const HomeBody = ({ homeData, buildTime }: HomeBodyProps) => {
 				};
 			})
 			.filter((category) => category.subCategories.length > 0)
-			.sort((a, z) => a.name.localeCompare(z.name));
+			.sort(
+				(a, z) =>
+					z.subCategories.length - a.subCategories.length ||
+					a.name.localeCompare(z.name),
+			);
 	}, [homeData.categoryData, selectedParties]);
 
 	return (
@@ -93,7 +97,8 @@ export const HomeBody = ({ homeData, buildTime }: HomeBodyProps) => {
 					<p>
 						<strong>คำชี้แจง:</strong> ข้อมูลอัปเดทล่าสุด {buildTime}{' '}
 						เก็บจากเว็บไซต์ทางการของพรรคการเมือง
-						และถูกจัดกลุ่มด้วยระบบปัญญาประดิษฐ์ (LLM)
+						และถูกจัดกลุ่มประเด็นด้วยระบบปัญญาประดิษฐ์ (LLM) โดย 1
+						คำสัญญาสามารถเกี่ยวข้องได้มากกว่า 1 ประเด็น
 						แม้มีการตรวจสอบโดยทีมงานในระดับหนึ่ง
 						แต่อาจมีความคลาดเคลื่อนเกิดขึ้นได้
 					</p>

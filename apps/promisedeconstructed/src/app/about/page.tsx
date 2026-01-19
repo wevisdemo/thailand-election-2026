@@ -419,10 +419,42 @@ export default function AboutPage() {
 								</a>
 							</li>
 							<li>ณภัทร แต้เถา</li>
-							<li>วรุตม์ อุดมรัตน์</li>
-							<li>อาลาวีร์ วาแม</li>
-							<li>กรกมล ศรีวัฒน์</li>
-							<li>ธีธัช ธารีเวทย์</li>
+							<li>
+								<a
+									href="https://www.linkedin.com/in/warute-udomrat-a68147185/"
+									target="_blank"
+									rel="nofollow noopener noreferrer"
+								>
+									วรุตม์ อุดมรัตน์
+								</a>
+							</li>
+							<li>
+								<a
+									href="www.linkedin.com/in/alawee-wamae"
+									target="_blank"
+									rel="nofollow noopener noreferrer"
+								>
+									อาลาวีร์ วาแม
+								</a>
+							</li>
+							<li>
+								<a
+									href="https://www.linkedin.com/in/kornkamon-srivat-b275071a3/"
+									target="_blank"
+									rel="nofollow noopener noreferrer"
+								>
+									กรกมล ศรีวัฒน์
+								</a>
+							</li>
+							<li>
+								<a
+									href="https://www.linkedin.com/in/ttouch-thareewet-a7071821a/"
+									target="_blank"
+									rel="nofollow noopener noreferrer"
+								>
+									ธีธัช ธารีเวทย์
+								</a>
+							</li>
 						</ul>
 					</article>
 					<article className="flex flex-col gap-2.25 md:gap-2.5">
