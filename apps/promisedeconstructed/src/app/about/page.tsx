@@ -445,7 +445,7 @@ export default function AboutPage() {
 									target="_blank"
 									rel="nofollow noopener noreferrer"
 								>
-									อาลาวีร์ วาแม
+									อาลาวีย์ วาแม
 								</a>
 							</li>
 							<li>
