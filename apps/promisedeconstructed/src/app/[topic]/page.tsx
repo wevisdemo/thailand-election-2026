@@ -7,6 +7,7 @@ import {
 	slugifySubCategory,
 } from '@/utils/data';
 import type { Metadata } from 'next';
+import { metadata } from '../layout';
 
 export async function generateStaticParams() {
 	const data = await getTopicSubCategoryData();
@@ -28,11 +29,14 @@ export async function generateMetadata({
 	const decodedTopic = decodeURIComponent(topic);
 
 	return {
+		...metadata,
 		title: `${decodedTopic} — Promise Deconstructed: ถอดโครงสร้างสัญญาพรรคการเมือง`,
 		openGraph: {
+			...metadata.openGraph,
 			title: `${decodedTopic} — Promise Deconstructed: ถอดโครงสร้างสัญญาพรรคการเมือง`,
 		},
 		twitter: {
+			...metadata.twitter,
 			title: `${decodedTopic} — Promise Deconstructed: ถอดโครงสร้างสัญญาพรรคการเมือง`,
 		},
 	};
