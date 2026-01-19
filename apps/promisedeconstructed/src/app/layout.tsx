@@ -10,10 +10,20 @@ export const metadata: Metadata = {
 	openGraph: {
 		title: 'Promise Deconstructed: ถอดโครงสร้างสัญญาพรรคการเมือง',
 		description: 'ดูให้ชัดก่อนตัดสินใจ พรรคไหนจะทำอะไร เมื่อไหร่ และเพื่อใคร',
+		images: [
+			new URL(
+				'https://election69.wevis.info/promisedeconstructed/opengraph-image.jpg',
+			),
+		],
 	},
 	twitter: {
 		title: 'Promise Deconstructed: ถอดโครงสร้างสัญญาพรรคการเมือง',
 		description: 'ดูให้ชัดก่อนตัดสินใจ พรรคไหนจะทำอะไร เมื่อไหร่ และเพื่อใคร',
+		images: [
+			new URL(
+				'https://election69.wevis.info/promisedeconstructed/opengraph-image.jpg',
+			),
+		],
 	},
 };
 
