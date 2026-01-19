@@ -8,6 +8,16 @@ import { useTopicStore, Topic } from '@/src/stores/topicStore';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import SearchModal from '@/src/components/SearchModal';
+import {
+	DndContext,
+	DragEndEvent,
+	DragStartEvent,
+	PointerSensor,
+	TouchSensor,
+	useSensor,
+	useSensors,
+	DragOverlay,
+} from '@dnd-kit/core';
 
 interface RawBubbleData {
 	id: number;
@@ -59,13 +69,75 @@ const HomePage = () => {
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [storyData, setStoryData] = useState<StoryDetailsData | null>(null);
-	const { setTopics, selectedTopics, topics } = useTopicStore();
+	const [activeDragId, setActiveDragId] = useState<string | null>(null);
+	const {
+		setTopics,
+		selectedTopics,
+		topics,
+		addSelectedTopic,
+		setDraggedTopic,
+		setIsOverDropZone,
+	} = useTopicStore();
 	const pathname = usePathname();
 	const isHomePath =
 		pathname === '/home' || pathname === '/politicalflashback/home';
 	const isMonthlyPath =
 		pathname === '/monthly' || pathname === '/politicalflashback/monthly';
 	const router = useRouter();
+
+	// Configure sensors with delay for long press
+	const pointerSensor = useSensor(PointerSensor, {
+		activationConstraint: {
+			delay: 400,
+			tolerance: 5,
+		},
+	});
+	const touchSensor = useSensor(TouchSensor, {
+		activationConstraint: {
+			delay: 400,
+			tolerance: 5,
+		},
+	});
+	const sensors = useSensors(pointerSensor, touchSensor);
+
+	// Handle drag start
+	const handleDragStart = (event: DragStartEvent) => {
+		const { active } = event;
+		setActiveDragId(active.id as string);
+		const topic = topics.find((t) => t.id === active.id);
+		if (topic) {
+			setDraggedTopic(topic);
+		}
+	};
+
+	// Handle drag end
+	const handleDragEnd = (event: DragEndEvent) => {
+		const { active, over } = event;
+		setActiveDragId(null);
+		setDraggedTopic(null);
+		setIsOverDropZone(false);
+
+		if (over?.id === 'dropzone') {
+			const topic = topics.find((t) => t.id === active.id);
+			if (topic) {
+				addSelectedTopic(topic);
+			}
+		}
+	};
+
+	// Calculate radius based on value (1-10 scale to 48-80px)
+	const getRadius = (value: number) => {
+		const MIN_RADIUS = 48;
+		const MAX_RADIUS = 80;
+		const normalized = (value - 1) / 9;
+		return MIN_RADIUS + normalized * (MAX_RADIUS - MIN_RADIUS);
+	};
+
+	// Get active topic for drag overlay
+	const activeTopic = activeDragId
+		? topics.find((t) => t.id === activeDragId)
+		: null;
+	const activeRadius = activeTopic ? getRadius(activeTopic.value) : 48;
 	useEffect(() => {
 		fetch('/politicalflashback/home_explore_view.json')
 			.then((res) => res.json())
@@ -122,78 +194,103 @@ const HomePage = () => {
 	}
 
 	return (
-		<div className="bg-pattern relative max-h-screen w-full overflow-hidden">
-			{/* Gradient overlay from top */}
-			<div className="absolute top-10 right-0 left-0 z-20 h-[64px] w-full md:h-[80px]">
-				{/* Gradient background */}
-				<div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#FBF8F4] to-transparent"></div>
+		<DndContext
+			sensors={sensors}
+			onDragStart={handleDragStart}
+			onDragEnd={handleDragEnd}
+		>
+			<div className="bg-pattern relative max-h-screen w-full overflow-hidden">
+				{/* Gradient overlay from top */}
+				<div className="absolute top-10 right-0 left-0 z-20 h-[64px] w-full md:h-[80px]">
+					{/* Gradient background */}
+					<div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#FBF8F4] to-transparent"></div>
 
-				{/* Navigation bar */}
-				<div className="absolute right-0 bottom-0 left-0 mx-auto flex h-12 max-w-[600px] items-center gap-2 px-4 sm:gap-4 md:px-6">
-					{/* Center - Filter buttons */}
-					<div className="flex w-full items-center gap-1 sm:gap-2">
+					{/* Navigation bar */}
+					<div className="absolute right-0 bottom-0 left-0 mx-auto flex h-12 max-w-[600px] items-center gap-2 px-4 sm:gap-4 md:px-6">
+						{/* Center - Filter buttons */}
+						<div className="flex w-full items-center gap-1 sm:gap-2">
+							<button
+								className={`text-h9 font-kondolar w-full rounded-tl-full rounded-bl-full border-2 border-black px-1.5 py-3 font-bold transition-colors sm:px-5 ${
+									isHomePath
+										? 'text-green-2 bg-black'
+										: 'bg-white text-black hover:bg-gray-100'
+								}`}
+								onClick={() => router.push('/home')}
+							>
+								สำรวจ
+							</button>
+							<button
+								className={`text-h9 font-kondolar w-full rounded-sm border-2 border-black px-1.5 py-3 font-bold transition-colors sm:px-3 ${
+									isMonthlyPath
+										? 'text-green-2 bg-black'
+										: 'bg-white text-black hover:bg-gray-100'
+								}`}
+								onClick={() => router.push('/monthly')}
+							>
+								รายเดือน
+							</button>
+							<button
+								className="text-h9 font-kondolar w-full rounded-tr-full rounded-br-full border-2 border-black bg-white px-1.5 py-3 font-bold text-black transition-colors hover:bg-gray-100 sm:px-5"
+								onClick={() => router.push('/listview')}
+							>
+								ทั้งหมด
+							</button>
+						</div>
+
+						{/* Right side - Search button */}
 						<button
-							className={`text-h9 font-kondolar w-full rounded-tl-full rounded-bl-full border-2 border-black px-1.5 py-3 font-bold transition-colors sm:px-5 ${
-								isHomePath
-									? 'text-green-2 bg-black'
-									: 'bg-white text-black hover:bg-gray-100'
-							}`}
-							onClick={() => router.push('/home')}
+							onClick={handleSearchClick}
+							className="flex items-center justify-center rounded-full border-2 border-black bg-white p-1 transition-colors hover:bg-gray-100"
 						>
-							สำรวจ
-						</button>
-						<button
-							className={`text-h9 font-kondolar w-full rounded-sm border-2 border-black px-1.5 py-3 font-bold transition-colors sm:px-3 ${
-								isMonthlyPath
-									? 'text-green-2 bg-black'
-									: 'bg-white text-black hover:bg-gray-100'
-							}`}
-							onClick={() => router.push('/monthly')}
-						>
-							รายเดือน
-						</button>
-						<button
-							className="text-h9 font-kondolar w-full rounded-tr-full rounded-br-full border-2 border-black bg-white px-1.5 py-3 font-bold text-black transition-colors hover:bg-gray-100 sm:px-5"
-							onClick={() => router.push('/listview')}
-						>
-							ทั้งหมด
+							<Image
+								src="/politicalflashback/icon/icon-search.svg"
+								alt="Search"
+								width={40}
+								height={40}
+							/>
 						</button>
 					</div>
-
-					{/* Right side - Search button */}
-					<button
-						onClick={handleSearchClick}
-						className="flex items-center justify-center rounded-full border-2 border-black bg-white p-1 transition-colors hover:bg-gray-100"
-					>
-						<Image
-							src="/politicalflashback/icon/icon-search.svg"
-							alt="Search"
-							width={40}
-							height={40}
-						/>
-					</button>
 				</div>
+
+				{/* Main Chart Area */}
+				<main className="relative z-10 flex-1" style={{ height: '100vh' }}>
+					<DragDropBubbles activeDragId={activeDragId} />
+				</main>
+
+				{/* Drop Zone */}
+				<DropZone />
+
+				{/* Drag Overlay - Shows the dragged bubble */}
+				<DragOverlay>
+					{activeTopic ? (
+						<div
+							className="flex items-center justify-center rounded-full p-2 text-center"
+							style={{
+								width: activeRadius * 2,
+								height: activeRadius * 2,
+								backgroundColor: '#9C81F6',
+								transform: 'scale(1.1)',
+							}}
+						>
+							<span className="pointer-events-none line-clamp-3 text-sm leading-tight font-bold text-black">
+								{activeTopic.label}
+							</span>
+						</div>
+					) : null}
+				</DragOverlay>
+
+				{/* Search Overlay */}
+				<SearchModal
+					isOpen={isSearchOpen}
+					searchQuery={searchQuery}
+					setSearchQuery={setSearchQuery}
+					onClose={handleCloseSearch}
+					topics={topics}
+					storyData={storyData}
+					onTopicClick={handleTopicClick}
+				/>
 			</div>
-
-			{/* Main Chart Area */}
-			<main className="relative z-10 flex-1" style={{ height: '100vh' }}>
-				<DragDropBubbles />
-			</main>
-
-			{/* Drop Zone */}
-			<DropZone />
-
-			{/* Search Overlay */}
-			<SearchModal
-				isOpen={isSearchOpen}
-				searchQuery={searchQuery}
-				setSearchQuery={setSearchQuery}
-				onClose={handleCloseSearch}
-				topics={topics}
-				storyData={storyData}
-				onTopicClick={handleTopicClick}
-			/>
-		</div>
+		</DndContext>
 	);
 };
 

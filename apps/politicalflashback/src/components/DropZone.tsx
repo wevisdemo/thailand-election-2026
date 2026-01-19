@@ -7,6 +7,7 @@ import { useCallback, useRef, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import FireRating from './FireRating';
 import Footer from './Footer';
+import { useDroppable } from '@dnd-kit/core';
 
 // Delete confirmation button component with hover/click expand
 function DeleteButton({
@@ -104,6 +105,11 @@ export default function DropZone({
 	// Touch drag state
 	const listRef = useRef<HTMLDivElement>(null);
 	const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+	// @dnd-kit droppable
+	const { setNodeRef, isOver } = useDroppable({
+		id: 'dropzone',
+	});
 
 	const handleDragOver = useCallback(
 		(e: React.DragEvent) => {
@@ -408,8 +414,9 @@ export default function DropZone({
 				{/* Bottom Bar (hidden when expanded) */}
 				{!isExpanded && (
 					<div
+						ref={setNodeRef}
 						data-dropzone
-						className={`flex items-center gap-2 rounded-t-2xl border-t-2 border-r-2 border-l-2 border-black px-4 py-4 shadow-lg transition-all duration-300 ${isOverDropZone ? 'bg-green-1 ring-4 ring-[#2DD4BF]/30' : 'bg-green-3'}`}
+						className={`flex items-center gap-2 rounded-t-2xl border-t-2 border-r-2 border-l-2 border-black px-4 py-4 shadow-lg transition-all duration-300 ${isOver || isOverDropZone ? 'bg-green-1 ring-4 ring-[#2DD4BF]/30' : 'bg-green-3'}`}
 						onDragOver={handleDragOver}
 						onDragLeave={handleDragLeave}
 						onDrop={handleDrop}
