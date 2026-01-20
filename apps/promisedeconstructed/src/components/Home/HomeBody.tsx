@@ -99,7 +99,7 @@ export const HomeBody = ({ homeData, buildTime }: HomeBodyProps) => {
 				</SparklesText>
 				<div className="text-b6 text-purple-1 flex flex-col items-center gap-[5px] text-center">
 					<p>
-						<strong>คำชี้แจง:</strong> ข้อมูลอัปเดทล่าสุด {buildTime}{' '}
+						<strong>คำชี้แจง:</strong> ข้อมูลอัปเดตล่าสุด {buildTime}{' '}
 						เก็บจากเว็บไซต์ทางการของพรรคการเมือง
 						และถูกจัดกลุ่มประเด็นด้วยระบบปัญญาประดิษฐ์ (LLM) โดย 1
 						คำสัญญาสามารถเกี่ยวข้องได้มากกว่า 1 ประเด็น

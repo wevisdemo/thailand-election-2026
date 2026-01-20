@@ -22,7 +22,7 @@ export const ENTH_PARTY_LOOKUP: Record<string, string | undefined> = {
 	thaipeople: 'ปวงชนไทย',
 	prachachart: 'ประชาชาติ',
 	thaisangthai: 'ไทยสร้างไทย',
-	forthecountry: 'เพื่อชาติไทย',
+	forthecountry: 'เพื่อบ้านเมือง',
 	economic: 'เศรษฐกิจ',
 	okardmai: 'โอกาสใหม่',
 	rakchart: 'รักชาติ',
