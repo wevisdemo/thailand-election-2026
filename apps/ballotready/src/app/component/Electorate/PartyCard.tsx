@@ -8,52 +8,15 @@ interface PartyCardProps {
 	onClickViewPartyList: () => void;
 }
 
-function isDateInYear(dateToCheck: Date, targetYear: number): boolean {
-	// Use getFullYear() to get the 4-digit year from the Date object
-	const dateYear = dateToCheck.getFullYear();
-
-	// Compare the extracted year with the target year
-	return dateYear === targetYear;
-}
-
-function toThaiDate(dateInput: Date | string): string {
-	const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
-
-	const thaiMonths = [
-		'ม.ค.',
-		'ก.พ.',
-		'มี.ค.',
-		'เม.ย.',
-		'พ.ค.',
-		'มิ.ย.',
-		'ก.ค.',
-		'ส.ค.',
-		'ก.ย.',
-		'ต.ค.',
-		'พ.ย.',
-		'ธ.ค.',
-	];
-
-	const day = date.getDate();
-	const month = thaiMonths[date.getMonth()];
-	const year = date.getFullYear() + 543;
-
-	return `${day} ${month} พ.ศ.${year}`;
-}
-
 export default function PartyCard({
 	party,
 	onClickViewPartyList,
 }: PartyCardProps) {
 	const [expanded, setExpanded] = useState(false);
 
-	const hasLastPostition = () => {
-		const lastPosition = party.previousPositions.find((position) => {
-			const date = new Date(position.to);
-			return isDateInYear(date, 2025);
-		});
-		return !!lastPosition;
-	};
+	const hasLastPosition =
+		party.pastGovernmentPeriods.length > 0 ||
+		party.pastOppositionPeriods.length > 0;
 
 	return (
 		<div className="flex w-full flex-col py-[8px]">
@@ -64,11 +27,11 @@ export default function PartyCard({
 						{party.number}
 					</p>
 				</div>
-				<div className="flex w-full items-center justify-between gap-[16px] p-[16px]">
-					<div className="flex items-center">
+				<div className="flex w-full items-center justify-between gap-4 p-[16px]">
+					<div className="flex items-center gap-2">
 						<div className="relative flex h-fit">
 							<img
-								className="h-[64px] w-[64px] rounded-full"
+								className="h-[64px] w-[64px] object-contain"
 								src={party.image}
 								alt={party.name}
 							/>
@@ -84,7 +47,7 @@ export default function PartyCard({
 						onClick={() => setExpanded(!expanded)}
 					/>
 				</div>
-				{hasLastPostition() && (
+				{hasLastPosition && (
 					<img
 						className="absolute top-0 right-[24px] w-[15px]"
 						src="/ballotready/green-bookmark.svg"
@@ -102,7 +65,6 @@ export default function PartyCard({
 							{party.pmCandidates.map((candidate, index) => (
 								<div className="flex items-center gap-[4px]" key={index}>
 									<div className="relative flex h-fit">
-										{/* TODO: candidate photo */}
 										<img
 											className="w-[40px] rounded-full"
 											src={
@@ -134,14 +96,31 @@ export default function PartyCard({
 						<PlusButtonIcon />
 						<p className="text-[14px]">ดูบัญชีรายชื่อ</p>
 					</button>
-					{party.previousPositions && party.previousPositions.length > 0 && (
+					{hasLastPosition && (
 						<div className="flex">
 							<div className="flex flex-col">
-								{party.previousPositions.map((position, index) => (
-									<div className="flex" key={index}>
-										{isDateInYear(new Date(position.to), 2025) ? (
+								{[
+									...(party.pastGovernmentPeriods.length
+										? [
+												{
+													label: 'พรรคร่วมรัฐบาล',
+													periods: party.pastGovernmentPeriods,
+												},
+											]
+										: []),
+									...(party.pastOppositionPeriods.length
+										? [
+												{
+													label: 'พรรคร่วมฝ่ายค้าน',
+													periods: party.pastOppositionPeriods,
+												},
+											]
+										: []),
+								].map(({ label, periods }, index) => (
+									<div className="flex" key={label}>
+										{index === 0 ? (
 											<img
-												className="mr-[4px] h-[14px]"
+												className="m-[4px] h-[14px]"
 												src="/ballotready/green-bookmark.svg"
 												alt="green-bookmark"
 											/>
@@ -150,12 +129,12 @@ export default function PartyCard({
 										)}
 
 										<ul className="list-inside list-disc text-[14px] text-[#0EA177]">
-											<p>{position.label}</p>
-											{/* TODO: convert date to thai date */}
-											<li className="ml-[4px]">
-												{toThaiDate(position.from)} -{' '}
-												{toThaiDate(position.to)}{' '}
-											</li>
+											<p>{label}</p>
+											{periods.map((period) => (
+												<li className="ml-[4px]" key={period}>
+													{period}
+												</li>
+											))}
 										</ul>
 									</div>
 								))}
@@ -178,38 +157,6 @@ export default function PartyCard({
 								</a>
 							);
 						})}
-						{/* <a
-							className="flex justify-between md:justify-start"
-							target="_blank"
-							href=""
-						>
-							<span className="text-[14px] text-[#6140D2] underline">
-								มีนโยบายอะไรบ้าง
-							</span>
-							<img src="/ballotready/new-tab.svg" alt="new-tab-icon" />
-						</a>
-						{party.previousPositions && party.previousPositions.length > 0 && (
-							<a
-								className="flex justify-between md:justify-start"
-								target="_blank"
-								href=""
-							>
-								<span className="text-[14px] text-[#6140D2] underline">
-									เคยเสนอร่างกฏหมายอะไรบ้าง
-								</span>
-								<img src="/ballotready/new-tab.svg" alt="new-tab-icon" />
-							</a>
-						)}
-						<a
-							className="flex justify-between md:justify-start"
-							target="_blank"
-							href=""
-						>
-							<span className="text-[14px] text-[#6140D2] underline">
-								เว็บไซต์
-							</span>
-							<img src="/ballotready/new-tab.svg" alt="new-tab-icon" />
-						</a> */}
 					</div>
 				</div>
 			)}

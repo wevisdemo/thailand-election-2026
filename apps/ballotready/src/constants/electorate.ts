@@ -1,4 +1,3 @@
-import rawElectoralDistrict from '../app/data/electoral_district_table.json' with { type: 'json' };
 import rawDistrictCandidate from '../app/data/district_candidates.json' with { type: 'json' };
 import { ConstituencyMap } from '../type/candidate';
 

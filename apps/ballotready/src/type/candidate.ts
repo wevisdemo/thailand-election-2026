@@ -4,7 +4,7 @@ export interface Candidate {
 	name: string;
 	number: number;
 	image: string | null;
-	birthDate: string | null;
+	age: number | null;
 	education: string;
 	previousOccupation: string;
 	party: Party;

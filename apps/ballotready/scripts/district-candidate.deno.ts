@@ -1,80 +1,79 @@
 // %%
-import parties from '../src/app/data/parties.json' assert { type: 'json' };
+import { getPeopleWithPreviousPositionCount } from './politigraph.ts';
+import { getPartyInfo } from './sheets.ts';
+import zoneCandidates from '../src/app/data/zone_candidates.json' with { type: 'json' };
+import parties from '../src/app/data/parties.json' with { type: 'json' };
 
-export interface Person {
-	Name: string;
-	Number: number;
-	Birthdate: null;
-	Age: string;
-	Education: string;
-	ExOccupation: string;
-	Party: string;
-	Province: string;
-	Zone: number;
-	Image: string;
-	PastMP: boolean;
-	PastGovernment: boolean;
-	PastOpposition: boolean;
-	Invalid: boolean;
-}
+console.log(parties.length);
 
 // %%
-const output: Record<string, unknown[]> = {};
+const partyInfo = await getPartyInfo();
 
-const OLD_DATA_DIR =
-	'../../../../thailand-election-2023/apps/yourcandidates/data/electorals';
+console.log(partyInfo.length);
 
-for await (const { name } of Deno.readDir(OLD_DATA_DIR)) {
-	const data: { People: Person[] } = JSON.parse(
-		await Deno.readTextFile(`${OLD_DATA_DIR}/${name}`),
-	);
+// %%
+const people = await getPeopleWithPreviousPositionCount();
 
-	output[name.replace('.json', '')] = data.People.filter((p) => !p.Invalid).map(
-		(p) => {
-			const party = parties.find((party) => party.name === p.Party);
-			const partyPromiseUrl = party?.externalLinks.find(
-				(l) => l.label === 'มีนโยบายอะไรบ้าง',
-			)?.url;
+console.log(people.length);
 
-			const externalLinks: { label: string; url: string }[] = [
-				{ label: 'ส่องประวัติ', url: 'https://parliamentwatch.wevis.info' },
-			];
+// %%
+const candidates = zoneCandidates.zones
+	.map((zone) => [
+		`${zone.province_name}-${zone.zone_number}`,
+		zone.candidates
+			.filter((c) => c.Votable)
+			.map((c) => {
+				const name = `${c.FirstName} ${c.LastName}`;
+				const politigraphPerson = people.find((p) => p.name === name);
+				const partyPolicyUrl = partyInfo.find(
+					(p) => p.name === c.PartyName,
+				)?.policyUrl;
 
-			if (partyPromiseUrl) {
-				externalLinks.push({
-					label: 'ส่องนโยบายพรรคที่สังกัด',
-					url: partyPromiseUrl,
-				});
-			}
+				return {
+					name,
+					number: +c.CandidateNo,
+					image: c.has_local_image
+						? `/ballotready/candidates/${c.local_image_filename.replace('.jpg', '.webp')}`
+						: politigraphPerson?.image,
+					age: c.Age ? +c.Age : null,
+					education: c.HighestEducation,
+					previousOccupation: c.Occupation,
+					party: {
+						name: c.PartyName,
+						image: parties.find((p) => p.name === c.PartyName)?.image,
+					},
+					hasPreviousPosition:
+						(politigraphPerson?.membershipsConnection &&
+							politigraphPerson.membershipsConnection.totalCount > 0) ??
+						false,
+					externalLinks: [
+						politigraphPerson
+							? {
+									label: 'ตรวจการบ้านใน ParliamentWatch',
+									url: `https://parliamentwatch.wevis.info/politicians/${politigraphPerson.id}`,
+								}
+							: {
+									label: 'ส่องประวัติใน Google',
+									url: `https://www.google.com/search?q=${encodeURI(name)}`,
+								},
+						...(partyPolicyUrl
+							? [
+									{
+										label: 'ส่องนโยบายพรรคที่สังกัด',
+										url: partyPolicyUrl,
+									},
+								]
+							: []),
+					],
+				};
+			}),
+	])
+	.sort(([a], [z]) => a.localeCompare(z));
 
-			return {
-				name: p.Name,
-				number: p.Number,
-				image: 'https://election66.wevis.info' + p.Image,
-				birthDate: p.Birthdate,
-				education: p.Education,
-				previousOccupation: p.ExOccupation,
-				party: {
-					name: p.Party,
-					image: party?.image ?? null,
-				},
-				hasPreviousPosition: p.PastMP,
-				externalLinks,
-			};
-		},
-	);
-}
-
-console.log(Object.keys(output).length);
+console.log(candidates.length);
 
 // %%
 await Deno.writeTextFile(
 	'../src/app/data/district_candidates.json',
-	JSON.stringify(
-		Object.fromEntries(
-			Object.entries(output).sort(([a], [z]) => a.localeCompare(z)),
-		),
-		undefined,
-		2,
-	),
+	JSON.stringify(Object.fromEntries(candidates), undefined, 2),
 );

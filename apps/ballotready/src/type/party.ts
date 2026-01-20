@@ -35,12 +35,6 @@ export interface PartyListCandidate {
 	hasPreviousPosition: boolean;
 }
 
-export interface PreviousPosition {
-	label: string;
-	from: string; // ISO date string (YYYY-MM-DD)
-	to: string; // ISO date string (YYYY-MM-DD)
-}
-
 export interface ExternalLink {
 	label: string;
 	url: string;
@@ -52,6 +46,7 @@ export interface Party {
 	image: string;
 	pmCandidates: PmCandidate[];
 	partyList: PartyListCandidate[];
-	previousPositions: PreviousPosition[];
+	pastGovernmentPeriods: string[];
+	pastOppositionPeriods: string[];
 	externalLinks: ExternalLink[];
 }

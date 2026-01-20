@@ -9,24 +9,6 @@ interface IndividualCardProps {
 export default function IndividualCard({ candidate }: IndividualCardProps) {
 	const [expanded, setExpanded] = useState(false);
 
-	function calculateAge(
-		birthDate: string | Date,
-		asOf: Date = new Date(),
-	): number {
-		const dob = new Date(birthDate);
-
-		let age = asOf.getFullYear() - dob.getFullYear();
-		const monthDiff = asOf.getMonth() - dob.getMonth();
-		const dayDiff = asOf.getDate() - dob.getDate();
-
-		// If birthday hasn't happened yet this year, subtract 1
-		if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-			age--;
-		}
-
-		return age;
-	}
-
 	return (
 		<div className="flex w-full flex-col py-[8px]">
 			<div className="relative flex border-t-[1px]">
@@ -40,7 +22,7 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 					<div className="flex gap-[8px]">
 						<div className="relative flex h-fit">
 							<img
-								className="h-[40px] w-[40px] rounded-full object-contain"
+								className="h-[40px] w-[40px] rounded-full object-cover object-top"
 								src={candidate.image || '/ballotready/dummie-candidate.svg'}
 								alt={candidate.name}
 							/>
@@ -88,9 +70,7 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 									อายุ
 								</th>
 								<td className="pl-[6px] text-[14px]">
-									{candidate.birthDate
-										? calculateAge(candidate.birthDate)
-										: 'ไม่ระบุ'}
+									{candidate.age ? `${candidate.age}ปี` : 'ไม่ระบุ'}{' '}
 								</td>
 							</tr>
 							<tr>
@@ -138,43 +118,6 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 								</a>
 							);
 						})}
-						{/* {candidate.hasPreviousPosition ? (
-							<>
-								<p className="text-[14px] text-[#0EA177]">เคยมีตำแหน่งในสภา</p>
-								<a
-									className="flex justify-between md:justify-start"
-									target="_blank"
-									href=""
-								>
-									<span className="text-[14px] text-[#6140D2] underline">
-										ตรวจการบ้าน
-									</span>
-									<img src="/ballotready/new-tab.svg" alt="new-tab-icon" />
-								</a>
-							</>
-						) : (
-							<a
-								className="flex justify-between md:justify-start"
-								target="_blank"
-								href=""
-							>
-								<span className="text-[14px] text-[#6140D2] underline">
-									ส่องประวัติ
-								</span>
-								<img src="/ballotready/new-tab.svg" alt="new-tab-icon" />
-							</a>
-						)} */}
-
-						{/* <a
-							className="flex justify-between md:justify-start"
-							target="_blank"
-							href=""
-						>
-							<span className="text-[14px] text-[#6140D2] underline">
-								ส่องนโยบายพรรคที่สังกัด
-							</span>
-							<img src="/ballotready/new-tab.svg" alt="new-tab-icon" />
-						</a> */}
 					</div>
 				</div>
 			)}

@@ -6,8 +6,6 @@ import IndividualList from './IndividualList';
 import PartyList from './PartyList';
 import { Party } from '@/src/type/party';
 
-// TODO: use props to dynamic variable
-
 interface PartyListSectionProps {
 	candidates: Candidate[];
 	parties: Party[];
@@ -22,7 +20,6 @@ export default function PartyListSection({
 	);
 	const [individualSearch, setIndividualSearch] = useState('');
 	const [partySearch, setPartySearch] = useState('');
-	const [openModalPartyList, setOpenModalPartyList] = useState<boolean>(false);
 
 	const getAmountOfPreviousPositionCandidates = () => {
 		return getCandidatesDisplay().filter((c) => c.hasPreviousPosition).length;
@@ -40,23 +37,10 @@ export default function PartyListSection({
 		return parties.filter((p) => p.name.match(regex));
 	};
 
-	function isDateInYear(dateToCheck: Date, targetYear: number): boolean {
-		// Use getFullYear() to get the 4-digit year from the Date object
-		const dateYear = dateToCheck.getFullYear();
+	const amountOfPreviousPositionParties = getPartiesDisplay().filter(
+		(p) => p.pastGovernmentPeriods.length || p.pastOppositionPeriods.length,
+	).length;
 
-		// Compare the extracted year with the target year
-		return dateYear === targetYear;
-	}
-
-	const getAmountOfPreviousPositionParties = () => {
-		return getPartiesDisplay().filter((p) => {
-			const lastPosition = p.previousPositions.find((position) => {
-				const date = new Date(position.to);
-				return isDateInYear(date, 2025);
-			});
-			return !!lastPosition;
-		}).length;
-	};
 	return (
 		<div>
 			<div className="flex w-full">
@@ -121,7 +105,7 @@ export default function PartyListSection({
 							/>
 							เคยมีตำแหน่งในสภาสมัยที่แล้ว &nbsp;
 							<span className="font-bold">
-								{getAmountOfPreviousPositionParties()} พรรค
+								{amountOfPreviousPositionParties} พรรค
 							</span>
 						</p>
 					</div>
