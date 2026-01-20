@@ -70,7 +70,20 @@
 		"name": "ใหม่",
 		"number": 3,
 		"image": "/ballotready/parties/3.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายสุรสิทธิ์ มัจฉาเดช",
+				"image": ""
+			},
+			{
+				"name": "นายทรงตระกูล โสมคำ",
+				"image": ""
+			},
+			{
+				"name": "นางสาวนวินดา สวัสดิ์เดชดี",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "นวินดา สวัสดิ์เดชดี",
@@ -279,7 +292,9 @@
 			}
 		],
 		"pastGovernmentPeriods": [],
-		"pastOppositionPeriods": ["1 ก.ย. 66 - 5 ต.ค. 67"],
+		"pastOppositionPeriods": [
+			"1 ก.ย. 66 - 5 ต.ค. 67"
+		],
 		"externalLinks": [
 			{
 				"label": "เคยเสนอร่างกฏหมายอะไรบ้าง",
@@ -433,7 +448,20 @@
 		"name": "รวมไทยสร้างชาติ",
 		"number": 6,
 		"image": "/ballotready/parties/6.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายพีระพันธุ์ สาลีรัฐวิภาค",
+				"image": ""
+			},
+			{
+				"name": "นายอรรถวิชช์ สุวรรณภักดี",
+				"image": ""
+			},
+			{
+				"name": "นายนราพัฒน์ แก้วทอง",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "พีระพันธุ์ สาลีรัฐวิภาค",
@@ -936,7 +964,9 @@
 				"hasPreviousPosition": false
 			}
 		],
-		"pastGovernmentPeriods": ["1 ก.ย. 66 - 11 ธ.ค. 68"],
+		"pastGovernmentPeriods": [
+			"1 ก.ย. 66 - 11 ธ.ค. 68"
+		],
 		"pastOppositionPeriods": [],
 		"externalLinks": [
 			{
@@ -953,7 +983,12 @@
 		"name": "พลวัต",
 		"number": 7,
 		"image": "/ballotready/parties/7.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายกัณวีร์ สืบแสง",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "กัณวีร์ สืบแสง",
@@ -1084,7 +1119,12 @@
 		"name": "ประชาธิปไตยใหม่",
 		"number": 8,
 		"image": "/ballotready/parties/8.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายสุรทิน พิจารณ์",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "สุรทิน พิจารณ์",
@@ -1192,8 +1232,12 @@
 				"hasPreviousPosition": false
 			}
 		],
-		"pastGovernmentPeriods": ["4 ก.ย. 67 - 11 ธ.ค. 68"],
-		"pastOppositionPeriods": ["1 ก.ย. 66 - 3 ก.ย. 67"],
+		"pastGovernmentPeriods": [
+			"4 ก.ย. 67 - 11 ธ.ค. 68"
+		],
+		"pastOppositionPeriods": [
+			"1 ก.ย. 66 - 3 ก.ย. 67"
+		],
 		"externalLinks": [
 			{
 				"label": "เคยเสนอร่างกฏหมายอะไรบ้าง",
@@ -1205,7 +1249,20 @@
 		"name": "เพื่อไทย",
 		"number": 9,
 		"image": "/ballotready/parties/9.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "ศาสตราจารย์ยศชนัน วงศ์สวัสดิ์",
+				"image": ""
+			},
+			{
+				"name": "นายจุลพันธ์ อมรวิวัฒน์",
+				"image": ""
+			},
+			{
+				"name": "นายสุริยะ จึงรุ่งเรืองกิจ",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "ยศชนัน วงศ์สวัสดิ์",
@@ -1708,8 +1765,12 @@
 				"hasPreviousPosition": false
 			}
 		],
-		"pastGovernmentPeriods": ["1 ก.ย. 66 - 29 ส.ค. 68"],
-		"pastOppositionPeriods": ["19 ก.ย. 68 - 11 ธ.ค. 68"],
+		"pastGovernmentPeriods": [
+			"1 ก.ย. 66 - 29 ส.ค. 68"
+		],
+		"pastOppositionPeriods": [
+			"19 ก.ย. 68 - 11 ธ.ค. 68"
+		],
 		"externalLinks": [
 			{
 				"label": "มีนโยบายอะไรบ้าง",
@@ -1729,7 +1790,20 @@
 		"name": "ทางเลือกใหม่",
 		"number": 10,
 		"image": "/ballotready/parties/10.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายราเชน ตระกูลเวียง",
+				"image": ""
+			},
+			{
+				"name": "นายมงคลกิตติ์ สุขสินธารานนท์",
+				"image": ""
+			},
+			{
+				"name": "นายสิทธิศักดิ์ พัฒนชัย",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "ราเชน ตระกูลเวียง",
@@ -1840,7 +1914,16 @@
 		"name": "เศรษฐกิจ",
 		"number": 11,
 		"image": "/ballotready/parties/11.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "พลเอกรังษี กิติญาณทรัพย์",
+				"image": ""
+			},
+			{
+				"name": "นายคริส โปตระนันทน์",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "คริส โปตระนันทน์",
@@ -2175,7 +2258,12 @@
 		"name": "เสรีรวมไทย",
 		"number": 12,
 		"image": "/ballotready/parties/12.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "พลตำรวจเอกเสรีพิศุทธ์ เตมียเวส",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "เสรีพิศุทธ์ เตมียเวส",
@@ -2397,7 +2485,9 @@
 			"1 ก.ย. 66 - 29 มิ.ย. 68",
 			"19 ก.ย. 68 - 11 ธ.ค. 68"
 		],
-		"pastOppositionPeriods": ["1 ก.ค. 68 - 29 ส.ค. 68"],
+		"pastOppositionPeriods": [
+			"1 ก.ค. 68 - 29 ส.ค. 68"
+		],
 		"externalLinks": [
 			{
 				"label": "เคยเสนอร่างกฏหมายอะไรบ้าง",
@@ -2409,7 +2499,20 @@
 		"name": "รวมพลังประชาชน",
 		"number": 13,
 		"image": "/ballotready/parties/13.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "พลอากาศตรีหญิงธนภร ไวทยานุวัตติ",
+				"image": ""
+			},
+			{
+				"name": "นายเฉลิมพล อุตรัตน์",
+				"image": ""
+			},
+			{
+				"name": "นายอภิวิชญญ์ ทิพย์รัตน์",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "อภิวิชญญ์ ทิพย์รัตน์",
@@ -2470,7 +2573,20 @@
 		"name": "ท้องที่ไทย",
 		"number": 14,
 		"image": "/ballotready/parties/14.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายบัญชา เดชเจริญศิริกุล",
+				"image": ""
+			},
+			{
+				"name": "นายอรรถษิธ ชื่นสงวน",
+				"image": ""
+			},
+			{
+				"name": "นายทนงศักดิ์ ศิริรัตน์",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "บัญชา เดชเจริญศิริกุล",
@@ -2513,7 +2629,9 @@
 				"hasPreviousPosition": false
 			}
 		],
-		"pastGovernmentPeriods": ["1 ก.ย. 66 - 15 ต.ค. 67"],
+		"pastGovernmentPeriods": [
+			"1 ก.ย. 66 - 15 ต.ค. 67"
+		],
 		"pastOppositionPeriods": [],
 		"externalLinks": [
 			{
@@ -2546,7 +2664,16 @@
 		"name": "พลังเพื่อไทย",
 		"number": 16,
 		"image": "/ballotready/parties/16.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายเอกวรพงศ์ อำนวยทรัพย์",
+				"image": ""
+			},
+			{
+				"name": "นายภคมินทรา อุปะโยคิน",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "เอกวรพงศ์ อำนวยทรัพย์",
@@ -2577,7 +2704,20 @@
 		"name": "ไทยชนะ",
 		"number": 17,
 		"image": "/ballotready/parties/17.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายจักรพงศ์ ชื่นดวง",
+				"image": ""
+			},
+			{
+				"name": "นายไชยยงค์ รัตนวัน",
+				"image": ""
+			},
+			{
+				"name": "พลเรือโทเจียมศักดิ์ จันทร์เสนา",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "จักรพงศ์ ชื่นดวง",
@@ -2751,7 +2891,9 @@
 				"hasPreviousPosition": false
 			}
 		],
-		"pastGovernmentPeriods": ["1 ก.ย. 66 - 6 ต.ค. 67"],
+		"pastGovernmentPeriods": [
+			"1 ก.ย. 66 - 6 ต.ค. 67"
+		],
 		"pastOppositionPeriods": [],
 		"externalLinks": [
 			{
@@ -2815,7 +2957,12 @@
 		"name": "ฟิวชัน",
 		"number": 20,
 		"image": "/ballotready/parties/20.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "ว่าที่ร้อยตรีกิตติพัทธ์ เลี้ยงประเสริฐ",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "กิตติพัทธ์ เลี้ยงประเสริฐ",
@@ -2969,8 +3116,12 @@
 				"hasPreviousPosition": false
 			}
 		],
-		"pastGovernmentPeriods": ["1 ก.ย. 66 - 29 ส.ค. 68"],
-		"pastOppositionPeriods": ["19 ก.ย. 68 - 11 ธ.ค. 68"],
+		"pastGovernmentPeriods": [
+			"1 ก.ย. 66 - 29 ส.ค. 68"
+		],
+		"pastOppositionPeriods": [
+			"19 ก.ย. 68 - 11 ธ.ค. 68"
+		],
 		"externalLinks": [
 			{
 				"label": "เคยเสนอร่างกฏหมายอะไรบ้าง",
@@ -2982,7 +3133,20 @@
 		"name": "ก้าวอิสระ",
 		"number": 22,
 		"image": "/ballotready/parties/22.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นางสาวกชพร เวโรจน์",
+				"image": ""
+			},
+			{
+				"name": "นายเกียรติภูมิ สิริพันธุ์",
+				"image": ""
+			},
+			{
+				"name": "นายชาญชัย โตพฤกษา",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "กชพร เวโรจน์",
@@ -3068,7 +3232,12 @@
 		"name": "ปวงชนไทย",
 		"number": 23,
 		"image": "/ballotready/parties/23.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายเอกสิทธิ์ คุณานันทกุล",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "เอกสิทธิ์ คุณานันทกุล",
@@ -3293,7 +3462,20 @@
 		"name": "วิชชั่นใหม่",
 		"number": 24,
 		"image": "/ballotready/parties/24.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายธงรบ ด่านอำไพ",
+				"image": ""
+			},
+			{
+				"name": "นายพิเชษฐ สถิรชวาล",
+				"image": ""
+			},
+			{
+				"name": "พลเอกโชติอนันต์ปรีชา ทรัพย์หิรัญ",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "พิเชษฐ สถิรชวาล",
@@ -3444,7 +3626,12 @@
 		"name": "เพื่อชีวิตใหม่",
 		"number": 25,
 		"image": "/ballotready/parties/25.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายทองประเสริฐ จันทรอัมพร",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "ทองประเสริฐ จันทรอัมพร",
@@ -3566,7 +3753,20 @@
 		"name": "ประชาธิปัตย์",
 		"number": 27,
 		"image": "/ballotready/parties/27.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายอภิสิทธิ์ เวชชาชีวะ",
+				"image": ""
+			},
+			{
+				"name": "นายกรณ์ จาติกวณิช",
+				"image": ""
+			},
+			{
+				"name": "นางการดี เลียวไพโรจน์",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "อภิสิทธิ์ เวชชาชีวะ",
@@ -4059,7 +4259,9 @@
 				"hasPreviousPosition": false
 			}
 		],
-		"pastGovernmentPeriods": ["4 ก.ย. 67 - 29 ส.ค. 68"],
+		"pastGovernmentPeriods": [
+			"4 ก.ย. 67 - 29 ส.ค. 68"
+		],
 		"pastOppositionPeriods": [
 			"1 ก.ย. 66 - 3 ก.ย. 67",
 			"19 ก.ย. 68 - 11 ธ.ค. 68"
@@ -4083,7 +4285,20 @@
 		"name": "ไทยก้าวหน้า",
 		"number": 28,
 		"image": "/ballotready/parties/28.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายวัชรพล บุษมงคล",
+				"image": ""
+			},
+			{
+				"name": "พลเอกสิทธิ์ สิทธิมงคล",
+				"image": ""
+			},
+			{
+				"name": "นางกุสุมาลวตี ศิริโกมุท",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "วัชรพล บุษมงคล",
@@ -4156,7 +4371,9 @@
 				"hasPreviousPosition": false
 			}
 		],
-		"pastGovernmentPeriods": ["4 ก.ย. 67 - 11 ธ.ค. 68"],
+		"pastGovernmentPeriods": [
+			"4 ก.ย. 67 - 11 ธ.ค. 68"
+		],
 		"pastOppositionPeriods": [],
 		"externalLinks": [
 			{
@@ -4169,7 +4386,12 @@
 		"name": "ไทยภักดี",
 		"number": 29,
 		"image": "/ballotready/parties/29.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายวรงค์ เดชกิจวิกรม",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "วรงค์ เดชกิจวิกรม",
@@ -4309,7 +4531,16 @@
 		"name": "แรงงานสร้างชาติ",
 		"number": 30,
 		"image": "/ballotready/parties/30.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายมนัส โกศล",
+				"image": ""
+			},
+			{
+				"name": "นายวสันต์ พานเงิน",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "มนัส โกศล",
@@ -4400,7 +4631,20 @@
 		"name": "ประชากรไทย",
 		"number": 31,
 		"image": "/ballotready/parties/31.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายคณิศร สมมะลวน",
+				"image": ""
+			},
+			{
+				"name": "พลเอกณรงค์ พฤกษารุ่งเรือง",
+				"image": ""
+			},
+			{
+				"name": "นายธันญ์รวิน พงศ์กมลานนท์",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "คณิศร สมมะลวน",
@@ -4615,7 +4859,9 @@
 			}
 		],
 		"pastGovernmentPeriods": [],
-		"pastOppositionPeriods": ["1 ก.ย. 66 - 20 ต.ค. 67"],
+		"pastOppositionPeriods": [
+			"1 ก.ย. 66 - 20 ต.ค. 67"
+		],
 		"externalLinks": [
 			{
 				"label": "เคยเสนอร่างกฏหมายอะไรบ้าง",
@@ -4631,7 +4877,16 @@
 		"name": "ประชาชาติ",
 		"number": 33,
 		"image": "/ballotready/parties/33.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "พันตำรวจเอกทวี สอดส่อง",
+				"image": ""
+			},
+			{
+				"name": "นายวันมูหะมัดนอร์ มะทา",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "ทวี สอดส่อง",
@@ -4819,8 +5074,12 @@
 				"hasPreviousPosition": false
 			}
 		],
-		"pastGovernmentPeriods": ["1 ก.ย. 66 - 29 ส.ค. 68"],
-		"pastOppositionPeriods": ["19 ก.ย. 68 - 11 ธ.ค. 68"],
+		"pastGovernmentPeriods": [
+			"1 ก.ย. 66 - 29 ส.ค. 68"
+		],
+		"pastOppositionPeriods": [
+			"19 ก.ย. 68 - 11 ธ.ค. 68"
+		],
 		"externalLinks": [
 			{
 				"label": "มีนโยบายอะไรบ้าง",
@@ -4901,7 +5160,16 @@
 		"name": "รักชาติ",
 		"number": 35,
 		"image": "/ballotready/parties/35.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายเจษฎ์ โทณะวณิก",
+				"image": ""
+			},
+			{
+				"name": "นายชัยวุฒิ ธนาคมานุสรณ์",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "ชัยวุฒิ ธนาคมานุสรณ์",
@@ -5046,7 +5314,20 @@
 		"name": "ไทยพร้อม",
 		"number": 36,
 		"image": "/ballotready/parties/36.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายสุพงษ์พิธ รุ่งเป้า",
+				"image": ""
+			},
+			{
+				"name": "พลโทกิตติพันธ์ ชูพิพัฒน์",
+				"image": ""
+			},
+			{
+				"name": "นายธนพงศ์ สกุลธนพาณิช",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "สุพงษ์พิธ รุ่งเป้า",
@@ -5107,7 +5388,16 @@
 		"name": "ภูมิใจไทย",
 		"number": 37,
 		"image": "/ballotready/parties/37.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายอนุทิน ชาญวีรกูล",
+				"image": ""
+			},
+			{
+				"name": "นายสีหศักดิ์ พวงเกตุแก้ว",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "อนุทิน ชาญวีรกูล",
@@ -5604,7 +5894,9 @@
 			"1 ก.ย. 66 - 29 มิ.ย. 68",
 			"19 ก.ย. 68 - 11 ธ.ค. 68"
 		],
-		"pastOppositionPeriods": ["1 ก.ค. 68 - 29 ส.ค. 68"],
+		"pastOppositionPeriods": [
+			"1 ก.ค. 68 - 29 ส.ค. 68"
+		],
 		"externalLinks": [
 			{
 				"label": "มีนโยบายอะไรบ้าง",
@@ -5731,7 +6023,20 @@
 		"name": "ไทยธรรม",
 		"number": 40,
 		"image": "/ballotready/parties/40.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "พลตำรวจตรีสุพิศาล ภักดีนฤนาถ",
+				"image": ""
+			},
+			{
+				"name": "นายกิติกร วิชัยเรืองธรรม",
+				"image": ""
+			},
+			{
+				"name": "นายวิศรุต ครุฑไกวัล",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "เมธินี ใยสุ่น",
@@ -5782,7 +6087,20 @@
 		"name": "แผ่นดินธรรม",
 		"number": 41,
 		"image": "/ballotready/parties/41.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายบุณยติเลิศ สาระ",
+				"image": ""
+			},
+			{
+				"name": "นายดวงใจ เชื้อคําเพ็ง",
+				"image": ""
+			},
+			{
+				"name": "นายโกวิทย์ จันทร์หอม",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "บุณยติเลิศ สาระ",
@@ -5838,7 +6156,12 @@
 		"name": "กล้าธรรม",
 		"number": 42,
 		"image": "/ballotready/parties/42.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายธรรมนัส พรหมเผ่า",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "ธรรมนัส พรหมเผ่า",
@@ -6341,7 +6664,9 @@
 				"hasPreviousPosition": false
 			}
 		],
-		"pastGovernmentPeriods": ["4 ก.ย. 67 - 11 ธ.ค. 68"],
+		"pastGovernmentPeriods": [
+			"4 ก.ย. 67 - 11 ธ.ค. 68"
+		],
 		"pastOppositionPeriods": [],
 		"externalLinks": [
 			{
@@ -6358,7 +6683,16 @@
 		"name": "พลังประชารัฐ",
 		"number": 43,
 		"image": "/ballotready/parties/43.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นางสาวตรีนุช เทียนทอง",
+				"image": ""
+			},
+			{
+				"name": "หม่อมหลวงกรกสิวัฒน์ เกษมศรี",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "ภัครธรณ์ เทียนไชย",
@@ -6540,7 +6874,9 @@
 			"1 ก.ย. 66 - 3 ก.ย. 67",
 			"19 ก.ย. 68 - 11 ธ.ค. 68"
 		],
-		"pastOppositionPeriods": ["4 ก.ย. 67 - 29 ส.ค. 68"],
+		"pastOppositionPeriods": [
+			"4 ก.ย. 67 - 29 ส.ค. 68"
+		],
 		"externalLinks": [
 			{
 				"label": "เคยเสนอร่างกฏหมายอะไรบ้าง",
@@ -6556,7 +6892,20 @@
 		"name": "โอกาสใหม่",
 		"number": 44,
 		"image": "/ballotready/parties/44.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายจตุพร บุรุษพัฒน์",
+				"image": ""
+			},
+			{
+				"name": "นายทศพร เสรีรักษ์",
+				"image": ""
+			},
+			{
+				"name": "นายประภัสร์ จงสงวน",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "จตุพร บุรุษพัฒน์",
@@ -6741,7 +7090,20 @@
 		"name": "เป็นธรรม",
 		"number": 45,
 		"image": "/ballotready/parties/45.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายปิติพงศ์ เต็มเจริญ",
+				"image": ""
+			},
+			{
+				"name": "นางสาวปุณยวีร์ เต็มเจริญ",
+				"image": ""
+			},
+			{
+				"name": "นางสาวมนต์วลี พัธโนทัย",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "ปิติพงศ์ เต็มเจริญ",
@@ -6860,7 +7222,9 @@
 			}
 		],
 		"pastGovernmentPeriods": [],
-		"pastOppositionPeriods": ["1 ก.ย. 66 - 11 ธ.ค. 68"],
+		"pastOppositionPeriods": [
+			"1 ก.ย. 66 - 11 ธ.ค. 68"
+		],
 		"externalLinks": [
 			{
 				"label": "เคยเสนอร่างกฏหมายอะไรบ้าง",
@@ -6876,7 +7240,20 @@
 		"name": "ประชาชน",
 		"number": 46,
 		"image": "/ballotready/parties/46.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายณัฐพงษ์ เรืองปัญญาวุฒิ",
+				"image": ""
+			},
+			{
+				"name": "นางสาวศิริกัญญา ตันสกุล",
+				"image": ""
+			},
+			{
+				"name": "นายวีระยุทธ กาญจน์ชูฉัตร",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "ณัฐพงษ์ เรืองปัญญาวุฒิ",
@@ -7375,7 +7752,9 @@
 			}
 		],
 		"pastGovernmentPeriods": [],
-		"pastOppositionPeriods": ["1 ก.ย. 66 - 11 ธ.ค. 68"],
+		"pastOppositionPeriods": [
+			"1 ก.ย. 66 - 11 ธ.ค. 68"
+		],
 		"externalLinks": [
 			{
 				"label": "มีนโยบายอะไรบ้าง",
@@ -7395,7 +7774,12 @@
 		"name": "ประชาไทย",
 		"number": 47,
 		"image": "/ballotready/parties/47.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายบุญยงค์ จันทร์แสง",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "บุญยงค์ จันทร์แสง",
@@ -7451,7 +7835,20 @@
 		"name": "ไทยสร้างไทย",
 		"number": 48,
 		"image": "/ballotready/parties/48.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "คุณหญิงสุดารัตน์ เกยุราพันธุ์",
+				"image": ""
+			},
+			{
+				"name": "นายโภคิน พลกุล",
+				"image": ""
+			},
+			{
+				"name": "พลโทภราดร พัฒนถาบุตร",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "อุดมเดช รัตนเสถียร",
@@ -7850,7 +8247,9 @@
 			}
 		],
 		"pastGovernmentPeriods": [],
-		"pastOppositionPeriods": ["1 ก.ย. 66 - 11 ธ.ค. 68"],
+		"pastOppositionPeriods": [
+			"1 ก.ย. 66 - 11 ธ.ค. 68"
+		],
 		"externalLinks": [
 			{
 				"label": "มีนโยบายอะไรบ้าง",
@@ -7870,7 +8269,16 @@
 		"name": "ไทยก้าวใหม่",
 		"number": 49,
 		"image": "/ballotready/parties/49.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "ศาสตราจารย์สุชัชวีร์ สุวรรณสวัสดิ์",
+				"image": ""
+			},
+			{
+				"name": "คุณหญิงกัลยา โสภณพนิช",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "สุชัชวีร์ สุวรรณสวัสดิ์",
@@ -8181,7 +8589,16 @@
 		"name": "ประชาอาสาชาติ",
 		"number": 50,
 		"image": "/ballotready/parties/50.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "ว่าที่ร้อยโทจิระเดช พรหมนา",
+				"image": ""
+			},
+			{
+				"name": "พลโทเวชศักดิ์ ดวงอุไร",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "จิระเดช พรหมนา",
@@ -8207,7 +8624,16 @@
 		"name": "พร้อม",
 		"number": 51,
 		"image": "/ballotready/parties/51.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายพิชชา ขำสุวรรณ",
+				"image": ""
+			},
+			{
+				"name": "นางพิมไหมทอง ศักดิพัตโภคิน",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "พิมไหมทอง ศักดิพัตโภคิน",
@@ -8263,7 +8689,12 @@
 		"name": "เครือข่ายชาวนาแห่งประเทศไทย",
 		"number": 52,
 		"image": "/ballotready/parties/52.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายวชิร ศุภรมย์",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "วชิร ศุภรมย์",
@@ -8304,7 +8735,16 @@
 		"name": "ไทยพิทักษ์ธรรม",
 		"number": 53,
 		"image": "/ballotready/parties/53.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายภปกชนก ทับเที่ยง",
+				"image": ""
+			},
+			{
+				"name": "นายเจริญ คัมภีรภาพ",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "ภปกชนก ทับเที่ยง",
@@ -8365,7 +8805,12 @@
 		"name": "ความหวังใหม่",
 		"number": 54,
 		"image": "/ballotready/parties/54.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายชิงชัย มงคลธรรม",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "ชิงชัย มงคลธรรม",
@@ -8416,7 +8861,12 @@
 		"name": "ไทยรวมไทย",
 		"number": 55,
 		"image": "/ballotready/parties/55.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายโสภณ สมประสงค์ บิวโดอิน",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "โสภณ สมประสงค์ บิวโดอิน",
@@ -8447,7 +8897,20 @@
 		"name": "เพื่อบ้านเมือง",
 		"number": 56,
 		"image": "/ballotready/parties/56.webp",
-		"pmCandidates": [],
+		"pmCandidates": [
+			{
+				"name": "นายประสพ บุษราคัม",
+				"image": ""
+			},
+			{
+				"name": "นายพนพภณษฎ์ ทองคำ",
+				"image": ""
+			},
+			{
+				"name": "ว่าที่ร้อยตรีเจริญศักดิ์ เอกสมาธิกุล",
+				"image": ""
+			}
+		],
 		"partyList": [
 			{
 				"name": "ประสพ บุษราคัม",
