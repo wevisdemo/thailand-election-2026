@@ -1,2 +1,3 @@
 *.csv
 *.json
+!deno.json
