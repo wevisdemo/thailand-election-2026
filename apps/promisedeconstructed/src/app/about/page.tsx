@@ -441,7 +441,7 @@ export default function AboutPage() {
 							</li>
 							<li>
 								<a
-									href="www.linkedin.com/in/alawee-wamae"
+									href="https://www.linkedin.com/in/alawee-wamae"
 									target="_blank"
 									rel="nofollow noopener noreferrer"
 								>
