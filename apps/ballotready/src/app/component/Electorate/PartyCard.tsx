@@ -66,7 +66,7 @@ export default function PartyCard({
 								<div className="flex items-center gap-[4px]" key={index}>
 									<div className="relative flex h-fit">
 										<img
-											className="w-[40px] rounded-full"
+											className="size-[40px] rounded-full object-cover object-top"
 											src={
 												candidate.image || '/ballotready/dummie-candidate.svg'
 											}

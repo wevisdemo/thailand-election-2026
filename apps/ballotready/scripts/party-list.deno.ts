@@ -2,6 +2,7 @@
 import { getPeopleWithPreviousPositionCount } from './politigraph.ts';
 import { getPartyInfo } from './sheets.ts';
 import partylists from '../src/app/data/partylist_candidates.json' with { type: 'json' };
+import pmCandidates from '../src/app/data/pm_candidates.json' with { type: 'json' };
 
 // %%
 const partyInfo = await getPartyInfo();
@@ -42,29 +43,43 @@ const parties = partylists.parties
 			});
 		}
 
+		const partyList = p.candidates
+			.map((c) => {
+				const name = `${c.FirstName} ${c.LastName}`;
+				const politigraphPerson = people.find((person) => person.name === name);
+
+				return {
+					name,
+					number: +c.CandidateNo,
+					image: c.has_local_image
+						? `/ballotready/candidates/partylist/${c.local_image_filename.replace('.jpg', '.webp')}`
+						: politigraphPerson?.image,
+					hasPreviousPosition:
+						(politigraphPerson?.membershipsConnection &&
+							politigraphPerson.membershipsConnection.totalCount > 0) ??
+						false,
+					externalLink: politigraphPerson
+						? `https://parliamentwatch.wevis.info/politicians/${politigraphPerson.id}`
+						: `https://www.google.com/search?q=${encodeURI(name)}`,
+				};
+			})
+			.sort((a, z) => a.number - z.number);
+
 		return {
 			name: p.party_name,
 			number,
 			image: `/ballotready/parties/${number}.webp`,
-			// TODO: PM candidate data is missing
-			pmCandidates: [],
-			partyList: p.candidates
-				.map((c) => {
-					const name = `${c.FirstName} ${c.LastName}`;
-					const politigraphPerson = people.find(
-						(person) => person.name === name,
-					);
-
-					return {
+			pmCandidates:
+				pmCandidates.parties
+					.find(({ partyName }) => partyName === p.party_name)
+					?.candidates.map(({ name }) => ({
 						name,
-						number: +c.CandidateNo,
-						hasPreviousPosition:
-							(politigraphPerson?.membershipsConnection &&
-								politigraphPerson.membershipsConnection.totalCount > 0) ??
-							false,
-					};
-				})
-				.sort((a, z) => a.number - z.number),
+						image:
+							partyList.find((person) => name.endsWith(person.name))?.image ??
+							people.find((person) => name.endsWith(person.name))?.image ??
+							null,
+					})) ?? [],
+			partyList,
 			pastGovernmentPeriods: info?.pastGovernmentPeriods ?? [],
 			pastOppositionPeriods: info?.pastOppositionPeriods ?? [],
 			externalLinks,

@@ -26,13 +26,15 @@
 
 export interface PmCandidate {
 	name: string;
-	image: string;
+	image: string | null;
 }
 
 export interface PartyListCandidate {
 	name: string;
+	image: string | null;
 	number: number;
 	hasPreviousPosition: boolean;
+	externalLink: string;
 }
 
 export interface ExternalLink {

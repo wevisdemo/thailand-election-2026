@@ -33,7 +33,7 @@ const candidates = zoneCandidates.zones
 					name,
 					number: +c.CandidateNo,
 					image: c.has_local_image
-						? `/ballotready/candidates/${c.local_image_filename.replace('.jpg', '.webp')}`
+						? `/ballotready/candidates/district/${c.local_image_filename.replace('.jpg', '.webp')}`
 						: politigraphPerson?.image,
 					age: c.Age ? +c.Age : null,
 					education: c.HighestEducation,

@@ -23,9 +23,8 @@ export default function ModalPartyList({
 		onClose();
 	};
 
-	const hasPositioningPartyList = () => {
-		return party.partyList.filter((p) => p.hasPreviousPosition).length > 0;
-	};
+	const hasPositioningPartyList =
+		party.partyList.filter((p) => p.hasPreviousPosition).length > 0;
 
 	return (
 		<div
@@ -46,7 +45,7 @@ export default function ModalPartyList({
 						<span className="font-bold"> {party.partyList.length} คน</span>
 					</p>
 				</div>
-				{hasPositioningPartyList() && (
+				{hasPositioningPartyList && (
 					<p className="text-b5 flex text-[#0EA177]">
 						<img
 							className="mr-[4px]"
@@ -57,10 +56,15 @@ export default function ModalPartyList({
 					</p>
 				)}
 
+				<p className="text-gray-1 text-b9">
+					เลือกผู้สมัครเพื่อตรวจการบ้านใน Parliament Watch หรือส่องประวัติใน
+					Google
+				</p>
+
 				<div className="overflow-x-auto">
 					<table className="w-full border-collapse">
 						<thead>
-							<tr className="py-[8px] text-[#9A9A9A]">
+							<tr className="text-gray-2 py-[8px]">
 								<th className="w-[42px] text-left !font-normal">ลำดับ</th>
 								<th className="text-left !font-normal">ชื่อ-สกุล</th>
 							</tr>
@@ -80,13 +84,27 @@ export default function ModalPartyList({
 											)}
 											<span className="relative z-20">{candidate.number}</span>
 										</td>
-										<td className="flex justify-between py-[8px]">
-											<span>{candidate.name}</span>
-											<img
-												className="hover:cursor-pointer"
-												src="/ballotready/new-tab-grey.svg"
-												alt="new-tab-grey-icon"
-											/>
+										<td>
+											<a
+												href={candidate.externalLink}
+												target="_blank"
+												className="flex items-center gap-2 py-[8px]"
+											>
+												<img
+													src={
+														candidate.image ||
+														'/ballotready/dummie-candidate.svg'
+													}
+													className="size-6 rounded-full object-cover object-top"
+													alt=""
+												/>
+												<span className="flex-1">{candidate.name}</span>
+												<img
+													className="hover:cursor-pointer"
+													src="/ballotready/new-tab-grey.svg"
+													alt="new-tab-grey-icon"
+												/>
+											</a>
 										</td>
 									</tr>
 								))}
