@@ -24883,56 +24883,72 @@
 		"district": "ลำลูกกา",
 		"subDistrict": "คูคต",
 		"thesaban": "",
-		"electoralFk": []
+		"electoralFk": [
+			"ปทุมธานี-5"
+		]
 	},
 	{
 		"province": "ปทุมธานี",
 		"district": "ลำลูกกา",
 		"subDistrict": "บึงคอไห",
 		"thesaban": "",
-		"electoralFk": []
+		"electoralFk": [
+			"ปทุมธานี-8"
+		]
 	},
 	{
 		"province": "ปทุมธานี",
 		"district": "ลำลูกกา",
 		"subDistrict": "บึงคำพร้อย",
 		"thesaban": "",
-		"electoralFk": []
+		"electoralFk": [
+			"ปทุมธานี-6"
+		]
 	},
 	{
 		"province": "ปทุมธานี",
 		"district": "ลำลูกกา",
 		"subDistrict": "บึงทองหลาง",
 		"thesaban": "",
-		"electoralFk": []
+		"electoralFk": [
+			"ปทุมธานี-8"
+		]
 	},
 	{
 		"province": "ปทุมธานี",
 		"district": "ลำลูกกา",
 		"subDistrict": "พืชอุดม",
 		"thesaban": "",
-		"electoralFk": []
+		"electoralFk": [
+			"ปทุมธานี-8"
+		]
 	},
 	{
 		"province": "ปทุมธานี",
 		"district": "ลำลูกกา",
 		"subDistrict": "ลาดสวาย",
 		"thesaban": "",
-		"electoralFk": []
+		"electoralFk": [
+			"ปทุมธานี-6"
+		]
 	},
 	{
 		"province": "ปทุมธานี",
 		"district": "ลำลูกกา",
 		"subDistrict": "ลำลูกกา",
 		"thesaban": "",
-		"electoralFk": []
+		"electoralFk": [
+			"ปทุมธานี-8"
+		]
 	},
 	{
 		"province": "ปทุมธานี",
 		"district": "ลำลูกกา",
 		"subDistrict": "ลำไทร",
 		"thesaban": "",
-		"electoralFk": []
+		"electoralFk": [
+			"ปทุมธานี-8"
+		]
 	},
 	{
 		"province": "ปทุมธานี",
