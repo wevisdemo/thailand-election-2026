@@ -18367,28 +18367,36 @@
 		"district": "นบพิตำ",
 		"subDistrict": "กรุงชิง",
 		"thesaban": "",
-		"electoralFk": []
+		"electoralFk": [
+			"นครศรีธรรมราช-8"
+		]
 	},
 	{
 		"province": "นครศรีธรรมราช",
 		"district": "นบพิตำ",
 		"subDistrict": "กะหรอ",
 		"thesaban": "",
-		"electoralFk": []
+		"electoralFk": [
+			"นครศรีธรรมราช-8"
+		]
 	},
 	{
 		"province": "นครศรีธรรมราช",
 		"district": "นบพิตำ",
 		"subDistrict": "นบพิตำ",
 		"thesaban": "",
-		"electoralFk": []
+		"electoralFk": [
+			"นครศรีธรรมราช-8"
+		]
 	},
 	{
 		"province": "นครศรีธรรมราช",
 		"district": "นบพิตำ",
 		"subDistrict": "นาเหรง",
 		"thesaban": "",
-		"electoralFk": []
+		"electoralFk": [
+			"นครศรีธรรมราช-8"
+		]
 	},
 	{
 		"province": "นครศรีธรรมราช",
