@@ -70,7 +70,7 @@ export default function IndividualCard({ candidate }: IndividualCardProps) {
 									อายุ
 								</th>
 								<td className="pl-[6px] text-[14px]">
-									{candidate.age ? `${candidate.age}ปี` : 'ไม่ระบุ'}{' '}
+									{candidate.age ? `${candidate.age} ปี` : 'ไม่ระบุ'}{' '}
 								</td>
 							</tr>
 							<tr>

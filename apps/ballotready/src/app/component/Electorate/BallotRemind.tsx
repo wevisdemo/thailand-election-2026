@@ -16,6 +16,9 @@ export default function BallotRemind() {
 						บัตรอีกใบ เลือกพรรคที่ชอบ
 					</li>
 				</ul>
+				<p className="text-h10 font-kondolar">
+					โปรดตรวจสอบหมายเลขและรายชื่อผู้สมัครที่หน่วยเลือกตั้งอีกครั้ง
+				</p>
 			</div>
 		</div>
 	);
