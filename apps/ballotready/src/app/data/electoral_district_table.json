@@ -5119,6 +5119,16 @@
 				"belongsToOneElecDist": true
 			},
 			{
+				"name": "นบพิตำ",
+				"subDistricts": [
+					"กรุงชิง",
+					"กะหรอ",
+					"นบพิตำ",
+					"นาเหรง"
+				],
+				"belongsToOneElecDist": true
+			}
+			{
 				"name": "เมืองนครศรีธรรมราช",
 				"subDistricts": [
 					"ปากพูน (เทศบาลเมืองปากพูน)"
