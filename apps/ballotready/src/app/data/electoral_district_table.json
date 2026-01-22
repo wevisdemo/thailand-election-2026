@@ -5127,7 +5127,7 @@
 					"นาเหรง"
 				],
 				"belongsToOneElecDist": true
-			}
+			},
 			{
 				"name": "เมืองนครศรีธรรมราช",
 				"subDistricts": [
@@ -6691,6 +6691,13 @@
 					"หลักหก"
 				],
 				"belongsToOneElecDist": false
+			},
+			{
+				"name": "ลำลูกกา",
+				"subDistricts": [
+					"คูคต"
+				],
+				"belongsToOneElecDist": false
 			}
 		]
 	},
@@ -6702,6 +6709,14 @@
 				"name": "ธัญบุรี",
 				"subDistricts": [
 					"บึงยี่โถ"
+				],
+				"belongsToOneElecDist": false
+			},
+			{
+				"name": "ลำลูกกา",
+				"subDistricts": [
+					"บึงคำพร้อย",
+					"ลาดสวาย"
 				],
 				"belongsToOneElecDist": false
 			}
@@ -6752,7 +6767,17 @@
 					"หนองสามวัง"
 				],
 				"belongsToOneElecDist": false
-			}
+			},
+			{
+				"name": "ลำลูกกา",
+				"subDistricts": [
+					"บึงคอไห",
+					"บึงทองหลาง",
+					"พืชอุดม",
+					"ลำลูกกา",
+					"ลำไทร"
+				],
+				"belongsToOneElecDist": false
 		]
 	},
 	"ประจวบคีรีขันธ์-1": {
