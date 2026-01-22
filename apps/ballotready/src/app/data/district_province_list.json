@@ -24701,10 +24701,28 @@
 	{
 		"province": "ปทุมธานี",
 		"district": "คลองหลวง",
-		"subDistrict": "คลองสอง",
+		"subDistrict": "คลองสอง (เทศบาลเมืองท่าโขลง)",
 		"thesaban": "",
 		"electoralFk": [
 			"ปทุมธานี-3"
+		]
+	},
+	{
+		"province": "ปทุมธานี",
+		"district": "คลองหลวง",
+		"subDistrict": "คลองสอง (เทศบาลเมืองคลองหลวง)",
+		"thesaban": "",
+		"electoralFk": [
+			"ปทุมธานี-4"
+		]
+	},
+	{
+		"province": "ปทุมธานี",
+		"district": "คลองหลวง",
+		"subDistrict": "คลองหนึ่ง (เทศบาลเมืองคลองหลวง)",
+		"thesaban": "",
+		"electoralFk": [
+			"ปทุมธานี-4"
 		]
 	},
 	{
@@ -24737,7 +24755,7 @@
 	{
 		"province": "ปทุมธานี",
 		"district": "คลองหลวง",
-		"subDistrict": "คลองหนึ่ง",
+		"subDistrict": "คลองหนึ่ง (เทศบาลเมืองท่าโขลง)",
 		"thesaban": "",
 		"electoralFk": [
 			"ปทุมธานี-3"
@@ -24767,7 +24785,7 @@
 		"subDistrict": "บึงน้ำรักษ์",
 		"thesaban": "",
 		"electoralFk": [
-			"ปทุมธานี-4"
+			"ปทุมธานี-8"
 		]
 	},
 	{
@@ -24785,7 +24803,7 @@
 		"subDistrict": "บึงสนั่น",
 		"thesaban": "",
 		"electoralFk": [
-			"ปทุมธานี-4"
+			"ปทุมธานี-8"
 		]
 	},
 	{
@@ -24812,7 +24830,7 @@
 		"subDistrict": "ลำผักกูด",
 		"thesaban": "",
 		"electoralFk": [
-			"ปทุมธานี-4"
+			"ปทุมธานี-7"
 		]
 	},
 	{
@@ -25118,7 +25136,7 @@
 		"subDistrict": "บางกะดี",
 		"thesaban": "",
 		"electoralFk": [
-			"ปทุมธานี-1"
+			"ปทุมธานี-2"
 		]
 	},
 	{
@@ -25190,7 +25208,7 @@
 		"subDistrict": "บ้านกระแชง",
 		"thesaban": "",
 		"electoralFk": [
-			"ปทุมธานี-1"
+			"ปทุมธานี-2"
 		]
 	},
 	{
