@@ -128,12 +128,13 @@ const getAnimation = (id: number) => {
 				<div
 					v-for="project in filteredProjects"
 					:key="project.url"
-					:class="`rounded-2xl bg-black px-3 pt-5 pb-[50px] transition-all duration-300 ease-in-out ${project.isLaunched ? 'cursor-pointer hover:shadow-[6px_6px_4px_0px_rgba(0,0,0,0.4)]' : 'cursor-not-allowed'}`"
+					class="flex"
 				>
 					<a
 						:href="project.isLaunched ? project.url : undefined"
 						target="_blank"
 						rel="noopener noreferrer"
+						:class="`rounded-2xl bg-black px-3 pt-5 pb-[50px] transition-all duration-300 ease-in-out ${project.isLaunched ? 'cursor-pointer hover:shadow-[6px_6px_4px_0px_rgba(0,0,0,0.4)]' : 'cursor-not-allowed'}`"
 					>
 						<div
 							:class="`flex h-full w-[265px] flex-col ${project.isLaunched ? 'bg-white text-black' : 'bg-gray-1 text-white'} p-2 text-left`"
