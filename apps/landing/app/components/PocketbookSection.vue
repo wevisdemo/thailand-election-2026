@@ -128,7 +128,7 @@ const getAnimation = (id: number) => {
 				<div
 					v-for="project in filteredProjects"
 					:key="project.url"
-					:class="`rounded-2xl bg-black px-3 pt-5 pb-[50px] transition-all duration-300 ease-in-out ${!project.willLaunchedOn ? 'cursor-pointer hover:shadow-[6px_6px_4px_0px_rgba(0,0,0,0.4)]' : 'cursor-not-allowed'}`"
+					:class="`rounded-2xl bg-black px-3 pt-5 pb-[50px] transition-all duration-300 ease-in-out ${project.isLaunched ? 'cursor-pointer hover:shadow-[6px_6px_4px_0px_rgba(0,0,0,0.4)]' : 'cursor-not-allowed'}`"
 				>
 					<a
 						:href="project.isLaunched ? project.url : undefined"
@@ -195,26 +195,28 @@ const getAnimation = (id: number) => {
 								</p>
 							</div>
 						</div>
-					</a>
 
-					<div
-						v-if="project.name.en === 'ConforAll'"
-						class="flex items-baseline justify-center gap-1.5"
-					>
-						<span class="text-h11 font-kondolar text-gray-2 z-10 pt-2 font-bold"
-							>WeVis</span
+						<div
+							v-if="project.name.en === 'ConforAll'"
+							class="flex items-baseline justify-center gap-1.5"
 						>
-						<img src="/assets/images/green-x-icon.svg" alt="" />
-						<span class="text-h11 font-kondolar text-gray-2 z-10 pt-2 font-bold"
-							>ConforAll</span
+							<span
+								class="text-h11 font-kondolar text-gray-2 z-10 pt-2 font-bold"
+								>WeVis</span
+							>
+							<img src="/assets/images/green-x-icon.svg" alt="" />
+							<span
+								class="text-h11 font-kondolar text-gray-2 z-10 pt-2 font-bold"
+								>ConforAll</span
+							>
+						</div>
+						<p
+							v-else
+							class="text-h11 font-kondolar text-gray-2 z-10 pt-2 font-bold"
 						>
-					</div>
-					<p
-						v-else
-						class="text-h11 font-kondolar text-gray-2 z-10 pt-2 font-bold"
-					>
-						WeVis
-					</p>
+							WeVis
+						</p>
+					</a>
 				</div>
 			</div>
 		</Transition>
