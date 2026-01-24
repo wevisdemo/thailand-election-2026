@@ -41,7 +41,7 @@ export default function ModalPartyList({
 				<div>
 					<p className="font-kondolar text-[18px] font-bold">{party.name}</p>
 					<p className="font-[14px]">
-						ส.ส. บัญชีรายชื่อ 
+						สส. บัญชีรายชื่อ 
 						<span className="font-bold"> {party.partyList.length} คน</span>
 					</p>
 				</div>
