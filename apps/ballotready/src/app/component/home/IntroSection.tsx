@@ -28,7 +28,7 @@ export default function IntroSection() {
 				<p className="text-[24px] font-bold">
 					เตรียมตัว #เลือกตั้งพร้อมประชามติ
 				</p>
-				<p className="text-[24px]">เค้าคูหารอบนี้</p>
+				<p className="text-[24px]">เข้าคูหารอบนี้</p>
 				<p className="text-[32px] font-bold">คุณต้องกาบัตร 3 ใบ</p>
 			</div>
 		</div>

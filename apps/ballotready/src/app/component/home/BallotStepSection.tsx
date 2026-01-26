@@ -32,7 +32,7 @@ export default function BallotStepSection() {
 							alt="ballot-step-2"
 						/>
 						<p className="text-b6">
-							เค้าคูหา <span className="whitespace-pre">กาบัตรเลือกตั้ง</span>
+							เข้าคูหา <span className="whitespace-pre">กาบัตรเลือกตั้ง</span>
 						</p>
 					</div>
 					<div className="flex flex-col items-center">
@@ -73,7 +73,7 @@ export default function BallotStepSection() {
 							src="/ballotready/ballot-step-5.svg"
 							alt="ballot-step-5"
 						/>
-						<p className="text-b6">เค้าคูหากาบัตรประชามติ</p>
+						<p className="text-b6">เข้าคูหากาบัตรประชามติ</p>
 					</div>
 					<div className="flex flex-col items-center">
 						<p className="font-kondolar h-[24px] w-[24px] rounded-full bg-white text-center text-[18px] font-bold">
