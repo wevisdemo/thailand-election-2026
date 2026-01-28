@@ -32,7 +32,7 @@ export const TopicCardSection = ({
 			{children ? (
 				<>
 					<div
-						className="relative max-h-(--content-height) overflow-hidden overscroll-y-contain transition-[max-height] duration-300 ease-in-out will-change-[max-height] group-data-expanded/section:max-h-(--expanded-content-height) group-data-fit-mobile/section:-mb-[47px] md:max-h-(--desktop-content-height) md:group-data-fit-desktop/section:-mb-[47px]"
+						className="relative max-h-(--content-height) overflow-hidden transition-[max-height] duration-300 ease-in-out will-change-[max-height] group-data-expanded/section:max-h-(--expanded-content-height) group-data-fit-mobile/section:-mb-[47px] md:max-h-(--desktop-content-height) md:group-data-fit-desktop/section:-mb-[47px]"
 						style={
 							{
 								'--expanded-content-height': `${height}px`,
