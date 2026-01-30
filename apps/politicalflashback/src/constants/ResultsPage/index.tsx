@@ -91,9 +91,9 @@ const ResultsPage = () => {
 
 	const getShareUrl = () => {
 		if (typeof window !== 'undefined') {
-			return window.location.href;
+			return 'https://election69.wevis.info/politicalflashback';
 		}
-		return '';
+		return 'https://election69.wevis.info/politicalflashback';
 	};
 
 	const getShareText = () => {

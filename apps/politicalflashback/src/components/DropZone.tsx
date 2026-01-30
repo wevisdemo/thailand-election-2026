@@ -438,6 +438,13 @@ export default function DropZone({
 									{pathname !== '/home'
 										? 'จัดอันดับประเด็นสุดพีค (0/5)'
 										: 'ลากประเด็นสุดพีคของคุณมาที่นี่'}
+									{pathname !== '/home' ? (
+										''
+									) : (
+										<p className="text-h11 font-sriracha text-purple-1">
+											* กดค้างเพื่อลากประเด็นสุดพีค
+										</p>
+									)}
 								</span>
 							) : (
 								<div className="flex items-center gap-2">
