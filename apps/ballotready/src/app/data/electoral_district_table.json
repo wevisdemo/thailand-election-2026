@@ -647,7 +647,6 @@
 			{
 				"name": "บางแค",
 				"subDistricts": [
-					"บางแค",
 					"บางแคเหนือ",
 					"บางไผ่"
 				],
@@ -692,6 +691,7 @@
 			{
 				"name": "บางแค",
 				"subDistricts": [
+					"บางแค",
 					"หลักสอง"
 				],
 				"belongsToOneElecDist": false
