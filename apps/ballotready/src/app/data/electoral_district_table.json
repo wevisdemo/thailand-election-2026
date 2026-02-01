@@ -606,11 +606,9 @@
 				"name": "บางบอน",
 				"subDistricts": [
 					"คลองบางบอน",
-					"คลองบางพราน",
-					"บางบอนเหนือ",
 					"บางบอนใต้"
 				],
-				"belongsToOneElecDist": true
+				"belongsToOneElecDist": false
 			}
 		]
 	},
@@ -629,6 +627,14 @@
 				"name": "หนองแขม",
 				"subDistricts": [
 					"หนองแขม"
+				],
+				"belongsToOneElecDist": false
+			},
+			{
+				"name": "บางบอน",
+				"subDistricts": [
+					"คลองบางพราน",
+					"บางบอนเหนือ",
 				],
 				"belongsToOneElecDist": false
 			}
