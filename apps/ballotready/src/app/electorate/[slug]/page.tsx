@@ -39,7 +39,6 @@ export default async function ElectoratePage({
 				parties={parties}
 				electoralDistrict={electoralDistrict}
 			/>
-			;
 		</>
 	);
 }
