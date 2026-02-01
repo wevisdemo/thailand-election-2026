@@ -355,10 +355,9 @@
 			{
 				"name": "มีนบุรี",
 				"subDistricts": [
-					"มีนบุรี",
 					"แสนแสบ"
 				],
-				"belongsToOneElecDist": true
+				"belongsToOneElecDist": false
 			},
 			{
 				"name": "ลาดกระบัง",
@@ -382,6 +381,13 @@
 		"province": "กรุงเทพมหานคร",
 		"electoralDistrictNumber": 19,
 		"districts": [
+			{
+				"name": "มีนบุรี",
+				"subDistricts": [
+					"มีนบุรี"
+				],
+				"belongsToOneElecDist": false
+			},
 			{
 				"name": "สะพานสูง",
 				"subDistricts": [
