@@ -585,10 +585,9 @@
 			{
 				"name": "บางขุนเทียน",
 				"subDistricts": [
-					"ท่าข้าม",
-					"แสมดำ"
+					"ท่าข้าม"
 				],
-				"belongsToOneElecDist": true
+				"belongsToOneElecDist": false
 			}
 		]
 	},
@@ -596,6 +595,13 @@
 		"province": "กรุงเทพมหานคร",
 		"electoralDistrictNumber": 27,
 		"districts": [
+			{
+				"name": "บางขุนเทียน",
+				"subDistricts": [
+					"แสมดำ"
+				],
+				"belongsToOneElecDist": false
+			},
 			{
 				"name": "บางบอน",
 				"subDistricts": [
