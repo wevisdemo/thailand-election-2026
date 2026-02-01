@@ -634,7 +634,7 @@
 				"name": "บางบอน",
 				"subDistricts": [
 					"คลองบางพราน",
-					"บางบอนเหนือ",
+					"บางบอนเหนือ"
 				],
 				"belongsToOneElecDist": false
 			}
