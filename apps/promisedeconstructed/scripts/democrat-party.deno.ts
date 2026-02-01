@@ -15,7 +15,7 @@ interface Policy {
 
 // %%
 const policies = await fetchJson<Policy[]>(
-	'https://www.democrat.or.th/wp-json/wp/v2/posts?_fields=title,link,content&per_page=30&categories=14',
+	'https://www.democrat.or.th/wp-json/wp/v2/posts?_fields=title,link,content&per_page=100&categories=15',
 );
 
 console.log(policies.length);
