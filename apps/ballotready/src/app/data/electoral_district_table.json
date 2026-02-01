@@ -718,10 +718,9 @@
 					"ฉิมพลี",
 					"ตลิ่งชัน",
 					"บางพรม",
-					"บางระมาด",
-					"บางเชือกหนัง"
+					"บางระมาด"
 				],
-				"belongsToOneElecDist": true
+				"belongsToOneElecDist": false
 			},
 			{
 				"name": "ทวีวัฒนา",
@@ -737,6 +736,13 @@
 		"province": "กรุงเทพมหานคร",
 		"electoralDistrictNumber": 32,
 		"districts": [
+			{
+				"name": "ตลิ่งชัน",
+				"subDistricts": [
+					"บางเชือกหนัง"
+				],
+				"belongsToOneElecDist": false
+			},
 			{
 				"name": "ธนบุรี",
 				"subDistricts": [
