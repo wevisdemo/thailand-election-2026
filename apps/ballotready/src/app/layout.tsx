@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { WarningBanner } from './component/warning-banner';
-import MaintenanceModal from './component/MaintenanceModal';
 
 export const metadata: Metadata = {
 	icons: '/favicon.png',
@@ -54,13 +52,7 @@ export default function RootLayout({
 					src="https://analytics.punchup.world/js/script.js"
 				></script>
 			</head>
-			<body className="relative h-screen">
-				<MaintenanceModal />
-				<div className="h-screen overflow-hidden">
-					{children}
-					<WarningBanner />
-				</div>
-			</body>
+			<body>{children}</body>
 		</html>
 	);
 }
