@@ -78,9 +78,9 @@ export default function ElectorateAutoComplete({
 	};
 
 	const filterOptions = (input: string) => {
-		return options.filter((option) =>
-			option.toLowerCase().includes(input.toLowerCase()),
-		);
+		return options
+			.filter((option) => option.toLowerCase().includes(input.toLowerCase()))
+			.slice(0, 25);
 	};
 
 	const onChangeTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
