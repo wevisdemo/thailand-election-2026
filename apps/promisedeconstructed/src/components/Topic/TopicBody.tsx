@@ -70,6 +70,20 @@ export const TopicBody = ({ topicData }: TopicBodyProps) => {
 						<li>
 							ผู้ใช้สามารถตรวจสอบเพิ่มเติมกับข้อความต้นฉบับตามลิงก์ด้านล่าง
 						</li>
+						<li>
+							หลังจาก กกต. เปิดเผย
+							<a
+								className="underline"
+								href="https://drive.google.com/drive/folders/1gms4x8bt6e7IB0ZxLHjq8nA7na2AEr9Y"
+								target="_blank"
+								rel="nofollow noopener noreferrer"
+							>
+								เอกสารนโยบาย
+							</a>{' '}
+							(ณ วันที่ 26 ม.ค. 2569)
+							ทีมงานได้อัปเดตข้อมูลงบประมาณและแหล่งที่มาของนโยบายที่ตรงกันระหว่างเอกสารนโยบายและเว็บไซต์พรรค
+							โดยแสดงด้วยข้อความสีเขียว
+						</li>
 					</ul>
 					<Link
 						className="self-end underline"

@@ -13,6 +13,14 @@ export const Markdown = ({ content }: { content: string }) => {
 							children: state.all(node),
 						};
 					},
+					blockquote(state, node) {
+						return {
+							type: 'element',
+							tagName: 'div',
+							properties: { className: 'ect' },
+							children: state.all(node),
+						};
+					},
 				},
 			}}
 		>

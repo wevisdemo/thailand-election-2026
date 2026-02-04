@@ -47,6 +47,10 @@
 		& span.extension {
 			@apply text-gray-1;
 		}
+
+		& div.ect {
+			@apply text-green-1;
+		}
 	}
 
 	.about-content {

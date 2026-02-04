@@ -139,7 +139,8 @@ export default function AboutPage() {
 										rel="nofollow noopener noreferrer"
 									>
 										พรรคเพื่อไทย
-									</a>
+									</a>{' '}
+									(อัปเดต 29 มกราคม 2569)
 								</li>
 								<li>
 									<a
@@ -239,7 +240,8 @@ export default function AboutPage() {
 										rel="nofollow noopener noreferrer"
 									>
 										พรรครักชาติ
-									</a>
+									</a>{' '}
+									(อัปเดต 29 มกราคม 2569)
 								</li>
 							</ul>
 						</li>
@@ -253,7 +255,8 @@ export default function AboutPage() {
 										rel="nofollow noopener noreferrer"
 									>
 										พรรคประชาธิปัตย์
-									</a>
+									</a>{' '}
+									(อัปเดต 2 กุมภาพันธ์ 2569)
 								</li>
 							</ul>
 						</li>
@@ -313,6 +316,23 @@ export default function AboutPage() {
 						<li>
 							ใช้ AI Gemini ช่วยจัดกลุ่มนโยบายเป็นหัวข้อใหญ่-หัวข้อย่อย
 							และตรวจสอบอีกครั้งโดยมนุษย์ ก่อนนำขึ้นแสดงผลในเว็บไซต์
+						</li>
+						<li>
+							นำข้อมูลจาก{' '}
+							<a
+								href="https://drive.google.com/drive/folders/1gms4x8bt6e7IB0ZxLHjq8nA7na2AEr9Y"
+								target="_blank"
+								rel="nofollow noopener noreferrer"
+							>
+								เอกสารนโยบายของ กกต.
+							</a>{' '}
+							(ณ วันที่ 26 ม.ค. 2569)
+							มาเปรียบเทียบว่าตรงกับนโยบายใดในเว็บไซต์ทางการของแต่ละพรรค
+							โดยดูจากชื่อและคำอธิบายที่ใกล้เคียงกัน
+						</li>
+						<li>
+							ในกรณีที่นโยบายในเว็บไซต์ตรงกับเอกสารนโยบายของ กกต.
+							ทีมงานได้นำข้อมูลงบประมาณและแหล่งที่มาจากเอกสารมาแสดงเพิ่มด้วยข้อความสีเขียว
 						</li>
 					</ol>
 					<h3
