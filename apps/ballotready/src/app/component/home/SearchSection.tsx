@@ -1,7 +1,7 @@
 'use client';
 
 interface SearchSectionProps {
-	mapDistrict: Map<string, ThailandDistrict>;
+	mapDistrict: Record<string, ThailandDistrict>;
 	mapElectoralDistrict: ElectoralDistrictsMap;
 }
 
@@ -13,8 +13,6 @@ export default function SearchSection({
 	mapDistrict,
 	mapElectoralDistrict,
 }: SearchSectionProps) {
-	const listOfDistrictLabel = mapDistrict.keys().toArray();
-
 	return (
 		<div className="grid items-center gap-[16px] bg-[#76EECC] px-[16px] py-[24px] text-center">
 			<p className="font-kondolar text-h5 font-bold">รู้จักผู้สมัคร</p>

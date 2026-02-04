@@ -10,12 +10,13 @@ import {
 
 // export const dynamicParams = false;
 
-const electoralDistrictMap = rawElectoralDistrict as ElectoralDistrictsMap;
+const electoralDistrictMap =
+	(rawElectoralDistrict as ElectoralDistrictsMap) || {};
 
 export async function generateStaticParams() {
 	// const districtCandidateMap = rawDistrictCandidate as ConstituencyMap;
 	// const electorateList = Object.keys(districtCandidateMap);
-	const indexList = Object.keys(indexToElectorateMap);
+	const indexList = Object.keys(indexToElectorateMap || {});
 	return indexList.map((index) => ({
 		slug: index.toString(),
 	}));

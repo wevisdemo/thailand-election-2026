@@ -11,9 +11,6 @@ export default function AboutPage() {
 			<a
 				href="/ballotready"
 				className="flex items-center gap-[4px] p-[10px] hover:cursor-pointer"
-				onClick={() => {
-					window.location.href = '/ballotready';
-				}}
 			>
 				<img
 					className="w-[12px]"

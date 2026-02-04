@@ -10,22 +10,20 @@ import React, { useEffect, useRef, useState } from 'react';
 import ArrowRightIcon from './ArrowRightIcon';
 
 interface ElectorateAutoCompleteProps {
-	mapThaiDistrict: Map<string, ThailandDistrict>;
+	mapThaiDistrict: Record<string, ThailandDistrict>;
 	mapElectoralDistrict: ElectoralDistrictsMap;
 	placeholder?: string;
 }
 
 export default function ElectorateAutoComplete({
-	mapThaiDistrict,
-	mapElectoralDistrict,
+	mapThaiDistrict = {},
+	mapElectoralDistrict = {},
 	placeholder = 'Select an option',
 }: ElectorateAutoCompleteProps) {
-	const options = mapThaiDistrict.keys().toArray();
+	const options = Object.keys(mapThaiDistrict);
 	const [isOpenDistrictOptions, setIsOpenDistrictOptions] = useState(false);
 	const [textInput, setTextInput] = useState('');
 	const [districtLabelSelected, setDistrictLabelSelected] = useState('');
-	const [electorateSelected, setElectorateSelected] =
-		useState<ElectoralDistrict | null>(null);
 	const componentRef = useRef<HTMLDivElement | null>(null);
 
 	const onClose = () => {
@@ -55,7 +53,7 @@ export default function ElectorateAutoComplete({
 	};
 
 	const getThaiDistrict = (label: string): ThailandDistrict | null => {
-		return mapThaiDistrict.get(label) || null;
+		return mapThaiDistrict[label] || null;
 	};
 
 	const getElectoralDistrict = (name: string): ElectoralDistrict | null => {

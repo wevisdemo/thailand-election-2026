@@ -13,17 +13,21 @@ import districtProvince from './data/district_province_list.json' with { type: '
 import { ThailandDistrict } from '../type/district';
 import rawElectoralDistrict from './data/electoral_district_table.json' with { type: 'json' };
 import { ElectoralDistrictsMap } from '../type/electoral_district';
+import { useRouter } from 'next/navigation';
 
 export default function Intro() {
-	const districtList = districtProvince as ThailandDistrict[];
-	const electoralDistrictMap = rawElectoralDistrict as ElectoralDistrictsMap;
+	const router = useRouter();
+	const districtList = (districtProvince as ThailandDistrict[]) || [];
+	const electoralDistrictMap =
+		(rawElectoralDistrict as ElectoralDistrictsMap) || {};
 
-	const districtMapLabel = new Map(
+	const districtMapLabel: Record<string, ThailandDistrict> = Object.fromEntries(
 		districtList.map((d) => {
-			if (d.province === 'กรุงเทพมหานคร') {
-				return [`แขวง${d.subDistrict} เขต${d.district} กรุงเทพมหานคร`, d];
-			}
-			return [`ต.${d.subDistrict} อ.${d.district} จ.${d.province}`, d];
+			const key =
+				d.province === 'กรุงเทพมหานคร'
+					? `แขวง${d.subDistrict} เขต${d.district} กรุงเทพมหานคร`
+					: `ต.${d.subDistrict} อ.${d.district} จ.${d.province}`;
+			return [key, d] as const;
 		}),
 	);
 	return (
@@ -41,7 +45,7 @@ export default function Intro() {
 				<ElectionButton
 					className="typo-h9 font-kondolar self-center font-bold"
 					onClick={() => {
-						window.location.href = '/ballotready/about';
+						router.push('/about');
 					}}
 				>
 					เกี่ยวกับโครงการ
