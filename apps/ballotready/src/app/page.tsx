@@ -13,10 +13,8 @@ import districtProvince from './data/district_province_list.json' with { type: '
 import { ThailandDistrict } from '../type/district';
 import rawElectoralDistrict from './data/electoral_district_table.json' with { type: 'json' };
 import { ElectoralDistrictsMap } from '../type/electoral_district';
-import { useRouter } from 'next/navigation';
 
 export default function Intro() {
-	const router = useRouter();
 	const districtList = (districtProvince as ThailandDistrict[]) || [];
 	const electoralDistrictMap =
 		(rawElectoralDistrict as ElectoralDistrictsMap) || {};
@@ -42,14 +40,11 @@ export default function Intro() {
 			<BallotStepSection />
 			<div className="flex flex-col items-center gap-[10px] px-[16px] py-[32px]">
 				<ElectionSharer />
-				<ElectionButton
-					className="typo-h9 font-kondolar self-center font-bold"
-					onClick={() => {
-						router.push('/about');
-					}}
-				>
-					เกี่ยวกับโครงการ
-				</ElectionButton>
+				<a href="/ballotready/about">
+					<ElectionButton className="typo-h9 font-kondolar self-center font-bold">
+						เกี่ยวกับโครงการ
+					</ElectionButton>
+				</a>
 			</div>
 			<ElectionFooter />
 		</div>
